@@ -45,7 +45,7 @@ void Game::playIntro()
     int i = 0;
     window.setFramerateLimit(30); //run at 30fps
     sf::Music m;
-    m.openFromFile("assets/intro/intro.wav");
+    m.openFromFile("assets/intro/intro.ogg");
 
     m.setLoop(true);
     m.play();
@@ -81,7 +81,7 @@ Game::Game() : window(sf::VideoMode(800, 600), "Street Fighter")
 {
     //not adding state for intro
     //cuz it's only played once
-    //playIntro();
+    playIntro();
     //key was pressed, so we are back after playing intro
     player = new Chun_Li();
     //player = new Zangief();
