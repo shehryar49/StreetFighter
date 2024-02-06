@@ -295,7 +295,7 @@ void Ryu::update(float dt)
     else if(elapsed >= 0.08f && state == AnimationState::SHORYUKEN)
     {
         player.setTextureRect(shoryuken_frames[currFrame++]);
-        player.setPosition(player.getPosition().x,player.getPosition().y-30);
+        player.setPosition(player.getPosition().x,player.getPosition().y-40);
         elapsed = 0;
         if(currFrame == 6) //last frame rendered
         {
@@ -305,7 +305,7 @@ void Ryu::update(float dt)
     }
     else if(elapsed >= 0.06f && state == AnimationState::SHORYUKEN_LAND)
     {
-        player.setPosition(player.getPosition().x,player.getPosition().y+30);
+        player.setPosition(player.getPosition().x,player.getPosition().y+40);
         elapsed = 0;
         currFrame++;
         if(currFrame == 6)
