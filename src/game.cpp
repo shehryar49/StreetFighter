@@ -129,7 +129,7 @@ void Game::setStage() {
         
         // note this
         //IMPORTANT
-        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5); // 60 is for padding above and below
+        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5);
         enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) - 5);
         ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");

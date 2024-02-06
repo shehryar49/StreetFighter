@@ -16,17 +16,15 @@ sf::IntRect Ryu::shoryuken_frames[6];
 Ryu::Ryu()
 {
     img.loadFromFile("assets/ryu.png");
-   // img.createMaskFromColor(sf::Color(70,112,104,255));
+    img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
-    // just minimize padding below feet
-    // otherwise it appears character is moving vertically
-    // that's all
-    IDLE_frames[0] = sf::IntRect(0, 5, 64, 100);
-    IDLE_frames[1] = sf::IntRect(64+26, 5, 64, 100);
-    IDLE_frames[2] = sf::IntRect(64+26+64+26, 5, 64, 100);
-    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 5, 64, 100);
-    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 5, 64, 100);
+
+    IDLE_frames[0] = sf::IntRect(0, 0, 64, 110);
+    IDLE_frames[1] = sf::IntRect(64+26, 0, 64, 110);
+    IDLE_frames[2] = sf::IntRect(64+26+64+26, 0, 64, 110);
+    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 0, 64, 110);
+    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 0, 64, 110);
     
     moveright_frames[0] = sf::IntRect(0,120,68,110);
     moveright_frames[1] = sf::IntRect(68*1,120,68,110);
@@ -78,8 +76,7 @@ Ryu::Ryu()
     kick3_frames[3] = sf::IntRect(870,640,100,110);
     kick3_frames[4] = sf::IntRect(970,650,70,110);
    
-     
-    //player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -164,7 +161,6 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
-    return;
     elapsed += dt;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
@@ -266,6 +262,7 @@ void Ryu::update(float dt)
         player.setTextureRect(kick2_frames[currFrame]);
         elapsed = 0;
         currFrame += frameIncrement;
+
         if(currFrame == 3)
         {
             currFrame = 2;
@@ -277,16 +274,19 @@ void Ryu::update(float dt)
             currFrame = 0;
             frameIncrement = 1;
         }
+        else
+            player.setPosition(player.getPosition().x,player.getPosition().y+(-15*frameIncrement));
+        
     }
     else if (elapsed >= 0.08f && state == AnimationState::KICK3)
     {
        // printf("rendering frame %d\n",currFrame);
         player.setTextureRect(kick3_frames[currFrame++]);
-     //   player.setPosition(player.getPosition().x,player.getPosition().y-10);
+        player.setPosition(player.getPosition().x,player.getPosition().y-10);
         elapsed = 0;
         if(currFrame == 5) //last frame rendered
         {
-           // player.setPosition(player.getPosition().x,player.getPosition().y+50);
+            player.setPosition(player.getPosition().x,player.getPosition().y+50);
             state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
