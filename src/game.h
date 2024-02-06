@@ -4,6 +4,10 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include "player.h"
+
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
 class Game
 {
 private:

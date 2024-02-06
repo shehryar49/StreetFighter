@@ -77,7 +77,7 @@ void Game::playIntro()
     window.setFramerateLimit(0);
 }
 // Public
-Game::Game() : window(sf::VideoMode(800, 600), "Street Fighter")
+Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter")
 {
     //playIntro();
     //key was pressed, so we are back after playing intro
@@ -92,8 +92,8 @@ Game::Game() : window(sf::VideoMode(800, 600), "Street Fighter")
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    enemy = new Zangief();
-    //enemy = new Ryu();
+    //enemy = new Zangief();
+    enemy = new Ryu();
     setStage();
 }
 void Game::run()
@@ -125,8 +125,13 @@ void Game::setStage() {
     enemy->flipX();
     Ryu* ryu_enemy = nullptr;
     if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) {
-        enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
-        player->setPosition(120,365);
+        //enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
+        
+        // note this
+        //IMPORTANT
+        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5); // 60 is for padding above and below
+        enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) - 5);
+        ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");
         background.setTexture(backgroundTexture);
         background.setScale(1.4, 2.8);

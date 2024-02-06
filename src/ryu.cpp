@@ -1,7 +1,6 @@
 // Written by Shahryar Ahmad
 #include "ryu.h"
-
-using namespace std;
+#include <stdio.h>
 
 sf::IntRect Ryu::IDLE_frames[5];
 sf::IntRect Ryu::moveright_frames[6];
@@ -10,20 +9,24 @@ sf::IntRect Ryu::punch1_frames[2];
 sf::IntRect Ryu::punch2_frames[3];
 sf::IntRect Ryu::kick1_frames[3];
 sf::IntRect Ryu::kick2_frames[3];
+sf::IntRect Ryu::kick3_frames[5];
 sf::IntRect Ryu::jmp_frames[7];
+sf::IntRect Ryu::shoryuken_frames[6];
 
 Ryu::Ryu()
 {
     img.loadFromFile("assets/ryu.png");
-    //img.createMaskFromColor(sf::Color(70,112,104,255));
+   // img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
-
-    IDLE_frames[0] = sf::IntRect(0, 0, 64, 110);
-    IDLE_frames[1] = sf::IntRect(64+26, 0, 64, 110);
-    IDLE_frames[2] = sf::IntRect(64+26+64+26, 0, 64, 110);
-    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 0, 64, 110);
-    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 0, 64, 110);
+    // just minimize padding below feet
+    // otherwise it appears character is moving vertically
+    // that's all
+    IDLE_frames[0] = sf::IntRect(0, 5, 64, 100);
+    IDLE_frames[1] = sf::IntRect(64+26, 5, 64, 100);
+    IDLE_frames[2] = sf::IntRect(64+26+64+26, 5, 64, 100);
+    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 5, 64, 100);
+    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 5, 64, 100);
     
     moveright_frames[0] = sf::IntRect(0,120,68,110);
     moveright_frames[1] = sf::IntRect(68*1,120,68,110);
@@ -61,8 +64,22 @@ Ryu::Ryu()
     kick2_frames[0] = sf::IntRect(10,640,70,110);
     kick2_frames[1] = sf::IntRect(80,640,70,110);
     kick2_frames[2] = sf::IntRect(160,640,90,110);
-
-    player.setTextureRect(IDLE_frames[0]);
+    
+    shoryuken_frames[0] = sf::IntRect(20,1800,70,110);
+    shoryuken_frames[1] = sf::IntRect(110,1800,70,110);
+    shoryuken_frames[2] = sf::IntRect(190,1780,70,130);
+    shoryuken_frames[3] = sf::IntRect(290,1780,70,130);
+    shoryuken_frames[4] = sf::IntRect(360,1780,70,120);
+    shoryuken_frames[5] = sf::IntRect(450,1800,70,110);
+   
+    kick3_frames[0] = sf::IntRect(630,640,70,110);
+    kick3_frames[1] = sf::IntRect(710,640,70,110);
+    kick3_frames[2] = sf::IntRect(780,630,70,110);
+    kick3_frames[3] = sf::IntRect(870,640,100,110);
+    kick3_frames[4] = sf::IntRect(970,650,70,110);
+   
+     
+    //player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -86,6 +103,13 @@ bool Ryu::processEvent(sf::Event &ev)
             frameIncrement = 1;
             return true;
         }
+        else if(ev.key.code == sf::Keyboard::C)
+        {
+            state = AnimationState::KICK3;
+            currFrame = 0;
+            frameIncrement = 1;
+            return true;
+        }
         else if (ev.key.code == sf::Keyboard::Left)
         {
             state = AnimationState::MOVE_LEFT;
@@ -97,6 +121,13 @@ bool Ryu::processEvent(sf::Event &ev)
         {
             state = AnimationState::MOVE_RIGHT;
             currFrame = -1;
+            frameIncrement = 1;
+            return true;
+        }
+        else if(ev.key.code == sf::Keyboard::Q)
+        {
+            state = AnimationState::SHORYUKEN;
+            currFrame = 0;
             frameIncrement = 1;
             return true;
         }
@@ -133,7 +164,7 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
-    //return;
+    return;
     elapsed += dt;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
@@ -247,6 +278,43 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
+    else if (elapsed >= 0.08f && state == AnimationState::KICK3)
+    {
+       // printf("rendering frame %d\n",currFrame);
+        player.setTextureRect(kick3_frames[currFrame++]);
+     //   player.setPosition(player.getPosition().x,player.getPosition().y-10);
+        elapsed = 0;
+        if(currFrame == 5) //last frame rendered
+        {
+           // player.setPosition(player.getPosition().x,player.getPosition().y+50);
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed >= 0.08f && state == AnimationState::SHORYUKEN)
+    {
+        player.setTextureRect(shoryuken_frames[currFrame++]);
+        player.setPosition(player.getPosition().x,player.getPosition().y-30);
+        elapsed = 0;
+        if(currFrame == 6) //last frame rendered
+        {
+          state = AnimationState::SHORYUKEN_LAND;
+          currFrame = 0;
+        }
+    }
+    else if(elapsed >= 0.06f && state == AnimationState::SHORYUKEN_LAND)
+    {
+        player.setPosition(player.getPosition().x,player.getPosition().y+30);
+        elapsed = 0;
+        currFrame++;
+        if(currFrame == 6)
+        {
+            currFrame = 0;
+            frameIncrement = 1;
+            state = AnimationState::FASTIDLE;
+        }
+    }
     else if (elapsed >=  0.08f && state == AnimationState::JMP)
     {
         currFrame++; 
@@ -267,6 +335,14 @@ void Ryu::setPosition(float x,float y)
 void Ryu::flipX()
 {
   player.setScale(-2.1,2.1);
+}
+sf::FloatRect Ryu::getGlobalBounds()
+{
+    return player.getGlobalBounds();
+}
+sf::FloatRect Ryu::getLocalBounds()
+{
+    return player.getLocalBounds();
 }
 void Ryu::render(sf::RenderWindow &win)
 {
