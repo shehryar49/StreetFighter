@@ -14,10 +14,16 @@ sf::IntRect Ryu::kick3_frames[5];
 sf::IntRect Ryu::jmp_frames[7];
 sf::IntRect Ryu::shoryuken_frames[6];
 sf::IntRect Ryu::crouching_frames[3];
+sf::IntRect Ryu::crouched_punch1_frames[2];
+sf::IntRect Ryu::crouched_punch2_frames[3];
+sf::IntRect Ryu::crouched_kick1_frames[3];
+sf::IntRect Ryu::crouched_kick2_frames[5];
+
 Ryu::Ryu()
 {
+
     img.loadFromFile("assets/ryu.png");
-    img.createMaskFromColor(sf::Color(70,112,104,255));
+    //img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -87,7 +93,26 @@ Ryu::Ryu()
     crouching_frames[1] = sf::IntRect(110,1190,70,110);
     crouching_frames[2] = sf::IntRect(190,1190,70,110);
     
+    crouched_punch1_frames[0] = sf::IntRect(20,1300,75,110);
+    crouched_punch1_frames[1] = sf::IntRect(110,1300,105,110);
+    
+    crouched_punch2_frames[0] = sf::IntRect(260,1300,90,110);
+    crouched_punch2_frames[1] = sf::IntRect(350,1300,90,110);
+    crouched_punch2_frames[2] = sf::IntRect(450,1300,90,110);
+
+    crouched_kick1_frames[0] = sf::IntRect(20,1410,75,110);
+    crouched_kick1_frames[1] = sf::IntRect(120,1410,105,110);
+    crouched_kick1_frames[2] = sf::IntRect(240,1410,150,110);
+
+    crouched_kick2_frames[0] = sf::IntRect(440,1410,70,110);
+    crouched_kick2_frames[1] = sf::IntRect(530,1410,130,110);
+    crouched_kick2_frames[2] = sf::IntRect(680,1410,70,110);
+    crouched_kick2_frames[3] = sf::IntRect(770,1410,70,110);
+    crouched_kick2_frames[4] = sf::IntRect(860,1410,70,110);
+
+
     player.setTextureRect(IDLE_frames[0]);
+   //player.setTextureRect(crouched_punch1_frames[1]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -95,6 +120,7 @@ Ryu::Ryu()
 }
 bool Ryu::processEvent(sf::Event &ev)
 {
+
     if (ev.type == sf::Event::KeyPressed && state == AnimationState::IDLE)
     {
         if (ev.key.code == sf::Keyboard::Z)
@@ -175,11 +201,40 @@ bool Ryu::processEvent(sf::Event &ev)
             frameIncrement = 1;
         }
     }
-    else if(ev.type == sf::Event::KeyReleased && state == AnimationState::CROUCHED && ev.key.code == sf::Keyboard::Down)
+    else if(ev.type == sf::Event::KeyPressed && state == AnimationState::CROUCHED)
+    {
+        if(ev.key.code == sf::Keyboard::A)
+        {
+          state = AnimationState::CROUCHED_PUNCH1;
+          currFrame = 0;
+          frameIncrement = 1;
+        }
+        else if(ev.key.code == sf::Keyboard::S)
+        {
+          state = AnimationState::CROUCHED_PUNCH2;
+          currFrame = 0;
+          frameIncrement = 1;
+        }
+        else if(ev.key.code == sf::Keyboard::Z)
+        {
+          state = AnimationState::CROUCHED_KICK1;
+          currFrame = 0;
+          frameIncrement = 1;
+        }
+        else if(ev.key.code == sf::Keyboard::X)
+        {
+          state = AnimationState::CROUCHED_KICK2;
+          currFrame = 0;
+          frameIncrement = 1;
+        }
+    }
+    else if(ev.type == sf::Event::KeyReleased && (state == AnimationState::CROUCHED || state == AnimationState::CROUCHED_KICK1 || state == AnimationState::KICK2 || state == AnimationState::CROUCHED_PUNCH1 || state == AnimationState::CROUCHED_PUNCH2)
+             && ev.key.code == sf::Keyboard::Down)
     {
       state = AnimationState::UNCROUCHING;
       currFrame = 2;
       frameIncrement = -1;
+      return true;
     }
     return false;
 }
@@ -380,6 +435,62 @@ void Ryu::update(float dt)
             state = AnimationState::FASTIDLE;
             frameIncrement = 1;
             currFrame = 0;
+        }
+    }
+    else if(elapsed >= 0.08f && state == AnimationState::FAST_CROUCHED)
+    {
+        elapsed = 0;
+        state = AnimationState::CROUCHED;
+        player.setTextureRect(crouching_frames[2]);
+    }
+    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_PUNCH1)
+    {
+        player.setTextureRect(crouched_punch1_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 2)
+        {
+            state = AnimationState::FAST_CROUCHED;
+        }
+    }
+    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_PUNCH2)
+    {
+        player.setTextureRect(crouched_punch2_frames[currFrame]);
+        currFrame += frameIncrement;
+        elapsed = 0;
+        if(currFrame == 3)
+        {
+            frameIncrement = -1;
+            currFrame = 2;
+        }
+        else if(currFrame == -1)
+        {
+            state = AnimationState::CROUCHED;
+            player.setTextureRect(crouching_frames[2]);
+        }
+    }
+    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_KICK1)
+    {
+        player.setTextureRect(crouched_kick1_frames[currFrame]);
+        currFrame += frameIncrement;
+        elapsed = 0;
+        if(currFrame == 3)
+        {
+            frameIncrement = -1;
+            currFrame = 2;
+        }
+        else if(currFrame == -1)
+        {
+            state = AnimationState::CROUCHED;
+            player.setTextureRect(crouching_frames[2]);
+        }
+    }
+    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_KICK2)
+    {
+        player.setTextureRect(crouched_kick2_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
+        {
+            state = AnimationState::FAST_CROUCHED;
         }
     }
     
