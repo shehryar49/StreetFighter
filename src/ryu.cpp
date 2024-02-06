@@ -18,12 +18,13 @@ sf::IntRect Ryu::crouched_punch1_frames[2];
 sf::IntRect Ryu::crouched_punch2_frames[3];
 sf::IntRect Ryu::crouched_kick1_frames[3];
 sf::IntRect Ryu::crouched_kick2_frames[5];
-
+sf::IntRect Ryu::hadoken_frames[4];
+sf::IntRect Ryu::hadoken_ball;
 Ryu::Ryu()
 {
 
     img.loadFromFile("assets/ryu.png");
-    //img.createMaskFromColor(sf::Color(70,112,104,255));
+    img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -110,6 +111,13 @@ Ryu::Ryu()
     crouched_kick2_frames[3] = sf::IntRect(770,1410,70,110);
     crouched_kick2_frames[4] = sf::IntRect(860,1410,70,110);
 
+    hadoken_frames[0] = sf::IntRect(30,1530,80,110);
+    hadoken_frames[1] = sf::IntRect(130,1530,90,110);
+    hadoken_frames[2] = sf::IntRect(240,1530,90,110);
+    hadoken_frames[3] = sf::IntRect(350,1530,120,110); 
+    gola.setTexture(texture);
+    gola.setTextureRect(sf::IntRect(550,1550,60,50));
+    gola.setScale(1.2,1.2);
 
     player.setTextureRect(IDLE_frames[0]);
    //player.setTextureRect(crouched_punch1_frames[1]);
@@ -200,6 +208,12 @@ bool Ryu::processEvent(sf::Event &ev)
             currFrame = 0;
             frameIncrement = 1;
         }
+        else if(ev.key.code == sf::Keyboard::W)
+        {
+            state = AnimationState::HADOKEN;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
     }
     else if(ev.type == sf::Event::KeyPressed && state == AnimationState::CROUCHED)
     {
@@ -240,8 +254,15 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
-   // return;
+    //return;
     elapsed += dt;
+    if(hadoken)
+    {
+        if(gola.getPosition().x + 100 >= 800)
+          hadoken = false;
+        else
+          gola.setPosition(gola.getPosition().x + (100*dt),gola.getPosition().y);
+    }
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
@@ -271,8 +292,7 @@ void Ryu::update(float dt)
             currFrame = 0;
             frameIncrement = 1;
         }
-    }
-    
+    }  
     else if(elapsed>=(0.08f) && state == AnimationState::MOVE_RIGHT)
     {
         currFrame = currFrame+1;
@@ -493,7 +513,18 @@ void Ryu::update(float dt)
             state = AnimationState::FAST_CROUCHED;
         }
     }
-    
+    else if(elapsed >= 0.08f && state == AnimationState::HADOKEN)
+    {
+        player.setTextureRect(hadoken_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
+        {
+            hadoken = true;
+            gola.setPosition(player.getPosition().x+100,player.getPosition().y+50);
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+        }
+    }
 }
 void Ryu::setPosition(float x,float y)
 {
@@ -514,6 +545,8 @@ sf::FloatRect Ryu::getLocalBounds()
 void Ryu::render(sf::RenderWindow &win)
 {
     win.draw(player);
+    if(hadoken)
+      win.draw(gola);
 }
 Ryu::~Ryu()
 {

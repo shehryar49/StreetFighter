@@ -34,7 +34,8 @@ private:
         CROUCHED_PUNCH1,
         CROUCHED_PUNCH2,
         CROUCHED_KICK1,
-        CROUCHED_KICK2 //sweep
+        CROUCHED_KICK2, //sweep
+        HADOKEN
     };
     AnimationState state;
     //'Frames' actually might not be the right word

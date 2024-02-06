@@ -106,7 +106,7 @@ void Game::run()
         window.clear(sf::Color::Black);
         window.draw(background);
         player->render(window);
-        //enemy->render(window);
+        enemy->render(window);
         window.display();
     }
 }
