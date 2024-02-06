@@ -517,12 +517,13 @@ void Ryu::update(float dt)
     {
         player.setTextureRect(hadoken_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 5)
+        if(currFrame == 4)
         {
             hadoken = true;
-            gola.setPosition(player.getPosition().x+100,player.getPosition().y+50);
-            state = AnimationState::FASTIDLE;
-            currFrame = 0;
+            gola.setPosition(player.getPosition().x+220,player.getPosition().y+60);
+            state = AnimationState::IDLE;
+            currFrame = -1;
+            frameIncrement = 1;
         }
     }
 }
