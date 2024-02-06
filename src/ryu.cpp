@@ -1,5 +1,6 @@
+// Written by Shahryar Ahmad
 #include "ryu.h"
-#include<iostream>
+
 using namespace std;
 
 sf::IntRect Ryu::IDLE_frames[5];
@@ -8,11 +9,13 @@ sf::IntRect Ryu::moveleft_frames[6];
 sf::IntRect Ryu::punch1_frames[2];
 sf::IntRect Ryu::punch2_frames[3];
 sf::IntRect Ryu::kick1_frames[3];
+sf::IntRect Ryu::kick2_frames[3];
 sf::IntRect Ryu::jmp_frames[7];
+
 Ryu::Ryu()
 {
     img.loadFromFile("assets/ryu.png");
-    img.createMaskFromColor(sf::Color(70,112,104,255));
+    //img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -54,7 +57,11 @@ Ryu::Ryu()
     punch2_frames[0] = sf::IntRect(250,260,68,110);
     punch2_frames[1] = sf::IntRect(332,260,68,110);
     punch2_frames[2] = sf::IntRect(430,260,110,110);
-    
+
+    kick2_frames[0] = sf::IntRect(10,640,70,110);
+    kick2_frames[1] = sf::IntRect(80,640,70,110);
+    kick2_frames[2] = sf::IntRect(160,640,90,110);
+
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -72,16 +79,23 @@ bool Ryu::processEvent(sf::Event &ev)
             frameIncrement = 1;
             return true;
         }
+        else if(ev.key.code == sf::Keyboard::X)
+        {
+            state = AnimationState::KICK2;
+            currFrame = 0;
+            frameIncrement = 1;
+            return true;
+        }
         else if (ev.key.code == sf::Keyboard::Left)
         {
-            state = AnimationState::moveLeft;
+            state = AnimationState::MOVE_LEFT;
             currFrame = -1;
             frameIncrement = 1;
             return true;
         }
         else if (ev.key.code == sf::Keyboard::Right)
         {
-            state = AnimationState::moveRight;
+            state = AnimationState::MOVE_RIGHT;
             currFrame = -1;
             frameIncrement = 1;
             return true;
@@ -119,7 +133,7 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
-    return;
+    //return;
     elapsed += dt;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
@@ -152,7 +166,7 @@ void Ryu::update(float dt)
         }
     }
     
-    else if(elapsed>=(0.08f) && state == AnimationState::moveRight)
+    else if(elapsed>=(0.08f) && state == AnimationState::MOVE_RIGHT)
     {
         currFrame = currFrame+1;
         player.setTextureRect(moveright_frames[currFrame]);
@@ -166,7 +180,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=(0.08f) && state == AnimationState::moveLeft)
+    else if(elapsed>=(0.08f) && state == AnimationState::MOVE_LEFT)
     {
         currFrame = currFrame+1;
         player.setTextureRect(moveleft_frames[currFrame]);
@@ -210,6 +224,23 @@ void Ryu::update(float dt)
         player.setTextureRect(kick1_frames[currFrame]);
         elapsed = 0;
         if(currFrame == 2) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed >= 0.08f && state == AnimationState::KICK2)
+    {
+        player.setTextureRect(kick2_frames[currFrame]);
+        elapsed = 0;
+        currFrame += frameIncrement;
+        if(currFrame == 3)
+        {
+            currFrame = 2;
+            frameIncrement = -1;
+        }
+        else if(currFrame == -1)
         {
             state = AnimationState::FASTIDLE;
             currFrame = 0;
