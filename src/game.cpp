@@ -24,7 +24,7 @@ void Game::pollEvents()
 void Game::update(float dt)
 {
     player->update(dt);
-  //  enemy->update(dt);
+    enemy->update(dt);
 }
 void Game::playIntro()
 {
@@ -85,16 +85,16 @@ Game::Game() : window(sf::VideoMode(800, 600), "Street Fighter")
     //player = new Chun_Li();
     //player = new Zangief();
     player = new Ryu();
-    player->setPosition(120,300);
+    //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
     
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    //enemy = new Zangief();
+    enemy = new Zangief();
     //enemy = new Ryu();
-   // setStage(); runs faster
+    setStage();
 }
 void Game::run()
 {
@@ -104,9 +104,9 @@ void Game::run()
         float dt = clock.restart().asSeconds();
         update(dt);
         window.clear(sf::Color::Black);
-        //window.draw(background);
+        window.draw(background);
         player->render(window);
-        //enemy->render(window);
+        enemy->render(window);
         window.display();
     }
 }
@@ -132,7 +132,7 @@ void Game::setStage() {
         background.setScale(1.4, 2.8);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-        //playMusic("assets/SFX/Theme_of_Ryu.ogg");
+        playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
     Zangief* zangief_enemy = nullptr;

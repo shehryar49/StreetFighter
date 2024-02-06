@@ -34,6 +34,7 @@ private:
     static sf::IntRect kick1_frames[3]; // side kick
     static sf::IntRect kick2_frames[3]; // low kick
     static sf::IntRect jmp_frames[7]; 
+    static sf::IntRect shoryuken_frames[6]; 
     
     int currFrame = 0;
     int frameIncrement = 1;
