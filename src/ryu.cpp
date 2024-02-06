@@ -175,7 +175,12 @@ bool Ryu::processEvent(sf::Event &ev)
             frameIncrement = 1;
         }
     }
-
+    else if(ev.type == sf::Event::KeyReleased && state == AnimationState::CROUCHED && ev.key.code == sf::Keyboard::Down)
+    {
+      state = AnimationState::UNCROUCHING;
+      currFrame = 2;
+      frameIncrement = -1;
+    }
     return false;
 }
 void Ryu::update(float dt)
@@ -366,6 +371,18 @@ void Ryu::update(float dt)
             state = AnimationState::CROUCHED;
         
     }
+    else if(elapsed >= 0.08f && state == AnimationState::UNCROUCHING)
+    {
+        player.setTextureRect(crouching_frames[currFrame--]);
+        elapsed = 0;
+        if(currFrame == -1)
+        {
+            state = AnimationState::FASTIDLE;
+            frameIncrement = 1;
+            currFrame = 0;
+        }
+    }
+    
 }
 void Ryu::setPosition(float x,float y)
 {

@@ -27,6 +27,7 @@ private:
         SHORYUKEN,
         SHORYUKEN_LAND,
         CROUCHING,
+        UNCROUCHING, //standing up
         CROUCHED
     };
     AnimationState state;
