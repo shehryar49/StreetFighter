@@ -7,6 +7,7 @@ sf::IntRect Ryu::moveright_frames[6];
 sf::IntRect Ryu::moveleft_frames[6];
 sf::IntRect Ryu::punch1_frames[2];
 sf::IntRect Ryu::punch2_frames[3];
+sf::IntRect Ryu::punch3_frames[5];
 sf::IntRect Ryu::kick1_frames[3];
 sf::IntRect Ryu::kick2_frames[3];
 sf::IntRect Ryu::kick3_frames[5];
@@ -76,6 +77,12 @@ Ryu::Ryu()
     kick3_frames[3] = sf::IntRect(870,640,100,110);
     kick3_frames[4] = sf::IntRect(970,650,70,110);
    
+    punch3_frames[0] = sf::IntRect(230,510,70,110);
+    punch3_frames[1] = sf::IntRect(320,510,70,110);
+    punch3_frames[2] = sf::IntRect(410,510,90,110);
+    punch3_frames[3] = sf::IntRect(510,510,70,110);
+    punch3_frames[4] = sf::IntRect(600,510,100,110);
+
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -150,6 +157,13 @@ bool Ryu::processEvent(sf::Event &ev)
             frameIncrement = 1;
             return true;
         }
+        else if(ev.key.code == sf::Keyboard::D)
+        {
+            state = AnimationState::PUNCH3;
+            currFrame = 0;
+            frameIncrement = 1;
+            return true;
+        }
         else if(ev.key.code == sf::Keyboard::Down)
         {
           //  state = AnimationState::CROUCHING;
@@ -161,6 +175,7 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
+    
     elapsed += dt;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
@@ -239,6 +254,17 @@ void Ryu::update(float dt)
         player.setTextureRect(punch2_frames[currFrame]);
         elapsed = 0;
         if(currFrame == 2)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=0.08f && state == AnimationState::PUNCH3)
+    {
+        player.setTextureRect(punch3_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;

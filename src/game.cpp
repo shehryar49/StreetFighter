@@ -92,8 +92,8 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    //enemy = new Zangief();
-    enemy = new Ryu();
+    enemy = new Zangief();
+    //enemy = new Ryu();
     setStage();
 }
 void Game::run()

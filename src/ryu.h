@@ -18,6 +18,7 @@ private:
         MOVE_LEFT,
         PUNCH1,
         PUNCH2,
+        PUNCH3,
         KICK1, // sidekick
         KICK2, // low kick
         KICK3, 
@@ -34,6 +35,7 @@ private:
     static sf::IntRect moveleft_frames[6];  
     static sf::IntRect punch1_frames[2];
     static sf::IntRect punch2_frames[3]; 
+    static sf::IntRect punch3_frames[5];
     static sf::IntRect kick1_frames[3]; // side kick
     static sf::IntRect kick2_frames[3]; // low kick
     static sf::IntRect kick3_frames[5];
