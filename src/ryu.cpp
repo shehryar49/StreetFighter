@@ -15,9 +15,7 @@ Ryu::Ryu()
     img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
-    // found out using trial and error
-    // 64 pixel wide character
-    // 26 pixel spacing
+
     IDLE_frames[0] = sf::IntRect(0, 0, 64, 110);
     IDLE_frames[1] = sf::IntRect(64+26, 0, 64, 110);
     IDLE_frames[2] = sf::IntRect(64+26+64+26, 0, 64, 110);
@@ -110,14 +108,20 @@ bool Ryu::processEvent(sf::Event &ev)
             frameIncrement = 1;
             return true;
         }
+        else if(ev.key.code == sf::Keyboard::Down)
+        {
+          //  state = AnimationState::CROUCHING;
+            currFrame = 0;
+        }
     }
+
     return false;
 }
 void Ryu::update(float dt)
 {
- //   return;
+    return;
     elapsed += dt;
-    if ((elapsed >= (0.8f)) && state == AnimationState::IDLE)
+    if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
           frameIncrement = 1;
