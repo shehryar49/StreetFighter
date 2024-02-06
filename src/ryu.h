@@ -25,7 +25,9 @@ private:
         JMP,
         LAND,
         SHORYUKEN,
-        SHORYUKEN_LAND
+        SHORYUKEN_LAND,
+        CROUCHING,
+        CROUCHED
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -41,7 +43,7 @@ private:
     static sf::IntRect kick3_frames[5];
     static sf::IntRect jmp_frames[7]; 
     static sf::IntRect shoryuken_frames[6]; 
-    
+    static sf::IntRect crouching_frames[3];
     int currFrame = 0;
     int frameIncrement = 1;
 public:

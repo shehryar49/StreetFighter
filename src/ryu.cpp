@@ -13,7 +13,7 @@ sf::IntRect Ryu::kick2_frames[3];
 sf::IntRect Ryu::kick3_frames[5];
 sf::IntRect Ryu::jmp_frames[7];
 sf::IntRect Ryu::shoryuken_frames[6];
-
+sf::IntRect Ryu::crouching_frames[3];
 Ryu::Ryu()
 {
     img.loadFromFile("assets/ryu.png");
@@ -83,6 +83,10 @@ Ryu::Ryu()
     punch3_frames[3] = sf::IntRect(510,510,70,110);
     punch3_frames[4] = sf::IntRect(600,510,100,110);
 
+    crouching_frames[0] = sf::IntRect(20,1190,70,110);
+    crouching_frames[1] = sf::IntRect(110,1190,70,110);
+    crouching_frames[2] = sf::IntRect(190,1190,70,110);
+    
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -166,8 +170,9 @@ bool Ryu::processEvent(sf::Event &ev)
         }
         else if(ev.key.code == sf::Keyboard::Down)
         {
-          //  state = AnimationState::CROUCHING;
+            state = AnimationState::CROUCHING;
             currFrame = 0;
+            frameIncrement = 1;
         }
     }
 
@@ -175,7 +180,7 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
-    
+   // return;
     elapsed += dt;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
@@ -353,6 +358,14 @@ void Ryu::update(float dt)
             state = AnimationState::LAND;
         }
     }  
+    else if(elapsed >= 0.08f && state == AnimationState::CROUCHING)
+    {
+        player.setTextureRect(crouching_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 3)
+            state = AnimationState::CROUCHED;
+        
+    }
 }
 void Ryu::setPosition(float x,float y)
 {

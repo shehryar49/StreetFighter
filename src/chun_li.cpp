@@ -57,7 +57,7 @@ Chun_Li::Chun_Li(){
     jump_frames[8] = sf::IntRect(14, 2360, 77, 90);
     
     chun_li.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
-    chun_li.setScale(sf::Vector2f(2.3,2.3));
+    chun_li.setScale(sf::Vector2f(2.1,2.1));
 }
 
 bool Chun_Li::processEvent(sf::Event &event){
