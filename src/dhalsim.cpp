@@ -96,20 +96,21 @@ bool Dhalsim::processEvent(sf::Event& ev)
             state = AnimationState::CROUCHING;
             currFrame = 0;
             frameIncrement = 1;
+            return true;
         }
-        else if (ev.type == sf::Event::KeyReleased && (state == AnimationState::CROUCHED) && ev.key.code == sf::Keyboard::Down)
+        else if (ev.key.code == sf::Keyboard::Left)
         {
-            state = AnimationState::UNCROUCHING;
-            currFrame = 2;
-            frameIncrement = -1;
+            state = AnimationState::moveLeft;
+            currFrame = -1;
+            frameIncrement = 1;
             return true;
         }
     }
-    else if (ev.key.code == sf::Keyboard::Left)
+    else if (ev.type == sf::Event::KeyReleased && (state == AnimationState::CROUCHED) && ev.key.code == sf::Keyboard::Down)
     {
-        state = AnimationState::moveLeft;
-        currFrame = -1;
-        frameIncrement = 1;
+        state = AnimationState::UNCROUCHING;
+        currFrame = 2;
+        frameIncrement = -1;
         return true;
     }
     return false;
