@@ -20,6 +20,7 @@ private:
         FASTIDLE,
         moveRight, //Right arrow key
         moveLeft, //Left arrow key
+        PUNCH1, //Low Punch(Jab) A key
         PUNCH2, //Medium Punch S key
         CROUCHING, //Down arrow key
         UNCROUCHING, //standing up
@@ -31,6 +32,7 @@ private:
     static sf::IntRect jmp_frames[6];
     static sf::IntRect moveright_frames[7];
     static sf::IntRect moveleft_frames[7];
+    static sf::IntRect punch1_frames[3];
     static sf::IntRect punch2_frames[4];
     static sf::IntRect crouching_frames[3];
 
