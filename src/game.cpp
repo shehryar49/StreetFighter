@@ -7,6 +7,7 @@
 #include "chun_li.h"
 #include "dhalsim.h"
 #include "ken.h"
+
 using namespace std;
 // private
 void Game::pollEvents()
@@ -44,11 +45,10 @@ void Game::playIntro()
     s.setScale(1.7, 1.7);
     int i = 0;
     window.setFramerateLimit(30); //run at 30fps
-    sf::Music m;
-    m.openFromFile("assets/intro/intro.ogg");
+    bgm.openFromFile("assets/intro/intro.ogg");
 
-    m.setLoop(true);
-    m.play();
+    bgm.setLoop(true);
+    bgm.play();
     while (window.isOpen())
     {
         sf::Event event;
@@ -71,21 +71,21 @@ void Game::playIntro()
         if (i == 796)
         {
             i = 0;
-            m.play();
+            bgm.play();
         }
     }
     window.setFramerateLimit(0);
 }
 // Public
-Game::Game() : window(sf::VideoMode(800, 600), "Street Fighter")
+Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter")
 {
-    //not adding state for intro
-    //cuz it's only played once
     //playIntro();
     //key was pressed, so we are back after playing intro
-    player = new Chun_Li();
+
+    //player = new Chun_Li();
     //player = new Zangief();
-    //player = new Ryu();
+    player = new Ryu();
+    //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
     //enemy = new Chun_Li();
@@ -101,7 +101,6 @@ void Game::run()
     {
         pollEvents();
         float dt = clock.restart().asSeconds();
-        //cout<<dt<<endl;
         update(dt);
         window.clear(sf::Color::Black);
         window.draw(background);
@@ -125,8 +124,13 @@ void Game::setStage() {
     enemy->flipX();
     Ryu* ryu_enemy = nullptr;
     if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) {
-        enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
-        player->setPosition(120,365);
+        //enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
+        
+        // note this
+        //IMPORTANT
+        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5);
+        enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) - 5);
+        ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");
         background.setTexture(backgroundTexture);
         background.setScale(1.4, 2.8);
@@ -145,6 +149,7 @@ void Game::setStage() {
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(100,0,800,400));
         //playMusic("assets/SFX/Theme_of_Zangief.wav");
+        playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
     Dhalsim* dhalsim_enemy = nullptr;
@@ -157,6 +162,7 @@ void Game::setStage() {
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(50, 0, 800, 400));
         //playMusic("assets/SFX/Theme_of_Dhalsim.wav");
+          playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
     Ken* ken_enemy = nullptr;
@@ -169,6 +175,7 @@ void Game::setStage() {
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(100, 0, 800, 400));
         //playMusic("assets/SFX/Theme_of_Ken.wav");
+          playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
     Chun_Li* chun_li_enemy = nullptr;
@@ -181,6 +188,7 @@ void Game::setStage() {
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(65, 0, 800, 400));
         //playMusic("assets/SFX/Theme_of_Chun-li.wav");
+          playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
 }
