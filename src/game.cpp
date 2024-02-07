@@ -81,18 +81,18 @@ Game::Game() : window(sf::VideoMode(800, 600), "Street Fighter")
 {
     //not adding state for intro
     //cuz it's only played once
-    playIntro();
+    //playIntro();
     //key was pressed, so we are back after playing intro
     player = new Chun_Li();
     //player = new Zangief();
     //player = new Ryu();
     //player = new Ken();
     //player = new Dhalsim();
-    enemy = new Chun_Li();
+    //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
     //enemy = new Zangief();
-    //enemy = new Ryu();
+    enemy = new Ryu();
     setStage();
 }
 void Game::run()
@@ -132,7 +132,7 @@ void Game::setStage() {
         background.setScale(1.4, 2.8);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-        playMusic("assets/SFX/Theme_of_Ryu.wav");
+        playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
     Zangief* zangief_enemy = nullptr;
@@ -144,7 +144,7 @@ void Game::setStage() {
         background.setScale(1.2,2.5);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(100,0,800,400));
-        playMusic("assets/SFX/Theme_of_Zangief.wav");
+        //playMusic("assets/SFX/Theme_of_Zangief.wav");
         return;
     }
     Dhalsim* dhalsim_enemy = nullptr;
@@ -156,7 +156,7 @@ void Game::setStage() {
         background.setScale(1.2, 2.5);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(50, 0, 800, 400));
-        playMusic("assets/SFX/Theme_of_Dhalsim.wav");
+        //playMusic("assets/SFX/Theme_of_Dhalsim.wav");
         return;
     }
     Ken* ken_enemy = nullptr;
@@ -168,7 +168,7 @@ void Game::setStage() {
         background.setScale(1.4,3.0);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(100, 0, 800, 400));
-        playMusic("assets/SFX/Theme_of_Ken.wav");
+        //playMusic("assets/SFX/Theme_of_Ken.wav");
         return;
     }
     Chun_Li* chun_li_enemy = nullptr;
@@ -180,7 +180,7 @@ void Game::setStage() {
         background.setScale(1.2, 2.6);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(65, 0, 800, 400));
-        playMusic("assets/SFX/Theme_of_Chun-li.wav");
+        //playMusic("assets/SFX/Theme_of_Chun-li.wav");
         return;
     }
 }
