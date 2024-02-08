@@ -7,6 +7,7 @@
 #include "chun_li.h"
 #include "dhalsim.h"
 #include "ken.h"
+#include "sagat.h"
 
 using namespace std;
 // private
@@ -87,8 +88,8 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
     //player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
-    player = new Dhalsim();
-    
+    //player = new Dhalsim();
+    player = new Sagat();
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
