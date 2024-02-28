@@ -80,16 +80,16 @@ void Game::playIntro()
 // Public
 Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter")
 {
-    //playIntro();
+    playIntro();
     //key was pressed, so we are back after playing intro
 
     //player = new Chun_Li();
     //player = new Zangief();
-    //player = new Ryu();
+    player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
-    player = new Sagat();
+    //player = new Sagat();
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
