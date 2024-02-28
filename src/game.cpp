@@ -80,7 +80,7 @@ void Game::playIntro()
 // Public
 Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter")
 {
-    playIntro();
+    //playIntro();
     //key was pressed, so we are back after playing intro
 
     //player = new Chun_Li();
