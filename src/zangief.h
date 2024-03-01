@@ -20,6 +20,7 @@ private:
         crouch_blocking, //Hold LShift + Down Arrow
         jump, //Up Arrow
         jump_forward,//Right Arrow then Up Arrow 
+        jump_backward, //Left Arrow then Up Arrow
         //--------------------------------------punches-----------------------------------------------//
         light_punch_right, //A
         medium_punch_right, //S
@@ -33,6 +34,7 @@ private:
         heavy_kick, //C
         crouch_kick,//Hold Down Arrow then Press J (can leave Down Arrow mid animation)
         forward_light_kick, //Right Arrow + Z
+        forward_heavy_kick, //Right Arrow + C
         //-------hits taken (should prolly be call-able functions instead of key-event updates)-------//
         hit_taken_blanka_electricity, //E for now
         //---------------------------------------victory----------------------------------------------//
@@ -55,6 +57,7 @@ private:
     static sf::IntRect crouch_kick_frames[3];
     static sf::IntRect jump_frames[7];
     static sf::IntRect forward_light_kick_frames[5];
+    static sf::IntRect forward_heavy_kick_frames[9];
 
     int curr_frame = -1;
     int incr_to_next_frame = 1;

@@ -18,13 +18,14 @@ sf::IntRect Zangief::heavy_kick_frames[3];
 sf::IntRect Zangief::crouch_kick_frames[3];
 sf::IntRect Zangief::jump_frames[7];
 sf::IntRect Zangief::forward_light_kick_frames[5];
+sf::IntRect Zangief::forward_heavy_kick_frames[9];
 
 Zangief::Zangief(){
     if(!image.loadFromFile("assets/zangief.png")){
         cerr<<"Err loading character";
         exit(EXIT_FAILURE);
     }//spritesheet
-    //image.createMaskFromColor(sf::Color(84,118,135,255));//removing background colour (84,118,135,255) //prev: (67,70,181,255)
+    image.createMaskFromColor(sf::Color(84,118,135,255));//removing background colour (84,118,135,255) //prev: (67,70,181,255)
     texture.loadFromImage(image);
     zangief.setTexture(texture);
 
@@ -112,11 +113,22 @@ Zangief::Zangief(){
     jump_frames[5] = sf::IntRect(550,2531,107,111);
     jump_frames[6] = sf::IntRect(435,2535,107,120);
 
-    forward_light_kick_frames[0] = sf::IntRect(14, 1145, 120, 111);
-    forward_light_kick_frames[1] = sf::IntRect(140, 1135, 120, 121);
-    forward_light_kick_frames[2] = sf::IntRect(240, 1135, 120, 121);
-    forward_light_kick_frames[3] = sf::IntRect(340, 1135, 120, 121);
-    forward_light_kick_frames[4] = sf::IntRect(440, 1145, 120, 111);
+    forward_light_kick_frames[0] = sf::IntRect(14, 1137, 89, 124);
+    forward_light_kick_frames[1] = sf::IntRect(110, 1137, 100, 124);
+    forward_light_kick_frames[2] = sf::IntRect(215, 1137, 135, 124);
+    forward_light_kick_frames[3] = sf::IntRect(357, 1137, 103, 124);
+    forward_light_kick_frames[4] = sf::IntRect(465, 1137, 93, 124);
+
+    forward_heavy_kick_frames[0] = sf::IntRect(14, 1307, 92, 111);
+    forward_heavy_kick_frames[1] = sf::IntRect(112, 1307, 80, 111);
+    forward_heavy_kick_frames[2] = sf::IntRect(197, 1307, 83, 111);
+    forward_heavy_kick_frames[3] = sf::IntRect(286, 1307, 98, 111);
+    forward_heavy_kick_frames[4] = sf::IntRect(390, 1307, 105, 111);
+    forward_heavy_kick_frames[5] = sf::IntRect(500, 1299, 125, 119);
+    forward_heavy_kick_frames[6] = sf::IntRect(630, 1329, 124, 85);
+    forward_heavy_kick_frames[7] = sf::IntRect(760, 1332, 93, 83);
+    forward_heavy_kick_frames[8] = sf::IntRect(860, 1329, 96, 85);
+
 
     zangief.setTextureRect(idle_frames[0]);
     zangief.setScale(sf::Vector2f(2.1,2.1));
@@ -236,6 +248,18 @@ bool Zangief::processEvent(sf::Event &event){
             else if (event.key.code == sf::Keyboard::Z) {
                 curr_frame = 0;
                 curr_state = AnimationState::forward_light_kick;
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::C) {
+                curr_frame = 0;
+                curr_state = AnimationState::forward_heavy_kick;
+                return true;
+            }
+        }
+        else if (curr_state == AnimationState::move_left) {
+            if (event.key.code == sf::Keyboard::Up) {
+                curr_frame = 0;
+                curr_state = AnimationState::jump_backward;
                 return true;
             }
         }
@@ -537,17 +561,63 @@ void Zangief::update(float time){
         time_elapsed = 0;
         return;
     }
-    else if (time_elapsed >= 1.0f && curr_state == AnimationState::forward_light_kick) {
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::forward_light_kick) {
         if (curr_frame == 5) {
+            setPosition(zangief.getPosition().x, zangief.getPosition().y + 18);
             curr_frame = 0;
             incr_to_next_frame = 1;
             zangief.setTextureRect(idle_frames[0]);
             curr_state = AnimationState::idle;
         }
         else {
-            if (zangief.getPosition().x - 10 >= 0)
-                setPosition(zangief.getPosition().x - 10, zangief.getPosition().y);
+            if (curr_frame == 0)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 18);
+            if (zangief.getPosition().x + 10 <= 570)
+                setPosition(zangief.getPosition().x + 10, zangief.getPosition().y);
             zangief.setTextureRect(forward_light_kick_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::forward_heavy_kick) {
+        if (curr_frame == 9) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            setPosition(zangief.getPosition().x, zangief.getPosition().y - 59);
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (zangief.getPosition().x + 10 <= 570)
+                setPosition(zangief.getPosition().x + 10, zangief.getPosition().y);
+            if (curr_frame == 5)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 16);
+            if (curr_frame == 6)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y + 75);
+            zangief.setTextureRect(forward_heavy_kick_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::jump_backward) {
+        if (curr_frame == 7) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (curr_frame > 0 && curr_frame < 4)
+                if (zangief.getPosition().x - 50 >= 0)
+                    setPosition(zangief.getPosition().x - 50, zangief.getPosition().y - 50);
+                else
+                    setPosition(zangief.getPosition().x, zangief.getPosition().y - 50);
+            else if (curr_frame > 3 && curr_frame < 7)
+                if (zangief.getPosition().x - 25 >= 0)
+                    setPosition(zangief.getPosition().x - 25, zangief.getPosition().y + 50);
+                else
+                    setPosition(zangief.getPosition().x, zangief.getPosition().y + 50);
+            zangief.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
