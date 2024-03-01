@@ -7,7 +7,7 @@ sf::IntRect Zangief::move_right_frames[6];
 sf::IntRect Zangief::move_left_frames[6];
 sf::IntRect Zangief::light_punch_frames[4];
 sf::IntRect Zangief::medium_punch_frames[7];
-sf::IntRect Zangief::forward_light_punch_frames[4];
+sf::IntRect Zangief::forward_light_punch_frames[7];
 sf::IntRect Zangief::forward_medium_punch_frames[7];
 sf::IntRect Zangief::crouch_light_punch_frames[2];
 sf::IntRect Zangief::crouch_medium_punch_frames[5];
@@ -16,13 +16,14 @@ sf::IntRect Zangief::medium_kick_frames[5];
 sf::IntRect Zangief::heavy_kick_frames[3];
 sf::IntRect Zangief::crouch_kick_frames[3];
 sf::IntRect Zangief::jump_frames[7];
+sf::IntRect Zangief::forward_light_kick_frames[5];
 
 Zangief::Zangief(){
     if(!image.loadFromFile("assets/zangief.png")){
         cerr<<"Err loading character";
         exit(EXIT_FAILURE);
     }//spritesheet
-    image.createMaskFromColor(sf::Color(84,118,135,255));//removing background colour (84,118,135,255) //prev: (67,70,181,255)
+    //image.createMaskFromColor(sf::Color(84,118,135,255));//removing background colour (84,118,135,255) //prev: (67,70,181,255)
     texture.loadFromImage(image);
     zangief.setTexture(texture);
 
@@ -50,6 +51,14 @@ Zangief::Zangief(){
     light_punch_frames[2] = sf::IntRect(262,329,100,111);
     light_punch_frames[3] = sf::IntRect(370,329,103,111);
 
+    forward_light_punch_frames[0] = sf::IntRect(520, 327, 102, 113);
+    forward_light_punch_frames[1] = sf::IntRect(628, 329, 103, 111);
+    forward_light_punch_frames[2] = sf::IntRect(738, 329, 134, 111);
+    forward_light_punch_frames[3] = sf::IntRect(881, 329, 102, 111);
+    forward_light_punch_frames[4] = sf::IntRect(738, 329, 134, 111);
+    forward_light_punch_frames[5] = sf::IntRect(628, 329, 103, 111);
+    forward_light_punch_frames[6] = sf::IntRect(520, 327, 102, 113);
+
     medium_punch_frames[0] = sf::IntRect(16,479,80,112);
     medium_punch_frames[1] = sf::IntRect(101,481,101,111);
     medium_punch_frames[2] = sf::IntRect(210,481,130,111);
@@ -58,10 +67,20 @@ Zangief::Zangief(){
     medium_punch_frames[5] = sf::IntRect(603,481,102,111);
     medium_punch_frames[6] = sf::IntRect(710,479,82,112);
 
-    forward_light_punch_frames[0] = sf::IntRect(520,327,102,113);
-    forward_light_punch_frames[1] = sf::IntRect(628,329,103,111);
-    forward_light_punch_frames[2] = sf::IntRect(738,329,134,111);
-    forward_light_punch_frames[3] = sf::IntRect(881,329,102,111);
+    light_kick_frames[0] = sf::IntRect(14, 648, 95, 120);
+    light_kick_frames[1] = sf::IntRect(116, 648, 91, 120);
+    light_kick_frames[2] = sf::IntRect(212, 648, 122, 120);
+    light_kick_frames[3] = sf::IntRect(116, 648, 91, 120);
+
+    medium_kick_frames[0] = sf::IntRect(380, 648, 98, 120);
+    medium_kick_frames[1] = sf::IntRect(483, 648, 101, 120);
+    medium_kick_frames[2] = sf::IntRect(591, 648, 128, 120);
+    medium_kick_frames[3] = sf::IntRect(483, 648, 101, 120);
+    medium_kick_frames[4] = sf::IntRect(380, 648, 98, 120);
+
+    heavy_kick_frames[0] = sf::IntRect(978, 648, 88, 120);
+    heavy_kick_frames[1] = sf::IntRect(1072, 648, 147, 120);
+    heavy_kick_frames[2] = sf::IntRect(1227, 648, 88, 120);
 
     forward_medium_punch_frames[0] = sf::IntRect(14,804,90,126);
     forward_medium_punch_frames[1] = sf::IntRect(109,810,110,125);
@@ -80,21 +99,6 @@ Zangief::Zangief(){
     crouch_medium_punch_frames[3] = sf::IntRect(585,2225,95,90);
     crouch_medium_punch_frames[4] = sf::IntRect(680,2225,95,90);
 
-    light_kick_frames[0] = sf::IntRect(14,648,95,120);
-    light_kick_frames[1] = sf::IntRect(116,648,91,120);
-    light_kick_frames[2] = sf::IntRect(212,648,122,120);
-    light_kick_frames[3] = sf::IntRect(116,648,91,120);
-
-    medium_kick_frames[0] = sf::IntRect(380,648,98,120);
-    medium_kick_frames[1] = sf::IntRect(483,648,101,120);
-    medium_kick_frames[2] = sf::IntRect(591,648,128,120);
-    medium_kick_frames[3] = sf::IntRect(483,648,101,120);
-    medium_kick_frames[4] = sf::IntRect(380,648,98,120);
-
-    heavy_kick_frames[0] = sf::IntRect(978,648,88,120);
-    heavy_kick_frames[1] = sf::IntRect(1072,648,147,120);
-    heavy_kick_frames[2] = sf::IntRect(1227,648,88,120);
-
     crouch_kick_frames[0] = sf::IntRect(810,2225,105,90);
     crouch_kick_frames[1] = sf::IntRect(912,2220,153,95);
     crouch_kick_frames[2] = sf::IntRect(1067,2225,105,90);
@@ -106,6 +110,8 @@ Zangief::Zangief(){
     jump_frames[4] = sf::IntRect(664,2543,110,101);
     jump_frames[5] = sf::IntRect(550,2531,107,111);
     jump_frames[6] = sf::IntRect(435,2535,107,120);
+
+    forward_light_kick_frames[0] = sf::IntRect(14,)
 
     zangief.setTextureRect(idle_frames[0]);
     zangief.setScale(sf::Vector2f(2.1,2.1));
@@ -358,7 +364,7 @@ void Zangief::update(float time){
         return;
     }
     else if (time_elapsed >= 0.08f && curr_state == AnimationState::forward_light_punch) {
-        if (curr_frame == 4) {
+        if (curr_frame == 7) {
             curr_frame = 0;
             incr_to_next_frame = 1;
             zangief.setTextureRect(idle_frames[0]);
@@ -535,3 +541,5 @@ void Zangief::render(sf::RenderWindow &window){
 }
 Zangief::~Zangief(){
 }
+
+//~Isbah

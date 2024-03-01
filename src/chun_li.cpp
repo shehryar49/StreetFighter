@@ -8,10 +8,10 @@ sf::IntRect Chun_Li::move_left_frames[12];
 sf::IntRect Chun_Li::jump_frames[9];
 
 Chun_Li::Chun_Li(){
-    if(!image.loadFromFile("assets/chun-li.png")){
+    if(!image.loadFromFile("assets/Chunli.png")){
         cerr<<"Err loading character";
     }//spritesheet
-    image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
+    //image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
     texture.loadFromImage(image);
     chun_li.setTexture(texture);
     
@@ -211,6 +211,12 @@ void Chun_Li::render(sf::RenderWindow &window){
 }
 void Chun_Li::setPosition(float x, float y) {
     chun_li.setPosition(x, y);
+}
+sf::FloatRect Chun_Li::getLocalBounds(){
+    return chun_li.getLocalBounds();
+}
+sf::FloatRect Chun_Li::getGlobalBounds(){
+    return chun_li.getGlobalBounds();
 }
 void Chun_Li::flipX() {
     chun_li.setScale(-2.3,2.3);

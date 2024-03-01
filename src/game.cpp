@@ -42,7 +42,7 @@ void Game::playIntro()
     cout << "loaded images" << endl;
     // all frames loaded
     sf::Sprite s;
-    s.setScale(1.7, 1.7);
+    s.setScale(1.7f, 1.7f);
     int i = 0;
     window.setFramerateLimit(30); //run at 30fps
     bgm.openFromFile("assets/intro/intro.ogg");
@@ -83,16 +83,16 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
     //key was pressed, so we are back after playing intro
 
     //player = new Chun_Li();
-    //player = new Zangief();
-    player = new Ryu();
+    player = new Zangief();
+    //player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
-    //enemy = new Chun_Li();
+    enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
     //enemy = new Zangief();
-    enemy = new Ryu();
+    //enemy = new Ryu();
     setStage();
 }
 void Game::run()
@@ -110,17 +110,19 @@ void Game::run()
     }
 }
 
-void Game::playMusic(const char* filename) {
+void Game::playMusic(const char* filename) 
+{
     if (bgm.getStatus() == sf::Music::Playing)
         bgm.stop(); //if any music was playing before
     if (!(bgm.openFromFile(filename)))
         perror("Error loading assets\n");
-    bgm.setVolume(10);
+    bgm.setVolume(0);
     bgm.setLoop(true); //infinitely play song on loop
     bgm.play();
 }
 
-void Game::setStage() {
+void Game::setStage() 
+{
     enemy->flipX();
     Ryu* ryu_enemy = nullptr;
     if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) {
@@ -133,7 +135,7 @@ void Game::setStage() {
         ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");
         background.setTexture(backgroundTexture);
-        background.setScale(1.4, 2.8);
+        background.setScale(1.4f, 2.8f);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(150, 0, 600, 230));
         playMusic("assets/SFX/Theme_of_Ryu.ogg");
@@ -145,9 +147,9 @@ void Game::setStage() {
         player->setPosition(120, 365);
         backgroundTexture.loadFromFile("assets/Zangief Stage.png");
         background.setTexture(backgroundTexture);
-        background.setScale(1.2,2.5);
+        background.setScale(2.1f,2.5f);
         background.setPosition(0, 0);
-        background.setTextureRect(sf::IntRect(100,0,800,400));
+        background.setTextureRect(sf::IntRect(280,0,800,400));
         //playMusic("assets/SFX/Theme_of_Zangief.wav");
         playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
@@ -158,7 +160,7 @@ void Game::setStage() {
         player->setPosition(120, 365);
         backgroundTexture.loadFromFile("assets/Dhalsim Stage.png");
         background.setTexture(backgroundTexture);
-        background.setScale(1.2, 2.5);
+        background.setScale(1.2f, 2.5f);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(50, 0, 800, 400));
         //playMusic("assets/SFX/Theme_of_Dhalsim.wav");
@@ -171,7 +173,7 @@ void Game::setStage() {
         player->setPosition(120, 355);
         backgroundTexture.loadFromFile("assets/Ken Stage.png");
         background.setTexture(backgroundTexture);
-        background.setScale(1.4,3.0);
+        background.setScale(1.4f,3.0f);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(100, 0, 800, 400));
         //playMusic("assets/SFX/Theme_of_Ken.wav");
@@ -184,11 +186,11 @@ void Game::setStage() {
         player->setPosition(120, 355);
         backgroundTexture.loadFromFile("assets/ChunLi Stage.png");
         background.setTexture(backgroundTexture);
-        background.setScale(1.2, 2.6);
+        background.setScale(1.2f, 2.8f);
         background.setPosition(0, 0);
         background.setTextureRect(sf::IntRect(65, 0, 800, 400));
         //playMusic("assets/SFX/Theme_of_Chun-li.wav");
-          playMusic("assets/SFX/Theme_of_Ryu.ogg");
+         playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
 }

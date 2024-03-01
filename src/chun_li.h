@@ -33,6 +33,8 @@ public:
     bool processEvent(sf::Event&);
     void render(sf::RenderWindow&);
     void setPosition(float, float);
+    sf::FloatRect getLocalBounds();
+    sf::FloatRect getGlobalBounds();
     void flipX();
     ~Chun_Li();
 };

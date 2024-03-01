@@ -43,7 +43,7 @@ private:
     static sf::IntRect move_left_frames[6];
     static sf::IntRect light_punch_frames[4];
     static sf::IntRect medium_punch_frames[7];
-    static sf::IntRect forward_light_punch_frames[4];
+    static sf::IntRect forward_light_punch_frames[7];
     static sf::IntRect forward_medium_punch_frames[7];
     static sf::IntRect crouch_light_punch_frames[2];
     static sf::IntRect crouch_medium_punch_frames[5];
@@ -52,6 +52,7 @@ private:
     static sf::IntRect heavy_kick_frames[3];
     static sf::IntRect crouch_kick_frames[3];
     static sf::IntRect jump_frames[7];
+    static sf::IntRect forward_light_kick_frames[5];
 
     int curr_frame = -1;
     int incr_to_next_frame = 1;
@@ -68,3 +69,5 @@ public:
 };
 
 #endif
+
+//~Isbah
