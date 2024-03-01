@@ -1,3 +1,4 @@
+//~Isbah
 #ifndef ZANGIEF_H_
 #define ZANGIEF_H_
 #include "player.h"
@@ -31,6 +32,7 @@ private:
         medium_kick, //X
         heavy_kick, //C
         crouch_kick,//Hold Down Arrow then Press J (can leave Down Arrow mid animation)
+        forward_light_kick, //Right Arrow + Z
         //-------hits taken (should prolly be call-able functions instead of key-event updates)-------//
         hit_taken_blanka_electricity, //E for now
         //---------------------------------------victory----------------------------------------------//
@@ -69,5 +71,3 @@ public:
 };
 
 #endif
-
-//~Isbah

@@ -1,3 +1,4 @@
+//~Isbah
 #include "zangief.h"
 #include<iostream>
 using namespace std;
@@ -111,7 +112,11 @@ Zangief::Zangief(){
     jump_frames[5] = sf::IntRect(550,2531,107,111);
     jump_frames[6] = sf::IntRect(435,2535,107,120);
 
-    forward_light_kick_frames[0] = sf::IntRect(14,)
+    forward_light_kick_frames[0] = sf::IntRect(14, 1145, 120, 111);
+    forward_light_kick_frames[1] = sf::IntRect(140, 1135, 120, 121);
+    forward_light_kick_frames[2] = sf::IntRect(240, 1135, 120, 121);
+    forward_light_kick_frames[3] = sf::IntRect(340, 1135, 120, 121);
+    forward_light_kick_frames[4] = sf::IntRect(440, 1145, 120, 111);
 
     zangief.setTextureRect(idle_frames[0]);
     zangief.setScale(sf::Vector2f(2.1,2.1));
@@ -226,6 +231,11 @@ bool Zangief::processEvent(sf::Event &event){
             else if (event.key.code == sf::Keyboard::Up) {
                 curr_frame = 0;
                 curr_state = AnimationState::jump_forward;
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Z) {
+                curr_frame = 0;
+                curr_state = AnimationState::forward_light_kick;
                 return true;
             }
         }
@@ -527,6 +537,21 @@ void Zangief::update(float time){
         time_elapsed = 0;
         return;
     }
+    else if (time_elapsed >= 1.0f && curr_state == AnimationState::forward_light_kick) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (zangief.getPosition().x - 10 >= 0)
+                setPosition(zangief.getPosition().x - 10, zangief.getPosition().y);
+            zangief.setTextureRect(forward_light_kick_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
 }
 void Zangief::setPosition(float x,float y)
 {
@@ -541,5 +566,3 @@ void Zangief::render(sf::RenderWindow &window){
 }
 Zangief::~Zangief(){
 }
-
-//~Isbah
