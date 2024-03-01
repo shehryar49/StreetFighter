@@ -78,7 +78,7 @@ void Game::playIntro()
     window.setFramerateLimit(0);
 }
 // Public
-Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter")
+Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar)
 {
     //playIntro();
     //key was pressed, so we are back after playing intro
