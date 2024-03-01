@@ -24,7 +24,7 @@ private:
     AnimationState state;
     //'Frames' actually might not be the right word
     // but who's gonna stop me?
-    static sf::IntRect IDLE_frames[5];
+    static sf::IntRect IDLE_frames[6];
     static sf::IntRect moveright_frames[6];
     static sf::IntRect moveleft_frames[6];  
     static sf::IntRect punch1_frames[2];
@@ -41,6 +41,8 @@ public:
     void render(sf::RenderWindow &);
     void setPosition(float,float);
     void flipX();
+    sf::FloatRect getGlobalBounds();
+    sf::FloatRect getLocalBounds();
     ~Ken();
 };
 #endif

@@ -1,7 +1,7 @@
 #include "ken.h"
 using namespace std;
 
-sf::IntRect Ken::IDLE_frames[5];
+sf::IntRect Ken::IDLE_frames[6];
 sf::IntRect Ken::moveright_frames[6];
 sf::IntRect Ken::moveleft_frames[6];
 sf::IntRect Ken::punch1_frames[2];
@@ -17,11 +17,13 @@ Ken::Ken()
     // found out using trial and error
     // 64 pixel wide character
     // 26 pixel spacing
-    IDLE_frames[0] = sf::IntRect(0, 0, 64, 110);
-    IDLE_frames[1] = sf::IntRect(64+26, 0, 64, 110);
-    IDLE_frames[2] = sf::IntRect(64+26+64+26, 0, 64, 110);
-    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 0, 64, 110);
-    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 0, 64, 110);
+    IDLE_frames[0] = sf::IntRect(12, 20, 64, 94);
+    IDLE_frames[1] = sf::IntRect(84, 20, 64, 94);
+    IDLE_frames[2] = sf::IntRect(150, 20, 64, 94);
+    IDLE_frames[3] = sf::IntRect(215, 20, 64, 94);
+    IDLE_frames[4] = sf::IntRect(280, 20, 64, 94);
+    IDLE_frames[5] = sf::IntRect(340, 20, 64, 94);
+    
     
     moveright_frames[0] = sf::IntRect(0,120,68,110);
     moveright_frames[1] = sf::IntRect(68*1,120,68,110);
@@ -56,7 +58,7 @@ Ken::Ken()
     punch2_frames[1] = sf::IntRect(332,260,68,110);
     punch2_frames[2] = sf::IntRect(430,260,110,110);
     
-    player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(IDLE_frames[5]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -114,13 +116,13 @@ bool Ken::processEvent(sf::Event &ev)
 }
 void Ken::update(float dt)
 {
- //   return;
+    //return;
     elapsed += dt;
-    if ((elapsed >= (0.8f)) && state == AnimationState::IDLE)
+    if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
           frameIncrement = 1;
-        else if(currFrame == 4)
+        else if(currFrame == 5)
           frameIncrement = -1;
         currFrame = (currFrame+frameIncrement); 
         player.setTextureRect(IDLE_frames[currFrame]);
@@ -235,6 +237,14 @@ void Ken::flipX()
 void Ken::render(sf::RenderWindow &win)
 {
     win.draw(player);
+}
+sf::FloatRect Ken::getGlobalBounds()
+{
+    return player.getGlobalBounds();
+}
+sf::FloatRect Ken::getLocalBounds()
+{
+    return player.getLocalBounds();
 }
 Ken::~Ken()
 {
