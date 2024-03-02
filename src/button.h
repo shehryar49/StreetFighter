@@ -12,7 +12,10 @@ public:
   Button(std::string,const sf::Font&);
   void setBackgroundColor(sf::Color);
   void setForegroundColor(sf::Color);
+  void setPosition(int,int);
+  void setText(const char*,int,int,int);
+  void setFont(sf::Font&);
   void render(sf::RenderWindow&);
-  void pollEvent(sf::Event&); // mouse hover events
+  bool pollEvent(sf::Event&); // mouse hover events
 };
 #endif

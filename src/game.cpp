@@ -1,7 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Window/WindowStyle.hpp>
 #include <string>
 #include "game.h"
+#include "menu.h"
 #include "ryu.h"
 #include "zangief.h"
 #include "chun_li.h"
@@ -77,12 +79,30 @@ void Game::playIntro()
     }
     window.setFramerateLimit(0);
 }
-// Public
-Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar)
+void Game::showMenu()
+{
+  const char* entries[] = {"Play","Credits","Quit"};
+  Menu m(entries,3);
+  while(true)
+  {
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            window.close();
+        else
+          m.pollEvent(event);
+    }
+    window.clear(sf::Color::White);
+    m.render(window);
+    window.display();
+  }  
+}
+Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar | sf::Style::Close)
 {
     //playIntro();
     //key was pressed, so we are back after playing intro
-
+    showMenu(); 
     //player = new Chun_Li();
     player = new Zangief();
     //player = new Ryu();
@@ -97,6 +117,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
     //enemy = new Ryu();
     setStage();
 }
+
 void Game::run()
 {
     while (window.isOpen())
