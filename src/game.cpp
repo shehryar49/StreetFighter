@@ -62,6 +62,7 @@ void Game::playIntro()
             if (event.type == sf::Event::KeyPressed)
             {
                 window.setFramerateLimit(0);
+                bgm.stop();
                 return;
             }
         }
@@ -78,12 +79,13 @@ void Game::playIntro()
         }
     }
     window.setFramerateLimit(0);
+    bgm.stop();
 }
-void Game::showMenu()
+int Game::showMenu()
 {
   const char* entries[] = {"Play","Credits","Quit"};
   Menu m(entries,3);
-  while(true)
+  while(window.isOpen())
   {
     sf::Event event;
     while (window.pollEvent(event))
@@ -93,27 +95,34 @@ void Game::showMenu()
         else
         {
           int i = m.pollEvent(event);
-          if(i == 0)
-            cout<<"Implement play"<<endl;
-          else if(i == 1)
-            cout<<"Implement credits"<<endl;
-          else if(i == 2)
-            cout << "Implement exit"<<endl;
+          if(i >= 0)
+            return i;
         }
     }
     window.clear(sf::Color::White);
     m.render(window);
     window.display();
   }  
+  return 2;
 }
 Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar | sf::Style::Close)
 {
-    //playIntro();
+  player = nullptr;
+  enemy = nullptr;
+}
+
+void Game::run()
+{
+    playIntro();
     //key was pressed, so we are back after playing intro
-    showMenu(); 
+    int option = showMenu(); 
+    //some option was selected from the menu
+    if(option == 1 || option == 2)
+      return;
+    //option 0 is play
     //player = new Chun_Li();
-    player = new Zangief();
-    //player = new Ryu();
+    //player = new Zangief();
+    player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
@@ -121,13 +130,10 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    enemy = new Zangief();
-    //enemy = new Ryu();
+    //enemy = new Zangief();
+    enemy = new Ryu();
+    
     setStage();
-}
-
-void Game::run()
-{
     while (window.isOpen())
     {
         pollEvents();
@@ -227,5 +233,8 @@ void Game::setStage()
 }
 Game::~Game()
 {
-    delete player;
+    if(player)
+      delete player;
+    if(enemy)
+      delete enemy;
 }
