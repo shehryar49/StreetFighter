@@ -16,6 +16,6 @@ public:
   void setText(const char*,int,int,int);
   void setFont(sf::Font&);
   void render(sf::RenderWindow&);
-  bool pollEvent(sf::Event&); // mouse hover events
+  bool processMouseMove(int,int); // mouse hover events
 };
 #endif

@@ -39,22 +39,19 @@ void Button::render(sf::RenderWindow& win)
   win.draw(container);
   win.draw(text);
 }
-bool Button::pollEvent(sf::Event& e)
+bool Button::processMouseMove(int x,int y)
 {
-  if(e.type == sf::Event::MouseMoved)
+  auto bounds = container.getGlobalBounds();
+  if(bounds.contains(x,y))
   {
-    auto A = e.mouseMove;
-    auto B = container.getGlobalBounds();
-    if(B.contains(A.x,A.y))
-    {
-      container.setFillColor(sf::Color::White);
-      text.setFillColor(sf::Color::Black);
-    }
-    else 
-    {
-      container.setFillColor(sf::Color::Black);
-      text.setFillColor(sf::Color::White);
-    }
+    container.setFillColor(sf::Color::White);
+    text.setFillColor(sf::Color::Black);
+    return true;
   }
-  return false;
+  else 
+  {
+    container.setFillColor(sf::Color::Black);
+    text.setFillColor(sf::Color::White);
+    return false;
+  }
 }

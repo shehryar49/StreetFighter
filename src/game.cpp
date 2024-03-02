@@ -91,7 +91,15 @@ void Game::showMenu()
         if (event.type == sf::Event::Closed)
             window.close();
         else
-          m.pollEvent(event);
+        {
+          int i = m.pollEvent(event);
+          if(i == 0)
+            cout<<"Implement play"<<endl;
+          else if(i == 1)
+            cout<<"Implement credits"<<endl;
+          else if(i == 2)
+            cout << "Implement exit"<<endl;
+        }
     }
     window.clear(sf::Color::White);
     m.render(window);

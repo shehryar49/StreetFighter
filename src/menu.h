@@ -15,7 +15,7 @@ private:
 public:
   Menu(const char**,int);
   void render(sf::RenderWindow&);
-  void pollEvent(sf::Event&);
+  int pollEvent(sf::Event&);
   ~Menu();
 };
 #endif

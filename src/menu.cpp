@@ -34,12 +34,24 @@ void Menu::render(sf::RenderWindow& win)
       buttons[i].render(win);
     }
 }
-void Menu::pollEvent(sf::Event& ev)
+int Menu::pollEvent(sf::Event& ev)
 {
-  for(int i=0;i<total;i++)
+  if(ev.type == sf::Event::MouseMoved)
   {
-    buttons[i].pollEvent(ev);
+    for(int i=0;i<total;i++)
+      buttons[i].processMouseMove(ev.mouseMove.x,ev.mouseMove.y);
   }
+  else if(ev.type == sf::Event::MouseButtonReleased)
+  {
+
+    for(int i=0;i<total;i++)
+    {
+        bool b = buttons[i].processMouseMove(ev.mouseButton.x,ev.mouseButton.y);
+        if(b) // button i clicked
+          return i;
+    }
+  }
+  return -1;
 }
 Menu::~Menu()
 {
