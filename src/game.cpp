@@ -1,7 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Window/WindowStyle.hpp>
 #include <string>
 #include "game.h"
+#include "menu.h"
 #include "ryu.h"
 #include "zangief.h"
 #include "chun_li.h"
@@ -60,6 +62,7 @@ void Game::playIntro()
             if (event.type == sf::Event::KeyPressed)
             {
                 window.setFramerateLimit(0);
+                bgm.stop();
                 return;
             }
         }
@@ -76,16 +79,50 @@ void Game::playIntro()
         }
     }
     window.setFramerateLimit(0);
+    bgm.stop();
 }
-// Public
-Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter")
+int Game::showMenu()
 {
-    //playIntro();
-    //key was pressed, so we are back after playing intro
+  const char* entries[] = {"Play","Credits","Quit"};
+  Menu m(entries,3);
+  while(window.isOpen())
+  {
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            window.close();
+        else
+        {
+          int i = m.pollEvent(event);
+          if(i >= 0)
+            return i;
+        }
+    }
+    window.clear(sf::Color::White);
+    m.render(window);
+    window.display();
+  }  
+  return 2;
+}
+Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar | sf::Style::Close)
+{
+  player = nullptr;
+  enemy = nullptr;
+}
 
+void Game::run()
+{
+    playIntro();
+    //key was pressed, so we are back after playing intro
+    int option = showMenu(); 
+    //some option was selected from the menu
+    if(option == 1 || option == 2)
+      return;
+    //option 0 is play
     //player = new Chun_Li();
-    player = new Zangief();
-    //player = new Ryu();
+    //player = new Zangief();
+    player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
@@ -93,12 +130,10 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    enemy = new Zangief();
-    //enemy = new Ryu();
+    //enemy = new Zangief();
+    enemy = new Ryu();
+    
     setStage();
-}
-void Game::run()
-{
     while (window.isOpen())
     {
         pollEvents();
@@ -198,5 +233,8 @@ void Game::setStage()
 }
 Game::~Game()
 {
-    delete player;
+    if(player)
+      delete player;
+    if(enemy)
+      delete enemy;
 }
