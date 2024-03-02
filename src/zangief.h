@@ -36,10 +36,23 @@ private:
         forward_light_kick, //Right Arrow + Z
         forward_heavy_kick, //Right Arrow + C
         //-------hits taken (should prolly be call-able functions instead of key-event updates)-------//
-        hit_taken_blanka_electricity, //E for now
+        hit_taken_blanka_electricity, //1
+        hit_taken_face, //2
+        hit_taken_body,//3
+        heavy_hit_taken_body,//4
+        crouch_face_hit_taken,//5 (must be crouching - can uncrouch mid animation)
+        face_body_combo_taken,//6
+        knockout, //7
         //---------------------------------------victory----------------------------------------------//
-        victory_1,
-        victory_2,
+        //victory_1 is on 8
+        victory_2,//9
+        victory_3,//0
+        //---------------------------------------defeat----------------------------------------------//
+        defeat, //Enter
+        //-------------------------------------special move------------------------------------------//
+        special_move, // Q (Can press/hold Left or Right after Q to move Left and Right)
+        //---------------------------------------nothing--------------------------------------------//
+        still,
     };
     AnimationState curr_state;
     static sf::IntRect idle_frames[4];
@@ -58,6 +71,17 @@ private:
     static sf::IntRect jump_frames[7];
     static sf::IntRect forward_light_kick_frames[5];
     static sf::IntRect forward_heavy_kick_frames[9];
+    static sf::IntRect hit_taken_blanka_electricity_frames[2];
+    static sf::IntRect hit_taken_face_frames[3];
+    static sf::IntRect hit_taken_body_frames[3];
+    static sf::IntRect heavy_hit_taken_body_frames[4];
+    static sf::IntRect crouch_face_hit_taken_frames[3];
+    static sf::IntRect face_body_combo_taken_frames[6];
+    static sf::IntRect special_move[5];
+    static sf::IntRect victory1_frames[1];
+    static sf::IntRect victory2_frames[3];
+    static sf::IntRect victory3_frames[9];
+    static sf::IntRect knockout_frames[14];
 
     int curr_frame = -1;
     int incr_to_next_frame = 1;
@@ -70,6 +94,15 @@ public:
     void render(sf::RenderWindow&);
     void setPosition(float,float);
     void flipX();
+    //hits
+    void hit_taken_blanka_electricity();
+    void hit_taken_face();
+    void hit_taken_body();
+    void heavy_hit_taken_body();
+    void crouch_face_hit_taken();
+    void face_body_combo_taken();
+    void knockout(int);
+    void victory(int);
     ~Zangief();
 };
 

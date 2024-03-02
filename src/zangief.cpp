@@ -19,6 +19,17 @@ sf::IntRect Zangief::crouch_kick_frames[3];
 sf::IntRect Zangief::jump_frames[7];
 sf::IntRect Zangief::forward_light_kick_frames[5];
 sf::IntRect Zangief::forward_heavy_kick_frames[9];
+sf::IntRect Zangief::hit_taken_blanka_electricity_frames[2];
+sf::IntRect Zangief::hit_taken_face_frames[3];
+sf::IntRect Zangief::hit_taken_body_frames[3];
+sf::IntRect Zangief::heavy_hit_taken_body_frames[4];
+sf::IntRect Zangief::crouch_face_hit_taken_frames[3];
+sf::IntRect Zangief::face_body_combo_taken_frames[6];
+sf::IntRect Zangief::special_move[5];
+sf::IntRect Zangief::victory1_frames[1];
+sf::IntRect Zangief::victory2_frames[3];
+sf::IntRect Zangief::victory3_frames[9];
+sf::IntRect Zangief::knockout_frames[14];
 
 Zangief::Zangief(){
     if(!image.loadFromFile("assets/zangief.png")){
@@ -129,6 +140,71 @@ Zangief::Zangief(){
     forward_heavy_kick_frames[7] = sf::IntRect(760, 1332, 93, 83);
     forward_heavy_kick_frames[8] = sf::IntRect(860, 1329, 96, 85);
 
+    hit_taken_blanka_electricity_frames[0] = sf::IntRect(124,5821, 115, 130);
+    hit_taken_blanka_electricity_frames[1] = sf::IntRect(14, 5826, 105, 125);
+
+    hit_taken_face_frames[0] = sf::IntRect(14, 4263, 97, 125);
+    hit_taken_face_frames[1] = sf::IntRect(117, 4263, 101, 125);
+    hit_taken_face_frames[2] = sf::IntRect(14, 4263, 97, 125);
+
+    hit_taken_body_frames[0] = sf::IntRect(262, 4270, 100, 111);
+    hit_taken_body_frames[1] = sf::IntRect(367, 4270, 112, 111);
+    hit_taken_body_frames[2] = sf::IntRect(262, 4270, 100, 111);
+
+    heavy_hit_taken_body_frames[0] = sf::IntRect(262, 4270, 100, 111);
+    heavy_hit_taken_body_frames[1] = sf::IntRect(627, 4270, 96, 111);
+    heavy_hit_taken_body_frames[2] = sf::IntRect(727, 4270, 103, 111);
+    heavy_hit_taken_body_frames[3] = sf::IntRect(830, 4270, 93, 111);
+
+    crouch_face_hit_taken_frames[0] = sf::IntRect(152, 4452, 97, 92);
+    crouch_face_hit_taken_frames[1] = sf::IntRect(252, 4452, 97, 92);
+    crouch_face_hit_taken_frames[2] = sf::IntRect(152, 4452, 97, 92);
+
+    face_body_combo_taken_frames[0] = sf::IntRect(590, 4420, 101, 123);
+    face_body_combo_taken_frames[1] = sf::IntRect(696, 4420, 110, 123);
+    face_body_combo_taken_frames[2] = sf::IntRect(809, 4420, 101, 123);
+    face_body_combo_taken_frames[3] = sf::IntRect(917, 4420, 93, 123);
+    face_body_combo_taken_frames[4] = sf::IntRect(1015, 4420, 105, 123);
+    face_body_combo_taken_frames[5] = sf::IntRect(1120, 4420, 95, 123);
+
+    special_move[0] = sf::IntRect(14, 6785, 100, 120);
+    special_move[1] = sf::IntRect(120, 6785, 67, 120);
+    special_move[2] = sf::IntRect(189, 6785, 127, 120);
+    special_move[3] = sf::IntRect(318, 6785, 65, 120);
+    special_move[4] = sf::IntRect(387, 6788, 145, 120);
+
+    victory1_frames[0] = sf::IntRect(14, 7168, 100, 120);
+
+    victory2_frames[0] = sf::IntRect(160, 7125, 100, 170);
+    victory2_frames[1] = sf::IntRect(260, 7125, 100, 170);
+    victory2_frames[2] = sf::IntRect(360, 7125, 100, 170);
+
+    victory3_frames[0] = sf::IntRect(501, 7168, 100, 119);
+    victory3_frames[1] = sf::IntRect(603, 7168, 100, 119);
+    victory3_frames[2] = sf::IntRect(705, 7168, 100, 119);
+    victory3_frames[3] = sf::IntRect(804, 7168, 100, 119);
+    victory3_frames[4] = sf::IntRect(903, 7168, 100, 119);
+    victory3_frames[5] = sf::IntRect(1002, 7168, 100, 119);
+    victory3_frames[6] = sf::IntRect(1101, 7168, 100, 119);
+    victory3_frames[7] = sf::IntRect(1200, 7168, 100, 119);
+    victory3_frames[8] = sf::IntRect(1299, 7168, 100, 119);
+
+    knockout_frames[0] = sf::IntRect(14, 4588, 120, 107);
+    knockout_frames[1] = sf::IntRect(14, 4975, 120, 80);
+    knockout_frames[2] = sf::IntRect(134, 4596, 130, 100);
+    knockout_frames[3] = sf::IntRect(264, 4810, 127, 70);
+    knockout_frames[4] = sf::IntRect(394, 4810, 115, 70);
+    knockout_frames[5] = sf::IntRect(264, 4810, 127, 70);
+    knockout_frames[6] = sf::IntRect(394, 4810, 115, 70);
+
+
+    knockout_frames[7] = sf::IntRect(648, 4810, 145, 70);
+    knockout_frames[8] = sf::IntRect(755, 5900, 147, 50);
+    knockout_frames[9] = sf::IntRect(667, 5566, 150, 45);
+    knockout_frames[10] = sf::IntRect(815, 5528, 125, 100);
+    knockout_frames[11] = sf::IntRect(945, 5528, 103, 100);
+    knockout_frames[12] = sf::IntRect(1045, 5528, 97, 100);
+    knockout_frames[13] = sf::IntRect(1143, 5500, 110, 111);
 
     zangief.setTextureRect(idle_frames[0]);
     zangief.setScale(sf::Vector2f(2.1,2.1));
@@ -137,6 +213,13 @@ Zangief::Zangief(){
 
 bool Zangief::processEvent(sf::Event &event){
     if(event.type == sf::Event::KeyPressed){
+        if (event.key.code == sf::Keyboard::BackSpace) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            zangief.setPosition(zangief.getPosition().x, 365);
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
         if (curr_state == AnimationState::idle) {
             if (event.key.code == sf::Keyboard::Right) {
                 curr_frame = 0;
@@ -173,12 +256,51 @@ bool Zangief::processEvent(sf::Event &event){
                 curr_state = AnimationState::heavy_kick;
                 return true;
             }
-            else if (event.key.code == sf::Keyboard::E) {
-                curr_state = AnimationState::hit_taken_blanka_electricity;
-                slot = 14;
-                zangief.setTextureRect(sf::IntRect(slot, 38 * 152 + 50, 105, 125));
-                slot += 110;
-                count++;
+            else if (event.key.code == sf::Keyboard::Num1) {
+                hit_taken_blanka_electricity();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num2) {
+                hit_taken_face();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num3) {
+                hit_taken_body();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num4) {
+                heavy_hit_taken_body();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num6) {
+                face_body_combo_taken();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num7) {
+                knockout(1);
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num8) {
+                victory(1);
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num9) {
+                victory(2);
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num0) {
+                victory(3);
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Enter) {
+                knockout(2);
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Q) {
+                curr_frame = 0;
+                count = 0;
+                curr_state = AnimationState::special_move;
+                return true;
             }
             else if (event.key.code == sf::Keyboard::Down) {
                 curr_state = AnimationState::crouching;
@@ -218,6 +340,10 @@ bool Zangief::processEvent(sf::Event &event){
             else if (event.key.code == sf::Keyboard::Z) {
                 curr_frame = 0;
                 curr_state = AnimationState::crouch_kick;
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num5) {
+                crouch_face_hit_taken();
                 return true;
             }
         }
@@ -303,6 +429,61 @@ bool Zangief::processEvent(sf::Event &event){
     return false;
 }
 
+void Zangief::hit_taken_blanka_electricity() {
+    curr_frame = 0;
+    count = 0;
+    curr_state = AnimationState::hit_taken_blanka_electricity;
+}
+void Zangief::hit_taken_face() {
+    curr_frame = 0;
+    curr_state = AnimationState::hit_taken_face;
+}
+void Zangief::hit_taken_body() {
+    curr_frame = 0;
+    curr_state = AnimationState::hit_taken_body;
+}
+void Zangief::heavy_hit_taken_body() {
+    curr_frame = 0;
+    curr_state = AnimationState::heavy_hit_taken_body;
+}
+void Zangief::crouch_face_hit_taken() {
+    curr_frame = 0;
+    curr_state = AnimationState::crouch_face_hit_taken;
+}
+void Zangief::face_body_combo_taken() {
+    curr_frame = 0;
+    curr_state = AnimationState::face_body_combo_taken;
+}
+void Zangief::victory(int type) {
+    switch (type) {
+    case 1:
+        setPosition(zangief.getPosition().x, zangief.getPosition().y - 20);
+        zangief.setTextureRect(victory1_frames[0]);
+        curr_state = AnimationState::still;
+        break;
+    case 2:
+        curr_frame = 0;
+        count = 0;
+        curr_state = AnimationState::victory_2;
+        break;
+    case 3:
+        curr_frame = 0;
+        curr_state = AnimationState::victory_3;
+        break;
+    }
+}
+void Zangief::knockout(int type) {
+    switch (type) {
+    case 1:
+        curr_frame = 0;
+        curr_state = AnimationState::knockout;
+        break;
+    case 2:
+        curr_frame = 0;
+        curr_state = AnimationState::defeat;
+        break;
+    }
+}
 void Zangief::update(float time){
     time_elapsed += time;
     if (time_elapsed >= 0.8f && curr_state == AnimationState::idle) {
@@ -422,22 +603,22 @@ void Zangief::update(float time){
         return;
     }
     else if (time_elapsed >= 0.08f && curr_state == AnimationState::hit_taken_blanka_electricity) {
-        if (count <= 6) {
-            if (count & 1) {
-                zangief.setTextureRect(sf::IntRect(slot, 38 * 152 + 45, 115, 130));
-                slot = 14;
-                count++;
-            }
-            else {
-                zangief.setTextureRect(sf::IntRect(slot, 38 * 152 + 50, 105, 125));
-                slot += 110;
-                count++;
-            }
+        if (curr_frame == 2 and count == 3) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            setPosition(zangief.getPosition().x, zangief.getPosition().y + 20);
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
         }
         else {
-            count = 0;
-            slot = 12;
-            curr_state = AnimationState::idle;
+            if (count == 0 && curr_frame == 0) {
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 20);
+            }
+            if (curr_frame == 2) {
+                curr_frame = 0;
+                count++;
+            }
+            zangief.setTextureRect(hit_taken_blanka_electricity_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
@@ -618,6 +799,198 @@ void Zangief::update(float time){
                 else
                     setPosition(zangief.getPosition().x, zangief.getPosition().y + 50);
             zangief.setTextureRect(jump_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::hit_taken_face) {
+        if (curr_frame == 3) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            zangief.setPosition(zangief.getPosition().x, zangief.getPosition().y + 10);
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (!curr_frame)
+                zangief.setPosition(zangief.getPosition().x, zangief.getPosition().y - 10);
+            zangief.setTextureRect(hit_taken_face_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::hit_taken_body) {
+        if (curr_frame == 3) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            zangief.setTextureRect(hit_taken_body_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::heavy_hit_taken_body) {
+        if (curr_frame == 4) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            zangief.setTextureRect(heavy_hit_taken_body_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::crouch_face_hit_taken) {
+        if (curr_frame == 3) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                curr_state = AnimationState::crouching;
+                setPosition(zangief.getPosition().x, zangief.getPosition().y + 25);
+                zangief.setTextureRect(sf::IntRect(234, 2720, 91, 79));
+            }
+            else {
+                curr_frame = 0;
+                incr_to_next_frame = 1;
+                zangief.setTextureRect(idle_frames[0]);
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 42);
+                curr_state = AnimationState::idle;
+            }
+        }
+        else {
+            if (!curr_frame)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 25);
+            zangief.setTextureRect(crouch_face_hit_taken_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::face_body_combo_taken) {
+        if (curr_frame == 6) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            setPosition(zangief.getPosition().x, zangief.getPosition().y + 23);
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if(!curr_frame)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 23);
+            zangief.setTextureRect(face_body_combo_taken_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::special_move) {
+        if (curr_frame == 5 and count == 3) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            setPosition(zangief.getPosition().x + 70, zangief.getPosition().y + 18);
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (!curr_frame)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 18);
+            if (curr_frame == 5) {
+                curr_frame = 1;
+                setPosition(zangief.getPosition().x + 70, zangief.getPosition().y);
+                count++;
+                
+            }
+            if (curr_frame == 4 && zangief.getPosition().x - 70 <= 570)
+                setPosition(zangief.getPosition().x - 70, zangief.getPosition().y);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                if (zangief.getPosition().x + 20 <= 570)
+                    setPosition(zangief.getPosition().x + 20, zangief.getPosition().y);
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                if (zangief.getPosition().x - 20 >= 0)
+                    setPosition(zangief.getPosition().x - 20, zangief.getPosition().y);
+            }
+            zangief.setTextureRect(special_move[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.16f && curr_state == AnimationState::victory_2) {
+        if (curr_frame == 3 and count == 3) {
+            curr_state = AnimationState::still;
+        }
+        else {
+            if (curr_frame == 3) {
+                curr_frame = 1;
+                count++;
+            }
+            if (!curr_frame and !count)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 100);
+            zangief.setTextureRect(victory2_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.16f && curr_state == AnimationState::victory_3) {
+        if (curr_frame == 9) {
+            curr_state = AnimationState::still;
+        }
+        else {
+            if (!curr_frame)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 18);
+            zangief.setTextureRect(victory3_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::knockout) {
+        if (curr_frame == 14) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            zangief.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if ((curr_frame > 0 && curr_frame < 8) && zangief.getPosition().x - 40 >= 0)
+                setPosition(zangief.getPosition().x - 60, zangief.getPosition().y);
+            if (curr_frame == 2)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 36);
+            else if (curr_frame == 3)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y + 136);
+            else if (curr_frame == 4 || curr_frame == 6)
+                setPosition(zangief.getPosition().x, 450);
+            else if (curr_frame == 5)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 40);
+            else if (curr_frame == 8)
+                setPosition(zangief.getPosition().x, 500);
+            else if (curr_frame == 10)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 78);
+            else if (curr_frame == 13)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 57);
+            zangief.setTextureRect(knockout_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= 0.08f && curr_state == AnimationState::defeat) {
+        if (curr_frame == 9) {
+            curr_state = AnimationState::still;
+        }
+        else {
+            if ((curr_frame > 0 && curr_frame < 8) && zangief.getPosition().x - 40 >= 0)
+                setPosition(zangief.getPosition().x - 60, zangief.getPosition().y);
+            if (curr_frame == 2)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 36);
+            else if (curr_frame == 3)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y + 136);
+            else if (curr_frame == 4 || curr_frame == 6)
+                setPosition(zangief.getPosition().x, 450);
+            else if (curr_frame == 5)
+                setPosition(zangief.getPosition().x, zangief.getPosition().y - 40);
+            else if (curr_frame == 8)
+                setPosition(zangief.getPosition().x, 500);
+            zangief.setTextureRect(knockout_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
