@@ -113,7 +113,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
-    playIntro();
+    //playIntro();
     //key was pressed, so we are back after playing intro
     int option = showMenu(); 
     //some option was selected from the menu
@@ -131,8 +131,8 @@ void Game::run()
     //enemy = new Ken();
     //enemy = new Dhalsim();
     //enemy = new Zangief();
-    enemy = new Ryu();
-    
+    //enemy = new Ryu();
+    enemy = new Sagat();
     setStage();
     while (window.isOpen())
     {
@@ -228,6 +228,23 @@ void Game::setStage()
         background.setTextureRect(sf::IntRect(65, 0, 800, 400));
         //playMusic("assets/SFX/Theme_of_Chun-li.wav");
          playMusic("assets/SFX/Theme_of_Ryu.ogg");
+        return;
+    }
+    Sagat* sagat_enemy = nullptr;
+    if ((sagat_enemy = dynamic_cast <Sagat*>(enemy))) {
+        //enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
+        
+        // note this
+        //IMPORTANT
+        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5);
+        enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) - 5);
+        ///
+        backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+        background.setTexture(backgroundTexture);
+        background.setScale(1.4f, 2.8f);
+        background.setPosition(0, 0);
+        background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+        playMusic("assets/SFX/Theme_of_Ryu.ogg");
         return;
     }
 }
