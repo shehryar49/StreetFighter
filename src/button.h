@@ -7,8 +7,8 @@ class Button
 private:
   sf::RectangleShape container;
   sf::Text text;
-  sf::Font f;
 public:
+  Button();
   Button(std::string,const sf::Font&);
   void setBackgroundColor(sf::Color);
   void setForegroundColor(sf::Color);

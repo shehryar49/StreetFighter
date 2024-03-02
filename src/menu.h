@@ -8,5 +8,7 @@ private:
   Button* buttons;
   
 public:
+  Menu(int);
+  ~Menu();
 };
 #endif
