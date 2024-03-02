@@ -28,18 +28,18 @@ Ryu::Ryu()
     texture.loadFromImage(img);
     player.setTexture(texture);
 
-    IDLE_frames[0] = sf::IntRect(0, 0, 64, 110);
-    IDLE_frames[1] = sf::IntRect(64+26, 0, 64, 110);
-    IDLE_frames[2] = sf::IntRect(64+26+64+26, 0, 64, 110);
-    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 0, 64, 110);
-    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 0, 64, 110);
+    IDLE_frames[0] = sf::IntRect(5, 0, 64, 105);
+    IDLE_frames[1] = sf::IntRect(64+26, 0, 64, 105);
+    IDLE_frames[2] = sf::IntRect(64+26+64+26, 0, 64, 105);
+    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 0, 64, 105);
+    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 0, 64, 105);
     
-    moveright_frames[0] = sf::IntRect(0,120,68,110);
-    moveright_frames[1] = sf::IntRect(68*1,120,68,110);
-    moveright_frames[2] = sf::IntRect(68*2+20,120,68,110);
-    moveright_frames[3] = sf::IntRect(68*3+50,120,68,110);
-    moveright_frames[4] = sf::IntRect(68*3+140,120,68,110);
-    moveright_frames[5] = sf::IntRect(68*5,120,68,110);
+    moveright_frames[0] = sf::IntRect(0,120,68,100);
+    moveright_frames[1] = sf::IntRect(68*1,120,68,100);
+    moveright_frames[2] = sf::IntRect(68*2+20,120,68,100);
+    moveright_frames[3] = sf::IntRect(68*3+50,120,68,100);
+    moveright_frames[4] = sf::IntRect(68*3+140,120,68,100);
+    moveright_frames[5] = sf::IntRect(68*5,120,68,100);
     
     punch1_frames[0] = sf::IntRect(20,260,68,110);
     punch1_frames[1] = sf::IntRect(40+68,260,94,110);
@@ -119,8 +119,8 @@ Ryu::Ryu()
     gola.setTextureRect(sf::IntRect(550,1550,60,50));
     gola.setScale(1.2,1.2);
 
-    player.setTextureRect(IDLE_frames[0]);
-   //player.setTextureRect(crouched_punch1_frames[1]);
+    //player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(moveright_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -254,7 +254,7 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
-    //return;
+    return;
     elapsed += dt;
     if(hadoken)
     {

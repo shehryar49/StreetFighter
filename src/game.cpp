@@ -113,12 +113,13 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
+    window.setFramerateLimit(60);
     //playIntro();
     //key was pressed, so we are back after playing intro
-    int option = showMenu(); 
+    //int option = showMenu(); 
     //some option was selected from the menu
-    if(option == 1 || option == 2)
-      return;
+   // if(option == 1 || option == 2)
+   //   return;
     //option 0 is play
     //player = new Chun_Li();
     //player = new Zangief();
@@ -131,8 +132,8 @@ void Game::run()
     //enemy = new Ken();
     //enemy = new Dhalsim();
     //enemy = new Zangief();
-    //enemy = new Ryu();
-    enemy = new Sagat();
+    enemy = new Ryu();
+    //enemy = new Sagat();
     setStage();
     while (window.isOpen())
     {
@@ -162,13 +163,19 @@ void Game::setStage()
 {
     enemy->flipX();
     Ryu* ryu_enemy = nullptr;
-    if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) {
+    if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) 
+    {
+        //calculation
+        // topY + height - 1 = bottomY
+        // topY = bottomY - height + 1
+        
         //enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
         
         // note this
         //IMPORTANT
-        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5);
-        enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) - 5);
+        cout<<(player->getGlobalBounds().height)<<endl;
+        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) + 1);
+        enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) + 1);
         ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");
         background.setTexture(backgroundTexture);
@@ -179,7 +186,8 @@ void Game::setStage()
         return;
     }
     Zangief* zangief_enemy = nullptr;
-    if ((zangief_enemy = dynamic_cast<Zangief*>(enemy))) {
+    if ((zangief_enemy = dynamic_cast<Zangief*>(enemy)))
+    {
         enemy->setPosition(650, 365); //zangief_stage_y_coordinate = 365, enemy_x_coordinate = 650
         player->setPosition(120, 365);
         backgroundTexture.loadFromFile("assets/Zangief Stage.png");
@@ -192,7 +200,8 @@ void Game::setStage()
         return;
     }
     Dhalsim* dhalsim_enemy = nullptr;
-    if ((dhalsim_enemy = dynamic_cast<Dhalsim*>(enemy))) {
+    if ((dhalsim_enemy = dynamic_cast<Dhalsim*>(enemy))) 
+    {
         enemy->setPosition(650, 365); //dhalsim_stage_y_coordinate = 365, enemy_x_coordinate = 650
         player->setPosition(120, 365);
         backgroundTexture.loadFromFile("assets/Dhalsim Stage.png");
@@ -205,7 +214,8 @@ void Game::setStage()
         return;
     }
     Ken* ken_enemy = nullptr;
-    if ((ken_enemy = dynamic_cast<Ken*>(enemy))) {
+    if ((ken_enemy = dynamic_cast<Ken*>(enemy)))
+    {
         enemy->setPosition(650, 355); //ken_stage_y_coordinate = 355, enemy_x_coordinate = 650
         player->setPosition(120, 355);
         backgroundTexture.loadFromFile("assets/Ken Stage.png");
@@ -218,7 +228,8 @@ void Game::setStage()
         return;
     }
     Chun_Li* chun_li_enemy = nullptr;
-    if ((chun_li_enemy = dynamic_cast<Chun_Li*>(enemy))) {
+    if ((chun_li_enemy = dynamic_cast<Chun_Li*>(enemy))) 
+    {
         enemy->setPosition(650, 355); //ken_stage_y_coordinate = 355, enemy_x_coordinate = 650
         player->setPosition(120, 355);
         backgroundTexture.loadFromFile("assets/ChunLi Stage.png");
@@ -231,14 +242,10 @@ void Game::setStage()
         return;
     }
     Sagat* sagat_enemy = nullptr;
-    if ((sagat_enemy = dynamic_cast <Sagat*>(enemy))) {
-        //enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
-        
-        // note this
-        //IMPORTANT
+    if ((sagat_enemy = dynamic_cast <Sagat*>(enemy))) 
+    {
         player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5);
         enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) - 5);
-        ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");
         background.setTexture(backgroundTexture);
         background.setScale(1.4f, 2.8f);
