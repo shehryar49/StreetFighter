@@ -28,11 +28,11 @@ Ryu::Ryu()
     texture.loadFromImage(img);
     player.setTexture(texture);
 
-    IDLE_frames[0] = sf::IntRect(5, 5, 64, 105);
-    IDLE_frames[1] = sf::IntRect(64+26, 5, 64, 105);
-    IDLE_frames[2] = sf::IntRect(64+26+64+26, 5, 64, 105);
-    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 5, 64, 105);
-    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 5, 64, 105);
+    IDLE_frames[0] = sf::IntRect(5, 5, 64, 100);
+    IDLE_frames[1] = sf::IntRect(64+26, 5, 64, 100);
+    IDLE_frames[2] = sf::IntRect(64+26+64+26, 5, 64, 100);
+    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 5, 64, 100);
+    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 5, 64, 100);
     
     moveright_frames[0] = sf::IntRect(0,120,68,100);
     moveright_frames[1] = sf::IntRect(68*1,120,68,100);
@@ -63,9 +63,9 @@ Ryu::Ryu()
     moveleft_frames[4] = sf::IntRect(880,120,68,100);
     moveleft_frames[5] = sf::IntRect(970,120,68,100);
 
-    punch2_frames[0] = sf::IntRect(250,260,68,100);
-    punch2_frames[1] = sf::IntRect(332,260,68,100);
-    punch2_frames[2] = sf::IntRect(430,260,110,100);
+    punch2_frames[0] = sf::IntRect(250,260,68,103);
+    punch2_frames[1] = sf::IntRect(332,260,72,103);
+    punch2_frames[2] = sf::IntRect(430,260,110,103);
 
     kick2_frames[0] = sf::IntRect(10,640,70,110);
     kick2_frames[1] = sf::IntRect(80,640,70,110);
@@ -120,7 +120,7 @@ Ryu::Ryu()
     gola.setScale(1.2,1.2);
 
     //player.setTextureRect(IDLE_frames[0]);
-    player.setTextureRect(hadoken_frames[0]);
+    player.setTextureRect(punch2_frames[1]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
