@@ -168,14 +168,11 @@ void Game::setStage()
         //calculation
         // topY + height - 1 = bottomY
         // topY = bottomY - height + 1
-        
-        //enemy->setPosition(650,365); //ryu_stage_y_coordinate = 365, enemy_x_coordinate = 650
-        
         // note this
         //IMPORTANT
-        cout<<(player->getGlobalBounds().height)<<endl;
-        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) + 1);
-        enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) + 1);
+        const int bottomY = 580;
+        player->setPosition(120,bottomY - (player->getGlobalBounds().height) + 1 );
+        enemy->setPosition(650,bottomY - (enemy->getGlobalBounds().height) + 1 );
         ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");
         background.setTexture(backgroundTexture);
