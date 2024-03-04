@@ -28,11 +28,11 @@ Ryu::Ryu()
     texture.loadFromImage(img);
     player.setTexture(texture);
 
-    IDLE_frames[0] = sf::IntRect(5, 0, 64, 105);
-    IDLE_frames[1] = sf::IntRect(64+26, 0, 64, 105);
-    IDLE_frames[2] = sf::IntRect(64+26+64+26, 0, 64, 105);
-    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 0, 64, 105);
-    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 0, 64, 105);
+    IDLE_frames[0] = sf::IntRect(5, 5, 64, 105);
+    IDLE_frames[1] = sf::IntRect(64+26, 5, 64, 105);
+    IDLE_frames[2] = sf::IntRect(64+26+64+26, 5, 64, 105);
+    IDLE_frames[3] = sf::IntRect(64+26+64+26+64+26, 5, 64, 105);
+    IDLE_frames[4] = sf::IntRect(64+26+64+26+64+26+64+26, 5, 64, 105);
     
     moveright_frames[0] = sf::IntRect(0,120,68,100);
     moveright_frames[1] = sf::IntRect(68*1,120,68,100);
@@ -41,12 +41,12 @@ Ryu::Ryu()
     moveright_frames[4] = sf::IntRect(68*3+140,120,68,100);
     moveright_frames[5] = sf::IntRect(68*5,120,68,100);
     
-    punch1_frames[0] = sf::IntRect(20,260,68,110);
-    punch1_frames[1] = sf::IntRect(40+68,260,94,110);
+    punch1_frames[0] = sf::IntRect(20,263,68,100);
+    punch1_frames[1] = sf::IntRect(40+68,263,94,100);
 
-    kick1_frames[0] = sf::IntRect(600,260,70,110);
-    kick1_frames[1] = sf::IntRect(690,260,70,110);
-    kick1_frames[2] = sf::IntRect(780,260,110,110);
+    kick1_frames[0] = sf::IntRect(600,265,70,100);
+    kick1_frames[1] = sf::IntRect(690,265,70,100);
+    kick1_frames[2] = sf::IntRect(780,265,110,100);
     
     jmp_frames[0] = sf::IntRect(0,830,70,110);
     jmp_frames[1] = sf::IntRect(90,823,70,110);
@@ -56,16 +56,16 @@ Ryu::Ryu()
     jmp_frames[5] = sf::IntRect(380,810,70,90);
     jmp_frames[6] = sf::IntRect(460,820,60,130);
    
-    moveleft_frames[0] = sf::IntRect(540,120,68,110);
-    moveleft_frames[1] = sf::IntRect(625,120,68,110);
-    moveleft_frames[2] = sf::IntRect(710,120,68,110);
-    moveleft_frames[3] = sf::IntRect(790,120,68,110);
-    moveleft_frames[4] = sf::IntRect(880,120,68,110);
-    moveleft_frames[5] = sf::IntRect(970,120,68,110);
+    moveleft_frames[0] = sf::IntRect(540,120,68,100);
+    moveleft_frames[1] = sf::IntRect(625,120,68,100);
+    moveleft_frames[2] = sf::IntRect(710,120,68,100);
+    moveleft_frames[3] = sf::IntRect(790,120,68,100);
+    moveleft_frames[4] = sf::IntRect(880,120,68,100);
+    moveleft_frames[5] = sf::IntRect(970,120,68,100);
 
-    punch2_frames[0] = sf::IntRect(250,260,68,110);
-    punch2_frames[1] = sf::IntRect(332,260,68,110);
-    punch2_frames[2] = sf::IntRect(430,260,110,110);
+    punch2_frames[0] = sf::IntRect(250,260,68,100);
+    punch2_frames[1] = sf::IntRect(332,260,68,100);
+    punch2_frames[2] = sf::IntRect(430,260,110,100);
 
     kick2_frames[0] = sf::IntRect(10,640,70,110);
     kick2_frames[1] = sf::IntRect(80,640,70,110);
@@ -90,37 +90,37 @@ Ryu::Ryu()
     punch3_frames[3] = sf::IntRect(510,510,70,110);
     punch3_frames[4] = sf::IntRect(600,510,100,110);
 
-    crouching_frames[0] = sf::IntRect(20,1190,70,110);
-    crouching_frames[1] = sf::IntRect(110,1190,70,110);
-    crouching_frames[2] = sf::IntRect(190,1190,70,110);
+    crouching_frames[0] = sf::IntRect(20,1195,70,100);
+    crouching_frames[1] = sf::IntRect(110,1195,70,100);
+    crouching_frames[2] = sf::IntRect(190,1195,70,100);
     
-    crouched_punch1_frames[0] = sf::IntRect(20,1300,75,110);
-    crouched_punch1_frames[1] = sf::IntRect(110,1300,105,110);
+    crouched_punch1_frames[0] = sf::IntRect(20,1300,75,100);
+    crouched_punch1_frames[1] = sf::IntRect(110,1300,105,100);
     
-    crouched_punch2_frames[0] = sf::IntRect(260,1300,90,110);
-    crouched_punch2_frames[1] = sf::IntRect(350,1300,90,110);
-    crouched_punch2_frames[2] = sf::IntRect(450,1300,90,110);
+    crouched_punch2_frames[0] = sf::IntRect(260,1300,90,100);
+    crouched_punch2_frames[1] = sf::IntRect(350,1300,90,100);
+    crouched_punch2_frames[2] = sf::IntRect(450,1300,90,100);
 
-    crouched_kick1_frames[0] = sf::IntRect(20,1410,75,110);
-    crouched_kick1_frames[1] = sf::IntRect(120,1410,105,110);
-    crouched_kick1_frames[2] = sf::IntRect(240,1410,150,110);
+    crouched_kick1_frames[0] = sf::IntRect(20,1410,75,100);
+    crouched_kick1_frames[1] = sf::IntRect(120,1410,105,100);
+    crouched_kick1_frames[2] = sf::IntRect(240,1410,150,100);
 
-    crouched_kick2_frames[0] = sf::IntRect(440,1410,70,110);
-    crouched_kick2_frames[1] = sf::IntRect(530,1410,130,110);
-    crouched_kick2_frames[2] = sf::IntRect(680,1410,70,110);
-    crouched_kick2_frames[3] = sf::IntRect(770,1410,70,110);
-    crouched_kick2_frames[4] = sf::IntRect(860,1410,70,110);
+    crouched_kick2_frames[0] = sf::IntRect(440,1410,70,100);
+    crouched_kick2_frames[1] = sf::IntRect(530,1410,130,100);
+    crouched_kick2_frames[2] = sf::IntRect(680,1410,70,100);
+    crouched_kick2_frames[3] = sf::IntRect(770,1410,70,100);
+    crouched_kick2_frames[4] = sf::IntRect(860,1410,70,100);
 
-    hadoken_frames[0] = sf::IntRect(30,1530,80,110);
-    hadoken_frames[1] = sf::IntRect(130,1530,90,110);
-    hadoken_frames[2] = sf::IntRect(240,1530,90,110);
-    hadoken_frames[3] = sf::IntRect(350,1530,120,110); 
+    hadoken_frames[0] = sf::IntRect(30,1530,80,100);
+    hadoken_frames[1] = sf::IntRect(130,1530,90,100);
+    hadoken_frames[2] = sf::IntRect(240,1530,90,100);
+    hadoken_frames[3] = sf::IntRect(350,1530,120,100); 
     gola.setTexture(texture);
     gola.setTextureRect(sf::IntRect(550,1550,60,50));
     gola.setScale(1.2,1.2);
 
     //player.setTextureRect(IDLE_frames[0]);
-    player.setTextureRect(moveright_frames[0]);
+    player.setTextureRect(hadoken_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -254,7 +254,7 @@ bool Ryu::processEvent(sf::Event &ev)
 }
 void Ryu::update(float dt)
 {
-    return;
+    //return;
     elapsed += dt;
     if(hadoken)
     {
