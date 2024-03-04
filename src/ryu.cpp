@@ -1,7 +1,7 @@
 // Written by Shahryar Ahmad
 #include "ryu.h"
 #include <stdio.h>
-
+#define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
 sf::IntRect Ryu::IDLE_frames[5];
 sf::IntRect Ryu::moveright_frames[6];
 sf::IntRect Ryu::moveleft_frames[6];
@@ -84,11 +84,11 @@ Ryu::Ryu()
     kick3_frames[3] = sf::IntRect(870,640,100,110);
     kick3_frames[4] = sf::IntRect(970,650,70,110);
    
-    punch3_frames[0] = sf::IntRect(230,510,70,110);
-    punch3_frames[1] = sf::IntRect(320,510,70,110);
-    punch3_frames[2] = sf::IntRect(410,510,90,110);
-    punch3_frames[3] = sf::IntRect(510,510,70,110);
-    punch3_frames[4] = sf::IntRect(600,510,100,110);
+    punch3_frames[0] = sf::IntRect(230,513,70,100);
+    punch3_frames[1] = sf::IntRect(320,513,70,100);
+    punch3_frames[2] = sf::IntRect(410,513,90,100);
+    punch3_frames[3] = sf::IntRect(510,513,70,100);
+    punch3_frames[4] = sf::IntRect(600,513,100,100);
 
     crouching_frames[0] = sf::IntRect(20,1195,70,100);
     crouching_frames[1] = sf::IntRect(110,1195,70,100);
@@ -120,7 +120,7 @@ Ryu::Ryu()
     gola.setScale(1.2,1.2);
 
     //player.setTextureRect(IDLE_frames[0]);
-    player.setTextureRect(punch2_frames[1]);
+    player.setTextureRect(punch3_frames[1]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -129,93 +129,7 @@ Ryu::Ryu()
 bool Ryu::processEvent(sf::Event &ev)
 {
 
-    if (ev.type == sf::Event::KeyPressed && state == AnimationState::IDLE)
-    {
-        if (ev.key.code == sf::Keyboard::Z)
-        {
-            state = AnimationState::KICK1;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if(ev.key.code == sf::Keyboard::X)
-        {
-            state = AnimationState::KICK2;
-            currFrame = 0;
-            frameIncrement = 1;
-            return true;
-        }
-        else if(ev.key.code == sf::Keyboard::C)
-        {
-            state = AnimationState::KICK3;
-            currFrame = 0;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Left)
-        {
-            state = AnimationState::MOVE_LEFT;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Right)
-        {
-            state = AnimationState::MOVE_RIGHT;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if(ev.key.code == sf::Keyboard::Q)
-        {
-            state = AnimationState::SHORYUKEN;
-            currFrame = 0;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Up)
-        {
-            state = AnimationState::JMP;
-            currFrame = -1;
-            frameIncrement = 1;
-            pos = player.getPosition();
-            return true;
-        }        
-        else if (ev.key.code == sf::Keyboard::A)
-        {
-            state = AnimationState::PUNCH1;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::S)
-        {
-            state = AnimationState::PUNCH2;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if(ev.key.code == sf::Keyboard::D)
-        {
-            state = AnimationState::PUNCH3;
-            currFrame = 0;
-            frameIncrement = 1;
-            return true;
-        }
-        else if(ev.key.code == sf::Keyboard::Down)
-        {
-            state = AnimationState::CROUCHING;
-            currFrame = 0;
-            frameIncrement = 1;
-        }
-        else if(ev.key.code == sf::Keyboard::W)
-        {
-            state = AnimationState::HADOKEN;
-            currFrame = 0;
-            frameIncrement = 1;
-        }
-    }
-    else if(ev.type == sf::Event::KeyPressed && state == AnimationState::CROUCHED)
+    if(ev.type == sf::Event::KeyPressed && state == AnimationState::CROUCHED)
     {
         if(ev.key.code == sf::Keyboard::A)
         {
@@ -252,6 +166,113 @@ bool Ryu::processEvent(sf::Event &ev)
     }
     return false;
 }
+//
+void Ryu::moveLeft()
+{
+    if(state == AnimationState::IDLE)
+    {
+      state = AnimationState::MOVE_LEFT;
+      currFrame = -1;
+      frameIncrement = 1;
+    }
+}
+void Ryu::moveRight()
+{
+    if(state == AnimationState::IDLE)
+    {
+      state = AnimationState::MOVE_RIGHT;
+      currFrame = -1;
+      frameIncrement = 1;
+    }
+}
+//
+void Ryu::punch1()
+{
+  if(state == AnimationState::IDLE)
+  {
+    state = AnimationState::PUNCH1;
+    currFrame = -1;
+    frameIncrement = 1;
+  }
+}
+void Ryu::punch2()
+{
+  if(state == AnimationState::IDLE)
+  {
+    state = AnimationState::PUNCH2;
+    currFrame = -1;
+    frameIncrement = 1;
+  }
+}
+void Ryu::punch3()
+{
+  if(state == AnimationState::IDLE)
+  {
+    state = AnimationState::PUNCH3;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
+}
+//Kicks
+void Ryu::kick1()
+{
+  if(state == AnimationState::IDLE)
+  {
+    state = AnimationState::KICK1;
+    currFrame = -1;
+    frameIncrement = 1;
+  }
+}
+void Ryu::kick2()
+{
+  if(state == AnimationState::IDLE)
+  {
+    state = AnimationState::KICK2;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
+}
+void Ryu::kick3()
+{
+  if(state == AnimationState::IDLE)
+  {
+    state = AnimationState::KICK3;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
+}
+//
+void Ryu::jump()
+{
+    if(IS_IDLE)
+    {
+        state = AnimationState::JMP;
+        currFrame = -1;
+        frameIncrement = 1;
+        pos = player.getPosition();
+         
+    }
+}
+void Ryu::specialMove1()
+{
+    if(IS_IDLE)
+    {
+        state = AnimationState::SHORYUKEN;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+void Ryu::specialMove2()
+{
+    if(IS_IDLE)
+    {
+        state = AnimationState::HADOKEN;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+//Updation based on animation state
 void Ryu::update(float dt)
 {
     //return;

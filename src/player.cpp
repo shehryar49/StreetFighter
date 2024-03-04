@@ -15,6 +15,7 @@ void Player::update(float dt)
 }
 void Player::render(sf::RenderWindow &win)
 {
+  win.draw(player);
 }
 void Player::setPosition(float x,float y)
 {
@@ -28,10 +29,19 @@ sf::FloatRect Player::getLocalBounds()
 {
   return sf::FloatRect(); // just to avoid the goddamn  warning
 }
-void Player::flipX()
-{
-    
-}
-Player::~Player()
-{
-}
+
+void Player::flipX(){}
+void Player::moveLeft(){}
+void Player::moveRight(){}
+void Player::punch1(){}
+void Player::punch2(){}
+void Player::punch3(){}
+void Player::kick1(){}
+void Player::kick2(){}
+void Player::kick3(){}
+void Player::jump(){}
+void Player::crouch(){}
+void Player::uncrouch(){}
+void Player::specialMove1(){}
+void Player::specialMove2(){}
+Player::~Player(){}

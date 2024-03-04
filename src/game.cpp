@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <string>
 #include "game.h"
@@ -20,8 +22,50 @@ void Game::pollEvents()
     {
         if (event.type == sf::Event::Closed)
             window.close();
-        else
-            player->processEvent(event);
+        else if(event.type==sf::Event::KeyPressed)
+        {
+            switch(event.key.code)
+            {
+                case sf::Keyboard::Left:
+                  player->moveLeft();
+                  break;
+                case sf::Keyboard::Right:
+                  player->moveRight();
+                  break;
+                case sf::Keyboard::Up:
+                  player->jump();
+                  break;
+                case sf::Keyboard::Q:
+                  player->specialMove1();
+                  break;
+                case sf::Keyboard::W:
+                  player->specialMove2();
+                  break;
+                case sf::Keyboard::A:
+                  player->punch1();
+                  break;
+                case sf::Keyboard::S:
+                  player->punch2();
+                  break;
+                case sf::Keyboard::D:
+                  player->punch3();
+                  break;
+                case sf::Keyboard::Z:
+                  player->kick1();
+                  break;
+                case sf::Keyboard::X:
+                  player->kick2();
+                  break;
+                case sf::Keyboard::C:
+                  player->kick3();
+                  break;
+                default:  
+                  break;
+            }
+        }
+        
+        //comment above else and uncomment line to fallback to last stable version
+        //    player->processEvent(event);
     }
 }
 void Game::update(float dt)
@@ -114,16 +158,16 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 void Game::run()
 {
     window.setFramerateLimit(60);
-    playIntro();
+    //playIntro();
     //key was pressed, so we are back after playing intro
-    int option = showMenu(); 
+    //int option = showMenu(); 
     //some option was selected from the menu
-    if(option == 1 || option == 2)
-      return;
+    //if(option == 1 || option == 2)
+    //  return;
     //option 0 is play
     //player = new Chun_Li();
-    player = new Zangief();
-    //player = new Ryu();
+    //player = new Zangief();
+    player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
@@ -131,8 +175,8 @@ void Game::run()
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    enemy = new Zangief();
-    //enemy = new Ryu();
+    //enemy = new Zangief();
+    enemy = new Ryu();
     //enemy = new Sagat();
     setStage();
     while (window.isOpen())

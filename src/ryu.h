@@ -5,8 +5,7 @@
 class Ryu : public Player
 {
 private:
-    sf::Texture texture;
-    sf::Sprite player;
+
     sf::Sprite gola;
     sf::Image img;
     sf::Vector2f pos; // to save before jumping
@@ -70,6 +69,19 @@ public:
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     void flipX();
+    void moveLeft();
+    void moveRight();
+    void punch1();
+    void punch2();
+    void punch3();
+    void kick1();
+    void kick2();
+    void kick3();
+    void jump();
+    //void crouch();
+    //void uncrouch();
+    void specialMove1(); //shoryuken
+    void specialMove2(); //hadoken
     ~Ryu();
 };
 #endif
