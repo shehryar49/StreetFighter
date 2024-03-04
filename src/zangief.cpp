@@ -1009,3 +1009,7 @@ void Zangief::render(sf::RenderWindow &window){
 }
 Zangief::~Zangief(){
 }
+sf::FloatRect Zangief::getGlobalBounds()
+{
+    return zangief.getGlobalBounds();
+}

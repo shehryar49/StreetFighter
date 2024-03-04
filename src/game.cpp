@@ -131,8 +131,8 @@ void Game::run()
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    //enemy = new Zangief();
-    enemy = new Ryu();
+    enemy = new Zangief();
+    //enemy = new Ryu();
     //enemy = new Sagat();
     setStage();
     while (window.isOpen())
@@ -161,6 +161,7 @@ void Game::playMusic(const char* filename)
 
 void Game::setStage() 
 {
+    const int bottomY = 580;
     enemy->flipX();
     Ryu* ryu_enemy = nullptr;
     if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) 
@@ -170,7 +171,7 @@ void Game::setStage()
         // topY = bottomY - height + 1
         // note this
         //IMPORTANT
-        const int bottomY = 580;
+        
         player->setPosition(120,bottomY - (player->getGlobalBounds().height) + 1 );
         enemy->setPosition(650,bottomY - (enemy->getGlobalBounds().height) + 1 );
         ///
