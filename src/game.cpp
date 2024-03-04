@@ -64,7 +64,7 @@ void Game::pollEvents()
             }
         }
         
-        //comment above else and uncomment line to fallback to last stable version
+        //comment above and uncomment line to fallback to last stable version
         //    player->processEvent(event);
     }
 }
