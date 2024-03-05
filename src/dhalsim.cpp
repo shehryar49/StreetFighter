@@ -23,7 +23,7 @@ Dhalsim::Dhalsim()
     texture.loadFromImage(img);
     player.setTexture(texture);
 
-    IDLE_frames[0] = sf::IntRect(0, 0, 90, 110);
+    IDLE_frames[0] = sf::IntRect(0, 0, 90, 110);  //(x-axis,y-axis,width of rect,height of rect)
     IDLE_frames[1] = sf::IntRect(90, 0, 90, 110);
     IDLE_frames[2] = sf::IntRect(90 + 90, 0, 90, 110);
     IDLE_frames[3] = sf::IntRect(90 + 90 + 90, 0, 90, 110);
@@ -58,13 +58,13 @@ Dhalsim::Dhalsim()
     crouching_frames[1] = sf::IntRect(10+90*1, 1415, 90, 110);
     crouching_frames[2] = sf::IntRect(10+90*2, 1415, 90, 110);
 
-    moveleft_frames[0] = sf::IntRect(700, 125, 95, 110);
-    moveleft_frames[1] = sf::IntRect(700+90*1, 125, 95, 110);
-    moveleft_frames[2] = sf::IntRect(700+90*2, 125, 95, 110);
-    moveleft_frames[3] = sf::IntRect(700+90*3, 125, 95, 110);
-    moveleft_frames[4] = sf::IntRect(700+90*4, 125, 95, 110);
-    moveleft_frames[5] = sf::IntRect(700+90*5, 125, 95, 110);
-    moveleft_frames[6] = sf::IntRect(700+90*6, 125, 100, 110);
+    moveleft_frames[0] = sf::IntRect(5+700, 125, 95, 110);
+    moveleft_frames[1] = sf::IntRect(5+700+90*1, 125, 95, 110);
+    moveleft_frames[2] = sf::IntRect(5+700+90*2, 125, 95, 110);
+    moveleft_frames[3] = sf::IntRect(5+700+90*3, 125, 95, 110);
+    moveleft_frames[4] = sf::IntRect(5+700+90*4, 125, 95, 110);
+    moveleft_frames[5] = sf::IntRect(5+700+90*5, 125, 95, 110);
+    moveleft_frames[6] = sf::IntRect(5+700+90*6, 125, 95, 110);
                                       
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
