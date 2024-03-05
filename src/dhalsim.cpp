@@ -162,7 +162,7 @@ void Dhalsim::punch2()
 void Dhalsim::update(float dt)
 {
     elapsed += dt;
-    if ((elapsed >= (0.8f)) && state == AnimationState::IDLE)
+    if ((elapsed >= (IDLE_TIME)) && state == AnimationState::IDLE)
     {
         if (currFrame == 0)
             frameIncrement = 1;
