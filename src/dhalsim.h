@@ -72,7 +72,7 @@ public:
     void punch1();
     void punch2();
     void punch3();
-    //void kick1();
+    void kick1();
     //void kick2();
     //void kick3();
     void jump();

@@ -13,6 +13,9 @@ sf::IntRect Dhalsim::moveleft_frames[7];
 sf::IntRect Dhalsim::punch1_frames[3];
 sf::IntRect Dhalsim::punch2_frames[4];
 sf::IntRect Dhalsim::punch3_frames[4];
+sf::IntRect Dhalsim::kick1_frames[3];
+sf::IntRect Dhalsim::kick2_frames[3];
+sf::IntRect Dhalsim::kick3_frames[6];
 sf::IntRect Dhalsim::crouching_frames[3];
 
 Dhalsim::Dhalsim()
@@ -69,12 +72,14 @@ Dhalsim::Dhalsim()
     punch3_frames[2] = sf::IntRect(15+90+100, 375, 170, 110);
     punch3_frames[3] = sf::IntRect(15+90+100+170, 375, 240, 110);
 
+    kick1_frames[0] = sf::IntRect(65+15 + 90 + 100 + 170 + 240, 375, 90, 110);
+    kick1_frames[1] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90, 375, 130, 115);
+    kick1_frames[2] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90 + 130, 375, 190, 115);
+
     crouching_frames[0] = sf::IntRect(10, 1415, 90, 110);
     crouching_frames[1] = sf::IntRect(10+90*1, 1415, 90, 110);
     crouching_frames[2] = sf::IntRect(10+90*2, 1415, 90, 110);
-
-
-                                      
+                                   
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
@@ -176,6 +181,22 @@ void Dhalsim::punch3()
         currFrame = -1;
         frameIncrement = 1;
     }
+}
+
+void Dhalsim::kick1()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::KICK1;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+    //else if (state == AnimationState::CROUCHED)
+    //{
+    //    state = AnimationState::CROUCHED_KICK1;
+    //    currFrame = 0;
+    //    frameIncrement = 1;
+    //}
 }
 
 void Dhalsim::update(float dt)
@@ -309,6 +330,18 @@ void Dhalsim::update(float dt)
         if (currFrame == 1) 
         {
             state = AnimationState::FASTIDLE;
+        }
+    }
+    else if (elapsed >= 0.08f && state == AnimationState::KICK1)
+    {
+        currFrame++;
+        player.setTextureRect(kick1_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 2) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
         }
     }
     else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
