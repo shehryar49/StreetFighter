@@ -63,9 +63,9 @@ Ryu::Ryu()
     moveleft_frames[4] = sf::IntRect(880,120,68,100);
     moveleft_frames[5] = sf::IntRect(970,120,68,100);
 
-    punch2_frames[0] = sf::IntRect(250,260,68,103);
-    punch2_frames[1] = sf::IntRect(332,260,72,103);
-    punch2_frames[2] = sf::IntRect(430,260,110,103);
+    punch2_frames[0] = sf::IntRect(250,263,68,100);
+    punch2_frames[1] = sf::IntRect(332,263,72,100);
+    punch2_frames[2] = sf::IntRect(430,263,110,100);
 
     kick2_frames[0] = sf::IntRect(10,640,70,110);
     kick2_frames[1] = sf::IntRect(80,640,70,110);
