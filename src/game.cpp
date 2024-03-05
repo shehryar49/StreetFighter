@@ -24,6 +24,7 @@ void Game::pollEvents()
             window.close();
         else if(event.type==sf::Event::KeyPressed)
         {
+
             switch(event.key.code)
             {
                 case sf::Keyboard::Left:
@@ -34,6 +35,9 @@ void Game::pollEvents()
                   break;
                 case sf::Keyboard::Up:
                   player->jump();
+                  break;
+                case sf::Keyboard::Down:
+                  player->crouch();
                   break;
                 case sf::Keyboard::Q:
                   player->specialMove1();
@@ -63,7 +67,6 @@ void Game::pollEvents()
                   break;
             }
         }
-        
         //comment above and uncomment line to fallback to last stable version
         //    player->processEvent(event);
     }
@@ -205,7 +208,6 @@ void Game::playMusic(const char* filename)
 
 void Game::setStage() 
 {
-    const int bottomY = 580;
     enemy->flipX();
     Ryu* ryu_enemy = nullptr;
     if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) 
@@ -216,8 +218,8 @@ void Game::setStage()
         // note this
         //IMPORTANT
         
-        player->setPosition(120,bottomY - (player->getGlobalBounds().height) + 1 );
-        enemy->setPosition(650,bottomY - (enemy->getGlobalBounds().height) + 1 );
+        player->setPosition(120,BOTTOMY - (player->getGlobalBounds().height) + 1 );
+        enemy->setPosition(650,BOTTOMY - (enemy->getGlobalBounds().height) + 1 );
         ///
         backgroundTexture.loadFromFile("assets/Ryu Stage.png");
         background.setTexture(backgroundTexture);

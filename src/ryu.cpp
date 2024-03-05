@@ -1,7 +1,10 @@
 // Written by Shahryar Ahmad
 #include "ryu.h"
+#include "constants.h"
 #include <stdio.h>
+
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
+#define STOP false
 sf::IntRect Ryu::IDLE_frames[5];
 sf::IntRect Ryu::moveright_frames[6];
 sf::IntRect Ryu::moveleft_frames[6];
@@ -24,7 +27,7 @@ Ryu::Ryu()
 {
 
     img.loadFromFile("assets/ryu.png");
-    //img.createMaskFromColor(sf::Color(70,112,104,255));
+    img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -44,9 +47,9 @@ Ryu::Ryu()
     punch1_frames[0] = sf::IntRect(20,263,68,100);
     punch1_frames[1] = sf::IntRect(40+68,263,94,100);
 
-    kick1_frames[0] = sf::IntRect(600,265,70,100);
-    kick1_frames[1] = sf::IntRect(690,265,70,100);
-    kick1_frames[2] = sf::IntRect(780,265,110,100);
+    kick1_frames[0] = sf::IntRect(600,260,70,100);
+    kick1_frames[1] = sf::IntRect(690,260,70,100);
+    kick1_frames[2] = sf::IntRect(780,260,110,100);
     
     jmp_frames[0] = sf::IntRect(0,830,70,110);
     jmp_frames[1] = sf::IntRect(90,823,70,110);
@@ -67,9 +70,9 @@ Ryu::Ryu()
     punch2_frames[1] = sf::IntRect(332,263,72,100);
     punch2_frames[2] = sf::IntRect(430,263,110,100);
 
-    kick2_frames[0] = sf::IntRect(10,640,70,110);
-    kick2_frames[1] = sf::IntRect(80,640,70,110);
-    kick2_frames[2] = sf::IntRect(160,640,90,110);
+    kick2_frames[0] = sf::IntRect(10,651,70,100);
+    kick2_frames[1] = sf::IntRect(80,651,70,100);
+    kick2_frames[2] = sf::IntRect(160,651,90,100);
     
     shoryuken_frames[0] = sf::IntRect(20,1800,70,110);
     shoryuken_frames[1] = sf::IntRect(110,1800,70,110);
@@ -78,11 +81,11 @@ Ryu::Ryu()
     shoryuken_frames[4] = sf::IntRect(360,1780,70,120);
     shoryuken_frames[5] = sf::IntRect(450,1800,70,110);
    
-    kick3_frames[0] = sf::IntRect(630,640,70,110);
-    kick3_frames[1] = sf::IntRect(710,640,70,110);
-    kick3_frames[2] = sf::IntRect(780,630,70,110);
-    kick3_frames[3] = sf::IntRect(870,640,100,110);
-    kick3_frames[4] = sf::IntRect(970,650,70,110);
+    kick3_frames[0] = sf::IntRect(630,640,70,120);
+    kick3_frames[1] = sf::IntRect(710,640,70,120);
+    kick3_frames[2] = sf::IntRect(780,630,70,120);
+    kick3_frames[3] = sf::IntRect(870,630,100,120);
+    kick3_frames[4] = sf::IntRect(970,630,70,120);
    
     punch3_frames[0] = sf::IntRect(230,513,70,100);
     punch3_frames[1] = sf::IntRect(320,513,70,100);
@@ -119,8 +122,8 @@ Ryu::Ryu()
     gola.setTextureRect(sf::IntRect(550,1550,60,50));
     gola.setScale(1.2,1.2);
 
-    //player.setTextureRect(IDLE_frames[0]);
-    player.setTextureRect(punch3_frames[1]);
+    player.setTextureRect(IDLE_frames[0]);
+    //player.setTextureRect(kick3_frames[4]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -236,6 +239,7 @@ void Ryu::kick3()
 {
   if(state == AnimationState::IDLE)
   {
+    player.setPosition(player.getGlobalBounds().left,BOTTOMY - (120*2.1f) +1);
     state = AnimationState::KICK3;
     currFrame = 0;
     frameIncrement = 1;
@@ -252,6 +256,29 @@ void Ryu::jump()
         pos = player.getPosition();
          
     }
+}
+void Ryu::crouch()
+{
+  if(IS_IDLE)
+  {
+    state = AnimationState::CROUCHING;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
+  else if(state == AnimationState::CROUCHED)
+  {
+    elapsed = 0; //invalidate standup timer
+  }
+}
+void Ryu::uncrouch()
+{
+  if(state == AnimationState::CROUCHED)
+  {
+    state = AnimationState::IDLE;
+    currFrame = -1;
+    frameIncrement = 1;
+    elapsed = 0;
+  }
 }
 void Ryu::specialMove1()
 {
@@ -275,7 +302,8 @@ void Ryu::specialMove2()
 //Updation based on animation state
 void Ryu::update(float dt)
 {
-    //return;
+    if(STOP)
+      return;
     elapsed += dt;
     if(hadoken)
     {
@@ -406,19 +434,16 @@ void Ryu::update(float dt)
             currFrame = 0;
             frameIncrement = 1;
         }
-        else
-            player.setPosition(player.getPosition().x,player.getPosition().y+(-15*frameIncrement));
+
         
     }
     else if (elapsed >= 0.08f && state == AnimationState::KICK3)
     {
-       // printf("rendering frame %d\n",currFrame);
         player.setTextureRect(kick3_frames[currFrame++]);
-        player.setPosition(player.getPosition().x,player.getPosition().y-10);
         elapsed = 0;
         if(currFrame == 5) //last frame rendered
         {
-            player.setPosition(player.getPosition().x,player.getPosition().y+50);
+            player.setPosition(player.getGlobalBounds().left,BOTTOMY - IDLE_frames[0].height*PLAYER_SPRITE_Y_SCALE +1);
             state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
@@ -466,6 +491,13 @@ void Ryu::update(float dt)
         if(currFrame == 3)
             state = AnimationState::CROUCHED;
         
+    }
+    else if(elapsed >= 30*dt && state == AnimationState::CROUCHED)
+    {
+        state = AnimationState::UNCROUCHING;
+        currFrame = 0;
+        frameIncrement = 1;
+        elapsed = 0;
     }
     else if(elapsed >= 0.08f && state == AnimationState::UNCROUCHING)
     {

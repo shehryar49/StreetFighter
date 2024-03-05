@@ -78,8 +78,8 @@ public:
     void kick2();
     void kick3();
     void jump();
-    //void crouch();
-    //void uncrouch();
+    void crouch();
+    void uncrouch();
     void specialMove1(); //shoryuken
     void specialMove2(); //hadoken
     ~Ryu();

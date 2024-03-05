@@ -1,7 +1,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 #include <SFML/Graphics.hpp>
-#include "animation_times.h"
+#include "constants.h"
 class Player // Abstract class
 {
 public:
