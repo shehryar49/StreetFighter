@@ -12,7 +12,9 @@ sf::IntRect Dhalsim::moveright_frames[7];
 sf::IntRect Dhalsim::moveleft_frames[7];
 sf::IntRect Dhalsim::punch1_frames[3];
 sf::IntRect Dhalsim::punch2_frames[4];
+sf::IntRect Dhalsim::punch3_frames[4];
 sf::IntRect Dhalsim::crouching_frames[3];
+
 Dhalsim::Dhalsim()
 {
     if (!img.loadFromFile("assets/dhalsim.png")) {
@@ -45,6 +47,14 @@ Dhalsim::Dhalsim()
     moveright_frames[5] = sf::IntRect(10 + 90 * 5, 125, 90, 110);
     moveright_frames[6] = sf::IntRect(10 + 90 * 6, 125, 90, 110);
 
+    moveleft_frames[0] = sf::IntRect(5 + 700, 125, 95, 110);
+    moveleft_frames[1] = sf::IntRect(5 + 700 + 90 * 1, 125, 95, 110);
+    moveleft_frames[2] = sf::IntRect(5 + 700 + 90 * 2, 125, 95, 110);
+    moveleft_frames[3] = sf::IntRect(5 + 700 + 90 * 3, 125, 95, 110);
+    moveleft_frames[4] = sf::IntRect(5 + 700 + 90 * 4, 125, 95, 110);
+    moveleft_frames[5] = sf::IntRect(5 + 700 + 90 * 5, 125, 95, 110);
+    moveleft_frames[6] = sf::IntRect(5 + 700 + 90 * 6, 125, 95, 110);
+
     punch1_frames[0] = sf::IntRect(10+0, 250, 100, 110);
     punch1_frames[1] = sf::IntRect(10+100*1, 250, 100, 110);
     punch1_frames[2] = sf::IntRect(10+100*2, 250, 160, 110);
@@ -54,17 +64,16 @@ Dhalsim::Dhalsim()
     punch2_frames[2] = sf::IntRect(100 + 50 + 90 * 5, 250, 170, 110);
     punch2_frames[3] = sf::IntRect(170 + 100 + 50 + 90 * 5, 250, 240, 110);
 
+    punch3_frames[0] = sf::IntRect(0, 375, 90, 110);
+    punch3_frames[1] = sf::IntRect(90, 375, 100, 110);
+    punch3_frames[2] = sf::IntRect(15+90+100, 375, 170, 110);
+    punch3_frames[3] = sf::IntRect(15+90+100+170, 375, 240, 110);
+
     crouching_frames[0] = sf::IntRect(10, 1415, 90, 110);
     crouching_frames[1] = sf::IntRect(10+90*1, 1415, 90, 110);
     crouching_frames[2] = sf::IntRect(10+90*2, 1415, 90, 110);
 
-    moveleft_frames[0] = sf::IntRect(5+700, 125, 95, 110);
-    moveleft_frames[1] = sf::IntRect(5+700+90*1, 125, 95, 110);
-    moveleft_frames[2] = sf::IntRect(5+700+90*2, 125, 95, 110);
-    moveleft_frames[3] = sf::IntRect(5+700+90*3, 125, 95, 110);
-    moveleft_frames[4] = sf::IntRect(5+700+90*4, 125, 95, 110);
-    moveleft_frames[5] = sf::IntRect(5+700+90*5, 125, 95, 110);
-    moveleft_frames[6] = sf::IntRect(5+700+90*6, 125, 95, 110);
+
                                       
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
@@ -157,6 +166,16 @@ void Dhalsim::punch2()
     //    currFrame = 0;
     //    frameIncrement = 1;
     //}
+}
+
+void Dhalsim::punch3()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::PUNCH3;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
 }
 
 void Dhalsim::update(float dt)
@@ -266,6 +285,26 @@ void Dhalsim::update(float dt)
     {
         currFrame--;
         player.setTextureRect(punch2_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 1) 
+        {
+            state = AnimationState::FASTIDLE;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::PUNCH3)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(punch3_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 3)
+        {
+            state = AnimationState::RETREAT3;
+        }
+    }
+    else if (elapsed >= (0.2f) && state == AnimationState::RETREAT3)
+    {
+        currFrame--;
+        player.setTextureRect(punch3_frames[currFrame]);
         elapsed = 0;
         if (currFrame == 1) 
         {

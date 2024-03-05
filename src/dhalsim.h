@@ -71,7 +71,7 @@ public:
     void moveRight();
     void punch1();
     void punch2();
-    //void punch3();
+    void punch3();
     //void kick1();
     //void kick2();
     //void kick3();
