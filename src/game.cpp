@@ -170,10 +170,10 @@ void Game::run()
     //option 0 is play
     //player = new Chun_Li();
     //player = new Zangief();
-    player = new Ryu();
+    //player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
-    //player = new Dhalsim();
+    player = new Dhalsim();
     //player = new Sagat();
     //enemy = new Chun_Li();
     //enemy = new Ken();

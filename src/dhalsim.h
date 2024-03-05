@@ -21,7 +21,9 @@ private:
         moveRight, //Right arrow key
         moveLeft, //Left arrow key
         PUNCH1, //Low Punch(Jab) A key
+        RETREAT1, //move back after punch 1
         PUNCH2, //Medium Punch S key
+        RETREAT2, //move back after punch 2
         CROUCHING, //Down arrow key
         UNCROUCHING, //standing up
         CROUCHED,
@@ -47,6 +49,17 @@ public:
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     void flipX();
+    void moveLeft();
+    void moveRight();
+    void punch1();
+    void punch2();
+    //void punch3();
+    //void kick1();
+    //void kick2();
+    //void kick3();
+    void jump();
+    void crouch();
+    void uncrouch();
     ~Dhalsim();
 };
 #endif
