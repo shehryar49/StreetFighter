@@ -7,4 +7,5 @@
 #define BOTTOMY 580
 #define PLAYER_SPRITE_X_SCALE 2.1f
 #define PLAYER_SPRITE_Y_SCALE 2.1f
+#define UNCROUCH_TIMER (30*dt)
 #endif

@@ -132,41 +132,7 @@ Ryu::Ryu()
 bool Ryu::processEvent(sf::Event &ev)
 {
 
-    if(ev.type == sf::Event::KeyPressed && state == AnimationState::CROUCHED)
-    {
-        if(ev.key.code == sf::Keyboard::A)
-        {
-          state = AnimationState::CROUCHED_PUNCH1;
-          currFrame = 0;
-          frameIncrement = 1;
-        }
-        else if(ev.key.code == sf::Keyboard::S)
-        {
-          state = AnimationState::CROUCHED_PUNCH2;
-          currFrame = 0;
-          frameIncrement = 1;
-        }
-        else if(ev.key.code == sf::Keyboard::Z)
-        {
-          state = AnimationState::CROUCHED_KICK1;
-          currFrame = 0;
-          frameIncrement = 1;
-        }
-        else if(ev.key.code == sf::Keyboard::X)
-        {
-          state = AnimationState::CROUCHED_KICK2;
-          currFrame = 0;
-          frameIncrement = 1;
-        }
-    }
-    else if(ev.type == sf::Event::KeyReleased && (state == AnimationState::CROUCHED || state == AnimationState::CROUCHED_KICK1 || state == AnimationState::KICK2 || state == AnimationState::CROUCHED_PUNCH1 || state == AnimationState::CROUCHED_PUNCH2)
-             && ev.key.code == sf::Keyboard::Down)
-    {
-      state = AnimationState::UNCROUCHING;
-      currFrame = 2;
-      frameIncrement = -1;
-      return true;
-    }
+
     return false;
 }
 //
@@ -197,6 +163,12 @@ void Ryu::punch1()
     currFrame = -1;
     frameIncrement = 1;
   }
+  else if(state == AnimationState::CROUCHED)
+  {
+    state = AnimationState::CROUCHED_PUNCH1;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
 }
 void Ryu::punch2()
 {
@@ -204,6 +176,12 @@ void Ryu::punch2()
   {
     state = AnimationState::PUNCH2;
     currFrame = -1;
+    frameIncrement = 1;
+  }
+  else if(state == AnimationState::CROUCHED)
+  {
+    state = AnimationState::CROUCHED_PUNCH2;
+    currFrame = 0;
     frameIncrement = 1;
   }
 }
@@ -225,12 +203,24 @@ void Ryu::kick1()
     currFrame = -1;
     frameIncrement = 1;
   }
+  else if(state == AnimationState::CROUCHED)
+  {
+    state = AnimationState::CROUCHED_KICK1;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
 }
 void Ryu::kick2()
 {
   if(state == AnimationState::IDLE)
   {
     state = AnimationState::KICK2;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
+  else if(state == AnimationState::CROUCHED)
+  {
+    state = AnimationState::CROUCHED_KICK2;
     currFrame = 0;
     frameIncrement = 1;
   }
