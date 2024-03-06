@@ -17,7 +17,6 @@ using namespace std;
 // private
 void Game::pollEvents()
 {
-    playerCrouched = false;
     sf::Event event;
     int i = 0;
     while (window.pollEvent(event))
@@ -39,7 +38,6 @@ void Game::pollEvents()
                   break;
                 case sf::Keyboard::Down:
                   player->crouch();
-                  playerCrouched = true;
                   break;
                 case sf::Keyboard::Q:
                   player->specialMove1();
@@ -172,12 +170,13 @@ void Game::run()
     //if(option == 1 || option == 2)
     //  return;
     //option 0 is play
+    
     //player = new Chun_Li();
     //player = new Zangief();
-    //player = new Ryu();
-    //player->setPosition(120,300);
+    player = new Ryu();
+    
     //player = new Ken();
-    player = new Dhalsim();
+    //player = new Dhalsim();
     //player = new Sagat();
     //enemy = new Chun_Li();
     //enemy = new Ken();
