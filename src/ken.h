@@ -4,8 +4,6 @@
 class Ken : public Player
 {
 private:
-    sf::Texture texture;
-    sf::Sprite player;
     sf::Image img;
     sf::Vector2f pos; // to save before jumping
     float elapsed = 0;
@@ -37,10 +35,14 @@ private:
 public:
     Ken();
     void update(float);
-    bool processEvent(sf::Event &);
     void render(sf::RenderWindow &);
     void setPosition(float,float);
     void flipX();
+    void punch1();
+    void punch2();
+    void kick1();
+    void moveLeft();
+    void moveRight();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Ken();

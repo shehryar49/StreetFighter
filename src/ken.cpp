@@ -1,5 +1,7 @@
 #include "ken.h"
-using namespace std;
+
+#define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
+#define STOP !false
 
 sf::IntRect Ken::IDLE_frames[6];
 sf::IntRect Ken::moveright_frames[6];
@@ -17,12 +19,12 @@ Ken::Ken()
     // found out using trial and error
     // 64 pixel wide character
     // 26 pixel spacing
-    IDLE_frames[0] = sf::IntRect(12, 20, 64, 94);
-    IDLE_frames[1] = sf::IntRect(84, 20, 64, 94);
-    IDLE_frames[2] = sf::IntRect(150, 20, 64, 94);
-    IDLE_frames[3] = sf::IntRect(215, 20, 64, 94);
-    IDLE_frames[4] = sf::IntRect(280, 20, 64, 94);
-    IDLE_frames[5] = sf::IntRect(340, 20, 64, 94);
+    IDLE_frames[0] = sf::IntRect(12, 14, 64, 100);
+    IDLE_frames[1] = sf::IntRect(84, 14, 64, 100);
+    IDLE_frames[2] = sf::IntRect(150, 14, 64, 100);
+    IDLE_frames[3] = sf::IntRect(215, 14, 64, 100);
+    IDLE_frames[4] = sf::IntRect(280, 14, 64, 100);
+    IDLE_frames[5] = sf::IntRect(340, 14, 64, 100);
     
     
     moveright_frames[0] = sf::IntRect(0,120,68,110);
@@ -32,8 +34,8 @@ Ken::Ken()
     moveright_frames[4] = sf::IntRect(68*3+140,120,68,110);
     moveright_frames[5] = sf::IntRect(68*5,120,68,110);
     
-    punch1_frames[0] = sf::IntRect(20,260,68,110);
-    punch1_frames[1] = sf::IntRect(40+68,260,94,110);
+    punch1_frames[0] = sf::IntRect(15,280,68,100);
+    punch1_frames[1] = sf::IntRect(87,280,94,100);
 
     kick1_frames[0] = sf::IntRect(600,260,70,110);
     kick1_frames[1] = sf::IntRect(690,260,70,110);
@@ -47,76 +49,56 @@ Ken::Ken()
     jmp_frames[5] = sf::IntRect(380,810,70,90);
     jmp_frames[6] = sf::IntRect(460,820,60,130);
    
-    moveleft_frames[0] = sf::IntRect(540,120,68,110);
-    moveleft_frames[1] = sf::IntRect(625,120,68,110);
-    moveleft_frames[2] = sf::IntRect(710,120,68,110);
-    moveleft_frames[3] = sf::IntRect(790,120,68,110);
-    moveleft_frames[4] = sf::IntRect(880,120,68,110);
-    moveleft_frames[5] = sf::IntRect(970,120,68,110);
+    moveleft_frames[0] = sf::IntRect(515,145,65,100);
+    moveleft_frames[1] = sf::IntRect(645,145,68,100);
+    moveleft_frames[2] = sf::IntRect(710,145,68,100);
+    moveleft_frames[3] = sf::IntRect(790,145,68,100);
+    moveleft_frames[4] = sf::IntRect(880,145,68,100);
+    moveleft_frames[5] = sf::IntRect(970,145,68,100);
 
-    punch2_frames[0] = sf::IntRect(250,260,68,110);
-    punch2_frames[1] = sf::IntRect(332,260,68,110);
-    punch2_frames[2] = sf::IntRect(430,260,110,110);
+    punch2_frames[0] = sf::IntRect(300,280,65,100);
+    punch2_frames[1] = sf::IntRect(370,280,70,100);
+    punch2_frames[2] = sf::IntRect(450,280,110,100);
     
-    player.setTextureRect(IDLE_frames[5]);
+    player.setTextureRect(moveleft_frames[1]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-bool Ken::processEvent(sf::Event &ev)
+
+void Ken::punch1()
 {
-    if (ev.type == sf::Event::KeyPressed && state == AnimationState::IDLE)
+    if(IS_IDLE)
     {
-        if (ev.key.code == sf::Keyboard::Z)
-        {
-            state = AnimationState::KICK1;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Left)
-        {
-            state = AnimationState::moveLeft;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Right)
-        {
-            state = AnimationState::moveRight;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Up)
-        {
-            state = AnimationState::JMP;
-            currFrame = -1;
-            frameIncrement = 1;
-            pos = player.getPosition();
-            return true;
-        }        
-        else if (ev.key.code == sf::Keyboard::A)
-        {
-            state = AnimationState::PUNCH1;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::S)
-        {
-            state = AnimationState::PUNCH2;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
+      currFrame = 0;
+      state = AnimationState::PUNCH1;
     }
-    return false;
+}
+void Ken::punch2()
+{
+    if(IS_IDLE)
+    {
+        currFrame = 0;
+        state = AnimationState::PUNCH2;
+    }
+}
+void Ken::kick1()
+{
+
+}
+void Ken::moveLeft()
+{
+
+}
+void Ken::moveRight()
+{
+
 }
 void Ken::update(float dt)
 {
-    //return;
+    if(STOP)
+      return;
     elapsed += dt;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
@@ -179,10 +161,9 @@ void Ken::update(float dt)
     }
     else if(elapsed>=0.08f && state == AnimationState::PUNCH1)
     {
-        currFrame = currFrame+1;
-        player.setTextureRect(punch1_frames[currFrame]);
+        player.setTextureRect(punch1_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 1)
+        if(currFrame == 2)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
@@ -191,10 +172,9 @@ void Ken::update(float dt)
     }
     else if(elapsed>=0.08f && state == AnimationState::PUNCH2)
     {
-        currFrame = currFrame+1;
-        player.setTextureRect(punch2_frames[currFrame]);
+        player.setTextureRect(punch2_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 2)
+        if(currFrame == 3)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
