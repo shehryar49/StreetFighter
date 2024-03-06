@@ -63,7 +63,6 @@ private:
 public:
     Ryu();
     void update(float);
-    bool processEvent(sf::Event &);
     void render(sf::RenderWindow &);
     void setPosition(float,float);
     sf::FloatRect getGlobalBounds();

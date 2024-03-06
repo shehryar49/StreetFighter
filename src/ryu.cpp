@@ -93,16 +93,16 @@ Ryu::Ryu()
     punch3_frames[3] = sf::IntRect(510,513,70,100);
     punch3_frames[4] = sf::IntRect(600,513,100,100);
 
-    crouching_frames[0] = sf::IntRect(20,1195,70,100);
-    crouching_frames[1] = sf::IntRect(110,1195,70,100);
-    crouching_frames[2] = sf::IntRect(190,1195,70,100);
+    crouching_frames[0] = sf::IntRect(20,1197,70,100);
+    crouching_frames[1] = sf::IntRect(110,1197,70,100);
+    crouching_frames[2] = sf::IntRect(190,1197,70,100);
     
-    crouched_punch1_frames[0] = sf::IntRect(20,1300,75,100);
-    crouched_punch1_frames[1] = sf::IntRect(110,1300,105,100);
+    crouched_punch1_frames[0] = sf::IntRect(25,1308,75,100);
+    crouched_punch1_frames[1] = sf::IntRect(115,1308,105,100);
     
-    crouched_punch2_frames[0] = sf::IntRect(260,1300,90,100);
-    crouched_punch2_frames[1] = sf::IntRect(350,1300,90,100);
-    crouched_punch2_frames[2] = sf::IntRect(450,1300,90,100);
+    crouched_punch2_frames[0] = sf::IntRect(260,1308,90,100);
+    crouched_punch2_frames[1] = sf::IntRect(350,1308,90,100);
+    crouched_punch2_frames[2] = sf::IntRect(450,1308,90,100);
 
     crouched_kick1_frames[0] = sf::IntRect(20,1410,75,100);
     crouched_kick1_frames[1] = sf::IntRect(120,1410,105,100);
@@ -114,27 +114,21 @@ Ryu::Ryu()
     crouched_kick2_frames[3] = sf::IntRect(770,1410,70,100);
     crouched_kick2_frames[4] = sf::IntRect(860,1410,70,100);
 
-    hadoken_frames[0] = sf::IntRect(30,1530,80,100);
-    hadoken_frames[1] = sf::IntRect(130,1530,90,100);
-    hadoken_frames[2] = sf::IntRect(240,1530,90,100);
-    hadoken_frames[3] = sf::IntRect(350,1530,120,100); 
+    hadoken_frames[0] = sf::IntRect(30,1535,80,100);
+    hadoken_frames[1] = sf::IntRect(130,1535,90,100);
+    hadoken_frames[2] = sf::IntRect(240,1535,90,100);
+    hadoken_frames[3] = sf::IntRect(350,1535,120,100); 
     gola.setTexture(texture);
     gola.setTextureRect(sf::IntRect(550,1550,60,50));
     gola.setScale(1.2,1.2);
 
     player.setTextureRect(IDLE_frames[0]);
-    //player.setTextureRect(kick3_frames[4]);
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-bool Ryu::processEvent(sf::Event &ev)
-{
 
-
-    return false;
-}
 //
 void Ryu::moveLeft()
 {
@@ -229,7 +223,7 @@ void Ryu::kick3()
 {
   if(state == AnimationState::IDLE)
   {
-    player.setPosition(player.getGlobalBounds().left,BOTTOMY - (120*2.1f) +1);
+    player.setPosition(player.getGlobalBounds().left,BOTTOMY - (120*PLAYER_SPRITE_Y_SCALE) +1);
     state = AnimationState::KICK3;
     currFrame = 0;
     frameIncrement = 1;
@@ -255,19 +249,14 @@ void Ryu::crouch()
     currFrame = 0;
     frameIncrement = 1;
   }
-  else if(state == AnimationState::CROUCHED)
-  {
-    elapsed = 0; //invalidate standup timer
-  }
 }
 void Ryu::uncrouch()
 {
   if(state == AnimationState::CROUCHED)
   {
-    state = AnimationState::IDLE;
-    currFrame = -1;
+    state = AnimationState::UNCROUCHING;
+    currFrame = 0;
     frameIncrement = 1;
-    elapsed = 0;
   }
 }
 void Ryu::specialMove1()
@@ -312,14 +301,14 @@ void Ryu::update(float dt)
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= (0.08f) && state == AnimationState::FASTIDLE)
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
     {
         player.setTextureRect(IDLE_frames[0]);
         currFrame++;
         state = AnimationState::IDLE;
         elapsed = 0;
     }
-    else if (elapsed >= (0.08f) && state == AnimationState::LAND)
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::LAND)
     {
         currFrame--;
         player.setTextureRect(jmp_frames[currFrame]);
@@ -332,7 +321,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }  
-    else if(elapsed>=(0.08f) && state == AnimationState::MOVE_RIGHT)
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::MOVE_RIGHT)
     {
         currFrame = currFrame+1;
         player.setTextureRect(moveright_frames[currFrame]);
@@ -346,7 +335,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=(0.08f) && state == AnimationState::MOVE_LEFT)
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::MOVE_LEFT)
     {
         currFrame = currFrame+1;
         player.setTextureRect(moveleft_frames[currFrame]);
@@ -360,7 +349,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f && state == AnimationState::PUNCH1)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::PUNCH1)
     {
         currFrame = currFrame+1;
         player.setTextureRect(punch1_frames[currFrame]);
@@ -372,7 +361,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f && state == AnimationState::PUNCH2)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::PUNCH2)
     {
         currFrame = currFrame+1;
         player.setTextureRect(punch2_frames[currFrame]);
@@ -384,7 +373,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f && state == AnimationState::PUNCH3)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::PUNCH3)
     {
         player.setTextureRect(punch3_frames[currFrame++]);
         elapsed = 0;
@@ -395,7 +384,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if (elapsed >= 0.08f && state == AnimationState::KICK1)
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK1)
     {
         currFrame++; 
         player.setTextureRect(kick1_frames[currFrame]);
@@ -407,7 +396,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed >= 0.08f && state == AnimationState::KICK2)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::KICK2)
     {
         player.setTextureRect(kick2_frames[currFrame]);
         elapsed = 0;
@@ -427,7 +416,7 @@ void Ryu::update(float dt)
 
         
     }
-    else if (elapsed >= 0.08f && state == AnimationState::KICK3)
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK3)
     {
         player.setTextureRect(kick3_frames[currFrame++]);
         elapsed = 0;
@@ -439,7 +428,7 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed >= 0.08f && state == AnimationState::SHORYUKEN)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::SHORYUKEN)
     {
         player.setTextureRect(shoryuken_frames[currFrame++]);
         player.setPosition(player.getPosition().x,player.getPosition().y-40);
@@ -462,7 +451,7 @@ void Ryu::update(float dt)
             state = AnimationState::FASTIDLE;
         }
     }
-    else if (elapsed >=  0.08f && state == AnimationState::JMP)
+    else if (elapsed >=  MOVE_TIME && state == AnimationState::JMP)
     {
         currFrame++; 
         player.setTextureRect(jmp_frames[currFrame]);
@@ -474,7 +463,7 @@ void Ryu::update(float dt)
             state = AnimationState::LAND;
         }
     }  
-    else if(elapsed >= 0.08f && state == AnimationState::CROUCHING)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
     {
         player.setTextureRect(crouching_frames[currFrame++]);
         elapsed = 0;
@@ -482,14 +471,8 @@ void Ryu::update(float dt)
             state = AnimationState::CROUCHED;
         
     }
-    else if(elapsed >= 30*dt && state == AnimationState::CROUCHED)
-    {
-        state = AnimationState::UNCROUCHING;
-        currFrame = 0;
-        frameIncrement = 1;
-        elapsed = 0;
-    }
-    else if(elapsed >= 0.08f && state == AnimationState::UNCROUCHING)
+
+    else if(elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
     {
         player.setTextureRect(crouching_frames[currFrame--]);
         elapsed = 0;
@@ -500,22 +483,23 @@ void Ryu::update(float dt)
             currFrame = 0;
         }
     }
-    else if(elapsed >= 0.08f && state == AnimationState::FAST_CROUCHED)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
     {
         elapsed = 0;
         state = AnimationState::CROUCHED;
         player.setTextureRect(crouching_frames[2]);
     }
-    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_PUNCH1)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH1)
     {
         player.setTextureRect(crouched_punch1_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 2)
         {
             state = AnimationState::FAST_CROUCHED;
+            currFrame = 0;
         }
     }
-    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_PUNCH2)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH2)
     {
         player.setTextureRect(crouched_punch2_frames[currFrame]);
         currFrame += frameIncrement;
@@ -531,7 +515,7 @@ void Ryu::update(float dt)
             player.setTextureRect(crouching_frames[2]);
         }
     }
-    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_KICK1)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
     {
         player.setTextureRect(crouched_kick1_frames[currFrame]);
         currFrame += frameIncrement;
@@ -547,7 +531,7 @@ void Ryu::update(float dt)
             player.setTextureRect(crouching_frames[2]);
         }
     }
-    else if(elapsed >= 0.08f && state == AnimationState::CROUCHED_KICK2)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_KICK2)
     {
         player.setTextureRect(crouched_kick2_frames[currFrame++]);
         elapsed = 0;
@@ -556,7 +540,7 @@ void Ryu::update(float dt)
             state = AnimationState::FAST_CROUCHED;
         }
     }
-    else if(elapsed >= 0.08f && state == AnimationState::HADOKEN)
+    else if(elapsed >= MOVE_TIME && state == AnimationState::HADOKEN)
     {
         player.setTextureRect(hadoken_frames[currFrame++]);
         elapsed = 0;

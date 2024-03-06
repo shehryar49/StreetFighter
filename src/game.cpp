@@ -17,14 +17,15 @@ using namespace std;
 // private
 void Game::pollEvents()
 {
+    playerCrouched = false;
     sf::Event event;
+    int i = 0;
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
             window.close();
         else if(event.type==sf::Event::KeyPressed)
         {
-
             switch(event.key.code)
             {
                 case sf::Keyboard::Left:
@@ -38,6 +39,7 @@ void Game::pollEvents()
                   break;
                 case sf::Keyboard::Down:
                   player->crouch();
+                  playerCrouched = true;
                   break;
                 case sf::Keyboard::Q:
                   player->specialMove1();
@@ -67,9 +69,11 @@ void Game::pollEvents()
                   break;
             }
         }
-        //comment above and uncomment line to fallback to last stable version
-        //    player->processEvent(event);
+        else if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Down)
+          player->uncrouch();
     }
+    
+    
 }
 void Game::update(float dt)
 {

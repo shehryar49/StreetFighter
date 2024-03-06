@@ -16,6 +16,7 @@ private:
     sf::Sprite background;
     sf::Clock clock;
     Player *player;
+    bool playerCrouched = false;
     Player* enemy;
     enum class GameState
     {
