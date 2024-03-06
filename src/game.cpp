@@ -158,6 +158,12 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 {
   player = nullptr;
   enemy = nullptr;
+  health1.setSize(sf::Vector2f(300,25));
+  health2.setSize(sf::Vector2f(300,25));
+  health1.setFillColor(sf::Color(255,255,0));
+  health2.setFillColor(sf::Color(255,255,0));
+  health1.setPosition(0,0);
+  health2.setPosition(500,0);
 }
 
 void Game::run()
@@ -173,9 +179,8 @@ void Game::run()
     
     //player = new Chun_Li();
     //player = new Zangief();
-    player = new Ryu();
-    
-    //player = new Ken();
+    //player = new Ryu();
+    player = new Ken();
     //player = new Dhalsim();
     //player = new Sagat();
     //enemy = new Chun_Li();
@@ -192,6 +197,8 @@ void Game::run()
         update(dt);
         window.clear(sf::Color::Black);
         window.draw(background);
+        window.draw(health1);
+        window.draw(health2);
         player->render(window);
         enemy->render(window);
         window.display();

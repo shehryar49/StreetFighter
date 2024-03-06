@@ -2,6 +2,7 @@
 #define GAME_H_
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <string>
 #include "player.h"
 
@@ -17,7 +18,8 @@ private:
     sf::Clock clock;
     Player *player;
     Player* enemy;
-    
+    sf::RectangleShape health1;
+    sf::RectangleShape health2;
     enum class GameState
     {
       MENU,
