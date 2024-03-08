@@ -227,7 +227,7 @@ void Game::setStage()
         // topY = bottomY - height + 1
         // note this
         //IMPORTANT
-        
+
         player->setPosition(120,BOTTOMY - (player->getGlobalBounds().height) + 1 );
         enemy->setPosition(650,BOTTOMY - (enemy->getGlobalBounds().height) + 1 );
         ///

@@ -1,6 +1,7 @@
 #ifndef KEN_H_
 #define KEN_H_
 #include "player.h"
+#include <SFML/Graphics/Rect.hpp>
 class Ken : public Player
 {
 private:
@@ -16,6 +17,7 @@ private:
         PUNCH1,
         PUNCH2,
         KICK1,
+        KICK2,
         JMP,
         LAND
     };
@@ -28,6 +30,7 @@ private:
     static sf::IntRect punch1_frames[2];
     static sf::IntRect punch2_frames[3]; 
     static sf::IntRect kick1_frames[3]; // side kick
+    static sf::IntRect kick2_frames[3]; // low kick
     static sf::IntRect jmp_frames[7]; 
     
     int currFrame = 0;
@@ -41,6 +44,7 @@ public:
     void punch1();
     void punch2();
     void kick1();
+    void kick2();
     void moveLeft();
     void moveRight();
     sf::FloatRect getGlobalBounds();
