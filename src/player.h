@@ -14,7 +14,6 @@ public:
     virtual sf::FloatRect getLocalBounds();
     
     virtual void flipX();
-
     virtual void moveLeft();
     virtual void moveRight();
     virtual void punch1();
@@ -28,9 +27,8 @@ public:
     virtual void uncrouch();
     virtual void specialMove1();
     virtual void specialMove2();
-    
-
-    
+    virtual void block();
+    virtual void unblock();
     virtual ~Player();
 protected:
     int health = 100;

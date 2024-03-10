@@ -63,12 +63,28 @@ void Game::pollEvents()
                 case sf::Keyboard::C:
                   player->kick3();
                   break;
-                default:  
+                case sf::Keyboard::LShift:
+                  player->block();
+                  break;
+                default:
+                    player->processEvent(event); //remove later need it rn
                   break;
             }
         }
-        else if(event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Down)
-          player->uncrouch();
+        else if (event.type == sf::Event::KeyReleased)
+        {
+            switch (event.key.code)
+            {
+                case sf::Keyboard::Down:
+                    player->uncrouch();
+                    break;
+                case sf::Keyboard::LShift:
+                    player->unblock();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     
     

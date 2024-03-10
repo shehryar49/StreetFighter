@@ -44,4 +44,6 @@ void Player::crouch(){}
 void Player::uncrouch(){}
 void Player::specialMove1(){}
 void Player::specialMove2(){}
+void Player::block(){}
+void Player::unblock(){}
 Player::~Player(){}

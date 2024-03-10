@@ -34,7 +34,7 @@ private:
         heavy_kick, //C
         crouch_kick,//Hold Down Arrow then Press J (can leave Down Arrow mid animation)
         forward_light_kick, //Right Arrow + Z
-        forward_heavy_kick, //Right Arrow + C
+        forward_heavy_kick, //Right Arrow + X
         //-------hits taken (should prolly be call-able functions instead of key-event updates)-------//
         hit_taken_blanka_electricity, //1
         hit_taken_face, //2
@@ -90,11 +90,28 @@ private:
 public:
     Zangief();
     void update(float);
-    bool processEvent(sf::Event&);
     void render(sf::RenderWindow&);
     void setPosition(float,float);
+    sf::FloatRect getGlobalBounds();
+    bool processEvent(sf::Event&);
     void flipX();
-    //hits
+    //movements
+    void moveLeft();
+    void moveRight();
+    void jump();
+    void crouch();
+    void uncrouch();
+    void unblock();
+    //void uncrouch();
+    void block();
+    //hits dealt
+    void punch1();
+    void punch2();
+    void kick1();
+    void kick2();
+    void kick3();
+    void specialMove1(); //helicopter
+    //hits taken
     void hit_taken_blanka_electricity();
     void hit_taken_face();
     void hit_taken_body();
@@ -103,7 +120,6 @@ public:
     void face_body_combo_taken();
     void knockout(int);
     void victory(int);
-    sf::FloatRect getGlobalBounds();
     ~Zangief();
 };
 

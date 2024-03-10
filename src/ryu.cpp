@@ -128,8 +128,6 @@ Ryu::Ryu()
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-
-//
 void Ryu::moveLeft()
 {
     if(state == AnimationState::IDLE)
@@ -471,7 +469,6 @@ void Ryu::update(float dt)
             state = AnimationState::CROUCHED;
         
     }
-
     else if(elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
     {
         player.setTextureRect(crouching_frames[currFrame--]);
