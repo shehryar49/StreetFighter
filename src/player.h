@@ -17,5 +17,8 @@ public:
     virtual ~Player();
 protected:
     int health = 100;
+    sf::Sprite player;
+    sf::Image image;
+    sf::Texture texture;
 };
 #endif

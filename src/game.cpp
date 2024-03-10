@@ -52,6 +52,7 @@ void Game::playIntro()
 
     bgm.setLoop(true);
     bgm.play();
+    bgm.setVolume(0);
     while (window.isOpen())
     {
         sf::Event event;
@@ -113,7 +114,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
-    playIntro();
+    //playIntro();
     //key was pressed, so we are back after playing intro
     int option = showMenu(); 
     //some option was selected from the menu
@@ -121,8 +122,8 @@ void Game::run()
       return;
     //option 0 is play
     //player = new Chun_Li();
-    //player = new Zangief();
-    player = new Ryu();
+    player = new Zangief();
+    //player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
     //player = new Dhalsim();
@@ -130,8 +131,8 @@ void Game::run()
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
-    //enemy = new Zangief();
-    enemy = new Ryu();
+    enemy = new Zangief();
+    //enemy = new Ryu();
     
     setStage();
     while (window.isOpen())
