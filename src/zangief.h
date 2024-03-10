@@ -6,9 +6,6 @@
 
 class Zangief: public Player {
 private:
-    //sf::Texture texture;
-    //sf::Sprite zangief;
-    //sf::Image image;
     float time_elapsed = 0;
     enum class AnimationState{
         idle,//no key -

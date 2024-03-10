@@ -12,6 +12,7 @@
 #include "dhalsim.h"
 #include "ken.h"
 #include "sagat.h"
+#include "balrog.h"
 
 using namespace std;
 // private
@@ -197,8 +198,9 @@ void Game::run()
     //player = new Chun_Li();
     //player = new Zangief();
     //player = new Ryu();
-    player = new Ken();
-    player = new Zangief();
+    //player = new Ken();
+    //player = new Zangief();
+    player = new Balrog();
     //player = new Ryu();
     //player->setPosition(120,300);
     //player = new Ken();
