@@ -250,9 +250,15 @@ void Ryu::crouch()
 }
 void Ryu::uncrouch()
 {
-  if(state == AnimationState::CROUCHED)
+  if( state == AnimationState::CROUCHED || 
+      state == AnimationState::CROUCHING ||
+      state == AnimationState::CROUCHED_KICK1 ||
+      state == AnimationState::CROUCHED_KICK2 || 
+      state == AnimationState::CROUCHED_PUNCH1 || 
+      state == AnimationState::CROUCHED_PUNCH2
+    )
   {
-    state = AnimationState::UNCROUCHING;
+    state = AnimationState::FASTIDLE;
     currFrame = 0;
     frameIncrement = 1;
   }
@@ -471,6 +477,7 @@ void Ryu::update(float dt)
     }
     else if(elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
     {
+        puts("here");
         player.setTextureRect(crouching_frames[currFrame--]);
         elapsed = 0;
         if(currFrame == -1)
