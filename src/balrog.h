@@ -21,18 +21,14 @@ private:
         //--------------------------------------punches-----------------------------------------------//
         light_punch_right, //A
         medium_punch_right, //S
-        heavy_punch_right, //S
+        heavy_punch_right, //D
+        alt_light_punch, //F
+        alt_medium_punch, //G
+        alt_heavy_punch, //H
         forward_light_punch, //Right Arrow Key then A
         forward_medium_punch, //Right Arrow Key then S
         crouch_light_punch, //Hold Down Arrow then Press A (can leave Down Arrow mid animation)
         crouch_medium_punch,//Hold Down Arrow then Press S (can leave Down Arrow mid animation)
-        //---------------------------------------kicks------------------------------------------------//
-        light_kick, //Z
-        medium_kick, //X
-        heavy_kick, //C
-        crouch_kick,//Hold Down Arrow then Press J (can leave Down Arrow mid animation)
-        forward_light_kick, //Right Arrow + Z
-        forward_heavy_kick, //Right Arrow + X
         //-------hits taken (should prolly be call-able functions instead of key-event updates)-------//
         hit_taken_blanka_electricity, //1
         hit_taken_face, //2
@@ -56,15 +52,16 @@ private:
     static sf::IntRect idle_frames[6];
     static sf::IntRect move_frames[6];
     static sf::IntRect light_punch_frames[3];
-    static sf::IntRect medium_punch_frames[5];
-    static sf::IntRect heavy_punch_frames[5];
+    static sf::IntRect medium_punch_frames[3];
+    static sf::IntRect heavy_punch_frames[3];
+    static sf::IntRect alt_light_punch_frames[3];
+    static sf::IntRect alt_medium_punch_frames[5];
+    static sf::IntRect alt_heavy_punch_frames[5];
+
     static sf::IntRect forward_light_punch_frames[7];
     static sf::IntRect forward_medium_punch_frames[7];
     static sf::IntRect crouch_light_punch_frames[2];
     static sf::IntRect crouch_medium_punch_frames[5];
-    static sf::IntRect light_kick_frames[4];
-    static sf::IntRect medium_kick_frames[5];
-    static sf::IntRect heavy_kick_frames[3];
     static sf::IntRect crouch_kick_frames[3];
     static sf::IntRect jump_frames[7];
     static sf::IntRect forward_light_kick_frames[5];
@@ -84,7 +81,7 @@ private:
     int curr_frame = -1;
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
-    int slot = 0;
+    bool combo = false;
 public:
     Balrog();
     void update(float);
@@ -104,11 +101,12 @@ public:
     //void block();
     ////hits dealt
     void punch1();
-    //void punch2();
+    void punch2();
     void punch3();
-    //void kick1();
-    //void kick2();
-    //void kick3();
+    //void punch4();
+    //void punch5();
+    //void punch6();
+    //void punch7();
     //void specialMove1(); //helicopter
     ////hits taken
     //void hit_taken_blanka_electricity();
