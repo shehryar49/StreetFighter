@@ -15,7 +15,7 @@ sf::IntRect Ken::kick2_frames[3];
 Ken::Ken()
 {
     img.loadFromFile("assets/ken.png");
-    img.createMaskFromColor(sf::Color(00,129,129,255));
+    //img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
     // found out using trial and error

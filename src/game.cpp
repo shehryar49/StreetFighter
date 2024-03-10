@@ -196,8 +196,8 @@ void Game::run()
     
     //player = new Chun_Li();
     //player = new Zangief();
-    player = new Ryu();
-    //player = new Ken();
+    //player = new Ryu();
+    player = new Ken();
     //player = new Zangief();
     //player = new Ryu();
     //player->setPosition(120,300);
