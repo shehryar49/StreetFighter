@@ -477,7 +477,6 @@ void Ryu::update(float dt)
     }
     else if(elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
     {
-        puts("here");
         player.setTextureRect(crouching_frames[currFrame--]);
         elapsed = 0;
         if(currFrame == -1)
