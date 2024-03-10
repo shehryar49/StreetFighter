@@ -103,6 +103,7 @@ public:
     void face_body_combo_taken();
     void knockout(int);
     void victory(int);
+    sf::FloatRect getGlobalBounds();
     ~Zangief();
 };
 
