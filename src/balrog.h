@@ -63,13 +63,11 @@ private:
     static sf::IntRect alt_heavy_punch_frames[5];
     static sf::IntRect jump_frames[7];
     static sf::IntRect jump_punch_frames[9];
+    static sf::IntRect crouch_light_punch_frames[5];
+    static sf::IntRect crouch_medium_punch_frames[5];
 
     static sf::IntRect forward_light_punch_frames[7];
     static sf::IntRect forward_medium_punch_frames[7];
-    static sf::IntRect crouch_light_punch_frames[2];
-    static sf::IntRect crouch_medium_punch_frames[5];
-    static sf::IntRect forward_light_kick_frames[5];
-    static sf::IntRect forward_heavy_kick_frames[9];
     static sf::IntRect hit_taken_blanka_electricity_frames[2];
     static sf::IntRect hit_taken_face_frames[3];
     static sf::IntRect hit_taken_body_frames[3];

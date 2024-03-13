@@ -13,13 +13,11 @@ sf::IntRect Balrog::alt_medium_punch_frames[5];
 sf::IntRect Balrog::alt_heavy_punch_frames[5];
 sf::IntRect Balrog::jump_frames[7];
 sf::IntRect Balrog::jump_punch_frames[9];
+sf::IntRect Balrog::crouch_light_punch_frames[5];
+sf::IntRect Balrog::crouch_medium_punch_frames[5];
 
 sf::IntRect Balrog::forward_light_punch_frames[7];
 sf::IntRect Balrog::forward_medium_punch_frames[7];
-sf::IntRect Balrog::crouch_light_punch_frames[2];
-sf::IntRect Balrog::crouch_medium_punch_frames[5];
-sf::IntRect Balrog::forward_light_kick_frames[5];
-sf::IntRect Balrog::forward_heavy_kick_frames[9];
 sf::IntRect Balrog::hit_taken_blanka_electricity_frames[2];
 sf::IntRect Balrog::hit_taken_face_frames[3];
 sf::IntRect Balrog::hit_taken_body_frames[3];
@@ -101,6 +99,18 @@ Balrog::Balrog() {
     jump_punch_frames[7] = sf::IntRect(84, 2108, 67, 101);
     jump_punch_frames[8] = sf::IntRect(14, 2112, 67, 97);
 
+    crouch_light_punch_frames[0] = sf::IntRect(12, 1805, 57, 80);
+    crouch_light_punch_frames[1] = sf::IntRect(74, 1805, 75, 80);
+    crouch_light_punch_frames[2] = sf::IntRect(154, 1805, 140, 80);
+    crouch_light_punch_frames[3] = sf::IntRect(74, 1805, 75, 80);
+    crouch_light_punch_frames[4] = sf::IntRect(12, 1805, 57, 80);
+
+    crouch_medium_punch_frames[0] = sf::IntRect(480, 1805, 67, 80);
+    crouch_medium_punch_frames[1] = sf::IntRect(546, 1798, 92, 87);
+    crouch_medium_punch_frames[2] = sf::IntRect(642, 1753, 115, 132);
+    crouch_medium_punch_frames[3] = sf::IntRect(546, 1798, 92, 87);
+    crouch_medium_punch_frames[4] = sf::IntRect(480, 1805, 67, 80);
+
     forward_light_punch_frames[0] = sf::IntRect(520, 327, 102, 113);
     forward_light_punch_frames[1] = sf::IntRect(628, 329, 103, 111);
     forward_light_punch_frames[2] = sf::IntRect(738, 329, 134, 111);
@@ -116,31 +126,6 @@ Balrog::Balrog() {
     forward_medium_punch_frames[4] = sf::IntRect(494, 810, 131, 125);
     forward_medium_punch_frames[5] = sf::IntRect(634, 810, 112, 125);
     forward_medium_punch_frames[6] = sf::IntRect(749, 804, 115, 126);
-
-    crouch_light_punch_frames[0] = sf::IntRect(12, 2235, 90, 80);
-    crouch_light_punch_frames[1] = sf::IntRect(102, 2227, 123, 90);
-
-    crouch_medium_punch_frames[0] = sf::IntRect(275, 2225, 90, 90);
-    crouch_medium_punch_frames[1] = sf::IntRect(365, 2225, 95, 90);
-    crouch_medium_punch_frames[2] = sf::IntRect(460, 2225, 125, 90);
-    crouch_medium_punch_frames[3] = sf::IntRect(585, 2225, 95, 90);
-    crouch_medium_punch_frames[4] = sf::IntRect(680, 2225, 95, 90);
-
-    forward_light_kick_frames[0] = sf::IntRect(14, 1137, 89, 124);
-    forward_light_kick_frames[1] = sf::IntRect(110, 1137, 100, 124);
-    forward_light_kick_frames[2] = sf::IntRect(215, 1137, 135, 124);
-    forward_light_kick_frames[3] = sf::IntRect(357, 1137, 103, 124);
-    forward_light_kick_frames[4] = sf::IntRect(465, 1137, 93, 124);
-
-    forward_heavy_kick_frames[0] = sf::IntRect(14, 1307, 92, 111);
-    forward_heavy_kick_frames[1] = sf::IntRect(112, 1307, 80, 111);
-    forward_heavy_kick_frames[2] = sf::IntRect(197, 1307, 83, 111);
-    forward_heavy_kick_frames[3] = sf::IntRect(286, 1307, 98, 111);
-    forward_heavy_kick_frames[4] = sf::IntRect(390, 1307, 105, 111);
-    forward_heavy_kick_frames[5] = sf::IntRect(500, 1299, 125, 119);
-    forward_heavy_kick_frames[6] = sf::IntRect(630, 1329, 124, 85);
-    forward_heavy_kick_frames[7] = sf::IntRect(760, 1332, 93, 83);
-    forward_heavy_kick_frames[8] = sf::IntRect(860, 1329, 96, 85);
 
     hit_taken_blanka_electricity_frames[0] = sf::IntRect(124, 5821, 115, 130);
     hit_taken_blanka_electricity_frames[1] = sf::IntRect(14, 5826, 105, 125);
@@ -307,6 +292,10 @@ void Balrog::punch1() {
     else if (curr_state == AnimationState::jump_forward && curr_frame <= 1) { // cant have them jump punching at apex of jump must be at/near start
         curr_state = AnimationState::forward_jump_punch;
     }
+    else if (curr_state == AnimationState::crouching) {
+        curr_frame = 0;
+        curr_state = AnimationState::crouch_light_punch;
+    }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_light_punch;
@@ -319,6 +308,10 @@ void Balrog::punch2() {
     }
     else if (curr_state == AnimationState::medium_punch_right) {
         combo = true;
+    }
+    else if (curr_state == AnimationState::crouching) {
+        curr_frame = 0;
+        curr_state = AnimationState::crouch_medium_punch;
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
@@ -334,36 +327,6 @@ void Balrog::punch3() {
         combo = true;
     }
 }
-//void Balrog::kick1() {
-//    if (curr_state == AnimationState::idle) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::light_kick;
-//    }
-//    else if (curr_state == AnimationState::crouching) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::crouch_kick;
-//    }
-//    else if (curr_state == AnimationState::move_right) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::forward_light_kick;
-//    }
-//}
-//void Balrog::kick2() {
-//    if (curr_state == AnimationState::idle) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::medium_kick;
-//    }
-//    else if (curr_state == AnimationState::move_right) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::forward_heavy_kick;
-//    }
-//}
-//void Balrog::kick3() {
-//    if (curr_state == AnimationState::idle) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::heavy_kick;
-//    }
-//}
 //void Balrog::specialMove1() {
 //    if (curr_state == AnimationState::idle) {
 //        curr_frame = 0;
@@ -723,20 +686,28 @@ void Balrog::update(float time) {
         return;
     }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::crouch_light_punch) {
-        if (curr_frame == 2)
+        if (curr_frame == 5)
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                 curr_state = AnimationState::crouching;
-                player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
+                player.setTextureRect(sf::IntRect(14, 1639, 65, 76));
+                player.setPosition(player.getGlobalBounds().left - 30, BOTTOMY - player.getGlobalBounds().height);
             }
             else {
                 curr_frame = 0;
                 incr_to_next_frame = 1;
                 player.setTextureRect(idle_frames[0]);
-                setPosition(player.getPosition().x, player.getPosition().y - 67);
+                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
                 curr_state = AnimationState::idle;
             }
-        else
+        else {
             player.setTextureRect(crouch_light_punch_frames[curr_frame++]);
+            if(curr_frame == 1)
+                player.setPosition(player.getGlobalBounds().left + 30, BOTTOMY - player.getGlobalBounds().height);
+            if (curr_frame == 3)
+                player.setPosition(player.getPosition().x - 18, player.getPosition().y);
+            if (curr_frame == 4)
+                player.setPosition(player.getPosition().x + 18, player.getPosition().y);
+        }
         time_elapsed = 0;
         return;
     }
@@ -744,21 +715,19 @@ void Balrog::update(float time) {
         if (curr_frame == 5)
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                 curr_state = AnimationState::crouching;
-                setPosition(player.getPosition().x, player.getPosition().y + 10);
-                player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
+                player.setTextureRect(sf::IntRect(14, 1639, 65, 76));
+                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
             }
             else {
                 curr_frame = 0;
                 incr_to_next_frame = 1;
                 player.setTextureRect(idle_frames[0]);
-                setPosition(player.getPosition().x, player.getPosition().y - 57);
+                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
                 curr_state = AnimationState::idle;
             }
         else {
-            if (curr_frame == 0)
-                setPosition(player.getPosition().x, player.getPosition().y - 10);
             player.setTextureRect(crouch_medium_punch_frames[curr_frame++]);
-
+            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
