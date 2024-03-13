@@ -28,12 +28,20 @@ void Button::setFont(sf::Font& f)
 {
   text.setFont(f);
 }
-void Button::setText(const char* str,int size,int x,int y)
+void Button::setText(const char* str,int size)
 {
   text.setString(str);
   text.setCharacterSize(size);
-  text.setPosition(x,y);
+  //centre text
+  float textX = container.getPosition().x + (container.getSize().x - text.getLocalBounds().width) / 2.0f;
+  float textY = container.getPosition().y + (container.getSize().y - text.getLocalBounds().height) / 2.0f;
+  sf::Glyph glyph = text.getFont()->getGlyph('N', size, false);
+  float charHeight = glyph.bounds.height;
+  textY -= (charHeight / 2.0);
+  text.setPosition(textX, textY);
+  //text.setPosition(x,y);
 }
+
 void Button::render(sf::RenderWindow& win)
 {
   win.draw(container);

@@ -11,13 +11,13 @@ sf::IntRect Balrog::heavy_punch_frames[3];
 sf::IntRect Balrog::alt_light_punch_frames[3];
 sf::IntRect Balrog::alt_medium_punch_frames[5];
 sf::IntRect Balrog::alt_heavy_punch_frames[5];
+sf::IntRect Balrog::jump_frames[7];
+sf::IntRect Balrog::jump_punch_frames[9];
 
 sf::IntRect Balrog::forward_light_punch_frames[7];
 sf::IntRect Balrog::forward_medium_punch_frames[7];
 sf::IntRect Balrog::crouch_light_punch_frames[2];
 sf::IntRect Balrog::crouch_medium_punch_frames[5];
-sf::IntRect Balrog::crouch_kick_frames[3];
-sf::IntRect Balrog::jump_frames[7];
 sf::IntRect Balrog::forward_light_kick_frames[5];
 sf::IntRect Balrog::forward_heavy_kick_frames[9];
 sf::IntRect Balrog::hit_taken_blanka_electricity_frames[2];
@@ -37,7 +37,7 @@ Balrog::Balrog() {
         cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }//spritesheet
-    image.createMaskFromColor(sf::Color(149, 155, 149));
+    //image.createMaskFromColor(sf::Color(149, 155, 149));
     texture.loadFromImage(image);
     player.setTexture(texture);
 
@@ -83,6 +83,24 @@ Balrog::Balrog() {
     alt_heavy_punch_frames[3] = sf::IntRect(436, 540, 115, 112);
     alt_heavy_punch_frames[4] = sf::IntRect(344, 540, 89, 112);
 
+    jump_frames[0] = sf::IntRect(14, 1975, 67, 97);
+    jump_frames[1] = sf::IntRect(84, 1971, 67, 100);
+    jump_frames[2] = sf::IntRect(154, 1925, 67, 80);
+    jump_frames[3] = sf::IntRect(224, 1925, 67, 66);
+    jump_frames[4] = sf::IntRect(154, 1925, 67, 80);
+    jump_frames[5] = sf::IntRect(84, 1971, 67, 100);
+    jump_frames[6] = sf::IntRect(14, 1975, 67, 97);
+
+    jump_punch_frames[0] = sf::IntRect(14, 2112, 67, 97);
+    jump_punch_frames[1] = sf::IntRect(84, 2108, 67, 101);
+    jump_punch_frames[2] = sf::IntRect(155, 2130, 80, 78);
+    jump_punch_frames[3] = sf::IntRect(404, 2125, 100, 84);
+    jump_punch_frames[4] = sf::IntRect(340, 2125, 60, 88);
+    jump_punch_frames[5] = sf::IntRect(404, 2125, 100, 84);
+    jump_punch_frames[6] = sf::IntRect(155, 2130, 80, 78);
+    jump_punch_frames[7] = sf::IntRect(84, 2108, 67, 101);
+    jump_punch_frames[8] = sf::IntRect(14, 2112, 67, 97);
+
     forward_light_punch_frames[0] = sf::IntRect(520, 327, 102, 113);
     forward_light_punch_frames[1] = sf::IntRect(628, 329, 103, 111);
     forward_light_punch_frames[2] = sf::IntRect(738, 329, 134, 111);
@@ -107,18 +125,6 @@ Balrog::Balrog() {
     crouch_medium_punch_frames[2] = sf::IntRect(460, 2225, 125, 90);
     crouch_medium_punch_frames[3] = sf::IntRect(585, 2225, 95, 90);
     crouch_medium_punch_frames[4] = sf::IntRect(680, 2225, 95, 90);
-
-    crouch_kick_frames[0] = sf::IntRect(810, 2225, 105, 90);
-    crouch_kick_frames[1] = sf::IntRect(912, 2220, 153, 95);
-    crouch_kick_frames[2] = sf::IntRect(1067, 2225, 105, 90);
-
-    jump_frames[0] = sf::IntRect(435, 2535, 107, 120);
-    jump_frames[1] = sf::IntRect(550, 2531, 107, 111);
-    jump_frames[2] = sf::IntRect(664, 2543, 110, 101);
-    jump_frames[3] = sf::IntRect(781, 2555, 125, 90);
-    jump_frames[4] = sf::IntRect(664, 2543, 110, 101);
-    jump_frames[5] = sf::IntRect(550, 2531, 107, 111);
-    jump_frames[6] = sf::IntRect(435, 2535, 107, 120);
 
     forward_light_kick_frames[0] = sf::IntRect(14, 1137, 89, 124);
     forward_light_kick_frames[1] = sf::IntRect(110, 1137, 100, 124);
@@ -237,55 +243,55 @@ void Balrog::jump() {
 void Balrog::crouch() {
     if (curr_state == AnimationState::idle) {
         curr_state = AnimationState::crouching;
-        setPosition(player.getPosition().x, player.getPosition().y + 67);
-        player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
+        player.setTextureRect(sf::IntRect(14, 1639, 65, 76));
+        player.setPosition(player.getGlobalBounds().left - 20, BOTTOMY - player.getGlobalBounds().height);
     }
     else if (curr_state == AnimationState::blocking) {
+        player.setTextureRect(sf::IntRect(312, 2598, 68, 81));
+        player.setPosition(player.getGlobalBounds().left + 35, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::crouch_blocking;
-        setPosition(player.getPosition().x, player.getPosition().y + 76);
-        player.setTextureRect(sf::IntRect(148, 4155, 85, 70));
     }
 }
-//void Balrog::block() {
-//    if (curr_state == AnimationState::idle) {
-//        setPosition(player.getPosition().x, player.getPosition().y + 10);
-//        player.setTextureRect(sf::IntRect(15, 4118, 85, 106));
-//        curr_state = AnimationState::blocking;
-//    }
-//    else if (curr_state == AnimationState::crouching) {
-//        setPosition(player.getPosition().x, player.getPosition().y + 19);
-//        player.setTextureRect(sf::IntRect(148, 4155, 85, 70));
-//        curr_state = AnimationState::crouch_blocking;
-//    }
-//}
-//void Balrog::uncrouch() {
-//    if (curr_state == AnimationState::crouching) {
-//        curr_frame = 0;
-//        incr_to_next_frame = 1;
-//        setPosition(player.getPosition().x, player.getPosition().y - 67);
-//        player.setTextureRect(idle_frames[curr_frame]);
-//        curr_state = AnimationState::idle;
-//    }
-//    else if (curr_state == AnimationState::crouch_blocking) {
-//        curr_state = AnimationState::blocking;
-//        setPosition(player.getPosition().x, player.getPosition().y - 76);
-//        player.setTextureRect(sf::IntRect(15, 4118, 85, 106));
-//    }
-//}
-//void Balrog::unblock() {
-//    if (curr_state == AnimationState::crouch_blocking) {
-//        setPosition(player.getPosition().x, player.getPosition().y - 19);
-//        player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
-//        curr_state = AnimationState::crouching;
-//    }
-//    else if (curr_state == AnimationState::blocking) {
-//        curr_frame = 0;
-//        incr_to_next_frame = 1;
-//        setPosition(player.getPosition().x, player.getPosition().y - 10);
-//        player.setTextureRect(idle_frames[0]);
-//        curr_state = AnimationState::idle;
-//    }
-//}
+void Balrog::uncrouch() {
+    if (curr_state == AnimationState::crouching) {
+        curr_frame = 0;
+        incr_to_next_frame = 1;
+        player.setTextureRect(idle_frames[curr_frame]);
+        player.setPosition(player.getGlobalBounds().left + 20, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::idle;
+    }
+    else if (curr_state == AnimationState::crouch_blocking) {
+        player.setTextureRect(sf::IntRect(14, 2565, 80, 115));
+        player.setPosition(player.getGlobalBounds().left - 35, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::blocking;
+    }
+}
+void Balrog::block() {
+    if (curr_state == AnimationState::idle) {
+        player.setTextureRect(sf::IntRect(14, 2565, 80, 115));
+        player.setPosition(player.getGlobalBounds().left - 55, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::blocking;
+    }
+    else if (curr_state == AnimationState::crouching) {
+        player.setTextureRect(sf::IntRect(312, 2598, 68, 81));
+        player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::crouch_blocking;
+    }
+}
+void Balrog::unblock() {
+    if (curr_state == AnimationState::crouch_blocking) {
+        curr_state = AnimationState::crouching;
+        player.setTextureRect(sf::IntRect(14, 1639, 65, 76));
+        player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+    }
+    else if (curr_state == AnimationState::blocking) {
+        curr_frame = 0;
+        incr_to_next_frame = 1;
+        player.setTextureRect(idle_frames[0]);
+        player.setPosition(player.getGlobalBounds().left + 55, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::idle;
+    }
+}
 //hits dealt
 void Balrog::punch1() {
     if (curr_state == AnimationState::idle) {
@@ -294,6 +300,12 @@ void Balrog::punch1() {
     }
     else if (curr_state == AnimationState::light_punch_right) {
         combo = true;
+    }
+    else if (curr_state == AnimationState::jump && curr_frame <= 1) { // cant have them jump punching at apex of jump must be at/near start
+        curr_state = AnimationState::jump_punch;
+    }
+    else if (curr_state == AnimationState::jump_forward && curr_frame <= 1) { // cant have them jump punching at apex of jump must be at/near start
+        curr_state = AnimationState::forward_jump_punch;
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
@@ -493,12 +505,13 @@ void Balrog::update(float time) {
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
             curr_state = AnimationState::idle;
+            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
         }
         else {
             if (curr_frame > 0 && curr_frame < 4)
-                setPosition(player.getPosition().x, player.getPosition().y - 50);
+                    setPosition(player.getPosition().x, player.getPosition().y - 50);
             else if (curr_frame > 3 && curr_frame < 7)
-                setPosition(player.getPosition().x, player.getPosition().y + 50);
+                    setPosition(player.getPosition().x, player.getPosition().y + 50);
             player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;
@@ -750,69 +763,47 @@ void Balrog::update(float time) {
         time_elapsed = 0;
         return;
     }
-    else if (time_elapsed >= MOVE_TIME && false) {
-        if (curr_frame == 3)
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                curr_state = AnimationState::crouching;
-                setPosition(player.getPosition().x, player.getPosition().y + 10);
-                player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
-            }
-            else {
-                curr_frame = 0;
-                incr_to_next_frame = 1;
-                player.setTextureRect(idle_frames[0]);
-                setPosition(player.getPosition().x, player.getPosition().y - 57);
-                curr_state = AnimationState::idle;
-            }
-        else {
-            if (curr_frame == 0)
-                setPosition(player.getPosition().x, player.getPosition().y - 10);
-            else if (curr_frame == 1)
-                setPosition(player.getPosition().x, player.getPosition().y - 3);
-            else if (curr_frame == 2)
-                setPosition(player.getPosition().x, player.getPosition().y + 3);
-            player.setTextureRect(crouch_kick_frames[curr_frame++]);
-        }
-        time_elapsed = 0;
-        return;
+    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::jump_punch) {
+    if (curr_frame == 9) {
+        curr_frame = 0;
+        incr_to_next_frame = 1;
+        player.setTextureRect(idle_frames[0]);
+        curr_state = AnimationState::idle;
+        player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
     }
-    else if (time_elapsed >= MOVE_TIME && false) {
-        if (curr_frame == 5) {
-            setPosition(player.getPosition().x, player.getPosition().y + 18);
-            curr_frame = 0;
-            incr_to_next_frame = 1;
-            player.setTextureRect(idle_frames[0]);
-            curr_state = AnimationState::idle;
-        }
-        else {
-            if (curr_frame == 0)
-                setPosition(player.getPosition().x, player.getPosition().y - 18);
-            if (player.getPosition().x + 10 <= 570)
-                setPosition(player.getPosition().x + 10, player.getPosition().y);
-            player.setTextureRect(forward_light_kick_frames[curr_frame++]);
-        }
-        time_elapsed = 0;
-        return;
+    else {
+        if (curr_frame > 0 && curr_frame < 4)
+            setPosition(player.getPosition().x, player.getPosition().y - 40);
+        else if (curr_frame > 4 && curr_frame < 8)
+            setPosition(player.getPosition().x, player.getPosition().y + 40);
+        player.setTextureRect(jump_punch_frames[curr_frame++]);
     }
-    else if (time_elapsed >= MOVE_TIME && false) {
-        if (curr_frame == 9) {
-            curr_frame = 0;
-            incr_to_next_frame = 1;
-            setPosition(player.getPosition().x, player.getPosition().y - 59);
-            player.setTextureRect(idle_frames[0]);
-            curr_state = AnimationState::idle;
-        }
-        else {
-            if (player.getPosition().x + 10 <= 570)
-                setPosition(player.getPosition().x + 10, player.getPosition().y);
-            if (curr_frame == 5)
-                setPosition(player.getPosition().x, player.getPosition().y - 16);
-            if (curr_frame == 6)
-                setPosition(player.getPosition().x, player.getPosition().y + 75);
-            player.setTextureRect(forward_heavy_kick_frames[curr_frame++]);
-        }
-        time_elapsed = 0;
-        return;
+    time_elapsed = 0;
+    return;
+    }
+    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::forward_jump_punch) {
+    if (curr_frame == 9) {
+        curr_frame = 0;
+        incr_to_next_frame = 1;
+        player.setTextureRect(idle_frames[0]);
+        curr_state = AnimationState::idle;
+        player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+    }
+    else {
+        if (curr_frame > 0 && curr_frame < 4)
+            if (player.getPosition().x + 25 <= 570)
+                setPosition(player.getPosition().x + 25, player.getPosition().y - 50);
+            else
+                setPosition(player.getPosition().x, player.getPosition().y - 50);
+        else if (curr_frame > 4 && curr_frame < 8)
+            if (player.getPosition().x + 50 <= 570)
+                setPosition(player.getPosition().x + 50, player.getPosition().y + 50);
+            else
+                setPosition(player.getPosition().x, player.getPosition().y + 50);
+        player.setTextureRect(jump_punch_frames[curr_frame++]);
+    }
+    time_elapsed = 0;
+    return;
     }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::jump_backward) {
         if (curr_frame == 7) {
@@ -918,7 +909,7 @@ void Balrog::update(float time) {
         time_elapsed = 0;
         return;
     }
-    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::special_move) {
+    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::special_move1) {
         if (curr_frame == 5 and count == 3) {
             curr_frame = 0;
             incr_to_next_frame = 1;

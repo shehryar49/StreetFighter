@@ -83,7 +83,6 @@ private:
     int curr_frame = -1;
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
-    int slot = 0;
 public:
     Zangief();
     void update(float);

@@ -12,19 +12,22 @@ private:
         //--------------------------------------movement-----------------------------------------------//
         move_right, //Right Arrow
         move_left, //Left Arrow
-        blocking, //Hold LShift
-        crouching, //Hold Down Arrow
-        crouch_blocking, //Hold LShift + Down Arrow
         jump, //Up Arrow
         jump_forward,//Right Arrow then Up Arrow 
         jump_backward, //Left Arrow then Up Arrow
+        crouching, //Hold Down Arrow
+        blocking, //Hold LShift
+        crouch_blocking, //Hold LShift + Down Arrow
         //--------------------------------------punches-----------------------------------------------//
         light_punch_right, //A
         medium_punch_right, //S
         heavy_punch_right, //D
-        alt_light_punch, //F
-        alt_medium_punch, //G
-        alt_heavy_punch, //H
+        alt_light_punch, //A + A
+        alt_medium_punch, //S + S
+        alt_heavy_punch, //D + D
+        jump_punch, //Up Arrow Key + A
+        forward_jump_punch, //Right Arrow Key + Up Arrow Key + A
+
         forward_light_punch, //Right Arrow Key then A
         forward_medium_punch, //Right Arrow Key then S
         crouch_light_punch, //Hold Down Arrow then Press A (can leave Down Arrow mid animation)
@@ -44,7 +47,8 @@ private:
         //---------------------------------------defeat----------------------------------------------//
         defeat, //Enter
         //-------------------------------------special move------------------------------------------//
-        special_move, // Q (Can press/hold Left or Right after Q to move Left and Right)
+        special_move1, // Q
+        special_move2, // W
         //---------------------------------------nothing--------------------------------------------//
         still,
     };
@@ -57,13 +61,13 @@ private:
     static sf::IntRect alt_light_punch_frames[3];
     static sf::IntRect alt_medium_punch_frames[5];
     static sf::IntRect alt_heavy_punch_frames[5];
+    static sf::IntRect jump_frames[7];
+    static sf::IntRect jump_punch_frames[9];
 
     static sf::IntRect forward_light_punch_frames[7];
     static sf::IntRect forward_medium_punch_frames[7];
     static sf::IntRect crouch_light_punch_frames[2];
     static sf::IntRect crouch_medium_punch_frames[5];
-    static sf::IntRect crouch_kick_frames[3];
-    static sf::IntRect jump_frames[7];
     static sf::IntRect forward_light_kick_frames[5];
     static sf::IntRect forward_heavy_kick_frames[9];
     static sf::IntRect hit_taken_blanka_electricity_frames[2];
@@ -95,19 +99,15 @@ public:
     void moveRight();
     void jump();
     void crouch();
-    //void uncrouch();
-    //void unblock();
-    ////void uncrouch();
-    //void block();
+    void uncrouch();
+    void block();
+    void unblock();
     ////hits dealt
     void punch1();
     void punch2();
     void punch3();
-    //void punch4();
-    //void punch5();
-    //void punch6();
-    //void punch7();
     //void specialMove1(); //helicopter
+    // void specialMove2();
     ////hits taken
     //void hit_taken_blanka_electricity();
     //void hit_taken_face();

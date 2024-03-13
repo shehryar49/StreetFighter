@@ -18,11 +18,12 @@ Menu::Menu(const char* values[],int totalButtons)
     int y = 150;
     for(int i=0;i<totalButtons;i++)
     {
-        buttons[i].setText(values[i],20,360,y+5);
+        //keep this order pos, font, text
+        buttons[i].setPosition(350, y);
         buttons[i].setFont(font);
+        buttons[i].setText(values[i],20);
         buttons[i].setBackgroundColor(sf::Color::Black);
         buttons[i].setForegroundColor(sf::Color::White);
-        buttons[i].setPosition(350, y);
         y += 80;
     }
 }

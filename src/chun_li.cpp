@@ -9,7 +9,7 @@ sf::IntRect Chun_Li::move_left_frames[12];
 sf::IntRect Chun_Li::jump_frames[9];
 
 Chun_Li::Chun_Li(){
-    if(!image.loadFromFile("assets/Chunli.png")){
+    if(!image.loadFromFile("assets/chun-li.png")){
         cerr<<"Err loading character";
     }//spritesheet
     //image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)

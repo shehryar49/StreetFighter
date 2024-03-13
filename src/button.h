@@ -13,7 +13,7 @@ public:
   void setBackgroundColor(sf::Color);
   void setForegroundColor(sf::Color);
   void setPosition(int,int);
-  void setText(const char*,int,int,int);
+  void setText(const char*,int);
   void setFont(sf::Font&);
   void render(sf::RenderWindow&);
   bool processMouseMove(int,int); // mouse hover events
