@@ -6,9 +6,6 @@
 
 class Chun_Li : public Player {
 private:
-    sf::Texture texture;
-    sf::Sprite chun_li;
-    sf::Image image;
     float time_elapsed = 0;
     enum class AnimationState {
         idle,
@@ -31,12 +28,20 @@ private:
 public:
     Chun_Li();
     void update(float);
-    bool processEvent(sf::Event&);
     void render(sf::RenderWindow&);
     void setPosition(float, float);
     sf::FloatRect getLocalBounds();
     sf::FloatRect getGlobalBounds();
+    bool processEvent(sf::Event&);
     void flipX();
+    //movements
+    void moveLeft();
+    void moveRight();
+    void jump();
+    void crouch();
+    void uncrouch();
+    void block();
+    void unblock();
     ~Chun_Li();
 };
 #endif

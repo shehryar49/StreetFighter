@@ -14,7 +14,7 @@ Chun_Li::Chun_Li(){
     }//spritesheet
     //image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
     texture.loadFromImage(image);
-    chun_li.setTexture(texture);
+    player.setTexture(texture);
     
     idle_frames[0] = sf::IntRect(15, 31, 74, 90);
     idle_frames[1] = sf::IntRect(95, 31, 74, 90);
@@ -57,101 +57,89 @@ Chun_Li::Chun_Li(){
     jump_frames[7] = sf::IntRect(97, 2337, 49, 113);
     jump_frames[8] = sf::IntRect(14, 2360, 77, 90);
     
-    chun_li.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
-    chun_li.setScale(sf::Vector2f(2.1,2.1));
+    player.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
+    player.setScale(sf::Vector2f(2.1,2.1));
 }
-
+void Chun_Li::moveLeft() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::move_left;
+    }
+}
+void Chun_Li::moveRight() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::move_right;
+    }
+}
+void Chun_Li::block() {
+    if (curr_state == AnimationState::idle) {
+        player.setTextureRect(sf::IntRect(96, 3839, 85, 88));
+        setPosition(player.getPosition().x,BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::block;
+    }
+    else if (curr_state == AnimationState::crouch) {
+        player.setTextureRect(sf::IntRect(389, 3857, 76, 70));
+        setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::crouch_block;
+    }
+}
+void Chun_Li::unblock() {
+    if (curr_state == AnimationState::block) {
+        curr_frame = 0;
+        incr_to_next_frame = 1;
+        player.setTextureRect(idle_frames[0]);
+        setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::idle;
+    }
+    else if (curr_state == AnimationState::crouch_block) {
+        player.setTextureRect(sf::IntRect(179, 2012, 73, 69));
+        setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::crouch;
+    }
+}
+void Chun_Li::crouch() {
+    if (curr_state == AnimationState::idle) {
+        player.setTextureRect(sf::IntRect(179, 2012, 73, 69));
+        setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::crouch;
+    }
+    else if (curr_state == AnimationState::block) {
+        player.setTextureRect(sf::IntRect(389, 3857, 76, 70));
+        setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::crouch_block;
+    }
+}
+void Chun_Li::uncrouch() {
+    if (curr_state == AnimationState::crouch) {
+        curr_frame = 0;
+        incr_to_next_frame = 1;
+        player.setTextureRect(idle_frames[0]);
+        setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::idle;
+    }
+    else if (curr_state == AnimationState::crouch_block) {
+        player.setTextureRect(sf::IntRect(96, 3839, 85, 88));
+        setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        curr_state = AnimationState::block;
+    }
+}
 bool Chun_Li::processEvent(sf::Event &event){
     if(event.type == sf::Event::KeyPressed){
-        if (curr_state == AnimationState::idle) {
-            if (event.key.code == sf::Keyboard::Right) {
-                curr_frame = 0;
-                curr_state = AnimationState::move_right;
-                return true;
-            }
-            if (event.key.code == sf::Keyboard::Left) {
-                curr_frame = 0;
-                curr_state = AnimationState::move_left;
-                return true;
-            }
-            if (event.key.code == sf::Keyboard::Down) {
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y + 48);
-                chun_li.setTextureRect(sf::IntRect(179,2012,73,69));
-                curr_state = AnimationState::crouch;
-                return true;
-            }
-            if (event.key.code == sf::Keyboard::LShift) {
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y + 5);
-                chun_li.setTextureRect(sf::IntRect(96, 3839, 85, 88));
-                curr_state = AnimationState::block;
-                return true;
-            }
-            if (event.key.code == sf::Keyboard::Up) {
-                curr_frame = 0;
-                curr_state = AnimationState::jump;
-                return true;
-            }
-        }
-        else if (curr_state == AnimationState::block) {
-            if (event.key.code == sf::Keyboard::Down) {
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y + 41);
-                chun_li.setTextureRect(sf::IntRect(389, 3857, 76, 70));
-                curr_state = AnimationState::crouch_block;
-                return true;
-            }
-        }
-        else if (curr_state == AnimationState::crouch) {
-            if (event.key.code == sf::Keyboard::LShift) {
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y - 2);
-                chun_li.setTextureRect(sf::IntRect(389, 3857, 76, 70));
-                curr_state = AnimationState::crouch_block;
-                return true;
-            }
-        }
-    }
-    if (event.type == sf::Event::KeyReleased) {
-        if (curr_state == AnimationState::crouch) {
-            if (event.key.code == sf::Keyboard::Down) {
-                curr_frame = 0;
-                incr_to_next_frame = 1;
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y - 48);
-                chun_li.setTextureRect(idle_frames[0]);
-                curr_state = AnimationState::idle;
-                return true;
-            }
-        }
-        else if (curr_state == AnimationState::block) {
-            if (event.key.code == sf::Keyboard::LShift) {
-                curr_frame = 0;
-                incr_to_next_frame = 1;
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y - 5);
-                chun_li.setTextureRect(idle_frames[0]);
-                curr_state = AnimationState::idle;
-                return true;
-            }
-        }
-        else if (curr_state == AnimationState::crouch_block) {
-            if (event.key.code == sf::Keyboard::Down) {
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y - 41);
-                chun_li.setTextureRect(sf::IntRect(96, 3839, 85, 88));
-                curr_state = AnimationState::block;
-                return true;
-            }
-            if (event.key.code == sf::Keyboard::LShift) {
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y + 2);
-                chun_li.setTextureRect(sf::IntRect(179, 2012, 73, 69));
-                curr_state = AnimationState::crouch;
-                return true;
-            }
-        }
     }
     return false;
+}
+void Chun_Li::jump() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::jump;
+    }
 }
 void Chun_Li::update(float time){
     time_elapsed += time;
     if (time_elapsed >= 0.8f && curr_state == AnimationState::idle){
         curr_frame += incr_to_next_frame;
-        chun_li.setTextureRect(idle_frames[curr_frame]);
+        player.setTextureRect(idle_frames[curr_frame]);
         if (curr_frame == 0)
             incr_to_next_frame = 1;
         else if (curr_frame == 3)
@@ -159,67 +147,67 @@ void Chun_Li::update(float time){
         time_elapsed = 0;//reset condition
         return;
     }
-    if (time_elapsed >= 0.04f && curr_state == AnimationState::move_right) {
+    if (time_elapsed >= MOVE_TIME/2.0 && curr_state == AnimationState::move_right) {
         if (curr_frame == 12) {
             curr_frame = 0;
             incr_to_next_frame = 1;
-            chun_li.setTextureRect(idle_frames[0]);
+            player.setTextureRect(idle_frames[0]);
             curr_state = AnimationState::idle;
         }
         else {
-            if (chun_li.getPosition().x + 5 <= 650)
-                setPosition(chun_li.getPosition().x + 5, chun_li.getPosition().y);
-            chun_li.setTextureRect(move_right_frames[curr_frame++]);
+            if (player.getPosition().x + 5 <= 650)
+                setPosition(player.getPosition().x + 5, player.getPosition().y);
+            player.setTextureRect(move_right_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
     }
-    if (time_elapsed >= 0.04f && curr_state == AnimationState::move_left) {
+    if (time_elapsed >= MOVE_TIME/2.0 && curr_state == AnimationState::move_left) {
         if (curr_frame == 12) {
             curr_frame = 0;
             incr_to_next_frame = 1;
-            chun_li.setTextureRect(idle_frames[0]);
+            player.setTextureRect(idle_frames[0]);
             curr_state = AnimationState::idle;
         }
         else {
-           if (chun_li.getPosition().x - 5 >= 0)
-                setPosition(chun_li.getPosition().x - 5, chun_li.getPosition().y);
-           chun_li.setTextureRect(move_left_frames[curr_frame++]);
+           if (player.getPosition().x - 5 >= 0)
+                setPosition(player.getPosition().x - 5, player.getPosition().y);
+           player.setTextureRect(move_left_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
     }
-    if (time_elapsed >= 0.062f && curr_state == AnimationState::jump) {
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::jump) {
         if (curr_frame == 9) {
             curr_frame = 0;
             incr_to_next_frame = 1;
-            chun_li.setTextureRect(idle_frames[0]);
+            player.setTextureRect(idle_frames[0]);
             curr_state = AnimationState::idle;
         }
         else {
             if(curr_frame > 0 && curr_frame < 5)
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y - 24);
+                setPosition(player.getPosition().x, player.getPosition().y - 50);
             else if(curr_frame > 4)
-                setPosition(chun_li.getPosition().x, chun_li.getPosition().y + 24);
-            chun_li.setTextureRect(jump_frames[curr_frame++]);
+                setPosition(player.getPosition().x, player.getPosition().y + 50);
+            player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
     }
 }
 void Chun_Li::render(sf::RenderWindow &window){
-    window.draw(chun_li);
+    window.draw(player);
 }
 void Chun_Li::setPosition(float x, float y) {
-    chun_li.setPosition(x, y);
+    player.setPosition(x, y);
 }
 sf::FloatRect Chun_Li::getLocalBounds(){
-    return chun_li.getLocalBounds();
+    return player.getLocalBounds();
 }
 sf::FloatRect Chun_Li::getGlobalBounds(){
-    return chun_li.getGlobalBounds();
+    return player.getGlobalBounds();
 }
 void Chun_Li::flipX() {
-    chun_li.setScale(-2.3,2.3);
+    player.setScale(-2.3,2.3);
 }
 Chun_Li::~Chun_Li(){}

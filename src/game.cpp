@@ -195,17 +195,14 @@ void Game::run()
     //  return;
     //option 0 is play
     
-    //player = new Chun_Li();
-    //player = new Zangief();
-    //player = new Ryu();
-    //player = new Ken();
-    //player = new Zangief();
     player = new Balrog();
-    //player = new Ryu();
-    //player->setPosition(120,300);
-    //player = new Ken();
+    //player = new Chun_Li();
     //player = new Dhalsim();
+    //player = new Ken();
+    //player = new Ryu();
     //player = new Sagat();
+    //player = new Zangief();
+
     //enemy = new Chun_Li();
     //enemy = new Ken();
     //enemy = new Dhalsim();
