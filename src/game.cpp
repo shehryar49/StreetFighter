@@ -1,8 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/WindowStyle.hpp>
+#include <cctype>
 #include <string>
 #include "game.h"
 #include "menu.h"
@@ -15,6 +18,24 @@
 #include "balrog.h"
 
 using namespace std;
+
+vector<string> split(const string& s,char x)
+{
+  vector<string> parts;
+  size_t len = s.length();
+  size_t start = 0;
+  for(size_t i = 0;i<len;i++)
+  {
+    if(s[i] == x)
+    {
+      //copy part s.substr(start,i-start)
+      parts.push_back(s.substr(start,i - start));
+      start = i+1;
+    }
+  }
+  parts.push_back(s.substr(start,len - start));
+  return parts;
+}
 // private
 void Game::pollEvents()
 {
@@ -148,6 +169,122 @@ void Game::playIntro()
     window.setFramerateLimit(0);
     bgm.stop();
 }
+std::string Game::execCommand(const std::string& command)
+{
+  if(command == "")
+    return "";
+  vector<string> parts = split(command,' ');
+  
+  //remove extra space from each word
+  for(size_t i=0;i<parts.size();i++)
+  {
+    string& word = parts[i];
+    while(word.length()>1 && word[0] == ' ')
+      word.erase(word.begin());
+    while(word.length()>1 && word.back() == ' ')
+      word.pop_back();
+  }
+  //Execute da command
+  if(parts[0] == "set")
+  {
+    if(parts.size() != 3)
+      return "usage: set option value";
+    if(parts[1] == "volume")
+    {
+      int vol = atoi(parts[2].c_str());
+      return "Volume set to "+parts[2];
+    }
+    else if(parts[1] == "fps")
+    {
+      int fps = atoi(parts[2].c_str());
+      return "FPS set to "+parts[2];
+    }
+    return "Invalid syntax! Fallback to GUI if you are a noob.";
+  }
+  return "Invalid syntax! Fallback to GUI if you are a noob.";
+}
+void Game::showTerminal()
+{
+  sf::Text text;
+  sf::Text introText;
+  sf::Text outputText;
+  sf::Text cursor;
+
+  sf::Font f;
+  f.loadFromFile("assets/Hack-Regular.ttf");
+  introText.setFont(f);
+  introText.setCharacterSize(14);
+  introText.setString("In a world full of GUI users, be a CLI user. Welcome master!");
+  introText.setStyle(sf::Text::Style::Regular);
+  introText.setPosition(5,0);
+  introText.setFillColor(sf::Color::Green);
+
+  outputText.setFont(f);
+  outputText.setFillColor(sf::Color::Green);
+  outputText.setCharacterSize(14);
+  outputText.setString("command output will appear here");
+  outputText.setPosition(5,25);
+
+  text.setFont(f);
+  text.setString("shell> ");
+  text.setCharacterSize(14);
+  text.setPosition(5,50);
+  text.setFillColor(sf::Color::Green);
+
+  cursor.setFont(f);
+  cursor.setString("_");
+  cursor.setCharacterSize(14);
+  cursor.setPosition(60,50);
+  cursor.setFillColor(sf::Color::Green);
+
+  std::string command;
+  sf::Clock clock;
+  float elapsed = 0;
+  bool showCursor = true;
+  while (window.isOpen())
+  {
+    float dt = clock.restart().asSeconds();
+    elapsed += dt;
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            window.close();
+        if (event.type == sf::Event::TextEntered)
+        {
+          if (event.text.unicode < 128 && (isalpha(event.text.unicode) || isdigit(event.text.unicode) || event.text.unicode == 32))
+          {
+            command += static_cast<char>(event.text.unicode);
+            text.setString(text.getString() + static_cast<char>(event.text.unicode) );
+            cursor.setPosition(cursor.getPosition().x+8,cursor.getPosition().y);
+          }
+          if(event.text.unicode == 13)//newline
+          {
+            std::string res = execCommand(command);
+            command = "";
+            text.setString("shell> ");
+            cursor.setPosition(60,50);
+            outputText.setString(res);
+          }
+        }
+
+    }
+    window.clear();
+    if(elapsed >= 700*dt)
+    {
+      //toggle cursor
+      showCursor = !showCursor;
+      elapsed = 0;
+    }
+
+    window.draw(introText);
+    if(showCursor)
+      window.draw(cursor);
+    window.draw(outputText);
+    window.draw(text);
+    window.display();
+  }
+}
 int Game::showMenu()
 {
   const char* entries[] = {"Play","Credits","Quit"};
@@ -186,6 +323,8 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
+    showTerminal();
+    return;
     window.setFramerateLimit(60);
     //playIntro();
     //key was pressed, so we are back after playing intro

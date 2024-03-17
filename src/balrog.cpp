@@ -538,16 +538,18 @@ void Balrog::update(float time) {
             curr_state = AnimationState::idle;
         }
         else {
-            if (curr_frame > 0 && curr_frame < 4)
+            if (curr_frame > 0 && curr_frame < 4){
                 if (player.getPosition().x + 25 <= 570)
                     setPosition(player.getPosition().x + 25, player.getPosition().y - 50);
                 else
                     setPosition(player.getPosition().x, player.getPosition().y - 50);
-            else if (curr_frame > 3 && curr_frame < 7)
+            }
+            else if (curr_frame > 3 && curr_frame < 7){
                 if (player.getPosition().x + 50 <= 570)
-                    setPosition(player.getPosition().x + 50, player.getPosition().y + 50);
+                  setPosition(player.getPosition().x + 50, player.getPosition().y + 50);
                 else
-                    setPosition(player.getPosition().x, player.getPosition().y + 50);
+                  setPosition(player.getPosition().x, player.getPosition().y + 50);
+            }
             player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;
