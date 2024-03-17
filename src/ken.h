@@ -19,7 +19,7 @@ private:
         KICK1,
         KICK2,
         JMP,
-        LAND
+        DELAY
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -31,10 +31,13 @@ private:
     static sf::IntRect punch2_frames[3]; 
     static sf::IntRect kick1_frames[3]; // side kick
     static sf::IntRect kick2_frames[3]; // low kick
-    static sf::IntRect jmp_frames[7]; 
+    static sf::IntRect jmp_frames[8]; 
     
     int currFrame = 0;
     int frameIncrement = 1;
+    float JMPY = -30;
+    float delay_time = 0;
+    AnimationState lastState;
 public:
     Ken();
     void update(float);
@@ -47,6 +50,7 @@ public:
     void kick2();
     void moveLeft();
     void moveRight();
+    void jump();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Ken();

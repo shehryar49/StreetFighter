@@ -19,6 +19,7 @@ Menu::Menu(const char* values[],int totalButtons)
     for(int i=0;i<totalButtons;i++)
     {
         //keep this order pos, font, text
+        // why tho?
         buttons[i].setPosition(350, y);
         buttons[i].setFont(font);
         buttons[i].setText(values[i],20);

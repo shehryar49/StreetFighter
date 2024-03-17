@@ -323,8 +323,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
-    showTerminal();
-    return;
+
     window.setFramerateLimit(60);
     //playIntro();
     //key was pressed, so we are back after playing intro
@@ -332,12 +331,13 @@ void Game::run()
     //some option was selected from the menu
     //if(option == 1 || option == 2)
     //  return;
+    
     //option 0 is play
     
-    player = new Balrog();
+    //player = new Balrog();
     //player = new Chun_Li();
     //player = new Dhalsim();
-    //player = new Ken();
+    player = new Ken();
     //player = new Ryu();
     //player = new Sagat();
     //player = new Zangief();

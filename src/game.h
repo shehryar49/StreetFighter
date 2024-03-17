@@ -18,6 +18,7 @@ private:
     sf::Clock clock;
     Player *player;
     Player* enemy;
+    
     sf::RectangleShape health1;
     sf::RectangleShape health2;
     enum class GameState

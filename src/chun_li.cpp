@@ -14,6 +14,7 @@ Chun_Li::Chun_Li(){
     }//spritesheet
     //image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
     texture.loadFromImage(image);
+    
     player.setTexture(texture);
     
     idle_frames[0] = sf::IntRect(15, 31, 74, 90);

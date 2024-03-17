@@ -537,6 +537,7 @@ void Balrog::update(float time) {
             player.setTextureRect(idle_frames[0]);
             curr_state = AnimationState::idle;
         }
+        
         else {
             if (curr_frame > 0 && curr_frame < 4){
                 if (player.getPosition().x + 25 <= 570)

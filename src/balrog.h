@@ -92,6 +92,7 @@ private:
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
     bool combo = false;
+    
 public:
     Balrog();
     void update(float);

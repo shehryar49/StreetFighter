@@ -18,4 +18,5 @@ public:
   int pollEvent(sf::Event&);
   ~Menu();
 };
+
 #endif
