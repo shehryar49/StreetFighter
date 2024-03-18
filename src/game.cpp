@@ -113,7 +113,17 @@ void Game::pollEvents()
 }
 void Game::update(float dt)
 {
+    static float elapsed = 0;
+    elapsed += dt;
     player->update(dt);
+    if(true && player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+    {
+     // cout << "damage" << endl;
+      if(enemyDamage <= 98)
+        enemyDamage += 2;
+      damage.setSize(sf::Vector2f(enemyDamage*3,25));
+      elapsed = 0;
+    }
     enemy->update(dt);
 }
 void Game::playIntro()
@@ -319,6 +329,10 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   health2.setFillColor(sf::Color(255,255,0));
   health1.setPosition(0,0);
   health2.setPosition(500,0);
+
+  damage.setSize(sf::Vector2f(0,25));
+  damage.setFillColor(sf::Color::Red);
+  damage.setPosition(500,0);
 }
 
 void Game::run()
@@ -337,8 +351,8 @@ void Game::run()
     //player = new Balrog();
     //player = new Chun_Li();
     //player = new Dhalsim();
-    player = new Ken();
-    //player = new Ryu();
+    //player = new Ken();
+      player = new Ryu();
     //player = new Sagat();
     //player = new Zangief();
 
@@ -358,6 +372,7 @@ void Game::run()
         window.draw(background);
         window.draw(health1);
         window.draw(health2);
+        window.draw(damage);
         player->render(window);
         enemy->render(window);
         window.display();
