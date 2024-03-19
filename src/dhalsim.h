@@ -42,6 +42,7 @@ private:
         UNCROUCHING, //standing up
         CROUCHED,
         FAST_CROUCHED,
+        VICTORY_1//8
     };
     AnimationState state;
     static sf::IntRect IDLE_frames[6];
@@ -55,6 +56,7 @@ private:
     static sf::IntRect kick2_frames[3]; 
     static sf::IntRect kick3_frames[6];
     static sf::IntRect crouching_frames[3];
+    static sf::IntRect victory1_frames[12];
 
     int currFrame = 0;
     int frameIncrement = 1;
@@ -78,6 +80,7 @@ public:
     void jump();
     void crouch();
     void uncrouch();
+    //void victory(int);
     ~Dhalsim();
 };
 #endif

@@ -17,6 +17,7 @@ sf::IntRect Dhalsim::kick1_frames[3];
 sf::IntRect Dhalsim::kick2_frames[3];
 sf::IntRect Dhalsim::kick3_frames[6];
 sf::IntRect Dhalsim::crouching_frames[3];
+sf::IntRect Dhalsim::victory1_frames[12];
 
 Dhalsim::Dhalsim()
 {
@@ -79,11 +80,25 @@ Dhalsim::Dhalsim()
     crouching_frames[0] = sf::IntRect(10, 1415, 90, 110);
     crouching_frames[1] = sf::IntRect(10+90*1, 1415, 90, 110);
     crouching_frames[2] = sf::IntRect(10+90*2, 1415, 90, 110);
+
+    victory1_frames[0] = sf::IntRect(15, 2945, 105, 110);
+    victory1_frames[1] = sf::IntRect(15+16+105, 2945, 105, 110);
+    victory1_frames[2] = sf::IntRect(15+16+25+105+105, 2945, 105, 110);
+    victory1_frames[3] = sf::IntRect(15+16+25+28+105+105+105, 2945, 125, 110);
+    victory1_frames[4] = sf::IntRect(15+16+25+28+20+105+105+105+125, 2945, 125, 110);
+    victory1_frames[5] = sf::IntRect(15+16+25+28+20+20+105+105+105+125+125, 2945, 135, 110);
+    victory1_frames[6] = sf::IntRect(15+16+25+28+20+20+10+105+105+105+125+125+135, 2945, 140, 110);
+    victory1_frames[7] = sf::IntRect(15+16+25+28+20+20+10+16+105+105+105+125+125+135+140, 2945, 125, 110);
+    victory1_frames[8] = sf::IntRect(15+16+25+28+20+20+10+16+18+105+105+105+125+125+135+140+125, 2945, 125, 110);
+    victory1_frames[9] = sf::IntRect(22, 3095, 105, 115);
+    victory1_frames[10]= sf::IntRect(22 + 16 + 105, 3095, 105, 115);
+    victory1_frames[11]= sf::IntRect(22 + 16 + 25 + 105 + 105, 3095, 105, 115);
+
                                    
-    player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(victory1_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
-    state = AnimationState::IDLE;
+    state = AnimationState::VICTORY_1;
     frameIncrement = 1;
 }
 bool Dhalsim::processEvent(sf::Event& ev)
@@ -210,6 +225,16 @@ void Dhalsim::update(float dt)
             frameIncrement = -1;
         currFrame = (currFrame + frameIncrement);
         player.setTextureRect(IDLE_frames[currFrame]);
+        elapsed = 0;
+    }
+    else if ((elapsed >= (IDLE_TIME)) && state == AnimationState::VICTORY_1)
+    {
+        if (currFrame == 0)
+            frameIncrement = 1;
+        else if (currFrame == 11)
+            frameIncrement = -1;
+        currFrame = (currFrame + frameIncrement);
+        player.setTextureRect(victory1_frames[currFrame]);
         elapsed = 0;
     }
     else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
