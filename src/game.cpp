@@ -50,10 +50,10 @@ void Game::pollEvents()
             switch(event.key.code)
             {
                 case sf::Keyboard::Left:
-                  player->moveLeft();
+                  player->moveLeft(0);
                   break;
                 case sf::Keyboard::Right:
-                  player->moveRight();
+                  player->moveRight(enemy->getGlobalBounds().left);
                   break;
                 case sf::Keyboard::Up:
                   player->jump();
@@ -119,8 +119,8 @@ void Game::update(float dt)
     if(true && player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
     {
      // cout << "damage" << endl;
-      if(enemyDamage <= 98)
-        enemyDamage += 2;
+      if(enemyDamage <= 99.9f)
+        enemyDamage += 0.1;
       damage.setSize(sf::Vector2f(enemyDamage*3,25));
       elapsed = 0;
     }
@@ -350,9 +350,9 @@ void Game::run()
     
     //player = new Balrog();
     //player = new Chun_Li();
-    player = new Dhalsim();
+    //player = new Dhalsim();
     //player = new Ken();
-    //player = new Ryu();
+    player = new Ryu();
     //player = new Sagat();
     //player = new Zangief();
 

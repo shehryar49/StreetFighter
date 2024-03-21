@@ -31,8 +31,8 @@ sf::FloatRect Player::getLocalBounds()
 }
 
 void Player::flipX(){}
-void Player::moveLeft(){}
-void Player::moveRight(){}
+void Player::moveLeft(float){}
+void Player::moveRight(float){}
 void Player::punch1(){}
 void Player::punch2(){}
 void Player::punch3(){}

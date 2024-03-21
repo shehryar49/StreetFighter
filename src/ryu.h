@@ -60,6 +60,7 @@ private:
     int currFrame = 0;
     int frameIncrement = 1;
     bool hadoken = false; // hadoken travelling
+    float limit;
 public:
     Ryu();
     void update(float);
@@ -68,8 +69,8 @@ public:
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     void flipX();
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float);
+    void moveRight(float);
     void punch1();
     void punch2();
     void punch3();

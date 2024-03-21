@@ -22,7 +22,7 @@ private:
     sf::RectangleShape health1;
     sf::RectangleShape health2;
     sf::RectangleShape damage;
-    int enemyDamage = 0;
+    float enemyDamage = 0;
     enum class GameState
     {
       MENU,

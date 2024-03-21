@@ -14,8 +14,8 @@ public:
     virtual sf::FloatRect getLocalBounds();
     
     virtual void flipX();
-    virtual void moveLeft();
-    virtual void moveRight();
+    virtual void moveLeft(float);
+    virtual void moveRight(float);
     virtual void punch1();
     virtual void punch2();
     virtual void punch3();

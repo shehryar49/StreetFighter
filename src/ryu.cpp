@@ -128,22 +128,24 @@ Ryu::Ryu()
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-void Ryu::moveLeft()
+void Ryu::moveLeft(float f)
 {
     if(state == AnimationState::IDLE)
     {
       state = AnimationState::MOVE_LEFT;
       currFrame = -1;
       frameIncrement = 1;
+      limit = f;
     }
 }
-void Ryu::moveRight()
+void Ryu::moveRight(float f)
 {
     if(state == AnimationState::IDLE)
     {
       state = AnimationState::MOVE_RIGHT;
       currFrame = -1;
       frameIncrement = 1;
+      limit = f;
     }
 }
 //
@@ -330,7 +332,7 @@ void Ryu::update(float dt)
         currFrame = currFrame+1;
         player.setTextureRect(moveright_frames[currFrame]);
         elapsed = 0;
-        if(player.getPosition().x + 150 < 800) // window width is 800
+        if(player.getPosition().x + 150 < limit) // window width is 800
           player.setPosition(player.getPosition().x+10,player.getPosition().y);
         if(currFrame == 5)
         { 
@@ -344,7 +346,7 @@ void Ryu::update(float dt)
         currFrame = currFrame+1;
         player.setTextureRect(moveleft_frames[currFrame]);
         elapsed = 0;
-        if(player.getPosition().x - 20 > 0) // window width is 800
+        if(player.getPosition().x - 20 > limit) // window width is 800
           player.setPosition(player.getPosition().x-10,player.getPosition().y);
         if(currFrame == 5)
         { 
