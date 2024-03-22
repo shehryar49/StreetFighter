@@ -25,7 +25,7 @@ Dhalsim::Dhalsim()
         cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }
-    img.createMaskFromColor(sf::Color(70, 112, 104, 255));
+    //img.createMaskFromColor(sf::Color(70, 112, 104, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -74,8 +74,19 @@ Dhalsim::Dhalsim()
     punch3_frames[3] = sf::IntRect(15+90+100+170, 375, 240, 110);
 
     kick1_frames[0] = sf::IntRect(65+15 + 90 + 100 + 170 + 240, 375, 90, 110);
-    kick1_frames[1] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90, 375, 130, 115);
-    kick1_frames[2] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90 + 130, 375, 190, 115);
+    kick1_frames[1] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90, 375, 130, 110);
+    kick1_frames[2] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90 + 130, 375, 190, 110);
+
+    kick2_frames[0] = sf::IntRect(0, 520, 90, 110);
+    kick2_frames[1] = sf::IntRect(10+90, 520, 125, 110);
+    kick2_frames[2] = sf::IntRect(10+90+125, 520, 200, 110);//height issue to be fixed
+
+    kick3_frames[0] = sf::IntRect(10+90+125+200+50,520,90,110);
+    kick3_frames[1] = sf::IntRect(10+90+125+200+50+90,520,90,110);//height issue to be fixed
+    kick3_frames[2] = sf::IntRect(10+90+125+200+50+90+90,520,90,110);//height issue to be fixed
+    kick3_frames[3] = sf::IntRect(10+90+125+200+50+90+90+90,520,110,110);
+    kick3_frames[4] = sf::IntRect(10+90+125+200+50+90+90+90+110,520,210,110);//height issue to be fixed
+    kick3_frames[5] = sf::IntRect(10+90+125+200+50+90+90+90+110+210,520,90,110);
 
     crouching_frames[0] = sf::IntRect(10, 1415, 90, 110);
     crouching_frames[1] = sf::IntRect(10+90*1, 1415, 90, 110);
@@ -95,10 +106,10 @@ Dhalsim::Dhalsim()
     victory1_frames[11]= sf::IntRect(22 + 16 + 25 + 105 + 105, 3095, 105, 115);
 
                                    
-    player.setTextureRect(victory1_frames[0]);
+    player.setTextureRect(kick3_frames[5]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
-    state = AnimationState::VICTORY_1;
+    state = AnimationState::IDLE;
     frameIncrement = 1;
 }
 bool Dhalsim::processEvent(sf::Event& ev)
@@ -214,6 +225,41 @@ void Dhalsim::kick1()
     //}
 }
 
+void Dhalsim::kick2()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::KICK2;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+    //else if (state == AnimationState::CROUCHED)
+    //{
+    //    state = AnimationState::CROUCHED_KICK2;
+    //    currFrame = 0;
+    //    frameIncrement = 1;
+    //}
+}
+void Dhalsim::kick3()
+{
+    if (state == AnimationState::IDLE)
+    {
+        player.setPosition(player.getGlobalBounds().left, BOTTOMY - (120 * PLAYER_SPRITE_Y_SCALE) + 1);
+        state = AnimationState::KICK3;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+void Dhalsim::victory() //to be set for winning condition
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::VICTORY_1;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+}
+
 void Dhalsim::update(float dt)
 {
     elapsed += dt;
@@ -227,6 +273,13 @@ void Dhalsim::update(float dt)
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
+    {
+        player.setTextureRect(IDLE_frames[0]);
+        currFrame++;
+        state = AnimationState::IDLE;
+        elapsed = 0;
+    }
     else if ((elapsed >= (IDLE_TIME)) && state == AnimationState::VICTORY_1)
     {
         if (currFrame == 0)
@@ -235,13 +288,6 @@ void Dhalsim::update(float dt)
             frameIncrement = -1;
         currFrame = (currFrame + frameIncrement);
         player.setTextureRect(victory1_frames[currFrame]);
-        elapsed = 0;
-    }
-    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
-    {
-        player.setTextureRect(IDLE_frames[0]);
-        currFrame++;
-        state = AnimationState::IDLE;
         elapsed = 0;
     }
     else if (elapsed >= 0.2f && state == AnimationState::JMP)
@@ -363,6 +409,30 @@ void Dhalsim::update(float dt)
         player.setTextureRect(kick1_frames[currFrame]);
         elapsed = 0;
         if (currFrame == 2) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= 0.08f && state == AnimationState::KICK2)
+    {
+        currFrame++;
+        player.setTextureRect(kick2_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 2) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= 0.08f && state == AnimationState::KICK3)
+    {
+        currFrame++;
+        player.setTextureRect(kick3_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 5) //last frame rendered
         {
             state = AnimationState::FASTIDLE;
             currFrame = 0;

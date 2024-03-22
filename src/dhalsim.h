@@ -33,7 +33,7 @@ private:
         RETREAT3, //move back after punch 3
 
         //-------------kicks
-        KICK1, 
+        KICK1,
         KICK2, 
         KICK3,
 
@@ -42,7 +42,7 @@ private:
         UNCROUCHING, //standing up
         CROUCHED,
         FAST_CROUCHED,
-        VICTORY_1//8
+        VICTORY_1//to be set when player wins
     };
     AnimationState state;
     static sf::IntRect IDLE_frames[6];
@@ -75,12 +75,12 @@ public:
     void punch2();
     void punch3();
     void kick1();
-    //void kick2();
-    //void kick3();
+    void kick2();
+    void kick3();
     void jump();
     void crouch();
     void uncrouch();
-    //void victory(int);
+    void victory();
     ~Dhalsim();
 };
 #endif
