@@ -20,6 +20,8 @@ sf::IntRect Sagat::jmp_frames[6];
 sf::IntRect Sagat::crouch_frames[2];
 sf::IntRect Sagat::crouched_punch1_frames[3];
 sf::IntRect Sagat::crouched_punch2_frames[5];
+//sf::IntRect Sagat::crouched_kick1_frames[5];
+
 sf::IntRect Sagat::uppercut_frames[10];
 sf::IntRect Sagat::fireball_frames[5];
 
@@ -54,18 +56,15 @@ Sagat::Sagat()
     crouch_frames[0] = sf::IntRect(506, 179, 80, 124);
     crouch_frames[1] = sf::IntRect(610, 211, 97, 70);
 
-    //--------CHANGE
-    crouched_punch1_frames[0] = sf::IntRect(25, 1308, 75, 100);
-    crouched_punch1_frames[1] = sf::IntRect(115, 1308, 105, 100);
-    crouched_punch1_frames[2] = sf::IntRect(115, 1308, 105, 100);
+    crouched_punch1_frames[0] = sf::IntRect(587, 1102, 92, 69);
+    crouched_punch1_frames[1] = sf::IntRect(692, 1103, 140, 69);
+    crouched_punch1_frames[2] = sf::IntRect(851, 1102, 92, 69);
 
-
-    //--------CHANGE
-    crouched_punch2_frames[0] = sf::IntRect(260, 1308, 90, 100);
-    crouched_punch2_frames[1] = sf::IntRect(350, 1308, 90, 100);
-    crouched_punch2_frames[2] = sf::IntRect(450, 1308, 90, 100);
-    crouched_punch2_frames[3] = sf::IntRect(350, 1308, 90, 100);
-    crouched_punch2_frames[4] = sf::IntRect(450, 1308, 90, 100);
+    crouched_punch2_frames[0] = sf::IntRect(563, 1229, 92, 80);
+    crouched_punch2_frames[1] = sf::IntRect(671, 1232, 88, 77);
+    crouched_punch2_frames[2] = sf::IntRect(790, 1249, 140, 57);
+    crouched_punch2_frames[3] = sf::IntRect(948, 1249, 31, 35);
+    crouched_punch2_frames[4] = sf::IntRect(984, 1248, 43, 39);
 
 
     punch1_frames[0] = sf::IntRect(20, 461, 94, 117);
@@ -219,12 +218,12 @@ void Sagat::kick1()
         currFrame = -1;
         frameIncrement = 1;
     }
-    else if (state == AnimationState::CROUCHED)
+    /*else if (state == AnimationState::CROUCHED)
     {
         state = AnimationState::CROUCHED_KICK1;
         currFrame = 0;
         frameIncrement = 1;
-    }
+    }*/
 }
 
 void Sagat::kick2()
@@ -527,7 +526,7 @@ void Sagat::update(float dt)
             player.setTextureRect(crouch_frames[1]);
         }
     }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
+    /*else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
     {
         player.setTextureRect(crouched_kick1_frames[currFrame]);
         currFrame += frameIncrement;
@@ -542,7 +541,7 @@ void Sagat::update(float dt)
             state = AnimationState::CROUCHED;
             player.setTextureRect(crouch_frames[1]);
         }
-    }
+    }*/
 }
 
 

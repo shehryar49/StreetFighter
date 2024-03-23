@@ -51,7 +51,7 @@ private:
     static sf::IntRect crouch_frames[2];
     static sf::IntRect crouched_punch1_frames[3];
     static sf::IntRect crouched_punch2_frames[5];
-    static sf::IntRect crouched_kick1_frames[5];
+    //static sf::IntRect crouched_kick1_frames[5];
     static sf::IntRect uppercut_frames[10];
 
 
