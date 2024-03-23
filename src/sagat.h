@@ -5,8 +5,8 @@
 class Sagat : public Player
 {
 private:
-    sf::Texture texture;
-    sf::Sprite player;
+    //sf::Texture texture;
+    sf::Sprite gola;
     sf::Image img;
     sf::Vector2f pos; // to save before jumping
     float elapsed = 0;
@@ -25,6 +25,11 @@ private:
         JMP,
         CROUCH,
         UNCROUCH,
+        CROUCHED,
+        FAST_CROUCHED,
+        CROUCHED_PUNCH1,
+        CROUCHED_PUNCH2,
+        CROUCHED_KICK1,
         FIREBALL,
         UPPERCUT,
         UPPERCUT_LAND,
@@ -34,7 +39,7 @@ private:
 
     static sf::IntRect IDLE_frames[5];
     static sf::IntRect moveright_frames[4];
-    static sf::IntRect moveleft_frames[4]; 
+    static sf::IntRect moveleft_frames[4];
     static sf::IntRect punch1_frames[3];
     static sf::IntRect punch2_frames[5];
     static sf::IntRect punch3_frames[4];
@@ -44,6 +49,9 @@ private:
     static sf::IntRect kick3_frames[7];
     static sf::IntRect jmp_frames[6];
     static sf::IntRect crouch_frames[2];
+    static sf::IntRect crouched_punch1_frames[3];
+    static sf::IntRect crouched_punch2_frames[5];
+    static sf::IntRect crouched_kick1_frames[5];
     static sf::IntRect uppercut_frames[10];
 
 
@@ -53,12 +61,30 @@ private:
 public:
     Sagat();
     void update(float);
-    bool processEvent(sf::Event&);
     void render(sf::RenderWindow&);
     void setPosition(float, float);
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     void flipX();
+    void moveLeft();
+    void moveRight();
+    void punch1();
+    void punch2();
+    void punch3();
+    void kick1();
+    void kick2();
+    void kick3();
+    void jump();
+    void crouch();
+    void uncrouch();
     ~Sagat();
 };
 #endif
+
+
+
+
+
+
+
+
