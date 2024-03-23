@@ -1,10 +1,15 @@
 //written by Usman Ali
 #include "sagat.h"
+#include "constants.h"
+#include <stdio.h>
 using namespace std;
 
+
+#define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
+#define STOP false
 sf::IntRect Sagat::IDLE_frames[5];
 sf::IntRect Sagat::moveright_frames[4];
-sf::IntRect Sagat::moveleft_frames[4]; 
+sf::IntRect Sagat::moveleft_frames[4];
 sf::IntRect Sagat::punch1_frames[3];
 sf::IntRect Sagat::punch2_frames[5];
 sf::IntRect Sagat::punch3_frames[4];
@@ -13,6 +18,8 @@ sf::IntRect Sagat::kick2_frames[7];
 sf::IntRect Sagat::kick3_frames[7];
 sf::IntRect Sagat::jmp_frames[6];
 sf::IntRect Sagat::crouch_frames[2];
+sf::IntRect Sagat::crouched_punch1_frames[3];
+sf::IntRect Sagat::crouched_punch2_frames[5];
 sf::IntRect Sagat::uppercut_frames[10];
 sf::IntRect Sagat::fireball_frames[5];
 
@@ -20,14 +27,12 @@ sf::IntRect Sagat::fireball_frames[5];
 Sagat::Sagat()
 {
     img.loadFromFile("assets/sagat.png");
-   img.createMaskFromColor(sf::Color(248, 0, 248, 255)); 
-
+    img.createMaskFromColor(sf::Color(248, 0, 248, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
+    //player.setPosition(100, 100);
 
-    player.setPosition(100, 100);
 
-    
 
     IDLE_frames[0] = sf::IntRect(11, 23, 80, 124);
     IDLE_frames[1] = sf::IntRect(109, 23, 80, 124);
@@ -39,15 +44,29 @@ Sagat::Sagat()
     moveright_frames[1] = sf::IntRect(119, 151, 67, 127);
     moveright_frames[2] = sf::IntRect(231, 148, 69, 130);
     moveright_frames[3] = sf::IntRect(339, 151, 67, 127);
-  
+
     moveleft_frames[0] = sf::IntRect(321, 150, 80, 124);
     moveleft_frames[1] = sf::IntRect(218, 150, 80, 124);
     moveleft_frames[2] = sf::IntRect(115, 150, 80, 124);
     moveleft_frames[3] = sf::IntRect(12, 150, 80, 124);
-  
+
     //ISSUES
-    crouch_frames[0] = sf::IntRect(506, 179, 80, 124);  
-    crouch_frames[1] = sf::IntRect(610, 211, 97,70);
+    crouch_frames[0] = sf::IntRect(506, 179, 80, 124);
+    crouch_frames[1] = sf::IntRect(610, 211, 97, 70);
+
+    //--------CHANGE
+    crouched_punch1_frames[0] = sf::IntRect(25, 1308, 75, 100);
+    crouched_punch1_frames[1] = sf::IntRect(115, 1308, 105, 100);
+    crouched_punch1_frames[2] = sf::IntRect(115, 1308, 105, 100);
+
+
+    //--------CHANGE
+    crouched_punch2_frames[0] = sf::IntRect(260, 1308, 90, 100);
+    crouched_punch2_frames[1] = sf::IntRect(350, 1308, 90, 100);
+    crouched_punch2_frames[2] = sf::IntRect(450, 1308, 90, 100);
+    crouched_punch2_frames[3] = sf::IntRect(350, 1308, 90, 100);
+    crouched_punch2_frames[4] = sf::IntRect(450, 1308, 90, 100);
+
 
     punch1_frames[0] = sf::IntRect(20, 461, 94, 117);
     punch1_frames[1] = sf::IntRect(153, 472, 137, 107);
@@ -74,29 +93,29 @@ Sagat::Sagat()
 
 
     //glitches a bit
-    kick1_frames[0] = sf::IntRect(23, 597, 111, 131); 
-    kick1_frames[1] = sf::IntRect(137, 597, 97, 129);  
-    kick1_frames[2] = sf::IntRect(248, 601, 75, 127);  
-    kick1_frames[3] = sf::IntRect(342, 615, 135, 113); 
-    kick1_frames[4] = sf::IntRect(780, 601, 75, 127);  
-    kick1_frames[5] = sf::IntRect(601, 597, 97, 129);  
-    kick1_frames[6] = sf::IntRect(711, 597, 111, 131); 
+    kick1_frames[0] = sf::IntRect(23, 597, 111, 131);
+    kick1_frames[1] = sf::IntRect(137, 597, 97, 129);
+    kick1_frames[2] = sf::IntRect(248, 601, 75, 127);
+    kick1_frames[3] = sf::IntRect(342, 615, 135, 113);
+    kick1_frames[4] = sf::IntRect(780, 601, 75, 127);
+    kick1_frames[5] = sf::IntRect(601, 597, 97, 129);
+    kick1_frames[6] = sf::IntRect(711, 597, 111, 131);
 
-    kick2_frames[0] = sf::IntRect(23, 770, 111, 131); 
-    kick2_frames[1] = sf::IntRect(137, 770, 97, 129);  
-    kick2_frames[2] = sf::IntRect(255, 772, 66, 127);  
-    kick2_frames[3] = sf::IntRect(360, 786, 139, 113); 
-    kick2_frames[4] = sf::IntRect(255, 772, 66, 127);  
-    kick2_frames[5] = sf::IntRect(601, 770, 97, 129);  
-    kick2_frames[6] = sf::IntRect(711, 770, 111, 131); 
+    kick2_frames[0] = sf::IntRect(23, 770, 111, 131);
+    kick2_frames[1] = sf::IntRect(137, 770, 97, 129);
+    kick2_frames[2] = sf::IntRect(255, 772, 66, 127);
+    kick2_frames[3] = sf::IntRect(360, 786, 139, 113);
+    kick2_frames[4] = sf::IntRect(255, 772, 66, 127);
+    kick2_frames[5] = sf::IntRect(601, 770, 97, 129);
+    kick2_frames[6] = sf::IntRect(711, 770, 111, 131);
 
-    kick3_frames[0] = sf::IntRect(23, 910, 111, 131); 
-    kick3_frames[1] = sf::IntRect(137, 910, 97, 129);  
+    kick3_frames[0] = sf::IntRect(23, 910, 111, 131);
+    kick3_frames[1] = sf::IntRect(137, 910, 97, 129);
     kick3_frames[2] = sf::IntRect(255, 914, 66, 127);
     kick3_frames[3] = sf::IntRect(356, 918, 123, 122);
     kick3_frames[4] = sf::IntRect(255, 914, 66, 127);
-    kick3_frames[5] = sf::IntRect(601, 910, 97, 129);  
-    kick3_frames[6] = sf::IntRect(711, 910, 111, 131); 
+    kick3_frames[5] = sf::IntRect(601, 910, 97, 129);
+    kick3_frames[6] = sf::IntRect(711, 910, 111, 131);
 
     jmp_frames[0] = sf::IntRect(19, 344, 79, 99);
     jmp_frames[1] = sf::IntRect(126, 300, 69, 135);
@@ -118,7 +137,9 @@ Sagat::Sagat()
     uppercut_frames[9] = sf::IntRect(1035, 1390, 81, 99);
 
 
-    
+    gola.setTexture(texture);
+    gola.setTextureRect(sf::IntRect(550, 1550, 60, 50));
+    gola.setScale(1.2, 1.2);
 
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(2.1, 2.1));
@@ -126,105 +147,432 @@ Sagat::Sagat()
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-bool Sagat::processEvent(sf::Event& ev)
+
+void Sagat::moveLeft()
 {
-    if (ev.type == sf::Event::KeyPressed && state == AnimationState::IDLE)
+    if (state == AnimationState::IDLE)
     {
-        if (ev.key.code == sf::Keyboard::Z)
-        {
-            state = AnimationState::KICK1;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::X)
-        {
-            state = AnimationState::KICK2;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::C)
-        {
-            state = AnimationState::KICK3;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Left)
-        {
-            state = AnimationState::moveLeft;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Right)
-        {
-            state = AnimationState::moveRight;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Up)
-        {
-            state = AnimationState::JMP;
-            currFrame = -1;
-            frameIncrement = 1;
-            pos = player.getPosition();
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Down)
-        {
-            state = AnimationState::CROUCH;
-            currFrame = -1;
-            frameIncrement = 1;
-            pos = player.getPosition();
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::Q)
-        {
-            state = AnimationState::UPPERCUT;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::A)
-        {
-            state = AnimationState::PUNCH1;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::S)
-        {
-            state = AnimationState::PUNCH2;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::D)
-        {
-            state = AnimationState::PUNCH3;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
-        else if (ev.key.code == sf::Keyboard::W)
-        {
-            state = AnimationState::FIREBALL;
-            currFrame = -1;
-            frameIncrement = 1;
-            return true;
-        }
+        state = AnimationState::moveLeft;
+        currFrame = -1;
+        frameIncrement = 1;
     }
-    else if (ev.type == sf::Event::KeyReleased && state == AnimationState::CROUCH && ev.key.code == sf::Keyboard::Down)
-    {
-        state = AnimationState::UNCROUCH;
-        currFrame = 1;
-        frameIncrement = -1;
-    }
-    return false;
 }
+void Sagat::moveRight()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::moveRight;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+}
+//PUNCHES
+void Sagat::punch1()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::PUNCH1;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+    else if (state == AnimationState::CROUCHED)
+    {
+        state = AnimationState::CROUCHED_PUNCH1;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+void Sagat::punch2()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::PUNCH2;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+    else if (state == AnimationState::CROUCHED)
+    {
+        state = AnimationState::CROUCHED_PUNCH2;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+void Sagat::punch3()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::PUNCH3;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+//KICKS:
+
+void Sagat::kick1()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::KICK1;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+    else if (state == AnimationState::CROUCHED)
+    {
+        state = AnimationState::CROUCHED_KICK1;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+void Sagat::kick2()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::KICK2;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+void Sagat::kick3()
+{
+    if (state == AnimationState::IDLE)
+    {
+        player.setPosition(player.getGlobalBounds().left, BOTTOMY - (120 * PLAYER_SPRITE_Y_SCALE) + 1);
+        state = AnimationState::KICK3;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+//JUMPING CROUCHING/UNCROUCHING
+void Sagat::jump()
+{
+    if (IS_IDLE)
+    {
+        state = AnimationState::JMP;
+        currFrame = -1;
+        frameIncrement = 1;
+        pos = player.getPosition();
+
+    }
+}
+
+void Sagat::crouch()
+{
+    if (IS_IDLE)
+    {
+        state = AnimationState::CROUCH;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+void Sagat::uncrouch()
+{
+    if (state == AnimationState::CROUCHED ||
+        state == AnimationState::CROUCH ||
+        state == AnimationState::CROUCHED_KICK1 ||
+        state == AnimationState::CROUCHED_PUNCH1 ||
+        state == AnimationState::CROUCHED_PUNCH2
+        )
+    {
+        state = AnimationState::FASTIDLE;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+
+void Sagat::specialMove1()
+{
+    if (IS_IDLE)
+    {
+        state = AnimationState::UPPERCUT;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+//Updation based on animation state
+void Sagat::update(float dt)
+{
+    if (STOP)
+        return;
+    elapsed += dt;
+    if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
+    {
+        if (currFrame == 0)
+            frameIncrement = 1;
+        else if (currFrame == 4)
+            frameIncrement = -1;
+        currFrame = (currFrame + frameIncrement);
+        player.setTextureRect(IDLE_frames[currFrame]);
+        elapsed = 0;
+    }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
+    {
+        player.setTextureRect(IDLE_frames[0]);
+        currFrame++;
+        state = AnimationState::IDLE;
+        elapsed = 0;
+    }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::LAND)
+    {
+        currFrame--;
+        player.setTextureRect(jmp_frames[currFrame]);
+        player.setPosition(player.getPosition().x, player.getPosition().y + 30);
+        elapsed = 0;
+        if (currFrame == 0) // landed
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::moveRight)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(moveright_frames[currFrame]);
+        elapsed = 0;
+        if (player.getPosition().x + 150 < 800) // window width is 800
+            player.setPosition(player.getPosition().x + 10, player.getPosition().y);
+        if (currFrame == 3)
+        {
+            state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::moveLeft)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(moveleft_frames[currFrame]);
+        elapsed = 0;
+        if (player.getPosition().x - 20 > 0) // window width is 800
+            player.setPosition(player.getPosition().x - 10, player.getPosition().y);
+        if (currFrame == 3)
+        {
+            state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::PUNCH1)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(punch1_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 2)
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::PUNCH2)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(punch2_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 4)
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::PUNCH3)
+    {
+        player.setTextureRect(punch3_frames[currFrame++]);
+        elapsed = 0;
+        if (currFrame == 4)
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK1)
+    {
+        currFrame++;
+        player.setTextureRect(kick1_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 6) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK2)
+    {
+        player.setTextureRect(kick2_frames[currFrame]);
+        elapsed = 0;
+        currFrame += frameIncrement;
+
+        if (currFrame == 7)
+        {
+            currFrame = 2;
+            frameIncrement = -1;
+        }
+        else if (currFrame == -1)
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+
+
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK3)
+    {
+        player.setTextureRect(kick3_frames[currFrame++]);
+        elapsed = 0;
+        if (currFrame == 7) //last frame rendered
+        {
+            player.setPosition(player.getGlobalBounds().left, BOTTOMY - IDLE_frames[0].height * PLAYER_SPRITE_Y_SCALE + 1);
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::UPPERCUT)
+    {
+        player.setTextureRect(uppercut_frames[currFrame++]);
+        player.setPosition(player.getPosition().x, player.getPosition().y - 40);
+        elapsed = 0;
+        if (currFrame == 10) //last frame rendered
+        {
+            state = AnimationState::UPPERCUT_LAND;
+            currFrame = 0;
+        }
+    }
+    else if (elapsed >= 0.06f && state == AnimationState::UPPERCUT_LAND)
+    {
+        player.setPosition(player.getPosition().x, player.getPosition().y + 40);
+        elapsed = 0;
+        currFrame++;
+        if (currFrame == 10)
+        {
+            currFrame = 0;
+            frameIncrement = 1;
+            state = AnimationState::FASTIDLE;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::JMP)
+    {
+        currFrame++;
+        player.setTextureRect(jmp_frames[currFrame]);
+        player.setPosition(player.getPosition().x, player.getPosition().y - 30);
+        elapsed = 0;
+        if (currFrame == 5) //last frame rendered
+        {
+            currFrame = 6;
+            state = AnimationState::LAND;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCH)
+    {
+        player.setTextureRect(crouch_frames[currFrame++]);
+        elapsed = 0;
+        if (currFrame == 2)
+            state = AnimationState::CROUCHED;
+
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::UNCROUCH)
+    {
+        player.setTextureRect(crouch_frames[currFrame--]);
+        elapsed = 0;
+        if (currFrame == -1)
+        {
+            state = AnimationState::FASTIDLE;
+            frameIncrement = 1;
+            currFrame = 0;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
+    {
+        elapsed = 0;
+        state = AnimationState::CROUCHED;
+        player.setTextureRect(crouch_frames[1]);
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH1)
+    {
+        player.setTextureRect(crouched_punch1_frames[currFrame++]);
+        elapsed = 0;
+        if (currFrame == 3)
+        {
+            state = AnimationState::FAST_CROUCHED;
+            currFrame = 0;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH2)
+    {
+        player.setTextureRect(crouched_punch2_frames[currFrame]);
+        currFrame += frameIncrement;
+        elapsed = 0;
+        if (currFrame == 5)
+        {
+            frameIncrement = -1;
+            currFrame = 2;
+        }
+        else if (currFrame == -1)
+        {
+            state = AnimationState::CROUCHED;
+            player.setTextureRect(crouch_frames[1]);
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
+    {
+        player.setTextureRect(crouched_kick1_frames[currFrame]);
+        currFrame += frameIncrement;
+        elapsed = 0;
+        if (currFrame == 5)
+        {
+            frameIncrement = -1;
+            currFrame = 2;
+        }
+        else if (currFrame == -1)
+        {
+            state = AnimationState::CROUCHED;
+            player.setTextureRect(crouch_frames[1]);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void Sagat::update(float dt)
 {
     //   return;
@@ -406,7 +754,7 @@ void Sagat::update(float dt)
             frameIncrement = 1;
             state = AnimationState::FASTIDLE;
         }
-        }
+    }
     else if (elapsed >= 0.08f && state == AnimationState::CROUCH)
     {
         player.setTextureRect(crouch_frames[currFrame++]);
@@ -425,7 +773,7 @@ void Sagat::update(float dt)
             frameIncrement = 1;
             currFrame = 0;
         }
-        }
+    }
 
 }
 void Sagat::setPosition(float x, float y)

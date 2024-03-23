@@ -77,6 +77,7 @@ public:
     void jump();
     void crouch();
     void uncrouch();
+    void specialMove1(); //UPPERCUT
     ~Sagat();
 };
 #endif
