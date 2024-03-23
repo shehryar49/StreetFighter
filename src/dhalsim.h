@@ -42,6 +42,16 @@ private:
         UNCROUCHING, //standing up
         CROUCHED,
         FAST_CROUCHED,
+        CROUCHED_PUNCH1,//Low Punch
+        CROUCHED_PUNCH2,//Medium(Strong) Punch
+        CROUCHED_KICK1,
+
+        //-------------block
+        BLOCKING,
+        BLOCKED,
+        UNBLOCKING,
+
+        //--------------victory
         VICTORY_1//to be set when player wins
     };
     AnimationState state;
@@ -56,6 +66,10 @@ private:
     static sf::IntRect kick2_frames[3]; 
     static sf::IntRect kick3_frames[6];
     static sf::IntRect crouching_frames[3];
+    static sf::IntRect crouched_punch1_frames[2];
+    static sf::IntRect crouched_punch2_frames[4];
+    static sf::IntRect crouched_kick1_frames[2];
+    static sf::IntRect block_frames[2];
     static sf::IntRect victory1_frames[12];
 
     int currFrame = 0;
@@ -80,7 +94,9 @@ public:
     void jump();
     void crouch();
     void uncrouch();
-    void victory();
+    void block();
+    void unblock();
+    void victory(int);
     ~Dhalsim();
 };
 #endif
