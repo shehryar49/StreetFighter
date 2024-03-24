@@ -29,9 +29,9 @@ private:
         forward_jump_punch, //Right Arrow Key + Up Arrow Key + A
         crouch_light_punch, //Hold Down Arrow then Press A (can leave Down Arrow mid animation)
         crouch_medium_punch,//Hold Down Arrow then Press S (can leave Down Arrow mid animation)
-
         forward_light_punch, //Right Arrow Key then A
         forward_medium_punch, //Right Arrow Key then S
+        forward_heavy_punch,//Right Arrow Key then D
         //-------hits taken (should prolly be call-able functions instead of key-event updates)-------//
         light_hit_taken_face, //2
         heavy_hit_taken_face, //3
@@ -39,12 +39,12 @@ private:
         medium_hit_taken_body,//5
         heavy_hit_taken_body,//6
         face_body_combo_taken,//7
-        crouch_face_hit_taken,//8 (must be crouching - can uncrouch mid animation)
-        medium_crouch_face_hit_taken,//9
-        heaavy_crouch_face_hit_taken,//0
+        knockout, //8
+        crouch_face_hit_taken,//9 (must be crouching - can uncrouch mid animation)
+        crouch_medium_face_hit_taken,//0 (must be crouching - can uncrouch mid animation)
+        crouch_heavy_face_hit_taken,//P (must be crouching - can uncrouch mid animation)
 
         hit_taken_blanka_electricity, //1
-        knockout, //7
         //---------------------------------------victory----------------------------------------------//
         //victory_1 is on 8
         victory_2,//9
@@ -78,20 +78,24 @@ private:
     static sf::IntRect medium_hit_taken_body_frames[3];
     static sf::IntRect heavy_hit_taken_body_frames[5];
     static sf::IntRect face_body_combo_taken_frames[8];
+    static sf::IntRect knockout_frames[12];
+    static sf::IntRect forward_light_punch_frames[3];
+    static sf::IntRect forward_medium_punch_frames[5];
+    static sf::IntRect forward_heavy_punch_frames[5];
+    static sf::IntRect crouch_face_hit_taken_frames[1];
+    static sf::IntRect crouch_medium_face_hit_taken_frames[3];
+    static sf::IntRect crouch_heavy_face_hit_taken_frames[5];
 
-    static sf::IntRect forward_light_punch_frames[7];
-    static sf::IntRect forward_medium_punch_frames[7];
     static sf::IntRect hit_taken_blanka_electricity_frames[2];
-    static sf::IntRect crouch_face_hit_taken_frames[3];
     static sf::IntRect victory1_frames[1];
     static sf::IntRect victory2_frames[3];
     static sf::IntRect victory3_frames[9];
-    static sf::IntRect knockout_frames[14];
 
     int curr_frame = -1;
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
     bool combo = false;
+    float limit;
     
 public:
     Balrog();
@@ -102,8 +106,8 @@ public:
     bool processEvent(sf::Event&);
     void flipX();
     //movements
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float);
+    void moveRight(float);
     void jump();
     void crouch();
     void uncrouch();
@@ -123,8 +127,8 @@ public:
     void medium_hit_taken_body();
     void heavy_hit_taken_body();
     void face_body_combo_taken();
-    //void crouch_face_hit_taken();
-    //void knockout(int);
+    void crouch_face_hit_taken(int);
+    void knockout(int);
     //void victory(int);
     ~Balrog();
 };

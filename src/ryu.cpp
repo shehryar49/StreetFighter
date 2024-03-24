@@ -329,6 +329,7 @@ void Ryu::update(float dt)
     }  
     else if(elapsed>=(MOVE_TIME) && state == AnimationState::MOVE_RIGHT)
     {
+        printf("%f\n", limit);
         currFrame = currFrame+1;
         player.setTextureRect(moveright_frames[currFrame]);
         elapsed = 0;
