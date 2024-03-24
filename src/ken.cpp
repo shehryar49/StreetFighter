@@ -1,8 +1,10 @@
+//Written by Shahryar Ahmad
 #include "ken.h"
 #include "constants.h"
 #include <SFML/Graphics/Rect.hpp>
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
+
 #define STOP false
 
 sf::IntRect Ken::IDLE_frames[6];
@@ -10,14 +12,16 @@ sf::IntRect Ken::moveright_frames[6];
 sf::IntRect Ken::moveleft_frames[6];
 sf::IntRect Ken::punch1_frames[2];
 sf::IntRect Ken::punch2_frames[3];
+sf::IntRect Ken::punch3_frames[7];
 sf::IntRect Ken::kick1_frames[3];
 sf::IntRect Ken::jmp_frames[8];
 sf::IntRect Ken::kick2_frames[3];
+sf::IntRect Ken::kick3_frames[6];
 
 Ken::Ken()
 {
     img.loadFromFile("assets/ken.png");
-    img.createMaskFromColor(sf::Color(00,129,129,255));
+    //img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -63,7 +67,15 @@ Ken::Ken()
     punch2_frames[0] = sf::IntRect(300,280,65,100);
     punch2_frames[1] = sf::IntRect(370,280,70,100);
     punch2_frames[2] = sf::IntRect(450,280,110,100);
-    
+
+    punch3_frames[0] = sf::IntRect(265,568,60,100);
+    punch3_frames[1] = sf::IntRect(335,568,60,100);
+    punch3_frames[2] = sf::IntRect(395,568,90,100);
+    punch3_frames[3] = sf::IntRect(490,568,70,100);
+    punch3_frames[4] = sf::IntRect(560,568,90,100);
+    punch3_frames[5] = sf::IntRect(655,568,60,100);
+    punch3_frames[6] = sf::IntRect(715,568,65,100);
+
     kick1_frames[0] = sf::IntRect(15,415,60,100);
     kick1_frames[1] = sf::IntRect(85,415,60,100);
     kick1_frames[2] = sf::IntRect(155,415,115,100);
@@ -71,10 +83,17 @@ Ken::Ken()
     kick2_frames[0] = sf::IntRect(15,730,60,100);
     kick2_frames[1] = sf::IntRect(85,730,50,100);
     kick2_frames[2] = sf::IntRect(140,730,80,100);
-    
-    player.setTextureRect(IDLE_frames[0]);
 
-    player.setTextureRect(sf::IntRect(430,1595,60,100));
+    kick3_frames[0] = sf::IntRect(815,730,65,100);
+    kick3_frames[1] = sf::IntRect(880,730,65,100);
+    kick3_frames[2] = sf::IntRect(945,705,55,125);
+    kick3_frames[3] = sf::IntRect(1000,715,100,115);
+    kick3_frames[4] = sf::IntRect(1103,730,50,100);
+    kick3_frames[5] = sf::IntRect(1160,730,60,100);
+    
+    //player.setTextureRect(IDLE_frames[0]);
+
+    player.setTextureRect(kick3_frames[0]);
     
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -98,6 +117,14 @@ void Ken::punch2()
         state = AnimationState::PUNCH2;
     }
 }
+void Ken::punch3()
+{
+    if(IS_IDLE)
+    {
+      currFrame = 0;
+      state = AnimationState::PUNCH3;
+    }
+}
 void Ken::kick1()
 {
   if(IS_IDLE)
@@ -116,20 +143,32 @@ void Ken::kick2()
     frameIncrement = 1;
   }
 }
-void Ken::moveLeft()
+void Ken::kick3()
+{
+  if(IS_IDLE)
+  {
+    currFrame = 0;
+    state = AnimationState::KICK3;
+    frameIncrement = 1;
+    
+  }
+}
+void Ken::moveLeft(float limit)
 {
   if(IS_IDLE)
   {
     currFrame = 0;
     state = AnimationState::moveLeft;
+    this->limit = limit;
   }
 }
-void Ken::moveRight()
+void Ken::moveRight(float limit)
 {
   if(IS_IDLE)
   {
     currFrame = 0;
     state = AnimationState::moveRight;
+    this->limit = limit;
   }
 }
 void Ken::jump()
@@ -170,7 +209,7 @@ void Ken::update(float dt)
     {
         player.setTextureRect(moveright_frames[currFrame++]);
         elapsed = 0;
-        if(player.getPosition().x + 150 < 800) // window width is 800
+        if(player.getPosition().x + 150 < limit) // window width is 800
           player.setPosition(player.getPosition().x+10,player.getPosition().y);
         if(currFrame == 6)
         { 
@@ -184,7 +223,7 @@ void Ken::update(float dt)
         //printf("rendering frame %d\n",currFrame);
         player.setTextureRect(moveleft_frames[currFrame++]);
         elapsed = 0;
-        if(player.getPosition().x - 20 > 0) // window width is 800
+        if(player.getPosition().x - 20 > limit) // window width is 800
           player.setPosition(player.getPosition().x-10,player.getPosition().y);
         if(currFrame == 6)
         { 
@@ -209,6 +248,17 @@ void Ken::update(float dt)
         player.setTextureRect(punch2_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 3)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=0.08f && state == AnimationState::PUNCH3)
+    {
+        player.setTextureRect(punch3_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 6)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
@@ -273,6 +323,19 @@ void Ken::update(float dt)
             currFrame = 0;
             frameIncrement = 1;
             state = AnimationState::FASTIDLE;
+        }
+    }
+    else if(elapsed>=MOVE_TIME && state == AnimationState::KICK3)
+    {
+
+        player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
+        player.setTextureRect(kick3_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 6)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
         }
     }
 }

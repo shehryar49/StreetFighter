@@ -9,6 +9,6 @@
 #define PLAYER_SPRITE_Y_SCALE 2.1f
 
 //Deprecated
-#define UNCROUCH_TIMER (30*dt)
+
 
 #endif

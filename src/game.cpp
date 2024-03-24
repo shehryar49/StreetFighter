@@ -7,6 +7,7 @@
 #include <SFML/Window/WindowStyle.hpp>
 #include <cctype>
 #include <string>
+#include "constants.h"
 #include "game.h"
 #include "menu.h"
 #include "ryu.h"
@@ -353,6 +354,8 @@ void Game::run()
     //player = new Dhalsim();
     //player = new Ken();
     //player = new Ryu();
+    player = new Ken();
+    //player = new Ryu();
     //player = new Sagat();
     //player = new Zangief();
 
@@ -401,7 +404,6 @@ void Game::setStage()
         // topY = bottomY - height + 1
         // note this
         //IMPORTANT
-
         player->setPosition(120,BOTTOMY - (player->getGlobalBounds().height) + 1 );
         enemy->setPosition(650,BOTTOMY - (enemy->getGlobalBounds().height) + 1 );
         ///

@@ -17,6 +17,10 @@ sf::IntRect Dhalsim::kick1_frames[3];
 sf::IntRect Dhalsim::kick2_frames[3];
 sf::IntRect Dhalsim::kick3_frames[6];
 sf::IntRect Dhalsim::crouching_frames[3];
+sf::IntRect Dhalsim::crouched_punch1_frames[2];
+sf::IntRect Dhalsim::crouched_punch2_frames[4];
+sf::IntRect Dhalsim::crouched_kick1_frames[2];
+sf::IntRect Dhalsim::block_frames[2];
 sf::IntRect Dhalsim::victory1_frames[12];
 
 Dhalsim::Dhalsim()
@@ -74,12 +78,37 @@ Dhalsim::Dhalsim()
     punch3_frames[3] = sf::IntRect(15+90+100+170, 375, 240, 110);
 
     kick1_frames[0] = sf::IntRect(65+15 + 90 + 100 + 170 + 240, 375, 90, 110);
-    kick1_frames[1] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90, 375, 130, 115);
-    kick1_frames[2] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90 + 130, 375, 190, 115);
+    kick1_frames[1] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90, 375, 130, 110);
+    kick1_frames[2] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90 + 130, 375, 190, 110);
+
+    kick2_frames[0] = sf::IntRect(0, 520, 90, 110);
+    kick2_frames[1] = sf::IntRect(10+90, 520, 125, 110);
+    kick2_frames[2] = sf::IntRect(10+90+125, 520, 200, 110);//height issue to be fixed
+
+    kick3_frames[0] = sf::IntRect(10+90+125+200+50,520,90,110);
+    kick3_frames[1] = sf::IntRect(10+90+125+200+50+90,520,90,110);//height issue to be fixed
+    kick3_frames[2] = sf::IntRect(10+90+125+200+50+90+90,520,90,110);//height issue to be fixed
+    kick3_frames[3] = sf::IntRect(10+90+125+200+50+90+90+90,520,110,110);
+    kick3_frames[4] = sf::IntRect(10+90+125+200+50+90+90+90+110,520,210,110);//height issue to be fixed
+    kick3_frames[5] = sf::IntRect(10+90+125+200+50+90+90+90+110+210,520,90,110);
 
     crouching_frames[0] = sf::IntRect(10, 1415, 90, 110);
     crouching_frames[1] = sf::IntRect(10+90*1, 1415, 90, 110);
     crouching_frames[2] = sf::IntRect(10+90*2, 1415, 90, 110);
+
+    crouched_punch1_frames[0] = sf::IntRect(20 + 90+110+160+260, 1530, 90, 110);
+    crouched_punch1_frames[1] = sf::IntRect(20 + 90+110+160+260+90, 1530, 130, 110);
+
+    crouched_punch2_frames[0] = sf::IntRect(20, 1530, 90, 110);
+    crouched_punch2_frames[1] = sf::IntRect(20 + 90, 1530, 110, 110);
+    crouched_punch2_frames[2] = sf::IntRect(20 + 90+110, 1530, 160, 110);
+    crouched_punch2_frames[3] = sf::IntRect(20 + 90+110+160, 1530, 210, 110);
+
+    crouched_kick1_frames[0] = sf::IntRect(20 + 90 + 110 + 160 + 260+90+180, 1530, 90, 110);
+    crouched_kick1_frames[1] = sf::IntRect(20 + 90 + 110 + 160 + 260 + 90+180+90, 1530, 170, 110);
+
+    block_frames[0] = sf::IntRect(15+16+25+28+20+105+105+105, 2815, 90, 110);
+    block_frames[1] = sf::IntRect(15+16+25+28+20+105+105+105+90, 2815, 90, 110);
 
     victory1_frames[0] = sf::IntRect(15, 2945, 105, 110);
     victory1_frames[1] = sf::IntRect(15+16+105, 2945, 105, 110);
@@ -95,14 +124,67 @@ Dhalsim::Dhalsim()
     victory1_frames[11]= sf::IntRect(22 + 16 + 25 + 105 + 105, 3095, 105, 115);
 
                                    
-    player.setTextureRect(victory1_frames[0]);
+    player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
-    state = AnimationState::VICTORY_1;
+    state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-bool Dhalsim::processEvent(sf::Event& ev)
+bool Dhalsim::processEvent(sf::Event& event)
 {
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::BackSpace) {
+            currFrame = 0;
+            frameIncrement = 1;
+            player.setPosition(player.getPosition().x, 365);
+            player.setTextureRect(IDLE_frames[0]);
+            state = AnimationState::IDLE;
+        }
+        if (state == AnimationState::IDLE) {
+            /*if (event.key.code == sf::Keyboard::Num1) {
+                hit_taken_blanka_electricity();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num2) {
+                hit_taken_face();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num3) {
+                hit_taken_body();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num4) {
+                heavy_hit_taken_body();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num6) {
+                face_body_combo_taken();
+                return true;
+            }
+            else if (event.key.code == sf::Keyboard::Num7) {
+                knockout(1);
+                return true;
+            }*/
+            if (event.key.code == sf::Keyboard::Num8) {
+                victory(1);
+                return true;
+            }
+            //else if (event.key.code == sf::Keyboard::Num9) {
+            //    victory(2);
+            //    return true;
+            //}
+            //else if (event.key.code == sf::Keyboard::Enter) {
+            //    knockout(2);
+            //    return true;
+            //}
+        }
+        //else if (state == AnimationState::CROUCHING) {
+        //    if (event.key.code == sf::Keyboard::Num5) {
+        //        crouch_face_hit_taken();
+        //        return true;
+        //    }
+        //}
+    }
     return false;
 }
 void Dhalsim::jump()
@@ -149,9 +231,37 @@ void Dhalsim::crouch()
 }
 void Dhalsim::uncrouch()
 {
-    if (state == AnimationState::CROUCHED)
+    if (state == AnimationState::CROUCHED ||
+        state == AnimationState::CROUCHING ||
+        state == AnimationState::CROUCHED_KICK1 ||
+        state == AnimationState::CROUCHED_PUNCH1 ||
+        state == AnimationState::CROUCHED_PUNCH2
+        )
     {
-        state = AnimationState::IDLE;
+        state = AnimationState::FASTIDLE;
+        currFrame = -1;
+        frameIncrement = 1;
+        elapsed = 0;
+    }
+}
+void Dhalsim::block()
+{
+    if (IS_IDLE)
+    {
+        state = AnimationState::BLOCKING;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+    else if (state == AnimationState::BLOCKED)
+    {
+        elapsed = 0; //invalidate standup timer
+    }
+}
+void Dhalsim::unblock()
+{
+    if (state == AnimationState::BLOCKED)
+    {
+        state = AnimationState::FASTIDLE;
         currFrame = -1;
         frameIncrement = 1;
         elapsed = 0;
@@ -165,12 +275,12 @@ void Dhalsim::punch1()
         currFrame = -1;
         frameIncrement = 1;
     }
-    //else if (state == AnimationState::CROUCHED)
-    //{
-    //    state = AnimationState::CROUCHED_PUNCH1;
-    //    currFrame = 0;
-    //    frameIncrement = 1;
-    //}
+    else if (state == AnimationState::CROUCHED)
+    {
+        state = AnimationState::CROUCHED_PUNCH1;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
 }
 void Dhalsim::punch2()
 {
@@ -180,12 +290,12 @@ void Dhalsim::punch2()
         currFrame = -1;
         frameIncrement = 1;
     }
-    //else if (state == AnimationState::CROUCHED)
-    //{
-    //    state = AnimationState::CROUCHED_PUNCH2;
-    //    currFrame = 0;
-    //    frameIncrement = 1;
-    //}
+    else if (state == AnimationState::CROUCHED)
+    {
+        state = AnimationState::CROUCHED_PUNCH2;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
 }
 
 void Dhalsim::punch3()
@@ -206,12 +316,40 @@ void Dhalsim::kick1()
         currFrame = -1;
         frameIncrement = 1;
     }
-    //else if (state == AnimationState::CROUCHED)
-    //{
-    //    state = AnimationState::CROUCHED_KICK1;
-    //    currFrame = 0;
-    //    frameIncrement = 1;
-    //}
+    else if (state == AnimationState::CROUCHED)
+    {
+        state = AnimationState::CROUCHED_KICK1;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+
+void Dhalsim::kick2()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::KICK2;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+}
+void Dhalsim::kick3()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::KICK3;
+        currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+void Dhalsim::victory(int type=1) //to be set for winning condition
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::VICTORY_1;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
 }
 
 void Dhalsim::update(float dt)
@@ -227,6 +365,13 @@ void Dhalsim::update(float dt)
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
+    {
+        player.setTextureRect(IDLE_frames[0]);
+        currFrame++;
+        state = AnimationState::IDLE;
+        elapsed = 0;
+    }
     else if ((elapsed >= (IDLE_TIME)) && state == AnimationState::VICTORY_1)
     {
         if (currFrame == 0)
@@ -235,13 +380,6 @@ void Dhalsim::update(float dt)
             frameIncrement = -1;
         currFrame = (currFrame + frameIncrement);
         player.setTextureRect(victory1_frames[currFrame]);
-        elapsed = 0;
-    }
-    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
-    {
-        player.setTextureRect(IDLE_frames[0]);
-        currFrame++;
-        state = AnimationState::IDLE;
         elapsed = 0;
     }
     else if (elapsed >= 0.2f && state == AnimationState::JMP)
@@ -357,7 +495,7 @@ void Dhalsim::update(float dt)
             state = AnimationState::FASTIDLE;
         }
     }
-    else if (elapsed >= 0.08f && state == AnimationState::KICK1)
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK1)
     {
         currFrame++;
         player.setTextureRect(kick1_frames[currFrame]);
@@ -369,6 +507,56 @@ void Dhalsim::update(float dt)
             frameIncrement = 1;
         }
     }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK2)
+    {
+        currFrame++;
+        player.setTextureRect(kick2_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 2) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK3)
+    {
+        currFrame++;
+        player.setTextureRect(kick3_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 5) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::BLOCKING)
+    {
+        player.setTextureRect(block_frames[currFrame++]);
+        elapsed = 0;
+        if (currFrame == 2)
+            state = AnimationState::BLOCKED;
+
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::BLOCKED) //UNCROUCH_TIMER define then use
+    {
+        state = AnimationState::UNBLOCKING;
+        currFrame = 0;
+        frameIncrement = 1;
+        elapsed = 0;
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::UNBLOCKING)
+    {
+        player.setTextureRect(block_frames[currFrame--]);
+        elapsed = 0;
+        if (currFrame == -1)
+        {
+            state = AnimationState::FASTIDLE;
+            frameIncrement = 1;
+            currFrame = 0;
+        }
+    }
     else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
     {
         player.setTextureRect(crouching_frames[currFrame++]);
@@ -377,7 +565,7 @@ void Dhalsim::update(float dt)
             state = AnimationState::CROUCHED;
 
     }
-    else if (elapsed >= UNCROUCH_TIMER && state == AnimationState::CROUCHED)
+    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED) //UNCROUCH_TIMER
     {
         state = AnimationState::UNCROUCHING;
         currFrame = 0;
@@ -393,6 +581,60 @@ void Dhalsim::update(float dt)
             state = AnimationState::FASTIDLE;
             frameIncrement = 1;
             currFrame = 0;
+        }
+    }
+    else if(elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
+    {
+        elapsed = 0;
+        state = AnimationState::CROUCHED;
+        player.setTextureRect(crouching_frames[2]);
+    }
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH1)
+    {
+        player.setTextureRect(crouched_punch1_frames[currFrame]);
+        currFrame += frameIncrement;
+        elapsed = 0;
+        if(currFrame == 1)
+        {
+            frameIncrement = -1;
+            currFrame = 1;
+        }
+        else if(currFrame == -1)
+        {
+            state = AnimationState::CROUCHED;
+            player.setTextureRect(crouching_frames[2]);
+        }
+    }
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH2)
+    {
+        player.setTextureRect(crouched_punch2_frames[currFrame]);
+        currFrame += frameIncrement;
+        elapsed = 0;
+        if(currFrame == 3)
+        {
+            frameIncrement = -1;
+            currFrame = 3;
+        }
+        else if(currFrame == -1)
+        {
+            state = AnimationState::CROUCHED;
+            player.setTextureRect(crouching_frames[2]);
+        }
+    }
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
+    {
+        player.setTextureRect(crouched_kick1_frames[currFrame]);
+        currFrame += frameIncrement;
+        elapsed = 0;
+        if(currFrame == 1)
+        {
+            frameIncrement = -1;
+            currFrame = 1;
+        }
+        else if(currFrame == -1)
+        {
+            state = AnimationState::CROUCHED;
+            player.setTextureRect(crouching_frames[2]);
         }
     }
     /*return;*/
