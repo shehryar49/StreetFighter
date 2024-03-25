@@ -354,8 +354,6 @@ void Game::run()
     player = new Dhalsim();
     //player = new Ken();
     //player = new Ryu();
-    //player = new Ken();
-    //player = new Ryu();
     //player = new Sagat();
     //player = new Zangief();
 

@@ -30,7 +30,7 @@ Dhalsim::Dhalsim()
         cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }
-    //img.createMaskFromColor(sf::Color(70, 112, 104, 255));
+    img.createMaskFromColor(sf::Color(70, 112, 104, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -130,23 +130,23 @@ Dhalsim::Dhalsim()
     yogaflame_frames[3] = sf::IntRect(15+15+10+15+90+90+90,1790,90,110);
     yogaflame_frames[4] = sf::IntRect(15+15+10+15+10+90+90+90+90,1790,90,110);
     yogaflame_frames[5] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[6] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[7] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[8] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[9] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[10] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[11] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[12] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[13] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[14] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[15] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[16] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[17] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[18] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[19] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[6] = sf::IntRect(15+15+10+15+10+15+15+90+90+90+90+90+90,1790,100,110);
+    yogaflame_frames[7] = sf::IntRect(15+15+10+15+10+15+15+15+90+90+90+90+90+90+100,1790,145,110);
+    yogaflame_frames[8] = sf::IntRect(15+15+10+15+10+15+15+15+15+90+90+90+90+90+90+100+145,1790,150,110);
+    yogaflame_frames[9] = sf::IntRect(15+15+10+15+10+15+15+15+15+15+90+90+90+90+90+90+100+145+150,1790,165,110);
+    yogaflame_frames[10] =sf::IntRect(15, 1920, 170, 110);
+    yogaflame_frames[11] =sf::IntRect(15+15+170, 1920, 175, 110);
+    yogaflame_frames[12] =sf::IntRect(15+15+15+170+175, 1920, 180, 110);
+    yogaflame_frames[13] =sf::IntRect(15+15+15+15+170+175+180, 1920, 180, 110);
+    yogaflame_frames[14] =sf::IntRect(15+15+15+15+15+170+175+180+180, 1920, 175, 110);
+    yogaflame_frames[15] =sf::IntRect(15+15+15+15+15+20+170+175+180+180+175, 1920, 175, 110);
+    yogaflame_frames[16] =sf::IntRect(15+15+15+15+15+20+15+170+175+180+180+175+175, 1920, 170, 110);
+    yogaflame_frames[17] =sf::IntRect(15, 2050, 165, 110);
+    yogaflame_frames[18] =sf::IntRect(15+30+165, 2050, 155, 110);
+    yogaflame_frames[19] =sf::IntRect(15+30+10+165+155, 2050, 155, 110);
 
                                    
-    player.setTextureRect(yogaflame_frames[5]);
+    player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -220,22 +220,24 @@ void Dhalsim::jump()
 
     }
 }
-void Dhalsim::moveRight()
+void Dhalsim::moveRight(float f)
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::moveRight;
         currFrame = -1;
         frameIncrement = 1;
+        limit = f;
     }
 }
-void Dhalsim::moveLeft()
+void Dhalsim::moveLeft(float f)
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::moveLeft;
         currFrame = -1;
         frameIncrement = 1;
+        limit = f;
     }
 }
 void Dhalsim::crouch()
@@ -245,10 +247,6 @@ void Dhalsim::crouch()
         state = AnimationState::CROUCHING;
         currFrame = 0;
         frameIncrement = 1;
-    }
-    else if (state == AnimationState::CROUCHED)
-    {
-        elapsed = 0; //invalidate standup timer
     }
 }
 void Dhalsim::uncrouch()
@@ -273,10 +271,6 @@ void Dhalsim::block()
         state = AnimationState::BLOCKING;
         currFrame = 0;
         frameIncrement = 1;
-    }
-    else if (state == AnimationState::BLOCKED)
-    {
-        elapsed = 0; //invalidate standup timer
     }
 }
 void Dhalsim::unblock()
@@ -361,6 +355,15 @@ void Dhalsim::kick3()
     {
         state = AnimationState::KICK3;
         currFrame = 0;
+        frameIncrement = 1;
+    }
+}
+void Dhalsim::specialMove1()
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::YOGA_FLAME;
+        currFrame = -1;
         frameIncrement = 1;
     }
 }
@@ -517,7 +520,7 @@ void Dhalsim::update(float dt)
             state = AnimationState::FASTIDLE;
         }
     }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK1)
+    else if (elapsed >= 0.15 && state == AnimationState::KICK1)
     {
         currFrame++;
         player.setTextureRect(kick1_frames[currFrame]);
@@ -529,7 +532,7 @@ void Dhalsim::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK2)
+    else if (elapsed >= 0.15 && state == AnimationState::KICK2)
     {
         currFrame++;
         player.setTextureRect(kick2_frames[currFrame]);
@@ -541,7 +544,7 @@ void Dhalsim::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::KICK3)
+    else if (elapsed >= 0.13 && state == AnimationState::KICK3)
     {
         currFrame++;
         player.setTextureRect(kick3_frames[currFrame]);
@@ -561,24 +564,24 @@ void Dhalsim::update(float dt)
             state = AnimationState::BLOCKED;
 
     }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::BLOCKED) //UNCROUCH_TIMER define then use
-    {
-        state = AnimationState::UNBLOCKING;
-        currFrame = 0;
-        frameIncrement = 1;
-        elapsed = 0;
-    }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::UNBLOCKING)
-    {
-        player.setTextureRect(block_frames[currFrame--]);
-        elapsed = 0;
-        if (currFrame == -1)
-        {
-            state = AnimationState::FASTIDLE;
-            frameIncrement = 1;
-            currFrame = 0;
-        }
-    }
+    //else if (elapsed >= MOVE_TIME && state == AnimationState::BLOCKED) //UNCROUCH_TIMER define then use
+    //{
+    //    state = AnimationState::UNBLOCKING;
+    //    currFrame = 0;
+    //    frameIncrement = 1;
+    //    elapsed = 0;
+    //}
+    //else if (elapsed >= MOVE_TIME && state == AnimationState::UNBLOCKING)
+    //{
+    //    player.setTextureRect(block_frames[currFrame--]);
+    //    elapsed = 0;
+    //    if (currFrame == -1)
+    //    {
+    //        state = AnimationState::FASTIDLE;
+    //        frameIncrement = 1;
+    //        currFrame = 0;
+    //    }
+    //}
     else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
     {
         player.setTextureRect(crouching_frames[currFrame++]);
@@ -587,24 +590,24 @@ void Dhalsim::update(float dt)
             state = AnimationState::CROUCHED;
 
     }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED) //UNCROUCH_TIMER
-    {
-        state = AnimationState::UNCROUCHING;
-        currFrame = 0;
-        frameIncrement = 1;
-        elapsed = 0;
-    }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
-    {
-        player.setTextureRect(crouching_frames[currFrame--]);
-        elapsed = 0;
-        if (currFrame == -1)
-        {
-            state = AnimationState::FASTIDLE;
-            frameIncrement = 1;
-            currFrame = 0;
-        }
-    }
+    //else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED) //UNCROUCH_TIMER
+    //{
+    //    state = AnimationState::UNCROUCHING;
+    //    currFrame = 0;
+    //    frameIncrement = 1;
+    //    elapsed = 0;
+    //}
+    //else if (elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
+    //{
+    //    player.setTextureRect(crouching_frames[currFrame--]);
+    //    elapsed = 0;
+    //    if (currFrame == -1)
+    //    {
+    //        state = AnimationState::FASTIDLE;
+    //        frameIncrement = 1;
+    //        currFrame = 0;
+    //    }
+    //}
     else if(elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
     {
         elapsed = 0;
@@ -643,7 +646,7 @@ void Dhalsim::update(float dt)
             player.setTextureRect(crouching_frames[2]);
         }
     }
-    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
+    else if(elapsed >= 0.2 && state == AnimationState::CROUCHED_KICK1)
     {
         player.setTextureRect(crouched_kick1_frames[currFrame]);
         currFrame += frameIncrement;
@@ -657,6 +660,18 @@ void Dhalsim::update(float dt)
         {
             state = AnimationState::CROUCHED;
             player.setTextureRect(crouching_frames[2]);
+        }
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::YOGA_FLAME)
+    {
+        currFrame++;
+        player.setTextureRect(yogaflame_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 19) //last frame rendered
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
         }
     }
     /*return;*/

@@ -478,17 +478,17 @@ void Ryu::update(float dt)
             state = AnimationState::CROUCHED;
         
     }
-    else if(elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
-    {
-        player.setTextureRect(crouching_frames[currFrame--]);
-        elapsed = 0;
-        if(currFrame == -1)
-        {
-            state = AnimationState::FASTIDLE;
-            frameIncrement = 1;
-            currFrame = 0;
-        }
-    }
+    //else if(elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
+    //{
+    //    player.setTextureRect(crouching_frames[currFrame--]);
+    //    elapsed = 0;
+    //    if(currFrame == -1)
+    //    {
+    //        state = AnimationState::FASTIDLE;
+    //        frameIncrement = 1;
+    //        currFrame = 0;
+    //    }
+    //}
     else if(elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
     {
         elapsed = 0;

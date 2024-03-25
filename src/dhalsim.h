@@ -78,6 +78,7 @@ private:
 
     int currFrame = 0;
     int frameIncrement = 1;
+    float limit;
 public:
     Dhalsim();
     void update(float);
@@ -87,8 +88,8 @@ public:
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     void flipX();
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float);
+    void moveRight(float);
     void punch1();
     void punch2();
     void punch3();
@@ -101,7 +102,7 @@ public:
     void block();
     void unblock();
     void victory(int);
-    //void specialMove1(); //yoga flame
+    void specialMove1(); //yoga flame
     ~Dhalsim();
 };
 #endif
