@@ -407,7 +407,7 @@ void Dhalsim::update(float dt)
         player.setTextureRect(victory1_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= 0.2f && state == AnimationState::JMP)
+    else if (elapsed >= 0.15f && state == AnimationState::JMP)
     {
         currFrame++;
         player.setTextureRect(jmp_frames[currFrame]);
