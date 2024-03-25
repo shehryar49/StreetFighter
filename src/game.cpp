@@ -349,12 +349,12 @@ void Game::run()
     
     //option 0 is play
     
-    player = new Balrog();
+    //player = new Balrog();
     //player = new Chun_Li();
-    //player = new Dhalsim();
+    player = new Dhalsim();
     //player = new Ken();
     //player = new Ryu();
-    player = new Ken();
+    //player = new Ken();
     //player = new Ryu();
     //player = new Sagat();
     //player = new Zangief();

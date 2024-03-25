@@ -22,6 +22,7 @@ sf::IntRect Dhalsim::crouched_punch2_frames[4];
 sf::IntRect Dhalsim::crouched_kick1_frames[2];
 sf::IntRect Dhalsim::block_frames[2];
 sf::IntRect Dhalsim::victory1_frames[12];
+sf::IntRect Dhalsim::yogaflame_frames[20];
 
 Dhalsim::Dhalsim()
 {
@@ -29,7 +30,7 @@ Dhalsim::Dhalsim()
         cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }
-    img.createMaskFromColor(sf::Color(70, 112, 104, 255));
+    //img.createMaskFromColor(sf::Color(70, 112, 104, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -123,8 +124,29 @@ Dhalsim::Dhalsim()
     victory1_frames[10]= sf::IntRect(22 + 16 + 105, 3095, 105, 115);
     victory1_frames[11]= sf::IntRect(22 + 16 + 25 + 105 + 105, 3095, 105, 115);
 
+    yogaflame_frames[0] = sf::IntRect(15,1790,90,110);
+    yogaflame_frames[1] = sf::IntRect(15+15+90,1790,90,110);
+    yogaflame_frames[2] = sf::IntRect(15+15+10+90+90,1790,90,110);
+    yogaflame_frames[3] = sf::IntRect(15+15+10+15+90+90+90,1790,90,110);
+    yogaflame_frames[4] = sf::IntRect(15+15+10+15+10+90+90+90+90,1790,90,110);
+    yogaflame_frames[5] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[6] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[7] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[8] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[9] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[10] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[11] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[12] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[13] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[14] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[15] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[16] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[17] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[18] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+    yogaflame_frames[19] =sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
+
                                    
-    player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(yogaflame_frames[5]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
