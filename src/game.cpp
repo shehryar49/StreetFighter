@@ -17,6 +17,8 @@
 #include "ken.h"
 #include "sagat.h"
 #include "balrog.h"
+#include <stdio.h>
+#include <Windows.h>
 
 using namespace std;
 #define COL_WIDTH 50
@@ -185,6 +187,12 @@ void Game::playIntro()
 
 int* Game::selectScreen(){
     int* choices = new int[2];
+    sf::Music selector, lockIN, bgm;
+    selector.openFromFile("assets/SFX/CMN_HUD_0.wav");
+    lockIN.openFromFile("assets/SFX/CMN_HUD_1.wav");
+    bgm.openFromFile("assets/SFX/Player Select.wav");
+    bgm.setLoop(true);
+    bgm.play();
     sf::Image img;
     if (!img.loadFromFile("assets/Stage Select.png")) 
     {
@@ -194,7 +202,7 @@ int* Game::selectScreen(){
     img.createMaskFromColor(sf::Color(0, 0, 96, 255));
     sf::Texture txtr;
     txtr.loadFromImage(img);
-    sf::Sprite map, characters, playerHover, playerName, playerPicture, enemyHover, enemyName, enemyPicture, flag, selectionName, vs;
+    sf::Sprite map, characters, playerHover, playerName, playerPicture, enemyHover, enemyName, enemyPicture, flag, enemyFlag, selectionName, vs, oneP, twoP;
     sf::IntRect characterNames[12];
     characterNames[0] = sf::IntRect(86, 93, 80, 15);
     characterNames[1] = sf::IntRect(354, 93, 80, 15);
@@ -223,6 +231,51 @@ int* Game::selectScreen(){
     characterImages[10] = sf::IntRect(1090, 343, 100, 100);
     characterImages[11] = sf::IntRect(1364, 343, 100, 100);
 
+    sf::IntRect flags[12];
+    flags[0] = sf::IntRect(477, 499, 20, 22); //japan - bottom jap ryu
+    flags[1] = sf::IntRect(477, 499, 20, 22); //japan - uper jap e.Honda
+    flags[2] = sf::IntRect(477, 499 + 31, 20, 22); //brazil - blanka
+    flags[3] = sf::IntRect(477 + 36, 499, 20, 22); //bottom right usa  - guile
+    flags[4] = sf::IntRect(477 + 36, 499, 20, 22); //bottom left usa  - balrog
+    flags[5] = sf::IntRect(477 + 36 + 36 + 36, 499, 20, 22); //spain - vega
+    flags[6] = sf::IntRect(477 + 36, 499, 20, 22); //top right usa  - ken
+    flags[7] = sf::IntRect(477 + 36, 499 + 31, 20, 22); //china - chunLi
+    flags[8] = sf::IntRect(477 + 36 + 36, 499, 20, 22); //ussr - zangief
+    flags[9] = sf::IntRect(477 + 36 + 36, 499 + 31, 20, 22); //india - dhalsim
+    flags[10] = sf::IntRect(477 + 36 + 36 + 36, 499 + 31, 20, 22); //thailand - sagat
+    flags[11] = sf::IntRect(0, 0, 0, 0); //M.Bison dont have a flag it seems
+
+    int coordinates[12][2] = {
+        {399,226}, //japan - bottom jap ryu
+        {427,133}, //japan - uper jap e.Honda
+        {567,282}, //brazil - blanka
+        {609,191}, //bottom right usa  - guile
+        {507,107}, //left usa  - balrog
+        {94,79}, //spain - vega
+        {599,79}, //top right usa  - ken
+        {335,100}, //china - chunLi
+        {210,107}, //ussr - zangief
+        {223,205}, //india - dhalsim
+        {317,268}, //thailand - sagat
+        {0,0}
+    };
+    vs.setTexture(txtr);
+    vs.setTextureRect(sf::IntRect(0, 0, 0, 0));
+    vs.setTextureRect(sf::IntRect(15, 509, 70, 50));
+    vs.setScale(1.5, 1.5);
+    vs.setPosition(345, 350);
+    selectionName.setTexture(txtr);
+    selectionName.setTextureRect(sf::IntRect(477, 499 - 26, 120, 25));
+    selectionName.setScale(2.5, 2.5);
+    selectionName.setPosition(255, 5);
+    oneP.setTexture(txtr);
+    oneP.setTextureRect(sf::IntRect(110, 470, 20, 15));
+    oneP.setScale(2, 2);
+    oneP.setPosition(40, 325);
+    twoP.setTexture(txtr);
+    twoP.setTextureRect(sf::IntRect(143, 470, 20, 15));
+    twoP.setScale(2, 2);
+    twoP.setPosition(650, 325);
     map.setTexture(txtr);
     map.setTextureRect(sf::IntRect(270,480, 190, 120));
     map.setScale(3.5, 3.5);
@@ -255,12 +308,25 @@ int* Game::selectScreen(){
     enemyPicture.setTextureRect(characterImages[0]);
     enemyPicture.setScale(-2, 2);
     enemyPicture.setPosition(770, 400);
+    flag.setTexture(txtr);
+    flag.setTextureRect(flags[0]);
+    flag.setScale(3.5, 3.5);
+    flag.setPosition(coordinates[0][0], coordinates[0][1]);
+    enemyFlag.setTexture(txtr);
+    enemyFlag.setTextureRect(flags[0]);
+    enemyFlag.setScale(3.5, 3.5);
+    enemyFlag.setPosition(0, 0);
+    enemyFlag.setPosition(coordinates[0][0], coordinates[0][1]);
     window.clear(sf::Color(0,0,96,255));
     window.draw(map);
     window.draw(characters);
     window.draw(playerHover);
     window.draw(playerName);
     window.draw(playerPicture);
+    window.draw(flag);
+    window.draw(selectionName);
+    window.draw(vs);
+    window.draw(oneP);
     window.display();
     sf::Event e;
     bool end = false;
@@ -275,12 +341,18 @@ int* Game::selectScreen(){
             {
                 if (e.key.code == sf::Keyboard::Enter)
                 {
+                    lockIN.play();
                     if (second)
+                    {
                         end = true;
+                        Sleep(1000);
+                    }
                     else {
                         second = true;
                         indx++;
                         selection = 0;
+                        selectionName.setTextureRect(sf::IntRect(477, 570, 120, 20));
+                        selectionName.setScale(3, 3);
                         window.clear(sf::Color(0, 0, 96, 255));
                         window.draw(map);
                         window.draw(characters);
@@ -290,18 +362,27 @@ int* Game::selectScreen(){
                         window.draw(playerName);
                         window.draw(playerPicture);
                         window.draw(enemyPicture);
+                        window.draw(flag);
+                        window.draw(enemyFlag);
+                        window.draw(vs);
+                        window.draw(selectionName);
+                        window.draw(oneP);
+                        window.draw(twoP);
                         window.display();
                     }
                     break;
                 }
                 else if (e.key.code == sf::Keyboard::Right && ((choices[indx] < 6) || (choices[indx] > 6 && choices[indx] < 12)))
                 {
+                    selector.play();
                     if (second)
                     {
                         enemyHover.setPosition(enemyHover.getPosition().x + COL_WIDTH, enemyHover.getPosition().y);
                         choices[1]++;
                         enemyName.setTextureRect(characterNames[++selection]);
                         enemyPicture.setTextureRect(characterImages[selection]);
+                        enemyFlag.setTextureRect(flags[selection]);
+                        enemyFlag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
                     else
                     {
@@ -309,17 +390,22 @@ int* Game::selectScreen(){
                         choices[0]++;
                         playerName.setTextureRect(characterNames[++selection]);
                         playerPicture.setTextureRect(characterImages[selection]);
+                        flag.setTextureRect(flags[selection]);
+                        flag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
                     
                 }
                 else if (e.key.code == sf::Keyboard::Left && ((choices[indx] > 1 && choices[indx] <= 6) || (choices[indx] > 7 && choices[indx] <= 12)))
                 {
+                    selector.play();
                     if (second)
                     {
                         enemyHover.setPosition(enemyHover.getPosition().x - COL_WIDTH, enemyHover.getPosition().y);
                         choices[1]--;
                         enemyName.setTextureRect(characterNames[--selection]);
                         enemyPicture.setTextureRect(characterImages[selection]);
+                        enemyFlag.setTextureRect(flags[selection]);
+                        enemyFlag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
                     else
                     {
@@ -327,11 +413,14 @@ int* Game::selectScreen(){
                         choices[0]--;
                         playerName.setTextureRect(characterNames[--selection]);
                         playerPicture.setTextureRect(characterImages[selection]);
+                        flag.setTextureRect(flags[selection]);
+                        flag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
                     
                 }
                 else if (e.key.code == sf::Keyboard::Down && choices[indx] < 7)
                 {
+                    selector.play();
                     selection += 6;
                     if (second)
                     {
@@ -339,6 +428,8 @@ int* Game::selectScreen(){
                         choices[1] += 6;
                         enemyName.setTextureRect(characterNames[selection]);
                         enemyPicture.setTextureRect(characterImages[selection]);
+                        enemyFlag.setTextureRect(flags[selection]);
+                        enemyFlag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
                     else
                     {
@@ -346,11 +437,14 @@ int* Game::selectScreen(){
                         choices[0] += 6;
                         playerName.setTextureRect(characterNames[selection]);
                         playerPicture.setTextureRect(characterImages[selection]);
+                        flag.setTextureRect(flags[selection]);
+                        flag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
 
                 }
                 else if (e.key.code == sf::Keyboard::Up && choices[indx] > 6)
                 {
+                    selector.play();
                     selection -= 6;
                     if (second)
                     {
@@ -358,6 +452,8 @@ int* Game::selectScreen(){
                         choices[1] -= 6;
                         enemyName.setTextureRect(characterNames[selection]);
                         enemyPicture.setTextureRect(characterImages[selection]);
+                        enemyFlag.setTextureRect(flags[selection]);
+                        enemyFlag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
                     else
                     {
@@ -365,6 +461,8 @@ int* Game::selectScreen(){
                         choices[0] -= 6;
                         playerName.setTextureRect(characterNames[selection]);
                         playerPicture.setTextureRect(characterImages[selection]);
+                        flag.setTextureRect(flags[selection]);
+                        flag.setPosition(coordinates[selection][0], coordinates[selection][1]);
                     }
                 }
                 window.clear(sf::Color(0, 0, 96, 255));
@@ -373,17 +471,24 @@ int* Game::selectScreen(){
                 window.draw(playerHover);
                 window.draw(playerName);
                 window.draw(playerPicture);
+                window.draw(flag);
+                window.draw(vs);
+                window.draw(selectionName);
+                window.draw(oneP);
                 if (second)
                 {
                     window.draw(enemyHover);
                     window.draw(enemyName);
                     window.draw(enemyPicture);
+                    window.draw(enemyFlag);
+                    window.draw(twoP);
                 }
                 window.display();
             }
 
         }
     }
+    bgm.stop();
     return choices;
 }
 
@@ -552,12 +657,15 @@ void Game::run()
     //int option = showMenu(); 
     //some option was selected from the menu
     //if(option == 1 || option == 2)
-    //  return;
+    //    return;
     
     //option 0 is play
     int* character = nullptr;
     character = selectScreen();
     setStage(character);
+    sf::Music stageSet;
+    stageSet.openFromFile("assets/SFX/VS.wav");
+    stageSet.play();
     while (window.isOpen())
     {
         pollEvents();
