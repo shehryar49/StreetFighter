@@ -119,15 +119,36 @@ void Game::pollEvents()
 void Game::update(float dt)
 {
     static float elapsed = 0;
+    static bool AIBOT = true;
     elapsed += dt;
     player->update(dt);
-    if(true && player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+    if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
     {
-     // cout << "damage" << endl;
       if(enemyDamage <= 99.9f)
         enemyDamage += 0.1;
       damage.setSize(sf::Vector2f(enemyDamage*3,25));
       elapsed = 0;
+    }
+    if(AIBOT && enemy->isIdle())
+    {
+      float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
+      float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
+      if(a > b - 80)
+      {
+        enemy->flippedMoveLeft(b);
+      }
+      int r = rand()%250;
+      if(r == 0)
+        enemy->punch1();
+      else if(r == 1)
+        enemy->punch2();
+      else if(r == 2)
+        enemy->punch3();
+      else if(r == 3)
+        enemy->kick1();
+      else if(r == 4)
+        enemy->kick2();
+      //kick3 needs some fixing
     }
     enemy->update(dt);
 }
@@ -281,7 +302,7 @@ int* Game::selectScreen(){
     map.setScale(3.5, 3.5);
     map.setPosition(62.5, 30);
     characters.setTexture(txtr);
-    characters.setTextureRect(sf::IntRect(110, 499, 121.8, 64.5));
+    characters.setTextureRect(sf::IntRect(110, 499, 121, 64));
     characters.setScale(2.5, 2.5);
     characters.setPosition(240, 420);
     playerHover.setTexture(txtr);
@@ -634,6 +655,7 @@ int Game::showMenu()
 }
 Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar | sf::Style::Close)
 {
+  srand(time(0)); //use epoch time as seed 
   player = nullptr;
   enemy = nullptr;
   health1.setSize(sf::Vector2f(300,25));
@@ -652,12 +674,12 @@ void Game::run()
 {
 
     window.setFramerateLimit(60);
-    //playIntro();
+    playIntro();
     //key was pressed, so we are back after playing intro
-    //int option = showMenu(); 
+    int option = showMenu(); 
     //some option was selected from the menu
     //if(option == 1 || option == 2)
-    //    return;
+    //  return;
     
     //option 0 is play
     int* character = nullptr;
@@ -680,8 +702,9 @@ void Game::run()
         enemy->render(window);
         window.display();
     }
-    if (character)
-        delete[] character;
+    //if (character) // why use if?
+
+    delete[] character;
 }
 
 void Game::playMusic(const char* filename) 
@@ -803,6 +826,7 @@ void Game::setStage(int* c)
     enemy->flipX();
     player->setPosition(120, BOTTOMY - (player->getGlobalBounds().height) + 1);
     enemy->setPosition(650, BOTTOMY - (enemy->getGlobalBounds().height) + 1);
+    
 }
 Game::~Game()
 {
