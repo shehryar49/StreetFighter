@@ -17,8 +17,11 @@
 #include "ken.h"
 #include "sagat.h"
 #include "balrog.h"
-#include <stdio.h>
+#ifdef _WIN32
 #include <Windows.h>
+#elif __linux__
+#include <unistd.h>
+#endif
 
 using namespace std;
 #define COL_WIDTH 50
@@ -366,7 +369,11 @@ int* Game::selectScreen(){
                     if (second)
                     {
                         end = true;
-                        Sleep(1000);
+                        #ifdef _WIN32
+                            Sleep(1000);
+                        #elif __linux__
+                            sleep(1);
+                        #endif
                     }
                     else {
                         second = true;
