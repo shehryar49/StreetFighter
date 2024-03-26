@@ -129,9 +129,11 @@ void Game::update(float dt)
     }
     if(AIBOT && enemy->isIdle())
     {
-      if(enemy->getGlobalBounds().left >= player->getGlobalBounds().left+180) //enemy not within 20 units of player territory
+      float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
+      float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
+      if(a > b - 80)
       {
-        enemy->flippedMoveLeft(player->getGlobalBounds().left+player->getGlobalBounds().width-1);
+        enemy->flippedMoveLeft(b);
       }
       int r = rand()%250;
       if(r == 0)
