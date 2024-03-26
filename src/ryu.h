@@ -16,6 +16,8 @@ private:
         FASTIDLE,
         MOVE_RIGHT,
         MOVE_LEFT,
+        FLIPPED_MOVE_RIGHT,
+        FLIPPED_MOVE_LEFT,
         PUNCH1,
         PUNCH2,
         PUNCH3,
@@ -71,6 +73,9 @@ public:
     void flipX();
     void moveLeft(float);
     void moveRight(float);
+    void flippedMoveLeft(float);
+    void flippedMoveRight(float);
+    
     void punch1();
     void punch2();
     void punch3();
@@ -82,6 +87,7 @@ public:
     void uncrouch();
     void specialMove1(); //shoryuken
     void specialMove2(); //hadoken
+    bool isIdle();
     ~Ryu();
 };
 #endif

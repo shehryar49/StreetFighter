@@ -16,6 +16,9 @@ public:
     virtual void flipX();
     virtual void moveLeft(float);
     virtual void moveRight(float);
+    virtual void flippedMoveLeft(float);
+    virtual void flippedMoveRight(float);
+    
     virtual void punch1();
     virtual void punch2();
     virtual void punch3();
@@ -29,6 +32,7 @@ public:
     virtual void specialMove2();
     virtual void block();
     virtual void unblock();
+    virtual bool isIdle();
     virtual ~Player();
 protected:
     int health = 100;

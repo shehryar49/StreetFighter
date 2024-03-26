@@ -27,7 +27,7 @@ Ryu::Ryu()
 {
 
     img.loadFromFile("assets/ryu.png");
-    img.createMaskFromColor(sf::Color(70,112,104,255));
+    //img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -143,6 +143,26 @@ void Ryu::moveRight(float f)
     if(state == AnimationState::IDLE)
     {
       state = AnimationState::MOVE_RIGHT;
+      currFrame = -1;
+      frameIncrement = 1;
+      limit = f;
+    }
+}
+void Ryu::flippedMoveLeft(float f)
+{
+    if(state == AnimationState::IDLE)
+    {
+      state = AnimationState::FLIPPED_MOVE_LEFT;
+      currFrame = -1;
+      frameIncrement = 1;
+      limit = f;
+    }
+}
+void Ryu::flippedMoveRight(float f)
+{
+    if(state == AnimationState::IDLE)
+    {
+      state = AnimationState::FLIPPED_MOVE_RIGHT;
       currFrame = -1;
       frameIncrement = 1;
       limit = f;
@@ -283,7 +303,10 @@ void Ryu::specialMove2()
         frameIncrement = 1;
     }
 }
-
+bool Ryu::isIdle()
+{
+  return IS_IDLE;
+}
 //Updation based on animation state
 void Ryu::update(float dt)
 {
@@ -336,11 +359,26 @@ void Ryu::update(float dt)
           player.setPosition(player.getPosition().x+10,player.getPosition().y);
         if(currFrame == 5)
         { 
-            state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
+            state = AnimationState::FASTIDLE; 
             currFrame = 0;
             frameIncrement = 1;
         }
     }
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::FLIPPED_MOVE_LEFT)
+    {
+        currFrame = currFrame+1;
+        player.setTextureRect(moveright_frames[currFrame]);
+        elapsed = 0;
+        if(player.getPosition().x - player.getGlobalBounds().width -20 > limit) // window width is 800
+          player.setPosition(player.getPosition().x-10,player.getPosition().y);
+        if(currFrame == 5)
+        { 
+            state = AnimationState::FASTIDLE; 
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+
     else if(elapsed>=(MOVE_TIME) && state == AnimationState::MOVE_LEFT)
     {
         currFrame = currFrame+1;
@@ -351,6 +389,20 @@ void Ryu::update(float dt)
         if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::FLIPPED_MOVE_RIGHT)
+    {
+        currFrame = currFrame+1;
+        player.setTextureRect(moveleft_frames[currFrame]);
+        elapsed = 0;
+        if(player.getPosition().x + 20 < limit) // window width is 800
+          player.setPosition(player.getPosition().x+10,player.getPosition().y);
+        if(currFrame == 5)
+        { 
+            state = AnimationState::FASTIDLE; 
             currFrame = 0;
             frameIncrement = 1;
         }
