@@ -51,6 +51,9 @@ private:
         BLOCKED,
         UNBLOCKING,
 
+        //-------------special move
+        YOGA_FLAME,
+
         //--------------victory
         VICTORY_1//to be set when player wins
     };
@@ -71,9 +74,11 @@ private:
     static sf::IntRect crouched_kick1_frames[2];
     static sf::IntRect block_frames[2];
     static sf::IntRect victory1_frames[12];
+    static sf::IntRect yogaflame_frames[20];
 
     int currFrame = 0;
     int frameIncrement = 1;
+    float limit;
 public:
     Dhalsim();
     void update(float);
@@ -83,8 +88,8 @@ public:
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     void flipX();
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float);
+    void moveRight(float);
     void punch1();
     void punch2();
     void punch3();
@@ -97,6 +102,7 @@ public:
     void block();
     void unblock();
     void victory(int);
+    void specialMove1(); //yoga flame
     ~Dhalsim();
 };
 #endif
