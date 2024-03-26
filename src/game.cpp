@@ -19,6 +19,8 @@
 #include "balrog.h"
 
 using namespace std;
+#define COL_WIDTH 50
+#define ROW_HEIGHT 79
 
 vector<string> split(const string& s,char x)
 {
@@ -150,7 +152,7 @@ void Game::playIntro()
 
     bgm.setLoop(true);
     bgm.play();
-    bgm.setVolume(0);
+    bgm.setVolume(5);
     while (window.isOpen())
     {
         sf::Event event;
@@ -180,6 +182,211 @@ void Game::playIntro()
     window.setFramerateLimit(0);
     bgm.stop();
 }
+
+int* Game::selectScreen(){
+    int* choices = new int[2];
+    sf::Image img;
+    if (!img.loadFromFile("assets/Stage Select.png")) 
+    {
+        cerr << "Err openning file";
+        exit(EXIT_FAILURE);
+    }
+    img.createMaskFromColor(sf::Color(0, 0, 96, 255));
+    sf::Texture txtr;
+    txtr.loadFromImage(img);
+    sf::Sprite map, characters, playerHover, playerName, playerPicture, enemyHover, enemyName, enemyPicture, flag, selectionName, vs;
+    sf::IntRect characterNames[12];
+    characterNames[0] = sf::IntRect(86, 93, 80, 15);
+    characterNames[1] = sf::IntRect(354, 93, 80, 15);
+    characterNames[2] = sf::IntRect(629, 93, 80, 15);
+    characterNames[3] = sf::IntRect(903, 93, 80, 15);
+    characterNames[4] = sf::IntRect(1166, 93, 80, 15);
+    characterNames[5] = sf::IntRect(1451, 93, 80, 15);
+    characterNames[6] = sf::IntRect(94, 315, 80, 15);
+    characterNames[7] = sf::IntRect(349, 315, 80, 15);
+    characterNames[8] = sf::IntRect(627, 312, 80, 15);
+    characterNames[9] = sf::IntRect(895, 312, 80, 15);
+    characterNames[10] = sf::IntRect(1169, 313, 80, 15);
+    characterNames[11] = sf::IntRect(1441, 312, 80, 15);
+
+    sf::IntRect characterImages[12];
+    characterImages[0] = sf::IntRect(6, 110, 100, 100);
+    characterImages[1] = sf::IntRect(274, 110, 100, 100);
+    characterImages[2] = sf::IntRect(555, 110, 100, 100);
+    characterImages[3] = sf::IntRect(823, 113, 100, 100);
+    characterImages[4] = sf::IntRect(1090, 115, 100, 100);
+    characterImages[5] = sf::IntRect(1365, 115, 100, 100);
+    characterImages[6] = sf::IntRect(6, 342, 100, 100);
+    characterImages[7] = sf::IntRect(274, 342, 100, 100);
+    characterImages[8] = sf::IntRect(555, 342, 100, 100);
+    characterImages[9] = sf::IntRect(823, 343, 100, 100);
+    characterImages[10] = sf::IntRect(1090, 343, 100, 100);
+    characterImages[11] = sf::IntRect(1364, 343, 100, 100);
+
+    map.setTexture(txtr);
+    map.setTextureRect(sf::IntRect(270,480, 190, 120));
+    map.setScale(3.5, 3.5);
+    map.setPosition(62.5, 30);
+    characters.setTexture(txtr);
+    characters.setTextureRect(sf::IntRect(110, 499, 121.8, 64.5));
+    characters.setScale(2.5, 2.5);
+    characters.setPosition(240, 420);
+    playerHover.setTexture(txtr);
+    playerHover.setTextureRect(sf::IntRect(17, 561, 21, 37));
+    playerHover.setScale(2.5, 2.5);
+    playerHover.setPosition(240, 410);
+    enemyHover.setTexture(txtr);
+    enemyHover.setTextureRect(sf::IntRect(48, 561, 21, 37));
+    enemyHover.setScale(2.5, 2.5);
+    enemyHover.setPosition(240, 410);
+    playerName.setTexture(txtr);
+    playerName.setTextureRect(characterNames[0]);
+    playerName.setScale(2, 2);
+    playerName.setPosition(40, 360);
+    enemyName.setTexture(txtr);
+    enemyName.setTextureRect(characterNames[0]);
+    enemyName.setScale(2, 2);
+    enemyName.setPosition(650, 360);
+    playerPicture.setTexture(txtr);
+    playerPicture.setTextureRect(characterImages[0]);
+    playerPicture.setScale(2, 2);
+    playerPicture.setPosition(25, 400);
+    enemyPicture.setTexture(txtr);
+    enemyPicture.setTextureRect(characterImages[0]);
+    enemyPicture.setScale(-2, 2);
+    enemyPicture.setPosition(770, 400);
+    window.clear(sf::Color(0,0,96,255));
+    window.draw(map);
+    window.draw(characters);
+    window.draw(playerHover);
+    window.draw(playerName);
+    window.draw(playerPicture);
+    window.display();
+    sf::Event e;
+    bool end = false;
+    bool second = false;
+    choices[0] = choices[1] = 1;
+    int indx = 0, selection = 0;
+    while (!end)
+    {
+        while (window.pollEvent(e))
+        {
+            if (e.type == sf::Event::KeyPressed)
+            {
+                if (e.key.code == sf::Keyboard::Enter)
+                {
+                    if (second)
+                        end = true;
+                    else {
+                        second = true;
+                        indx++;
+                        selection = 0;
+                        window.clear(sf::Color(0, 0, 96, 255));
+                        window.draw(map);
+                        window.draw(characters);
+                        window.draw(playerHover);
+                        window.draw(enemyHover);
+                        window.draw(enemyName);
+                        window.draw(playerName);
+                        window.draw(playerPicture);
+                        window.draw(enemyPicture);
+                        window.display();
+                    }
+                    break;
+                }
+                else if (e.key.code == sf::Keyboard::Right && ((choices[indx] < 6) || (choices[indx] > 6 && choices[indx] < 12)))
+                {
+                    if (second)
+                    {
+                        enemyHover.setPosition(enemyHover.getPosition().x + COL_WIDTH, enemyHover.getPosition().y);
+                        choices[1]++;
+                        enemyName.setTextureRect(characterNames[++selection]);
+                        enemyPicture.setTextureRect(characterImages[selection]);
+                    }
+                    else
+                    {
+                        playerHover.setPosition(playerHover.getPosition().x + COL_WIDTH, playerHover.getPosition().y);
+                        choices[0]++;
+                        playerName.setTextureRect(characterNames[++selection]);
+                        playerPicture.setTextureRect(characterImages[selection]);
+                    }
+                    
+                }
+                else if (e.key.code == sf::Keyboard::Left && ((choices[indx] > 1 && choices[indx] <= 6) || (choices[indx] > 7 && choices[indx] <= 12)))
+                {
+                    if (second)
+                    {
+                        enemyHover.setPosition(enemyHover.getPosition().x - COL_WIDTH, enemyHover.getPosition().y);
+                        choices[1]--;
+                        enemyName.setTextureRect(characterNames[--selection]);
+                        enemyPicture.setTextureRect(characterImages[selection]);
+                    }
+                    else
+                    {
+                        playerHover.setPosition(playerHover.getPosition().x - COL_WIDTH, playerHover.getPosition().y);
+                        choices[0]--;
+                        playerName.setTextureRect(characterNames[--selection]);
+                        playerPicture.setTextureRect(characterImages[selection]);
+                    }
+                    
+                }
+                else if (e.key.code == sf::Keyboard::Down && choices[indx] < 7)
+                {
+                    selection += 6;
+                    if (second)
+                    {
+                        enemyHover.setPosition(enemyHover.getPosition().x, enemyHover.getPosition().y + ROW_HEIGHT);
+                        choices[1] += 6;
+                        enemyName.setTextureRect(characterNames[selection]);
+                        enemyPicture.setTextureRect(characterImages[selection]);
+                    }
+                    else
+                    {
+                        playerHover.setPosition(playerHover.getPosition().x, playerHover.getPosition().y + ROW_HEIGHT);
+                        choices[0] += 6;
+                        playerName.setTextureRect(characterNames[selection]);
+                        playerPicture.setTextureRect(characterImages[selection]);
+                    }
+
+                }
+                else if (e.key.code == sf::Keyboard::Up && choices[indx] > 6)
+                {
+                    selection -= 6;
+                    if (second)
+                    {
+                        enemyHover.setPosition(enemyHover.getPosition().x, enemyHover.getPosition().y - ROW_HEIGHT);
+                        choices[1] -= 6;
+                        enemyName.setTextureRect(characterNames[selection]);
+                        enemyPicture.setTextureRect(characterImages[selection]);
+                    }
+                    else
+                    {
+                        playerHover.setPosition(playerHover.getPosition().x, playerHover.getPosition().y - ROW_HEIGHT);
+                        choices[0] -= 6;
+                        playerName.setTextureRect(characterNames[selection]);
+                        playerPicture.setTextureRect(characterImages[selection]);
+                    }
+                }
+                window.clear(sf::Color(0, 0, 96, 255));
+                window.draw(map);
+                window.draw(characters);
+                window.draw(playerHover);
+                window.draw(playerName);
+                window.draw(playerPicture);
+                if (second)
+                {
+                    window.draw(enemyHover);
+                    window.draw(enemyName);
+                    window.draw(enemyPicture);
+                }
+                window.display();
+            }
+
+        }
+    }
+    return choices;
+}
+
 std::string Game::execCommand(const std::string& command)
 {
   if(command == "")
@@ -348,24 +555,9 @@ void Game::run()
     //  return;
     
     //option 0 is play
-    
-    player = new Balrog();
-    //player = new Chun_Li();
-    //player = new Dhalsim();
-    //player = new Ken();
-    //player = new Ryu();
-    player = new Ken();
-    //player = new Ryu();
-    //player = new Sagat();
-    //player = new Zangief();
-
-    //enemy = new Chun_Li();
-    //enemy = new Ken();
-    //enemy = new Dhalsim();
-    //enemy = new Zangief();
-    enemy = new Ryu();
-    
-    setStage();
+    int* character = nullptr;
+    character = selectScreen();
+    setStage(character);
     while (window.isOpen())
     {
         pollEvents();
@@ -380,6 +572,8 @@ void Game::run()
         enemy->render(window);
         window.display();
     }
+    if (character)
+        delete[] character;
 }
 
 void Game::playMusic(const char* filename) 
@@ -393,97 +587,114 @@ void Game::playMusic(const char* filename)
     bgm.play();
 }
 
-void Game::setStage() 
+void Game::setStage(int* c)
 {
+    switch (c[0]) 
+    {
+        case 1:
+            player = new Ryu();
+            break;
+        case 5:
+            player = new Balrog();
+            break;
+        case 7:
+            player = new Ken();
+            break;
+        case 8:
+            player = new Chun_Li();
+            break;
+        case 9:
+            player = new Zangief();
+            break;
+        case 10:
+            player = new Dhalsim();
+            break;
+        case 11:
+            player = new Sagat();
+            break;
+        default:
+            player = new Ryu();
+            break;
+    }
+    switch (c[1]) 
+    {
+        case 1:
+            enemy = new Ryu();
+            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.4f, 2.8f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+        case 5:
+            enemy = new Balrog();
+            backgroundTexture.loadFromFile("assets/Balrog Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(2.1f, 2.5f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(280, 0, 800, 400));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+        case 7:
+            enemy = new Ken();
+            backgroundTexture.loadFromFile("assets/Ken Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.4f, 3.0f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(100, 0, 800, 400));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+        case 8:
+            enemy = new Chun_Li();
+            backgroundTexture.loadFromFile("assets/ChunLi Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.2f, 2.8f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(65, 0, 800, 400));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+        case 9:
+            enemy = new Zangief();
+            backgroundTexture.loadFromFile("assets/Zangief Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.2f, 2.8f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(65, 0, 800, 400));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+        case 10:
+            enemy = new Dhalsim();
+            backgroundTexture.loadFromFile("assets/Dhalsim Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.2f, 2.5f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(50, 0, 800, 400));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+        case 11:
+            enemy = new Sagat();
+            backgroundTexture.loadFromFile("assets/Sagat Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.4f, 2.8f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+        default:
+            enemy = new Ryu();
+            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.4f, 2.8f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            break;
+    }
+    //was common in all
     enemy->flipX();
-    Ryu* ryu_enemy = nullptr;
-    if ((ryu_enemy = dynamic_cast <Ryu*>(enemy))) 
-    {
-        //calculation
-        // topY + height - 1 = bottomY
-        // topY = bottomY - height + 1
-        // note this
-        //IMPORTANT
-        player->setPosition(120,BOTTOMY - (player->getGlobalBounds().height) + 1 );
-        enemy->setPosition(650,BOTTOMY - (enemy->getGlobalBounds().height) + 1 );
-        ///
-        backgroundTexture.loadFromFile("assets/Ryu Stage.png");
-        background.setTexture(backgroundTexture);
-        background.setScale(1.4f, 2.8f);
-        background.setPosition(0, 0);
-        background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-        playMusic("assets/SFX/Theme_of_Ryu.ogg");
-        return;
-    }
-    Zangief* zangief_enemy = nullptr;
-    if ((zangief_enemy = dynamic_cast<Zangief*>(enemy)))
-    {
-        enemy->setPosition(650, 365); //zangief_stage_y_coordinate = 365, enemy_x_coordinate = 650
-        player->setPosition(120, 365);
-        backgroundTexture.loadFromFile("assets/Zangief Stage.png");
-        background.setTexture(backgroundTexture);
-        background.setScale(2.1f,2.5f);
-        background.setPosition(0, 0);
-        background.setTextureRect(sf::IntRect(280,0,800,400));
-        //playMusic("assets/SFX/Theme_of_Zangief.wav");
-        playMusic("assets/SFX/Theme_of_Ryu.ogg");
-        return;
-    }
-    Dhalsim* dhalsim_enemy = nullptr;
-    if ((dhalsim_enemy = dynamic_cast<Dhalsim*>(enemy))) 
-    {
-        enemy->setPosition(650, 365); //dhalsim_stage_y_coordinate = 365, enemy_x_coordinate = 650
-        player->setPosition(120, 365);
-        backgroundTexture.loadFromFile("assets/Dhalsim Stage.png");
-        background.setTexture(backgroundTexture);
-        background.setScale(1.2f, 2.5f);
-        background.setPosition(0, 0);
-        background.setTextureRect(sf::IntRect(50, 0, 800, 400));
-        //playMusic("assets/SFX/Theme_of_Dhalsim.wav");
-          playMusic("assets/SFX/Theme_of_Ryu.ogg");
-        return;
-    }
-    Ken* ken_enemy = nullptr;
-    if ((ken_enemy = dynamic_cast<Ken*>(enemy)))
-    {
-        enemy->setPosition(650, 355); //ken_stage_y_coordinate = 355, enemy_x_coordinate = 650
-        player->setPosition(120, 355);
-        backgroundTexture.loadFromFile("assets/Ken Stage.png");
-        background.setTexture(backgroundTexture);
-        background.setScale(1.4f,3.0f);
-        background.setPosition(0, 0);
-        background.setTextureRect(sf::IntRect(100, 0, 800, 400));
-        //playMusic("assets/SFX/Theme_of_Ken.wav");
-          playMusic("assets/SFX/Theme_of_Ryu.ogg");
-        return;
-    }
-    Chun_Li* chun_li_enemy = nullptr;
-    if ((chun_li_enemy = dynamic_cast<Chun_Li*>(enemy))) 
-    {
-        enemy->setPosition(650, 355); //ken_stage_y_coordinate = 355, enemy_x_coordinate = 650
-        player->setPosition(120, 355);
-        backgroundTexture.loadFromFile("assets/ChunLi Stage.png");
-        background.setTexture(backgroundTexture);
-        background.setScale(1.2f, 2.8f);
-        background.setPosition(0, 0);
-        background.setTextureRect(sf::IntRect(65, 0, 800, 400));
-        //playMusic("assets/SFX/Theme_of_Chun-li.wav");
-         playMusic("assets/SFX/Theme_of_Ryu.ogg");
-        return;
-    }
-    Sagat* sagat_enemy = nullptr;
-    if ((sagat_enemy = dynamic_cast <Sagat*>(enemy))) 
-    {
-        player->setPosition(120,WINDOW_HEIGHT - (player->getGlobalBounds().height) - 5);
-        enemy->setPosition(650,WINDOW_HEIGHT - (enemy->getGlobalBounds().height) - 5);
-        backgroundTexture.loadFromFile("assets/Ryu Stage.png");
-        background.setTexture(backgroundTexture);
-        background.setScale(1.4f, 2.8f);
-        background.setPosition(0, 0);
-        background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-        playMusic("assets/SFX/Theme_of_Ryu.ogg");
-        return;
-    }
+    player->setPosition(120, BOTTOMY - (player->getGlobalBounds().height) + 1);
+    enemy->setPosition(650, BOTTOMY - (enemy->getGlobalBounds().height) + 1);
 }
 Game::~Game()
 {

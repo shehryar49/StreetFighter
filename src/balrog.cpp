@@ -30,20 +30,21 @@ sf::IntRect Balrog::forward_heavy_punch_frames[5];
 sf::IntRect Balrog::crouch_face_hit_taken_frames[1];
 sf::IntRect Balrog::crouch_medium_face_hit_taken_frames[3];
 sf::IntRect Balrog::crouch_heavy_face_hit_taken_frames[5];
+sf::IntRect Balrog::victory1_frames[5];
+sf::IntRect Balrog::victory2_frames[5];
+sf::IntRect Balrog::shirt_frames[4];
 
 sf::IntRect Balrog::hit_taken_blanka_electricity_frames[2];
-sf::IntRect Balrog::victory1_frames[1];
-sf::IntRect Balrog::victory2_frames[3];
-sf::IntRect Balrog::victory3_frames[9];
 
 Balrog::Balrog() {
     if (!image.loadFromFile("assets/Balrog.png")) {
         cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }//spritesheet
-    //image.createMaskFromColor(sf::Color(149, 155, 149));
+    image.createMaskFromColor(sf::Color(149, 155, 149));
     texture.loadFromImage(image);
     player.setTexture(texture);
+    shirt_right.setTexture(texture);
 
     idle_frames[0] = sf::IntRect(15, 220, 63, 112);
     idle_frames[1] = sf::IntRect(85, 220, 63, 112);
@@ -211,24 +212,30 @@ Balrog::Balrog() {
     crouch_heavy_face_hit_taken_frames[3] = sf::IntRect(202, 2906, 78, 85);
     crouch_heavy_face_hit_taken_frames[4] = sf::IntRect(14, 2906, 70, 85);
 
-    victory1_frames[0] = sf::IntRect(14, 7168, 100, 120);
+    victory1_frames[0] = sf::IntRect(130, 4210, 65, 110);
+    victory1_frames[1] = sf::IntRect(197, 4210, 85, 110);
+    victory1_frames[2] = sf::IntRect(285, 4190, 105, 130);
+    victory1_frames[3] = sf::IntRect(395, 4190, 143, 130);
+    victory1_frames[4] = sf::IntRect(545, 4190, 100, 130);
 
-    victory2_frames[0] = sf::IntRect(160, 7125, 100, 170);
-    victory2_frames[1] = sf::IntRect(260, 7125, 100, 170);
-    victory2_frames[2] = sf::IntRect(360, 7125, 100, 170);
+    victory2_frames[0] = sf::IntRect(130, 4210, 65, 110);
+    victory2_frames[1] = sf::IntRect(197, 4210, 85, 110);
+    victory2_frames[2] = sf::IntRect(165, 4356, 105, 130);
+    victory2_frames[3] = sf::IntRect(275, 4356, 143, 130);
+    victory2_frames[4] = sf::IntRect(425, 4356, 100, 130);
 
-    victory3_frames[0] = sf::IntRect(501, 7168, 100, 119);
-    victory3_frames[1] = sf::IntRect(603, 7168, 100, 119);
-    victory3_frames[2] = sf::IntRect(705, 7168, 100, 119);
-    victory3_frames[3] = sf::IntRect(804, 7168, 100, 119);
-    victory3_frames[4] = sf::IntRect(903, 7168, 100, 119);
-    victory3_frames[5] = sf::IntRect(1002, 7168, 100, 119);
-    victory3_frames[6] = sf::IntRect(1101, 7168, 100, 119);
-    victory3_frames[7] = sf::IntRect(1200, 7168, 100, 119);
-    victory3_frames[8] = sf::IntRect(1299, 7168, 100, 119);
+    shirt_frames[0] = sf::IntRect(569, 4450, 50, 40);
+    shirt_frames[1] = sf::IntRect(623, 4450, 40, 40);
+    shirt_frames[2] = sf::IntRect(663, 4450, 40, 40);
+    shirt_frames[3] = sf::IntRect(700, 4450, 40, 40);
 
+    shirt_left.setTexture(texture);
+    shirt_left.setTextureRect(shirt_frames[0]);
+    shirt_left.setScale(sf::Vector2f(1.9, 1.9));
+    shirt_left.setPosition(-100, -100);
     player.setTextureRect(idle_frames[0]);
     player.setScale(sf::Vector2f(1.9, 1.9));
+    shirt_right.setScale(sf::Vector2f(-1.9, 1.9));
     curr_state = AnimationState::idle;
 }
 
@@ -423,24 +430,17 @@ void Balrog::crouch_face_hit_taken(int type) {
         break;
     }    
 }
-//void Balrog::victory(int type) {
-//    switch (type) {
-//    case 1:
-//        setPosition(player.getPosition().x, player.getPosition().y - 20);
-//        player.setTextureRect(victory1_frames[0]);
-//        curr_state = AnimationState::still;
-//        break;
-//    case 2:
-//        curr_frame = 0;
-//        count = 0;
-//        curr_state = AnimationState::victory_2;
-//        break;
-//    case 3:
-//        curr_frame = 0;
-//        curr_state = AnimationState::victory_3;
-//        break;
-//    }
-//}
+void Balrog::victory(int type) {
+    curr_frame = 0;
+    switch (type) {
+    case 1:
+        curr_state = AnimationState::victory_1;
+        break;
+    case 2:
+        curr_state = AnimationState::victory_2;
+        break;
+    }
+}
 void Balrog::knockout(int type) {
     switch (type) {
     case 1:
@@ -495,18 +495,15 @@ bool Balrog::processEvent(sf::Event& event) {
                 knockout(1);
                 return true;
             }
-            /*else if (event.key.code == sf::Keyboard::Num8) {
+            else if (event.key.code == sf::Keyboard::I) {
                 victory(1);
                 return true;
             }
-            else if (event.key.code == sf::Keyboard::Num9) {
+            else if (event.key.code == sf::Keyboard::U) {
                 victory(2);
                 return true;
             }
-            else if (event.key.code == sf::Keyboard::Num0) {
-                victory(3);
-                return true;
-            }*/
+
             else if (event.key.code == sf::Keyboard::Enter) {
                 knockout(2);
                 return true;
@@ -1120,30 +1117,60 @@ void Balrog::update(float time) {
     time_elapsed = 0;
     return;
     }
-    else if (time_elapsed >= 0.16f && curr_state == AnimationState::victory_2) {
-        if (curr_frame == 3 and count == 3) {
+    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::victory_1) {
+        if (curr_frame == 5) {
             curr_state = AnimationState::still;
         }
         else {
-            if (curr_frame == 3) {
-                curr_frame = 1;
-                count++;
-            }
-            if (!curr_frame and !count)
-                setPosition(player.getPosition().x, player.getPosition().y - 100);
-            player.setTextureRect(victory2_frames[curr_frame++]);
+            player.setTextureRect(victory1_frames[curr_frame++]);
+            if (curr_frame == 1 || curr_frame == 2 || curr_frame == 3)
+                setPosition(player.getPosition().x - 10, BOTTOMY - player.getGlobalBounds().height);
+            if (curr_frame == 4)
+                setPosition(player.getPosition().x - 35, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 5)
+                setPosition(player.getPosition().x + 45, BOTTOMY - player.getGlobalBounds().height);
+            else
+                setPosition(player.getPosition().x,BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
     }
-    else if (time_elapsed >= 0.16f && curr_state == AnimationState::victory_3) {
-        if (curr_frame == 9) {
+    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::victory_2) {
+        if (curr_frame == 5 && shirt_frame  == 4) {
             curr_state = AnimationState::still;
         }
         else {
-            if (!curr_frame)
-                setPosition(player.getPosition().x, player.getPosition().y - 18);
-            player.setTextureRect(victory3_frames[curr_frame++]);
+            if (curr_frame < 5) {
+                player.setTextureRect(victory2_frames[curr_frame++]);
+                if (curr_frame == 1 || curr_frame == 2 || curr_frame == 3)
+                    setPosition(player.getPosition().x - 10, BOTTOMY - player.getGlobalBounds().height);
+                if (curr_frame == 4) {
+                    shirt_frame = 0;
+                    setPosition(player.getPosition().x - 35, BOTTOMY - player.getGlobalBounds().height);
+                }
+                else if (curr_frame == 5)
+                    setPosition(player.getPosition().x + 45, BOTTOMY - player.getGlobalBounds().height);
+                else
+                    setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            }
+            if (shirt_frame >= 0 && shirt_frame < 4)
+            {
+                if (!shirt_frame) {
+                    shirt_left.setPosition(player.getPosition().x - 40, player.getPosition().y + 70);
+                    shirt_right.setPosition(player.getPosition().x + player.getGlobalBounds().width + 40, player.getPosition().y + 70);
+                }
+                else if (shirt_frame > 0 and shirt_frame < 3) {
+                    shirt_left.setPosition(shirt_left.getPosition().x - 20, shirt_left.getPosition().y + 40);
+                    shirt_right.setPosition(shirt_right.getPosition().x + 20, shirt_right.getPosition().y + 40);
+
+                }
+                else {
+                    shirt_left.setPosition(shirt_left.getPosition().x - 20, BOTTOMY - 80);
+                    shirt_right.setPosition(shirt_right.getPosition().x + 20, BOTTOMY - 80);
+                }
+                shirt_left.setTextureRect(shirt_frames[shirt_frame]);
+                shirt_right.setTextureRect(shirt_frames[shirt_frame++]);
+            }
         }
         time_elapsed = 0;
         return;
@@ -1207,6 +1234,8 @@ void Balrog::flipX()
 }
 void Balrog::render(sf::RenderWindow& window) {
     window.draw(player);
+    window.draw(shirt_left);
+    window.draw(shirt_right);
 }
 Balrog::~Balrog() {
 }

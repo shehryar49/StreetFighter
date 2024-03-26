@@ -31,10 +31,11 @@ private:
     void playIntro(void);
     void pollEvents();
     void update(float);
-    void setStage();
+    void setStage(int*);
     void playMusic(const char* filename);
     int showMenu();
     void showTerminal();
+    int* selectScreen();
     std::string execCommand(const std::string&);
     GameState state;
     sf::Music bgm; //play all bgm through 1 var so that we dont get conflicts (doesnt apply to move sounds...they can play over bgm...make separate local vars for them)

@@ -46,9 +46,8 @@ private:
 
         hit_taken_blanka_electricity, //1
         //---------------------------------------victory----------------------------------------------//
-        //victory_1 is on 8
-        victory_2,//9
-        victory_3,//0
+        victory_1,//I
+        victory_2,//U
         //---------------------------------------defeat----------------------------------------------//
         defeat, //Enter
         //-------------------------------------special move------------------------------------------//
@@ -85,17 +84,20 @@ private:
     static sf::IntRect crouch_face_hit_taken_frames[1];
     static sf::IntRect crouch_medium_face_hit_taken_frames[3];
     static sf::IntRect crouch_heavy_face_hit_taken_frames[5];
+    static sf::IntRect victory1_frames[5];
+    static sf::IntRect victory2_frames[5];
+    static sf::IntRect shirt_frames[4];
 
     static sf::IntRect hit_taken_blanka_electricity_frames[2];
-    static sf::IntRect victory1_frames[1];
-    static sf::IntRect victory2_frames[3];
-    static sf::IntRect victory3_frames[9];
 
+    int shirt_frame = -1;
     int curr_frame = -1;
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
     bool combo = false;
     float limit;
+    sf::Sprite shirt_left;
+    sf::Sprite shirt_right;
     
 public:
     Balrog();
@@ -129,7 +131,7 @@ public:
     void face_body_combo_taken();
     void crouch_face_hit_taken(int);
     void knockout(int);
-    //void victory(int);
+    void victory(int);
     ~Balrog();
 };
 
