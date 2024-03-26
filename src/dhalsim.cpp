@@ -84,13 +84,13 @@ Dhalsim::Dhalsim()
 
     kick2_frames[0] = sf::IntRect(0, 520, 90, 110);
     kick2_frames[1] = sf::IntRect(10+90, 520, 125, 110);
-    kick2_frames[2] = sf::IntRect(10+90+125, 520, 200, 110);//height issue to be fixed
+    kick2_frames[2] = sf::IntRect(10+90+125, 505, 200, 125);
 
     kick3_frames[0] = sf::IntRect(10+90+125+200+50,520,90,110);
-    kick3_frames[1] = sf::IntRect(10+90+125+200+50+90,520,90,110);//height issue to be fixed
-    kick3_frames[2] = sf::IntRect(10+90+125+200+50+90+90,520,90,110);//height issue to be fixed
+    kick3_frames[1] = sf::IntRect(10+90+125+200+50+90,515,90,115);
+    kick3_frames[2] = sf::IntRect(10+90+125+200+50+90+90,515,90,115);
     kick3_frames[3] = sf::IntRect(10+90+125+200+50+90+90+90,520,110,110);
-    kick3_frames[4] = sf::IntRect(10+90+125+200+50+90+90+90+110,520,210,110);//height issue to be fixed
+    kick3_frames[4] = sf::IntRect(10+90+125+200+50+90+90+90+110,515,210,115);
     kick3_frames[5] = sf::IntRect(10+90+125+200+50+90+90+90+110+210,520,90,110);
 
     crouching_frames[0] = sf::IntRect(10, 1415, 90, 110);
@@ -98,7 +98,7 @@ Dhalsim::Dhalsim()
     crouching_frames[2] = sf::IntRect(10+90*2, 1415, 90, 110);
 
     crouched_punch1_frames[0] = sf::IntRect(20 + 90+110+160+260, 1530, 90, 110);
-    crouched_punch1_frames[1] = sf::IntRect(20 + 90+110+160+260+90, 1530, 130, 110);
+    crouched_punch1_frames[1] = sf::IntRect(25 + 90+110+160+260+90, 1530, 130, 110);
 
     crouched_punch2_frames[0] = sf::IntRect(20, 1530, 90, 110);
     crouched_punch2_frames[1] = sf::IntRect(20 + 90, 1530, 110, 110);
