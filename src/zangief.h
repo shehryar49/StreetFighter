@@ -13,6 +13,8 @@ private:
         //--------------------------------------movement-----------------------------------------------//
         move_right, //Right Arrow
         move_left, //Left Arrow
+        flipped_move_right,
+        flipped_move_left,
         blocking, //Hold LShift
         crouching, //Hold Down Arrow
         crouch_blocking, //Hold LShift + Down Arrow
@@ -41,6 +43,7 @@ private:
         crouch_face_hit_taken,//5 (must be crouching - can uncrouch mid animation)
         face_body_combo_taken,//6
         knockout, //7
+        hit_taken_dhalsim_fire,//P
         //---------------------------------------victory----------------------------------------------//
         //victory_1 is on 8
         victory_2,//9
@@ -80,10 +83,12 @@ private:
     static sf::IntRect victory2_frames[3];
     static sf::IntRect victory3_frames[9];
     static sf::IntRect knockout_frames[14];
+    static sf::IntRect hit_taken_dhalsim_fire_frames[9];
 
     int curr_frame = -1;
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
+    float limit;
 public:
     Zangief();
     void update(float);
@@ -93,12 +98,14 @@ public:
     bool processEvent(sf::Event&);
     void flipX();
     //movements
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float);
+    void moveRight(float);
     void jump();
     void crouch();
     void uncrouch();
     void unblock();
+    void flippedMoveLeft(float);
+    void flippedMoveRight(float);
     //void uncrouch();
     void block();
     //hits dealt
@@ -110,6 +117,7 @@ public:
     void specialMove1(); //helicopter
     //hits taken
     void hit_taken_blanka_electricity();
+    void hit_taken_dhalsim_fire();
     void hit_taken_face();
     void hit_taken_body();
     void heavy_hit_taken_body();
@@ -117,6 +125,7 @@ public:
     void face_body_combo_taken();
     void knockout(int);
     void victory(int);
+    bool isIdle();
     ~Zangief();
 };
 

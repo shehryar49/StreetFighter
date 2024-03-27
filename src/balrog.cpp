@@ -3,6 +3,8 @@
 #include<iostream>
 using namespace std;
 
+#define IS_IDLE (curr_state == AnimationState::idle)
+
 sf::IntRect Balrog::idle_frames[6];
 sf::IntRect Balrog::move_frames[6];
 sf::IntRect Balrog::light_punch_frames[3];
@@ -247,10 +249,24 @@ void Balrog::moveRight(float bound) {
         limit = bound - player.getGlobalBounds().width;
     }
 }
+void Balrog::flippedMoveRight(float bound) {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::flipped_move_right;
+        limit = bound;
+    }
+}
 void Balrog::moveLeft(float bound) {
     if (curr_state == AnimationState::idle) {
         curr_frame = 5;
         curr_state = AnimationState::move_left;
+        limit = bound;
+    }
+}
+void Balrog::flippedMoveLeft(float bound) {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::flipped_move_left;
         limit = bound;
     }
 }
@@ -597,6 +613,21 @@ void Balrog::update(float time) {
         time_elapsed = 0;
         return;
     }
+    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::flipped_move_right) {
+        if (curr_frame == 6) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (player.getPosition().x + 10 <= limit)
+                setPosition(player.getPosition().x + 10, player.getPosition().y);
+            player.setTextureRect(move_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::move_left) {
         if (curr_frame == -1) {
             curr_frame = 0;
@@ -608,6 +639,21 @@ void Balrog::update(float time) {
             if (player.getPosition().x - 10 >= limit)
                 setPosition(player.getPosition().x - 10, player.getPosition().y);
             player.setTextureRect(move_frames[curr_frame--]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::flipped_move_left) {
+        if (curr_frame == 6) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (player.getPosition().x - 10 >= limit)
+                setPosition(player.getPosition().x - 10, player.getPosition().y);
+            player.setTextureRect(move_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
@@ -1236,6 +1282,9 @@ void Balrog::render(sf::RenderWindow& window) {
     window.draw(player);
     window.draw(shirt_left);
     window.draw(shirt_right);
+}
+bool Balrog::isIdle() {
+    return IS_IDLE;
 }
 Balrog::~Balrog() {
 }

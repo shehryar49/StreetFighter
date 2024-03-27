@@ -12,6 +12,8 @@ private:
         //--------------------------------------movement-----------------------------------------------//
         move_right, //Right Arrow
         move_left, //Left Arrow
+        flipped_move_right,
+        flipped_move_left,
         jump, //Up Arrow
         jump_forward,//Right Arrow then Up Arrow 
         jump_backward, //Left Arrow then Up Arrow
@@ -115,6 +117,8 @@ public:
     void uncrouch();
     void block();
     void unblock();
+    void flippedMoveLeft(float);
+    void flippedMoveRight(float);
     ////hits dealt
     void punch1();
     void punch2();
@@ -132,6 +136,7 @@ public:
     void crouch_face_hit_taken(int);
     void knockout(int);
     void victory(int);
+    bool isIdle();
     ~Balrog();
 };
 

@@ -178,7 +178,7 @@ void Game::playIntro()
 
     bgm.setLoop(true);
     bgm.play();
-    bgm.setVolume(5);
+    bgm.setVolume(40);
     while (window.isOpen())
     {
         sf::Event event;
@@ -681,9 +681,9 @@ void Game::run()
 {
 
     window.setFramerateLimit(60);
-    playIntro();
+    //playIntro();
     //key was pressed, so we are back after playing intro
-    int option = showMenu(); 
+    //int option = showMenu(); 
     //some option was selected from the menu
     //if(option == 1 || option == 2)
     //  return;
@@ -720,7 +720,7 @@ void Game::playMusic(const char* filename)
         bgm.stop(); //if any music was playing before
     if (!(bgm.openFromFile(filename)))
         perror("Error loading assets\n");
-    bgm.setVolume(0);
+    bgm.setVolume(10);
     bgm.setLoop(true); //infinitely play song on loop
     bgm.play();
 }
