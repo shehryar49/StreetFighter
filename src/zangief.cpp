@@ -178,9 +178,9 @@ Zangief::Zangief(){
 
     victory1_frames[0] = sf::IntRect(14, 7168, 100, 120);
 
-    victory2_frames[0] = sf::IntRect(160, 7125, 100, 170);
-    victory2_frames[1] = sf::IntRect(260, 7125, 100, 170);
-    victory2_frames[2] = sf::IntRect(360, 7125, 100, 170);
+    victory2_frames[0] = sf::IntRect(160, 7125, 100, 160);
+    victory2_frames[1] = sf::IntRect(260, 7125, 100, 160);
+    victory2_frames[2] = sf::IntRect(360, 7125, 100, 160);
 
     victory3_frames[0] = sf::IntRect(501, 7168, 100, 119);
     victory3_frames[1] = sf::IntRect(603, 7168, 100, 119);
@@ -777,6 +777,7 @@ void Zangief::update(float time){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                 curr_state = AnimationState::crouching;
                 player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
+                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
             }
             else {
                 curr_frame = 0;
