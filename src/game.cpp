@@ -211,6 +211,7 @@ void Game::playIntro()
 
 int* Game::selectScreen(){
     int* choices = new int[2];
+
     sf::Music selector, lockIN, bgm;
     selector.openFromFile("assets/SFX/CMN_HUD_0.wav");
     lockIN.openFromFile("assets/SFX/CMN_HUD_1.wav");
@@ -220,7 +221,7 @@ int* Game::selectScreen(){
     sf::Image img;
     if (!img.loadFromFile("assets/Stage Select.png")) 
     {
-        cerr << "Err openning file";
+        cerr << "Error openning file";
         exit(EXIT_FAILURE);
     }
     img.createMaskFromColor(sf::Color(0, 0, 96, 255));
@@ -522,6 +523,8 @@ int* Game::selectScreen(){
 
 std::string Game::execCommand(const std::string& command)
 {
+  if(command == "exit" || command == "quit" || command == "yawr")
+    exit(0);
   if(command == "")
     return "";
   vector<string> parts = split(command,' ');
@@ -617,6 +620,11 @@ void Game::showTerminal()
             cursor.setPosition(60,50);
             outputText.setString(res);
           }
+          if(event.text.unicode == 8)
+          {
+            if(command.length() > 0)
+              command.pop_back();
+          }
         }
 
     }
@@ -679,7 +687,8 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
-
+   showTerminal();
+   return;
     window.setFramerateLimit(60);
     //playIntro();
     //key was pressed, so we are back after playing intro
