@@ -24,6 +24,7 @@
 #endif
 
 using namespace std;
+
 #define COL_WIDTH 50
 #define ROW_HEIGHT 79
 
@@ -121,7 +122,7 @@ void Game::pollEvents()
 void Game::update(float dt)
 {
     static float elapsed = 0;
-    static bool AIBOT = true;
+    static bool AIBOT = false;
     elapsed += dt;
     player->update(dt);
     if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
@@ -176,7 +177,7 @@ void Game::playIntro()
     bgm.openFromFile("assets/intro/intro.ogg");
 
     bgm.setLoop(true);
-    bgm.play();
+    //bgm.play();
     bgm.setVolume(40);
     while (window.isOpen())
     {
@@ -201,7 +202,7 @@ void Game::playIntro()
         if (i == 796)
         {
             i = 0;
-            bgm.play();
+            //bgm.play();
         }
     }
     window.setFramerateLimit(0);
@@ -365,7 +366,7 @@ int* Game::selectScreen(){
             {
                 if (e.key.code == sf::Keyboard::Enter)
                 {
-                    lockIN.play();
+                    //lockIN.play();
                     if (second)
                     {
                         end = true;
@@ -402,7 +403,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Right && ((choices[indx] < 6) || (choices[indx] > 6 && choices[indx] < 12)))
                 {
-                    selector.play();
+                    /////selector.play();
                     if (second)
                     {
                         enemyHover.setPosition(enemyHover.getPosition().x + COL_WIDTH, enemyHover.getPosition().y);
@@ -425,7 +426,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Left && ((choices[indx] > 1 && choices[indx] <= 6) || (choices[indx] > 7 && choices[indx] <= 12)))
                 {
-                    selector.play();
+                    //selector.play();
                     if (second)
                     {
                         enemyHover.setPosition(enemyHover.getPosition().x - COL_WIDTH, enemyHover.getPosition().y);
@@ -448,7 +449,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Down && choices[indx] < 7)
                 {
-                    selector.play();
+                    //selector.play();
                     selection += 6;
                     if (second)
                     {
@@ -472,7 +473,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Up && choices[indx] > 6)
                 {
-                    selector.play();
+                    //selector.play();
                     selection -= 6;
                     if (second)
                     {
@@ -687,8 +688,6 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
-    showTerminal();
-    return;
     window.setFramerateLimit(60);
     //playIntro();
     //key was pressed, so we are back after playing intro
@@ -718,8 +717,6 @@ void Game::run()
         enemy->render(window);
         window.display();
     }
-    //if (character) // why use if?
-
     delete[] character;
 }
 

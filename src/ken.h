@@ -39,7 +39,7 @@ private:
     static sf::IntRect kick2_frames[3]; // low kick
     static sf::IntRect kick3_frames[6];
     static sf::IntRect jmp_frames[8]; 
-    
+    static sf::IntRect crouching_frames[3];
     int currFrame = 0;
     int frameIncrement = 1;
     float JMPY = -30;
@@ -61,6 +61,8 @@ public:
     void moveLeft(float);
     void moveRight(float);
     void jump();
+    void crouch();
+    void uncrouch();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Ken();
