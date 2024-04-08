@@ -36,7 +36,6 @@ vector<string> split(const string& s,char x)
   {
     if(s[i] == x)
     {
-      //copy part s.substr(start,i-start)
       parts.push_back(s.substr(start,i - start));
       start = i+1;
     }
@@ -217,7 +216,7 @@ int* Game::selectScreen(){
     lockIN.openFromFile("assets/SFX/CMN_HUD_1.wav");
     bgm.openFromFile("assets/SFX/Player Select.wav");
     bgm.setLoop(true);
-    bgm.play();
+    //bgm.play();
     sf::Image img;
     if (!img.loadFromFile("assets/Stage Select.png")) 
     {
@@ -576,7 +575,7 @@ void Game::showTerminal()
   outputText.setFont(f);
   outputText.setFillColor(sf::Color::Green);
   outputText.setCharacterSize(14);
-  outputText.setString("command output will appear here");
+  outputText.setString("Command output will appear here");
   outputText.setPosition(5,25);
 
   text.setFont(f);
@@ -604,6 +603,12 @@ void Game::showTerminal()
     {
         if (event.type == sf::Event::Closed)
             window.close();
+        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::BackSpace && command.length() >= 1)
+        {
+          command.pop_back();
+          text.setString("shell> "+command);
+          cursor.setPosition(cursor.getPosition().x-8,cursor.getPosition().y);
+        }
         if (event.type == sf::Event::TextEntered)
         {
           if (event.text.unicode < 128 && (isalpha(event.text.unicode) || isdigit(event.text.unicode) || event.text.unicode == 32))
@@ -619,11 +624,6 @@ void Game::showTerminal()
             text.setString("shell> ");
             cursor.setPosition(60,50);
             outputText.setString(res);
-          }
-          if(event.text.unicode == 8)
-          {
-            if(command.length() > 0)
-              command.pop_back();
           }
         }
 
@@ -687,8 +687,8 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
 
 void Game::run()
 {
-   showTerminal();
-   return;
+    showTerminal();
+    return;
     window.setFramerateLimit(60);
     //playIntro();
     //key was pressed, so we are back after playing intro
@@ -703,7 +703,7 @@ void Game::run()
     setStage(character);
     sf::Music stageSet;
     stageSet.openFromFile("assets/SFX/VS.wav");
-    stageSet.play();
+    //stageSet.play();
     while (window.isOpen())
     {
         pollEvents();
@@ -731,7 +731,7 @@ void Game::playMusic(const char* filename)
         perror("Error loading assets\n");
     bgm.setVolume(10);
     bgm.setLoop(true); //infinitely play song on loop
-    bgm.play();
+    //bgm.play();
 }
 
 void Game::setStage(int* c)
