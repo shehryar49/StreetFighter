@@ -55,7 +55,10 @@ private:
         YOGA_FLAME,
 
         //--------------victory
-        VICTORY_1//to be set when player wins
+        VICTORY_1,//to be set when player wins
+
+        //--------------lose
+        KNOCKOUT_1//to be set when bar becomes red
     };
     AnimationState state;
     static sf::IntRect IDLE_frames[6];
@@ -74,6 +77,7 @@ private:
     static sf::IntRect crouched_kick1_frames[2];
     static sf::IntRect block_frames[2];
     static sf::IntRect victory1_frames[12];
+    static sf::IntRect knockout1_frames[4];
     static sf::IntRect yogaflame_frames[20];
 
     int currFrame = 0;
@@ -102,6 +106,7 @@ public:
     void block();
     void unblock();
     void victory(int);
+    void knockout(int);
     void specialMove1(); //yoga flame
     ~Dhalsim();
 };

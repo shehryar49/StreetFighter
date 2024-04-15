@@ -22,6 +22,7 @@ sf::IntRect Dhalsim::crouched_punch2_frames[4];
 sf::IntRect Dhalsim::crouched_kick1_frames[2];
 sf::IntRect Dhalsim::block_frames[2];
 sf::IntRect Dhalsim::victory1_frames[12];
+sf::IntRect Dhalsim::knockout1_frames[4];
 sf::IntRect Dhalsim::yogaflame_frames[20];
 
 Dhalsim::Dhalsim()
@@ -124,6 +125,11 @@ Dhalsim::Dhalsim()
     victory1_frames[10]= sf::IntRect(22 + 16 + 105, 3095, 105, 115);
     victory1_frames[11]= sf::IntRect(22 + 16 + 25 + 105 + 105, 3095, 105, 115);
 
+    knockout1_frames[0] = sf::IntRect(25+90+90+90,2690,135,110);
+    knockout1_frames[1] = sf::IntRect(25+25+90+90+90+135,2690,125,110);
+    knockout1_frames[2] = sf::IntRect(25+25+25+90+90+90+135+125,2690,125,110);
+    knockout1_frames[3] = sf::IntRect(25+25+25+15+90+90+90+135+125+125,2690,90,110);
+
     yogaflame_frames[0] = sf::IntRect(15,1790,90,110);
     yogaflame_frames[1] = sf::IntRect(15+15+90,1790,90,110);
     yogaflame_frames[2] = sf::IntRect(15+15+10+90+90,1790,90,110);
@@ -163,31 +169,31 @@ bool Dhalsim::processEvent(sf::Event& event)
             state = AnimationState::IDLE;
         }
         if (state == AnimationState::IDLE) {
-            /*if (event.key.code == sf::Keyboard::Num1) {
-                hit_taken_blanka_electricity();
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num2) {
-                hit_taken_face();
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num3) {
-                hit_taken_body();
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num4) {
-                heavy_hit_taken_body();
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num6) {
-                face_body_combo_taken();
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num7) {
+            //if (event.key.code == sf::Keyboard::Num1) {
+            //    hit_taken_blanka_electricity();
+            //    return true;
+            //}
+            //else if (event.key.code == sf::Keyboard::Num2) {
+            //    hit_taken_face();
+            //    return true;
+            //}
+            //else if (event.key.code == sf::Keyboard::Num3) {
+            //    hit_taken_body();
+            //    return true;
+            //}
+            //else if (event.key.code == sf::Keyboard::Num4) {
+            //    heavy_hit_taken_body();
+            //    return true;
+            //}
+            //else if (event.key.code == sf::Keyboard::Num6) {
+            //    face_body_combo_taken();
+            //    return true;
+            //}
+            if (event.key.code == sf::Keyboard::Num7) {
                 knockout(1);
                 return true;
-            }*/
-            if (event.key.code == sf::Keyboard::Num8) {
+            }
+            else if (event.key.code == sf::Keyboard::Num8) {
                 victory(1);
                 return true;
             }
@@ -376,7 +382,15 @@ void Dhalsim::victory(int type=1) //to be set for winning condition
         frameIncrement = 1;
     }
 }
-
+void Dhalsim::knockout(int type = 1) //to be set when bar becomes empty
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::KNOCKOUT_1;
+        currFrame = 4;
+        frameIncrement = 1;
+    }
+}
 void Dhalsim::update(float dt)
 {
     elapsed += dt;
@@ -397,7 +411,7 @@ void Dhalsim::update(float dt)
         state = AnimationState::IDLE;
         elapsed = 0;
     }
-    else if ((elapsed >= (IDLE_TIME)) && state == AnimationState::VICTORY_1)
+    else if ((elapsed >= (0.3)) && state == AnimationState::VICTORY_1)
     {
         if (currFrame == 0)
             frameIncrement = 1;
@@ -673,6 +687,18 @@ void Dhalsim::update(float dt)
             currFrame = 0;
             frameIncrement = 1;
         }
+    }
+    else if ((elapsed >= (MOVE_TIME)) && state == AnimationState::KNOCKOUT_1)
+    {
+        if (currFrame == 0)
+        {
+            frameIncrement = 0;
+        }
+        else if (currFrame == 4)
+            frameIncrement = -1;
+        currFrame = (currFrame + frameIncrement);
+        player.setTextureRect(knockout1_frames[currFrame]);
+        elapsed = 0;
     }
     /*return;*/
 }
