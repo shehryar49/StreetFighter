@@ -16,11 +16,66 @@ private:
         block,
         crouch,
         crouch_block,
+
+        //to be implemented
+        punch1,
+        punch2,
+        punch3,
+        punch4,
+        punch5,
+        punch6,
+        punch7,
+
+        kick1,
+        kick2,
+        kick3,
+        kick4,
+        kick5,
+        kick6,
+        kick7,
+        kick8,
+        kick9,
+        kick10,
     };
     static sf::IntRect idle_frames[4];
     static sf::IntRect move_right_frames[12];
     static sf::IntRect move_left_frames[12];
     static sf::IntRect jump_frames[9];
+
+    static sf::IntRect punch1_frames[5];
+    static sf::IntRect punch2_frames[5];
+    static sf::IntRect punch3_frames[5]; //she has 7 punches .. i will focus on implementing 3 rn then the rest if i get more time
+    static sf::IntRect punch4_frames[5];
+    static sf::IntRect punch5_frames[5];
+    static sf::IntRect punch6_frames[3];
+    static sf::IntRect punch7_frames[6];
+
+    static sf::IntRect kick1_frames[5];
+    static sf::IntRect kick2_frames[5];
+    static sf::IntRect kick3_frames[6]; // she has 10 kicks ..i will focus on implementing 3 rn then the rest if i get more time
+    static sf::IntRect kick4_frames[5];
+    static sf::IntRect kick5_frames[7];
+    static sf::IntRect kick6_frames[8];
+    static sf::IntRect kick7_frames[8];
+    static sf::IntRect kick8_frames[12];
+    static sf::IntRect kick9_frames[16];
+    //static sf::IntRect kick10_frames[]; //will count frames later
+
+    static sf::IntRect victory1_frames[1];
+    static sf::IntRect victory2_frames[5];
+    static sf::IntRect victory3_frames[16];
+
+    //hits
+    static sf::IntRect hit_taken_face1_frames[3];
+    static sf::IntRect hit_taken_face2_frames[2];
+
+    static sf::IntRect hit_taken_body1_frames[4];
+    static sf::IntRect hit_taken_body1_frames[3];
+    static sf::IntRect hit_taken_body1_frames[2];
+
+    static sf::IntRect hit_taken_face_body_combo[6];
+
+
 
     AnimationState curr_state;
     int curr_frame = 0;

@@ -140,7 +140,7 @@ void Game::update(float dt)
       {
         enemy->flippedMoveLeft(b);
       }
-      int r = rand()%250;
+      int r = 1;// rand() % 250;
       if(r == 0)
         enemy->punch1();
       else if(r == 1)
@@ -267,7 +267,7 @@ int* Game::selectScreen(){
     flags[8] = sf::IntRect(477 + 36 + 36, 499, 20, 22); //ussr - zangief
     flags[9] = sf::IntRect(477 + 36 + 36, 499 + 31, 20, 22); //india - dhalsim
     flags[10] = sf::IntRect(477 + 36 + 36 + 36, 499 + 31, 20, 22); //thailand - sagat
-    flags[11] = sf::IntRect(0, 0, 0, 0); //M.Bison dont have a flag it seems
+    flags[11] = sf::IntRect(0, 0, 0, 0); //M.Bison dont have a flag it seems Thailand
 
     int coordinates[12][2] = {
         {399,226}, //japan - bottom jap ryu
@@ -281,7 +281,7 @@ int* Game::selectScreen(){
         {210,107}, //ussr - zangief
         {223,205}, //india - dhalsim
         {317,268}, //thailand - sagat
-        {0,0}
+        {317,268}, //thailand - M.Bison
     };
     vs.setTexture(txtr);
     vs.setTextureRect(sf::IntRect(0, 0, 0, 0));
@@ -375,7 +375,8 @@ int* Game::selectScreen(){
                             sleep(1);
                         #endif
                     }
-                    else {
+                    else 
+                    {
                         second = true;
                         indx++;
                         selection = 0;
@@ -692,6 +693,9 @@ void Game::run()
     int* character = nullptr;
     character = selectScreen();
     setStage(character);
+    //int idek[2] = { 7, 0 };
+    //int* set = idek;
+    //setStage(set);
     sf::Music stageSet;
     stageSet.openFromFile("assets/SFX/VS.wav");
     stageSet.play();

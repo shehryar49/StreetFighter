@@ -35,7 +35,7 @@ public:
     virtual bool isIdle();
     virtual ~Player();
 protected:
-    int health = 100;
+    int health = 100; // player
     sf::Sprite player;
     sf::Image image;
     sf::Texture texture;

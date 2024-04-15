@@ -234,7 +234,7 @@ void Zangief::flippedMoveRight(float bound) {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::flipped_move_right;
-        limit = bound;
+        limit = 500;//bound;
     }
 }
 void Zangief::moveLeft(float bound) {
@@ -248,7 +248,7 @@ void Zangief::flippedMoveLeft(float bound) {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::flipped_move_left;
-        limit = bound;
+        limit = 500; bound;
     }
 }
 void Zangief::jump() {
