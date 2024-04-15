@@ -22,6 +22,7 @@ private:
     sf::RectangleShape health1;
     sf::RectangleShape health2;
     sf::RectangleShape damage;
+    sf::RectangleShape playerDamage;
     float enemyDamage = 0;
     enum class GameState
     {
@@ -39,6 +40,8 @@ private:
     std::string execCommand(const std::string&);
     GameState state;
     sf::Music bgm; //play all bgm through 1 var so that we dont get conflicts (doesnt apply to move sounds...they can play over bgm...make separate local vars for them)
+    int playerSelected = 0;
+    int enemySelected = 0;
 public:
     Game();
     void run();

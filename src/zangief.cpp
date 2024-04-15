@@ -1,5 +1,6 @@
 //~Isbah
 #include "zangief.h"
+#include "constants.h"
 #include<iostream>
 using namespace std;
 
@@ -218,7 +219,7 @@ Zangief::Zangief(){
     hit_taken_dhalsim_fire_frames[8] = sf::IntRect(1143, 5500, 110, 111);
 
     player.setTextureRect(idle_frames[0]);
-    player.setScale(sf::Vector2f(2.1,2.1));
+    player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE,PLAYER_SPRITE_Y_SCALE));
     curr_state = AnimationState::idle;
 }
 
@@ -1086,7 +1087,7 @@ void Zangief::setPosition(float x,float y)
 }
 void Zangief::flipX()
 {
-    player.setScale(-2.1,2.1);
+    player.setScale(-PLAYER_SPRITE_X_SCALE,PLAYER_SPRITE_Y_SCALE);
 }
 bool Zangief::isIdle() {
     return IS_IDLE;

@@ -17,6 +17,7 @@ sf::IntRect Ken::kick1_frames[3];
 sf::IntRect Ken::jmp_frames[8];
 sf::IntRect Ken::kick2_frames[3];
 sf::IntRect Ken::kick3_frames[6];
+sf::IntRect Ken::crouching_frames[3];
 
 Ken::Ken()
 {
@@ -91,9 +92,13 @@ Ken::Ken()
     kick3_frames[4] = sf::IntRect(1103,730,50,100);
     kick3_frames[5] = sf::IntRect(1160,730,60,100);
     
-    //player.setTextureRect(IDLE_frames[0]);
+    crouching_frames[0] = sf::IntRect(10,1115,60,100);
+    crouching_frames[1] = sf::IntRect(75,1115,60,100);
+    crouching_frames[2] = sf::IntRect(140,1115,60,100);
 
-    player.setTextureRect(kick3_frames[0]);
+    player.setTextureRect(IDLE_frames[0]);
+
+    
     
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -181,6 +186,25 @@ void Ken::jump()
     delay_time = 0.05f;
   }
 }
+void Ken::crouch()
+{
+  if(state == AnimationState::IDLE)
+  {
+    currFrame = 0;
+    state = AnimationState::CROUCHING;
+  }
+}
+void Ken::uncrouch()
+{
+  if( state == AnimationState::CROUCHED || 
+      state == AnimationState::CROUCHING
+    )
+  {
+    state = AnimationState::FASTIDLE;
+    currFrame = 0;
+    frameIncrement = 1;
+  }
+}
 void Ken::update(float dt)
 {
     if(STOP)
@@ -202,9 +226,7 @@ void Ken::update(float dt)
         currFrame++;
         state = AnimationState::IDLE;
         elapsed = 0;
-    }
-    
-    
+    }  
     else if(elapsed>=(0.08f) && state == AnimationState::moveRight)
     {
         player.setTextureRect(moveright_frames[currFrame++]);
@@ -291,6 +313,15 @@ void Ken::update(float dt)
           currFrame = 0;
         }
     }  
+    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
+    {
+      player.setTextureRect(crouching_frames[currFrame++]);
+      if(currFrame == 3)
+      {
+        state = AnimationState::CROUCHED;
+        currFrame = 0;
+      }
+    }
     else if(elapsed >= MOVE_TIME && state == AnimationState::KICK1)
     {
         player.setTextureRect(kick1_frames[currFrame]);

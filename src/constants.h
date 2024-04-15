@@ -8,7 +8,6 @@
 #define PLAYER_SPRITE_X_SCALE 2.1f
 #define PLAYER_SPRITE_Y_SCALE 2.1f
 
-//Deprecated
 
 
 #endif
