@@ -16,13 +16,13 @@ private:
         block,
         crouch,
         crouch_block,
+        punch1,
+        punch3,
+        punch5,
 
         //to be implemented
-        punch1,
         punch2,
-        punch3,
         punch4,
-        punch5,
         punch6,
         punch7,
 
@@ -70,8 +70,8 @@ private:
     static sf::IntRect hit_taken_face2_frames[2];
 
     static sf::IntRect hit_taken_body1_frames[4];
-    static sf::IntRect hit_taken_body1_frames[3];
-    static sf::IntRect hit_taken_body1_frames[2];
+    static sf::IntRect hit_taken_body2_frames[3];
+    static sf::IntRect hit_taken_body3_frames[2];
 
     static sf::IntRect hit_taken_face_body_combo[6];
 
@@ -98,6 +98,14 @@ public:
     void uncrouch();
     void block();
     void unblock();
+    //punches
+    void punch1();
+    void punch2();
+    void punch3();
+    //kicks
+    void kick1();
+    void kick2();
+    void kick3();
     ~Chun_Li();
 };
 #endif

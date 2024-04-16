@@ -701,7 +701,7 @@ void Game::run()
     int* character = nullptr;
     character = selectScreen();
     setStage(character);
-    //int idek[2] = { 7, 0 };
+    //int idek[2] = { 8, 0 };
     //int* set = idek;
     //setStage(set);
     sf::Music stageSet;

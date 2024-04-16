@@ -7,6 +7,12 @@ sf::IntRect Chun_Li::idle_frames[4];
 sf::IntRect Chun_Li::move_right_frames[12];
 sf::IntRect Chun_Li::move_left_frames[12];
 sf::IntRect Chun_Li::jump_frames[9];
+sf::IntRect Chun_Li::punch1_frames[5];
+sf::IntRect Chun_Li::punch3_frames[5];
+sf::IntRect Chun_Li::punch5_frames[5];
+sf::IntRect Chun_Li::kick1_frames[5];
+sf::IntRect Chun_Li::kick2_frames[5];
+sf::IntRect Chun_Li::kick4_frames[5];
 
 
 Chun_Li::Chun_Li(){
@@ -59,6 +65,42 @@ Chun_Li::Chun_Li(){
     jump_frames[7] = sf::IntRect(97, 2337, 49, 113);
     jump_frames[8] = sf::IntRect(14, 2360, 77, 90);
     
+    punch1_frames[0] = sf::IntRect(14,425,82,92);
+    punch1_frames[1] = sf::IntRect(100,425,104,92);
+    punch1_frames[2] = sf::IntRect(210,415,87,102);
+    punch1_frames[3] = sf::IntRect(100, 425, 104, 92);
+    punch1_frames[4] = sf::IntRect(14, 425, 82, 92);
+
+    punch3_frames[0] = sf::IntRect(14, 558, 105, 89);
+    punch3_frames[1] = sf::IntRect(125, 558, 120, 89);
+    punch3_frames[2] = sf::IntRect(250, 558, 132, 89);
+    punch3_frames[3] = sf::IntRect(125, 558, 120, 89);
+    punch3_frames[4] = sf::IntRect(14, 558, 105, 89);
+
+    punch5_frames[0] = sf::IntRect(14, 685, 77, 94);
+    punch5_frames[1] = sf::IntRect(97, 685, 77, 94);
+    punch5_frames[2] = sf::IntRect(180, 685, 84, 94);
+    punch5_frames[3] = sf::IntRect(97, 685, 77, 94);
+    punch5_frames[4] = sf::IntRect(14, 685, 77, 94);
+
+    kick1_frames[0] = sf::IntRect(10,955, 73, 100);
+    kick1_frames[1] = sf::IntRect(89, 955, 75, 98);
+    kick1_frames[2] = sf::IntRect(160, 950, 117, 103);
+    kick1_frames[3] = sf::IntRect(89, 955, 75, 98);
+    kick1_frames[4] = sf::IntRect(10, 955, 73, 100);
+
+    kick2_frames[0] = sf::IntRect(10, 955, 73, 100);
+    kick2_frames[1] = sf::IntRect(89, 955, 75, 98);
+    kick2_frames[2] = sf::IntRect(628, 950, 117, 103);
+    kick2_frames[3] = sf::IntRect(89, 955, 75, 98);
+    kick2_frames[4] = sf::IntRect(10, 955, 73, 100);
+
+    kick4_frames[0] = sf::IntRect(14, 1095, 98, 100);
+    kick4_frames[1] = sf::IntRect(116, 1095, 91, 100);
+    kick4_frames[2] = sf::IntRect(210, 1095, 70, 100);
+    kick4_frames[3] = sf::IntRect(116, 1095, 91, 100);
+    kick4_frames[4] = sf::IntRect(14, 1095, 98, 100);
+
     player.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
     player.setScale(sf::Vector2f(2.1,2.1));
 }
@@ -137,6 +179,42 @@ void Chun_Li::jump() {
         curr_state = AnimationState::jump;
     }
 }
+void Chun_Li::punch1() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::punch5;
+    }
+}
+void Chun_Li::punch2() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::punch1;
+    }    
+}
+void Chun_Li::punch3() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::punch3;
+    }
+}
+void Chun_Li::kick2() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::kick1;
+    }
+}
+void Chun_Li::kick1() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::kick4;
+    }
+}
+void Chun_Li::kick3() {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::kick2;
+    }
+}
 void Chun_Li::update(float time){
     time_elapsed += time;
     if (time_elapsed >= 0.8f && curr_state == AnimationState::idle){
@@ -192,6 +270,106 @@ void Chun_Li::update(float time){
             else if(curr_frame > 4)
                 setPosition(player.getPosition().x, player.getPosition().y + 50);
             player.setTextureRect(jump_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::punch1) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(punch1_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::punch3) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(punch3_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::punch5) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(punch5_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::kick1) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(kick1_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::kick2) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(kick2_frames[curr_frame++]);
+            if(curr_frame == 3)
+                player.setPosition(player.getPosition().x - 35, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 4)
+                player.setPosition(player.getPosition().x + 35, BOTTOMY - player.getGlobalBounds().height);
+            else
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::kick4) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(kick4_frames[curr_frame++]);
+            if (curr_frame == 3)
+                player.setPosition(player.getPosition().x + 45, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 4)
+                player.setPosition(player.getPosition().x - 45, BOTTOMY - player.getGlobalBounds().height);
+            else
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
