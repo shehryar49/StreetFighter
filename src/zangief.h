@@ -95,6 +95,7 @@ public:
     void render(sf::RenderWindow&);
     void setPosition(float,float);
     sf::FloatRect getGlobalBounds();
+    sf::Vector2f getPosition();
     bool processEvent(sf::Event&);
     void flipX();
     //movements

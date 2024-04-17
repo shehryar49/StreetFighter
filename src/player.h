@@ -1,6 +1,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "constants.h"
 class Player // Abstract class
 {
@@ -12,6 +13,7 @@ public:
     virtual void setPosition(float,float);
     virtual sf::FloatRect getGlobalBounds();
     virtual sf::FloatRect getLocalBounds();
+    virtual sf::Vector2f getPosition();
     
     virtual void flipX();
     virtual void moveLeft(float);
@@ -39,5 +41,6 @@ protected:
     sf::Sprite player;
     sf::Image image;
     sf::Texture texture;
+    sf::Music voiceline;
 };
 #endif

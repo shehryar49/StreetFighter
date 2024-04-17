@@ -17,6 +17,7 @@
 #include "ken.h"
 #include "sagat.h"
 #include "balrog.h"
+#include "credits.h"
 #ifdef _WIN32
 #include <Windows.h>
 #elif __linux__
@@ -140,7 +141,7 @@ void Game::update(float dt)
       {
         enemy->flippedMoveLeft(b);
       }
-      int r = 1;// rand() % 250;
+      int r = rand() % 250;
       if(r == 0)
         enemy->punch1();
       else if(r == 1)
@@ -524,8 +525,8 @@ int* Game::selectScreen(){
 
 std::string Game::execCommand(const std::string& command)
 {
-  if(command == "exit" || command == "quit" || command == "yawr")
-    exit(0);
+  if (command == "exit" || command == "quit" || command == "yawr")
+     return "exit";
   if(command == "")
     return "";
   vector<string> parts = split(command,' ');
@@ -622,6 +623,8 @@ void Game::showTerminal()
           if(event.text.unicode == 13)//newline
           {
             std::string res = execCommand(command);
+            if (res == "exit")
+                return;
             command = "";
             text.setString("shell> ");
             cursor.setPosition(60,50);
@@ -646,10 +649,21 @@ void Game::showTerminal()
     window.display();
   }
 }
+void Game::showCredits() 
+{
+    sf::Font font;
+    font.loadFromFile("assets/crunch_chips.otf");//for consistency
+    backgroundTexture.loadFromFile("SF2.jpeg");
+    background.setTexture(backgroundTexture);
+    background.setScale(1.5, 1.1);
+    Credits credits(window, font, background);
+    credits.run();
+}
+
 int Game::showMenu()
 {
-  const char* entries[] = {"Play","Credits","Quit"};
-  Menu m(entries,3);
+  const char* entries[] = {"Play","Credits","Settings","Quit"};
+  Menu m(entries,4);
   while(window.isOpen())
   {
     sf::Event event;
@@ -692,18 +706,25 @@ void Game::run()
     window.setFramerateLimit(60);
     //playIntro();
     //key was pressed, so we are back after playing intro
-    //int option = showMenu(); 
-    //some option was selected from the menu
-    //if(option == 1 || option == 2)
-    //  return;
-    
+    while (true) 
+    {
+        int option = showMenu();
+        //some option was selected from the menu
+        if (option == 1)
+            showCredits();
+        else if (option == 2)
+            showTerminal();
+        else if (option == 3)
+            return;
+    }
+    //showTerminal();
     //option 0 is play
     int* character = nullptr;
-    character = selectScreen();
-    setStage(character);
-    //int idek[2] = { 8, 0 };
-    //int* set = idek;
-    //setStage(set);
+    //character = selectScreen();
+    //setStage(character);
+    int idek[2] = { 8, 9 };
+    int* set = idek;
+    setStage(set);
     sf::Music stageSet;
     stageSet.openFromFile("assets/SFX/VS.wav");
     //stageSet.play();

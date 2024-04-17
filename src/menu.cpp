@@ -20,6 +20,7 @@ Menu::Menu(const char* values[],int totalButtons)
     {
         //keep this order pos, font, text
         // why tho?
+        // logic to centralize the text goes haywire otherwise
         buttons[i].setPosition(350, y);
         buttons[i].setFont(font);
         buttons[i].setText(values[i],20);

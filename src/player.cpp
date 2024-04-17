@@ -29,6 +29,10 @@ sf::FloatRect Player::getLocalBounds()
 {
   return sf::FloatRect(); // just to avoid the goddamn  warning
 }
+sf::Vector2f Player::getPosition()
+{
+    return sf::Vector2f();
+}
 
 void Player::flipX(){}
 void Player::moveLeft(float){}

@@ -10,6 +10,7 @@ private:
     float time_elapsed = 0;
     enum class AnimationState {
         idle,
+        still,
         move_right,
         move_left,
         jump,
@@ -19,6 +20,8 @@ private:
         punch1,
         punch3,
         punch5,
+        victory2,
+        victory3,
 
         //to be implemented
         punch2,
@@ -66,12 +69,12 @@ private:
     static sf::IntRect victory3_frames[16];
 
     //hits
-    static sf::IntRect hit_taken_face1_frames[3];
-    static sf::IntRect hit_taken_face2_frames[2];
+    static sf::IntRect hit_taken_face1_frames[5];
+    static sf::IntRect hit_taken_face2_frames[3];
 
-    static sf::IntRect hit_taken_body1_frames[4];
-    static sf::IntRect hit_taken_body2_frames[3];
-    static sf::IntRect hit_taken_body3_frames[2];
+    static sf::IntRect hit_taken_body1_frames[7];
+    static sf::IntRect hit_taken_body2_frames[5];
+    static sf::IntRect hit_taken_body3_frames[3];
 
     static sf::IntRect hit_taken_face_body_combo[6];
 
@@ -81,6 +84,7 @@ private:
     int curr_frame = 0;
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
+    float limit = 0;
 public:
     Chun_Li();
     void update(float);
@@ -88,11 +92,14 @@ public:
     void setPosition(float, float);
     sf::FloatRect getLocalBounds();
     sf::FloatRect getGlobalBounds();
+    sf::Vector2f getPosition();
     bool processEvent(sf::Event&);
     void flipX();
     //movements
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float);
+    void moveRight(float);
+    //void flippedMoveLeft(float);
+    //void flippedMoveRight(float);
     void jump();
     void crouch();
     void uncrouch();
@@ -106,6 +113,8 @@ public:
     void kick1();
     void kick2();
     void kick3();
+    //victory
+    void victory(int);
     ~Chun_Li();
 };
 #endif

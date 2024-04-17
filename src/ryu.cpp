@@ -627,6 +627,10 @@ sf::FloatRect Ryu::getLocalBounds()
 {
     return player.getLocalBounds();
 }
+sf::Vector2f Ryu::getPosition()
+{
+    return player.getPosition();
+}
 void Ryu::render(sf::RenderWindow &win)
 {
     win.draw(player);

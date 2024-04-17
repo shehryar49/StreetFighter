@@ -1,4 +1,4 @@
-//~Isbah
+//~Isbah - knowckout wav yet to be converted
 #include "zangief.h"
 #include "constants.h"
 #include<iostream>
@@ -253,17 +253,21 @@ void Zangief::flippedMoveLeft(float bound) {
     }
 }
 void Zangief::jump() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/jump.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::jump;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::jump_forward;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::move_left) {
         curr_frame = 0;
         curr_state = AnimationState::jump_backward;
+        voiceline.play();
     }
 }
 void Zangief::crouch() {
@@ -320,120 +324,160 @@ void Zangief::unblock() {
 }
 //hits dealt
 void Zangief::punch1() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/small_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::light_punch_right;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         curr_state = AnimationState::crouch_light_punch;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_light_punch;
+        voiceline.play();
     }
 }
 void Zangief::punch2() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/medium_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::medium_punch_right;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         curr_state = AnimationState::crouch_medium_punch;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_medium_punch;
+        voiceline.play();
     }
 }
 void Zangief::kick1() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/small_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::light_kick;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         curr_state = AnimationState::crouch_kick;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_light_kick;
+        voiceline.play();
     }
 }
 void Zangief::kick2() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/medium_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::medium_kick;
+        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_heavy_kick;
+        voiceline.play();
     }
 }
 void Zangief::kick3() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/heavy_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::heavy_kick;
+        voiceline.play();
     }
 }
 void Zangief::specialMove1() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/special.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         count = 0;
         curr_state = AnimationState::special_move;
+        voiceline.play();
     }
 }
-//hits taken
 void Zangief::hit_taken_dhalsim_fire() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_heavy.wav");
+    voiceline.play();
     curr_frame = 0;
     count = 0;
     curr_state = AnimationState::hit_taken_dhalsim_fire;
 }
 void Zangief::hit_taken_blanka_electricity() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_heavy.wav");
+    voiceline.play();
     curr_frame = 0;
     count = 0;
     curr_state = AnimationState::hit_taken_blanka_electricity;
 }
 void Zangief::hit_taken_face() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_light.wav");
+    voiceline.play();
     curr_frame = 0;
     curr_state = AnimationState::hit_taken_face;
 }
 void Zangief::hit_taken_body() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_light.wav");
+    voiceline.play();
     curr_frame = 0;
     curr_state = AnimationState::hit_taken_body;
 }
 void Zangief::heavy_hit_taken_body() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_medium.wav");
+    voiceline.play();
     curr_frame = 0;
     curr_state = AnimationState::heavy_hit_taken_body;
 }
 void Zangief::crouch_face_hit_taken() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_light.wav");
+    voiceline.play();
     curr_frame = 0;
     curr_state = AnimationState::crouch_face_hit_taken;
 }
 void Zangief::face_body_combo_taken() {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_medium.wav");
+    voiceline.play();
     curr_frame = 0;
     curr_state = AnimationState::face_body_combo_taken;
 }
 void Zangief::victory(int type) {
     switch (type) {
     case 1:
+        voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/victory12.wav");
+        voiceline.play();
         setPosition(player.getPosition().x, player.getPosition().y - 20);
         player.setTextureRect(victory1_frames[0]);
         curr_state = AnimationState::still;
         break;
     case 2:
+        voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/victory12.wav");
+        voiceline.play();
         curr_frame = 0;
         count = 0;
         curr_state = AnimationState::victory_2;
         break;
     case 3:
+        voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/victory3.wav");
+        voiceline.play();
         curr_frame = 0;
         curr_state = AnimationState::victory_3;
         break;
     }
 }
 void Zangief::knockout(int type) {
+    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/knockout.wav");
+    voiceline.play();
     switch (type) {
     case 1:
         curr_frame = 0;
@@ -550,12 +594,12 @@ void Zangief::update(float time){
                 if (player.getPosition().x + 25 <= 570)
                     setPosition(player.getPosition().x + 25, player.getPosition().y - 50);
                 else 
-                    setPosition(player.getPosition().x, player.getPosition().y - 50);
+                    setPosition(570, player.getPosition().y - 50);
             else if (curr_frame > 3 && curr_frame < 7)
                 if(player.getPosition().x + 50 <= 570)
                     setPosition(player.getPosition().x + 50, player.getPosition().y + 50);
                 else
-                    setPosition(player.getPosition().x, player.getPosition().y + 50);
+                    setPosition(570, player.getPosition().y + 50);
             player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;
@@ -566,14 +610,16 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             if (player.getPosition().x + 10 <= limit)
                 setPosition(player.getPosition().x + 10, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
             player.setTextureRect(move_right_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -583,14 +629,16 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             if (player.getPosition().x + 10 <= limit)
                 setPosition(player.getPosition().x + 10, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
             player.setTextureRect(move_left_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -600,14 +648,16 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             if (player.getPosition().x - 10 >= limit)
                 setPosition(player.getPosition().x - 10, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
             player.setTextureRect(move_left_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -617,14 +667,16 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             if (player.getPosition().x - 10 >= limit)
                 setPosition(player.getPosition().x - 10, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
             player.setTextureRect(move_right_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -634,12 +686,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(light_punch_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -649,12 +701,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(forward_light_punch_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -664,7 +716,7 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
@@ -674,7 +726,7 @@ void Zangief::update(float time){
                 curr_frame = 0;
             }
             if (curr_frame >= 2)
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }   
         time_elapsed = 0;
         return;
@@ -684,12 +736,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(medium_punch_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -699,7 +751,7 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
@@ -708,7 +760,7 @@ void Zangief::update(float time){
                 count++;
             }
             player.setTextureRect(hit_taken_blanka_electricity_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -718,12 +770,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(light_kick_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -733,12 +785,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(medium_kick_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -748,12 +800,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(heavy_kick_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -763,12 +815,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(forward_medium_punch_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -778,18 +830,18 @@ void Zangief::update(float time){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                 curr_state = AnimationState::crouching;
                 player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             }
             else {
                 curr_frame = 0;
                 incr_to_next_frame = 1;
                 player.setTextureRect(idle_frames[0]);
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
                 curr_state = AnimationState::idle;
             }
         else {
             player.setTextureRect(crouch_light_punch_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -799,18 +851,18 @@ void Zangief::update(float time){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                 curr_state = AnimationState::crouching;
                 player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             }
             else {
                 curr_frame = 0;
                 incr_to_next_frame = 1;
                 player.setTextureRect(idle_frames[0]);
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
                 curr_state = AnimationState::idle;
             }
         else {
             player.setTextureRect(crouch_medium_punch_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -820,18 +872,18 @@ void Zangief::update(float time){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                 curr_state = AnimationState::crouching;
                 player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             }
             else {
                 curr_frame = 0;
                 incr_to_next_frame = 1;
                 player.setTextureRect(idle_frames[0]);
                 curr_state = AnimationState::idle;
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             }
         else {
             player.setTextureRect(crouch_kick_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -841,14 +893,14 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             if (player.getPosition().x + 10 <= 570)
                 setPosition(player.getPosition().x + 10, player.getPosition().y);
             player.setTextureRect(forward_light_kick_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -858,14 +910,14 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             if (player.getPosition().x + 10 <= 570)
                 setPosition(player.getPosition().x + 10, player.getPosition().y);
             player.setTextureRect(forward_heavy_kick_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -898,12 +950,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(hit_taken_face_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -939,19 +991,19 @@ void Zangief::update(float time){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                 curr_state = AnimationState::crouching;
                 player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             }
             else {
                 curr_frame = 0;
                 incr_to_next_frame = 1;
                 player.setTextureRect(idle_frames[0]);
                 curr_state = AnimationState::idle;
-                player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             }
         }
         else {
             player.setTextureRect(crouch_face_hit_taken_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -961,12 +1013,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(face_body_combo_taken_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -1013,7 +1065,7 @@ void Zangief::update(float time){
                 count++;
             }
             player.setTextureRect(victory2_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -1024,7 +1076,7 @@ void Zangief::update(float time){
         }
         else {
             player.setTextureRect(victory3_frames[curr_frame++]);
-            player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
@@ -1060,6 +1112,8 @@ void Zangief::update(float time){
     }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::defeat) {
         if (curr_frame == 9) {
+            voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/defeat.wav");
+            voiceline.play();
             curr_state = AnimationState::still;
         }
         else {
@@ -1098,6 +1152,10 @@ void Zangief::render(sf::RenderWindow &window){
 sf::FloatRect Zangief::getGlobalBounds()
 {
     return player.getGlobalBounds();
+}
+sf::Vector2f Zangief::getPosition()
+{
+    return player.getPosition();
 }
 Zangief::~Zangief(){
 }
