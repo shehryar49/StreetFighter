@@ -18,12 +18,17 @@ sf::IntRect Chun_Li::victory2_frames[5];
 sf::IntRect Chun_Li::victory3_frames[16];
 sf::IntRect Chun_Li::hit_taken_face1_frames[5];
 sf::IntRect Chun_Li::hit_taken_face2_frames[3];
+sf::IntRect Chun_Li::hit_taken_body3_frames[7];
+sf::IntRect Chun_Li::hit_taken_body2_frames[5];
+sf::IntRect Chun_Li::hit_taken_body1_frames[3];
+sf::IntRect Chun_Li::hit_taken_face_body_combo_frames[8];
+sf::IntRect Chun_Li::knockout_frames[12];
 
 Chun_Li::Chun_Li(){
     if(!image.loadFromFile("assets/chun-li.png")){
         cerr<<"Err loading character";
     }//spritesheet
-    image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
+    //image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
     texture.loadFromImage(image);
     
     player.setTexture(texture);
@@ -130,10 +135,61 @@ Chun_Li::Chun_Li(){
     victory3_frames[14] = sf::IntRect(749, 4100, 55, 132);
     victory3_frames[15] = sf::IntRect(1029, 4100, 60, 132);
 
+    hit_taken_face1_frames[0] = sf::IntRect(14, 4287, 80, 95);
+    hit_taken_face1_frames[1] = sf::IntRect(96, 4287, 80, 95);
+    hit_taken_face1_frames[2] = sf::IntRect(179, 4287, 91, 95);
+    hit_taken_face1_frames[3] = sf::IntRect(96, 4287, 80, 95);
+    hit_taken_face1_frames[4] = sf::IntRect(14, 4287, 80, 95);
 
+    hit_taken_face2_frames[0] = sf::IntRect(14, 4287, 80, 95);
+    hit_taken_face2_frames[1] = sf::IntRect(96, 4287, 80, 95);
+    hit_taken_face2_frames[2] = sf::IntRect(14, 4287, 80, 95);
+
+    hit_taken_body3_frames[0] = sf::IntRect(520, 4287, 77, 95);
+    hit_taken_body3_frames[1] = sf::IntRect(600, 4287, 77, 95);
+    hit_taken_body3_frames[2] = sf::IntRect(679, 4287, 77, 95);
+    hit_taken_body3_frames[3] = sf::IntRect(762, 4287, 77, 95);
+    hit_taken_body3_frames[4] = sf::IntRect(679, 4287, 77, 95);
+    hit_taken_body3_frames[5] = sf::IntRect(600, 4287, 77, 95);
+    hit_taken_body3_frames[6] = sf::IntRect(520, 4287, 77, 95);
+
+    hit_taken_body2_frames[0] = sf::IntRect(520, 4287, 77, 95);
+    hit_taken_body2_frames[1] = sf::IntRect(600, 4287, 77, 95);
+    hit_taken_body2_frames[2] = sf::IntRect(679, 4287, 77, 95);
+    hit_taken_body2_frames[3] = sf::IntRect(600, 4287, 77, 95);
+    hit_taken_body2_frames[4] = sf::IntRect(520, 4287, 77, 95);
+
+    hit_taken_body1_frames[0] = sf::IntRect(520, 4287, 77, 95);
+    hit_taken_body1_frames[1] = sf::IntRect(600, 4287, 77, 95);
+    hit_taken_body1_frames[2] = sf::IntRect(520, 4287, 77, 95);
+
+    hit_taken_face_body_combo_frames[0] = sf::IntRect(14, 4287, 80, 95);
+    hit_taken_face_body_combo_frames[1] = sf::IntRect(96, 4287, 80, 95);
+    hit_taken_face_body_combo_frames[2] = sf::IntRect(14, 4287, 80, 95);
+    hit_taken_face_body_combo_frames[3] = sf::IntRect(520, 4287, 77, 95);
+    hit_taken_face_body_combo_frames[4] = sf::IntRect(600, 4287, 77, 95);
+    hit_taken_face_body_combo_frames[5] = sf::IntRect(679, 4287, 77, 95);
+    hit_taken_face_body_combo_frames[6] = sf::IntRect(600, 4287, 77, 95);
+    hit_taken_face_body_combo_frames[7] = sf::IntRect(520, 4287, 77, 95);
+
+    knockout_frames[0] = sf::IntRect(14, 4287, 80, 95);
+    knockout_frames[1] = sf::IntRect(96, 4287, 80, 95);
+    knockout_frames[2] = sf::IntRect(179, 4287, 91, 95);
+    knockout_frames[3] = sf::IntRect(14, 4808, 130, 95);
+    knockout_frames[4] = sf::IntRect(146, 4818, 130, 95);
+    knockout_frames[5] = sf::IntRect(275, 4808, 120, 95);
+    knockout_frames[6] = sf::IntRect(374, 4800, 130, 95);
+    knockout_frames[7] = sf::IntRect(414, 4808, 130, 95);
+    knockout_frames[8] = sf::IntRect(514, 4808, 130, 95);
+    knockout_frames[9] = sf::IntRect(614, 4808, 130, 95);
+    knockout_frames[10] = sf::IntRect(14, 4808, 130, 95);
+    knockout_frames[11] = sf::IntRect(14, 4287, 80, 95);
 
     player.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
     player.setScale(sf::Vector2f(2.1, 2.1));
+    curr_state = AnimationState::idle;
+    curr_frame = 1;
+    incr_to_next_frame = 1;
 }
 void Chun_Li::moveRight(float bound) {
     if (curr_state == AnimationState::idle) {
@@ -237,6 +293,34 @@ bool Chun_Li::processEvent(sf::Event &event){
             curr_state = AnimationState::idle;
             return true;
         }
+        else if (event.key.code == sf::Keyboard::Num4) {
+            hit_taken_face(2);
+            return true;
+        }
+        else if (event.key.code == sf::Keyboard::Num5) {
+            hit_taken_face(1);
+            return true;
+        }
+        else if (event.key.code == sf::Keyboard::Num6) {
+            hit_taken_body(1);
+            return true;
+        }
+        else if (event.key.code == sf::Keyboard::Num7) {
+            hit_taken_body(2);
+            return true;
+        }
+        else if (event.key.code == sf::Keyboard::Num8) {
+            hit_taken_body(3);
+            return true;
+        }
+        else if (event.key.code == sf::Keyboard::Num9) {
+            hit_taken_face_body_combo();
+            return true;
+        }
+        else if (event.key.code == sf::Keyboard::Num0) {
+            knockout(1);
+            return true;
+        }
     }
     return false;
 }
@@ -297,6 +381,45 @@ void Chun_Li::victory(int type) {
         curr_frame = 0;
         count = 0;
         curr_state = AnimationState::victory3;
+    }
+}
+void Chun_Li::hit_taken_face(int type) {
+    switch (type) {
+    case 1:
+        curr_frame = 0;
+        curr_state = AnimationState::hit_taken_face1;
+        break;
+    case 2:
+        curr_frame = 0;
+        curr_state = AnimationState::hit_taken_face2;
+        break;
+    }
+}
+void Chun_Li::hit_taken_body(int type) {
+    switch (type) {
+    case 1:
+        curr_frame = 0;
+        curr_state = AnimationState::hit_taken_body1;
+        break;
+    case 2:
+        curr_frame = 0;
+        curr_state = AnimationState::hit_taken_body2;
+        break;
+    case 3:
+        curr_frame = 0;
+        curr_state = AnimationState::hit_taken_body3;
+        break;
+    }
+}
+void Chun_Li::hit_taken_face_body_combo() {
+    curr_frame = 0;
+    curr_state = AnimationState::hit_taken_face_body;
+}
+void Chun_Li::knockout(int type) {
+    switch (type) {
+    case 1:
+        curr_frame = 0;
+        curr_state = AnimationState::knockout;
     }
 }
 void Chun_Li::update(float time){
@@ -493,6 +616,130 @@ void Chun_Li::update(float time){
                 player.setPosition(player.getPosition().x - 45, BOTTOMY - player.getGlobalBounds().height);
             else
                 player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::hit_taken_face2) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x + 5, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(hit_taken_face1_frames[curr_frame++]);
+            if (curr_frame == 1 || curr_frame == 2)
+                player.setPosition(player.getPosition().x - 5, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 3)
+                player.setPosition(player.getPosition().x - 25, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 4)
+                player.setPosition(player.getPosition().x + 25, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 5)
+                player.setPosition(player.getPosition().x + 5, BOTTOMY - player.getGlobalBounds().height);
+            else
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::hit_taken_face1) {
+        if (curr_frame == 3) {
+            curr_frame = 0;
+            incr_to_next_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x + 5, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(hit_taken_face2_frames[curr_frame++]);
+            if (curr_frame == 1 || curr_frame == 2)
+                player.setPosition(player.getPosition().x - 5, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 3)
+                player.setPosition(player.getPosition().x + 5, BOTTOMY - player.getGlobalBounds().height);
+            else
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::hit_taken_body3) {
+        if (curr_frame == 7) {
+            curr_frame = 0;
+            incr_to_next_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(hit_taken_body3_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::hit_taken_body2) {
+        if (curr_frame == 5) {
+            curr_frame = 0;
+            incr_to_next_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(hit_taken_body3_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::hit_taken_body1) {
+        if (curr_frame == 3) {
+            curr_frame = 0;
+            incr_to_next_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(hit_taken_body3_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::hit_taken_face_body) {
+        if (curr_frame == 8) {
+            curr_frame = 0;
+            incr_to_next_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(hit_taken_face_body_combo_frames[curr_frame++]);
+            if (curr_frame == 1 || curr_frame == 2)
+                player.setPosition(player.getPosition().x - 5, BOTTOMY - player.getGlobalBounds().height);
+            else if (curr_frame == 3 || curr_frame == 4)
+                player.setPosition(player.getPosition().x + 5, BOTTOMY - player.getGlobalBounds().height);
+            else
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= 1.0f && curr_state == AnimationState::knockout) {
+        if (curr_frame == 12) {
+            curr_frame = 0;
+            incr_to_next_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(knockout_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;

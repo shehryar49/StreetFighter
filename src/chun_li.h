@@ -22,6 +22,13 @@ private:
         punch5,
         victory2,
         victory3,
+        hit_taken_face1,
+        hit_taken_face2,
+        hit_taken_body1,
+        hit_taken_body2,
+        hit_taken_body3,
+        hit_taken_face_body,
+        knockout,
 
         //to be implemented
         punch2,
@@ -72,13 +79,13 @@ private:
     static sf::IntRect hit_taken_face1_frames[5];
     static sf::IntRect hit_taken_face2_frames[3];
 
-    static sf::IntRect hit_taken_body1_frames[7];
+    static sf::IntRect hit_taken_body1_frames[3];
     static sf::IntRect hit_taken_body2_frames[5];
-    static sf::IntRect hit_taken_body3_frames[3];
+    static sf::IntRect hit_taken_body3_frames[7];
 
-    static sf::IntRect hit_taken_face_body_combo[6];
+    static sf::IntRect hit_taken_face_body_combo_frames[8];
 
-
+    static sf::IntRect knockout_frames[12];
 
     AnimationState curr_state;
     int curr_frame = 0;
@@ -115,6 +122,11 @@ public:
     void kick3();
     //victory
     void victory(int);
+    //hits taken
+    void hit_taken_face(int);
+    void hit_taken_body(int);
+    void hit_taken_face_body_combo();
+    void knockout(int);
     ~Chun_Li();
 };
 #endif

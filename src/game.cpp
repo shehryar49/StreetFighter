@@ -705,24 +705,24 @@ void Game::run()
 {
     window.setFramerateLimit(60);
     //playIntro();
-    //key was pressed, so we are back after playing intro
-    while (true) 
-    {
-        int option = showMenu();
-        //some option was selected from the menu
-        if (option == 1)
-            showCredits();
-        else if (option == 2)
-            showTerminal();
-        else if (option == 3)
-            return;
-    }
-    //showTerminal();
-    //option 0 is play
+    ////key was pressed, so we are back after playing intro
+    //while (true) 
+    //{
+    //    int option = showMenu();
+    //    //some option was selected from the menu
+    //    if (option == 0) //option 0 is play
+    //        break;
+    //    else if (option == 1)
+    //        showCredits();
+    //    else if (option == 2)
+    //        showTerminal();
+    //    else if (option == 3)
+    //        return;
+    //}
     int* character = nullptr;
     //character = selectScreen();
     //setStage(character);
-    int idek[2] = { 8, 9 };
+    int idek[2] = { 8, 9 }; //set character and enemy index from here for faster debugging/testing
     int* set = idek;
     setStage(set);
     sf::Music stageSet;
