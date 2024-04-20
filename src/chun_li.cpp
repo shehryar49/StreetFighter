@@ -460,8 +460,10 @@ void Chun_Li::update(float time){
             curr_state = AnimationState::idle;
         }
         else {
-            if (player.getPosition().x + 5 <= 650)
+            if (player.getPosition().x + 5 <= limit)
                 setPosition(player.getPosition().x + 5, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
             player.setTextureRect(move_right_frames[curr_frame++]);
         }
         time_elapsed = 0;
@@ -475,8 +477,10 @@ void Chun_Li::update(float time){
             curr_state = AnimationState::idle;
         }
         else {
-           if (player.getPosition().x - 5 >= 0)
+            if (player.getPosition().x - 5 >= limit)
                 setPosition(player.getPosition().x - 5, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
            player.setTextureRect(move_left_frames[curr_frame++]);
         }
         time_elapsed = 0;
