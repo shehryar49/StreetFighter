@@ -20,7 +20,7 @@ sf::IntRect Ken::crouched_punch1_frames[2];
 sf::IntRect Ken::crouched_punch2_frames[3];
 sf::IntRect Ken::crouched_kick1_frames[5];
 sf::IntRect Ken::crouched_kick2_frames[5];
-
+sf::IntRect Ken::helicopter_kick_frames[12];
 
 Ken::Ken()
 {
@@ -117,9 +117,20 @@ Ken::Ken()
     crouched_kick2_frames[2] = sf::IntRect(1080,1385,65,100);
     crouched_kick2_frames[3] = sf::IntRect(1150,1385,65,100);
     crouched_kick2_frames[4] = sf::IntRect(1220,1385,65,100);
+
+    helicopter_kick_frames[0] = sf::IntRect(15,2940,70,110); 
+    helicopter_kick_frames[1] = sf::IntRect(85,2905,70,110);
+    helicopter_kick_frames[2] = sf::IntRect(155,2905,60,110);
+    helicopter_kick_frames[3] = sf::IntRect(215,2910,100,110);
+    helicopter_kick_frames[4] = sf::IntRect(320,2910,60,110);
+    helicopter_kick_frames[5] = sf::IntRect(380,2910,100,110);
+    helicopter_kick_frames[6] = sf::IntRect(480,2910,70,110);
+    helicopter_kick_frames[7] = sf::IntRect(550,2910,60,110);
+    helicopter_kick_frames[8] = sf::IntRect(610,2910,60,110);
+    helicopter_kick_frames[9] = sf::IntRect(670,2910,65,110);
+    helicopter_kick_frames[10] = sf::IntRect(735,2920,60,110);
+    helicopter_kick_frames[11] = sf::IntRect(795,2945,60,110);
     #define STOP false
-    //player.setTextureRect( sf::IntRect(1220,1385,65,100));
-  
     player.setTextureRect(IDLE_frames[0]);
         
     player.setScale(sf::Vector2f(2.1, 2.1));
@@ -249,6 +260,14 @@ void Ken::uncrouch()
     state = AnimationState::FASTIDLE;
     currFrame = 0;
     frameIncrement = 1;
+  }
+}
+void Ken::specialMove1()
+{
+  if(IS_IDLE)
+  {
+    currFrame = 0;
+    state = AnimationState::HELICOPTER_KICK;
   }
 }
 void Ken::update(float dt)
@@ -456,6 +475,17 @@ void Ken::update(float dt)
         { 
             state = AnimationState::CROUCHING;
             currFrame = 2;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME && state == AnimationState::HELICOPTER_KICK)
+    {
+        player.setTextureRect(helicopter_kick_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 12)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
             frameIncrement = 1;
         }
     }

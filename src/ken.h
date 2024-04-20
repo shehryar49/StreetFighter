@@ -29,7 +29,7 @@ private:
         CROUCHED_PUNCH2,
         CROUCHED_KICK1,
         CROUCHED_KICK2,
-        
+        HELICOPTER_KICK
         
     };
     AnimationState state;
@@ -50,7 +50,7 @@ private:
     static sf::IntRect crouched_punch2_frames[3];
     static sf::IntRect crouched_kick1_frames[5];
     static sf::IntRect crouched_kick2_frames[5];
-    
+    static sf::IntRect helicopter_kick_frames[12];
     int currFrame = 0;
     int frameIncrement = 1;
     float JMPY = -30;
@@ -74,6 +74,7 @@ public:
     void jump();
     void crouch();
     void uncrouch();
+    void specialMove1();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Ken();
