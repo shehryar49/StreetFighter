@@ -46,6 +46,7 @@ private:
 public:
     Game();
     void run();
+    void testRun(); //for testing
     ~Game();
 };
 #endif

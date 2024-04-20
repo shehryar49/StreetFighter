@@ -700,8 +700,40 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   damage.setFillColor(sf::Color::Red);
   damage.setPosition(500,0);
 }
-
 void Game::run()
+{
+  playIntro();
+  while(true)
+  {
+    int option = showMenu();
+    if(option == 0)
+      break;
+    else if(option == 1)
+      showCredits();
+    else if(option == 2)
+      showTerminal();
+    else if(option == 3)
+      return;
+  }
+  int* character = selectScreen();
+  setStage(character);
+  while (window.isOpen())
+  {
+    pollEvents();
+    float dt = clock.restart().asSeconds();
+    update(dt);
+    window.clear(sf::Color::Black);
+    window.draw(background);
+    window.draw(health1);
+    window.draw(health2);
+    window.draw(damage);
+    player->render(window);
+    enemy->render(window);
+    window.display();
+  }
+  delete[] character;
+}
+void Game::testRun()
 {
     window.setFramerateLimit(60);
     //playIntro();
