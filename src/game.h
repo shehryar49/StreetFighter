@@ -53,8 +53,18 @@ private:
     int fight_bgm = -1;
     int terminal_music = -1;
     //small attack voice lines
-    int player_sma = -1;
-    int enemy_sma = -1;
+    //int player_sma = -1;
+    //int enemy_sma = -1;
+    int player_voice_lines[6];
+    int enemy_voice_lines[6];
+    //index to voiceline mapping (list will grow when hit_taken functions are called by game class later)
+    // 0 - small atk
+    // 1 - medium atk
+    // 2 - heavy atk
+    // 3 - jump
+    // 4 - special1
+    // 5 - special2
+
 public:
     Game();
     void run();

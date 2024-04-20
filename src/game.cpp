@@ -68,35 +68,42 @@ void Game::pollEvents()
                   player->moveRight(enemy->getGlobalBounds().left);
                   break;
                 case sf::Keyboard::Up:
+                  smg.play(player_voice_lines[3]);
                   player->jump();
                   break;
                 case sf::Keyboard::Down:
                   player->crouch();
                   break;
                 case sf::Keyboard::Q:
+                  smg.play(player_voice_lines[4]);
                   player->specialMove1();
                   break;
                 case sf::Keyboard::W:
+                  smg.play(player_voice_lines[5]);
                   player->specialMove2();
                   break;
                 case sf::Keyboard::A:
-                  smg.play(player_sma);
+                  smg.play(player_voice_lines[0]);
                   player->punch1();
                   break;
                 case sf::Keyboard::S:
+                    smg.play(player_voice_lines[1]);
                   player->punch2();
                   break;
                 case sf::Keyboard::D:
+                  smg.play(player_voice_lines[2]);
                   player->punch3();
                   break;
                 case sf::Keyboard::Z:
-                  smg.play(player_sma);
+                  smg.play(player_voice_lines[0]);
                   player->kick1();
                   break;
                 case sf::Keyboard::X:
+                  smg.play(player_voice_lines[1]);
                   player->kick2();
                   break;
                 case sf::Keyboard::C:
+                  smg.play(player_voice_lines[2]);
                   player->kick3();
                   break;
                 case sf::Keyboard::LShift:
@@ -777,7 +784,8 @@ void Game::setStage(int* c)
             break;
         case 9:
             player = new Zangief();
-            player_sma = smg.load("assets/PlayerVoiceLines/Zangief/small_attack.wav");
+            for (int i = 0; i < 6; i++)
+                player_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
             break;
         case 10:
             player = new Dhalsim();
@@ -835,9 +843,11 @@ void Game::setStage(int* c)
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
             if(c[0] == c[1]) // reuse audio
-              enemy_sma = player_sma;
+                for (int i = 0; i < 6; i++)
+                    enemy_voice_lines[i] = player_voice_lines[i];
             else
-              enemy_sma = smg.load("assets/PlayerVoiceLines/Zangief/small_attack.wav");
+                for (int i = 0; i < 6; i++)
+                    player_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
             smg.play(fight_bgm);
             break;
         case 10:

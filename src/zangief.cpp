@@ -253,21 +253,17 @@ void Zangief::flippedMoveLeft(float bound) {
     }
 }
 void Zangief::jump() {
-    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/jump.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::jump;
-        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::jump_forward;
-        voiceline.play();
     }
     else if (curr_state == AnimationState::move_left) {
         curr_frame = 0;
         curr_state = AnimationState::jump_backward;
-        voiceline.play();
     }
 }
 void Zangief::crouch() {
@@ -324,7 +320,6 @@ void Zangief::unblock() {
 }
 //hits dealt
 void Zangief::punch1() {
-
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::light_punch_right;
@@ -339,21 +334,17 @@ void Zangief::punch1() {
     }
 }
 void Zangief::punch2() {
-    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/medium_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::medium_punch_right;
-        voiceline.play();
     }
     else if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         curr_state = AnimationState::crouch_medium_punch;
-        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_medium_punch;
-        voiceline.play();
     }
 }
 void Zangief::kick1() {
@@ -372,33 +363,26 @@ void Zangief::kick1() {
     }
 }
 void Zangief::kick2() {
-    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/medium_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::medium_kick;
-        voiceline.play();
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_heavy_kick;
-        voiceline.play();
     }
 }
 void Zangief::kick3() {
-    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/heavy_attack.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::heavy_kick;
-        voiceline.play();
     }
 }
 void Zangief::specialMove1() {
-    voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/special.wav");
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         count = 0;
         curr_state = AnimationState::special_move;
-        voiceline.play();
     }
 }
 void Zangief::hit_taken_dhalsim_fire() {
@@ -741,7 +725,7 @@ void Zangief::update(float time){
         return;
     }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::hit_taken_blanka_electricity) {
-        if (curr_frame == 2 and count == 3) {
+        if (curr_frame == 2 && count == 3) {
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
@@ -1018,7 +1002,7 @@ void Zangief::update(float time){
         return;
     }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::special_move) {
-        if (curr_frame == 5 and count == 3) {
+        if (curr_frame == 5 && count == 3) {
             curr_frame = 0;
             incr_to_next_frame = 1;
             setPosition(player.getPosition().x + 70, player.getPosition().y + 18);
@@ -1050,7 +1034,7 @@ void Zangief::update(float time){
         return;
     }
     else if (time_elapsed >= 0.16f && curr_state == AnimationState::victory_2) {
-        if (curr_frame == 3 and count == 3) {
+        if (curr_frame == 3 && count == 3) {
             curr_state = AnimationState::still;
         }
         else {
