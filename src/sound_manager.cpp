@@ -28,6 +28,11 @@ void SoundManager::stop(int id)
         audios[id]->stop();
     }
 }
+void SoundManager::setVolume(float volume)
+{
+    for(auto p: audios)
+        p->setVolume(volume);
+}
 SoundManager::~SoundManager()
 {
     for(auto m: audios)

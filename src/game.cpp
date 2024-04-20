@@ -540,6 +540,9 @@ std::string Game::execCommand(const std::string& command)
     if(parts[1] == "volume")
     {
       int vol = atoi(parts[2].c_str());
+      if(vol < 0 || vol >= 100)
+        return "Volume must be in range [0,100]";
+      smg.setVolume(vol);
       return "Volume set to "+parts[2];
     }
     else if(parts[1] == "fps")
@@ -570,7 +573,7 @@ void Game::showTerminal()
   outputText.setFont(f);
   outputText.setFillColor(sf::Color::Green);
   outputText.setCharacterSize(14);
-  outputText.setString("Command output will appear here");
+  outputText.setString("You wish is my command, master.");
   outputText.setPosition(5,25);
 
   text.setFont(f);
@@ -695,6 +698,9 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
   player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
   player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
+  vs_music = smg.load("assets/SFX/VS.wav");
+  fight_bgm = smg.load("assets/SFX/Theme_of_Ryu.ogg");
+  smg.setVolume(100); // change volume here or using terminal
 }
 void Game::run()
 {
@@ -713,6 +719,7 @@ void Game::run()
   }
   int* character = selectScreen();
   setStage(character);
+  smg.play(vs_music);
   while (window.isOpen())
   {
     pollEvents();
@@ -736,9 +743,7 @@ void Game::testRun()
     int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers)
     int* set = idek;
     setStage(set);
-    sf::Music stageSet;
-    stageSet.openFromFile("assets/SFX/VS.wav");
-    //stageSet.play();
+    smg.play(vs_music);
     while (window.isOpen())
     {
         pollEvents();
@@ -754,17 +759,6 @@ void Game::testRun()
         window.display();
     }
     delete[] character;
-}
-
-void Game::playMusic(const char* filename) //deprecated
-{
-    /*if (bgm.getStatus() == sf::Music::Playing)
-        bgm.stop(); //if any music was playing before
-    if (!(bgm.openFromFile(filename)))
-        perror("Error loading assets\n");
-    bgm.setVolume(10);
-    bgm.setLoop(true); //infinitely play song on loop
-    //bgm.play();*/
 }
 
 void Game::setStage(int* c)
@@ -805,7 +799,7 @@ void Game::setStage(int* c)
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
         case 5:
             enemy = new Balrog();
@@ -814,7 +808,7 @@ void Game::setStage(int* c)
             background.setScale(2.1f, 2.5f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(280, 0, 800, 400));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
         case 7:
             enemy = new Ken();
@@ -823,7 +817,7 @@ void Game::setStage(int* c)
             background.setScale(1.4f, 3.0f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(100, 0, 800, 400));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
         case 8:
             enemy = new Chun_Li();
@@ -832,7 +826,7 @@ void Game::setStage(int* c)
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
         case 9:
             enemy = new Zangief();
@@ -841,7 +835,7 @@ void Game::setStage(int* c)
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
         case 10:
             enemy = new Dhalsim();
@@ -850,7 +844,7 @@ void Game::setStage(int* c)
             background.setScale(1.2f, 2.5f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(50, 0, 800, 400));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
         case 11:
             enemy = new Sagat();
@@ -859,7 +853,7 @@ void Game::setStage(int* c)
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
         default:
             enemy = new Ryu();
@@ -868,7 +862,7 @@ void Game::setStage(int* c)
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-            playMusic("assets/SFX/Theme_of_Ryu.ogg");
+            smg.play(fight_bgm);
             break;
     }
     //was common in all

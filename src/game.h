@@ -34,7 +34,6 @@ private:
     void pollEvents();
     void update(float);
     void setStage(int*);
-    void playMusic(const char* filename);
     int showMenu();
     void showTerminal();
     int* selectScreen();
@@ -50,6 +49,8 @@ private:
     int player_selectionbgm_music;
     int player_lockin_music;
     int player_selected_music;
+    int vs_music;
+    int fight_bgm;
     
 public:
     Game();
