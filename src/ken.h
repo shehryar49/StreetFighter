@@ -24,7 +24,13 @@ private:
         JMP,
         DELAY,
         CROUCHING,
-        CROUCHED
+        CROUCHED,
+        CROUCHED_PUNCH1,
+        CROUCHED_PUNCH2,
+        CROUCHED_KICK1,
+        CROUCHED_KICK2,
+        
+        
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -40,6 +46,11 @@ private:
     static sf::IntRect kick3_frames[6];
     static sf::IntRect jmp_frames[8]; 
     static sf::IntRect crouching_frames[3];
+    static sf::IntRect crouched_punch1_frames[2];
+    static sf::IntRect crouched_punch2_frames[3];
+    static sf::IntRect crouched_kick1_frames[5];
+    static sf::IntRect crouched_kick2_frames[5];
+    
     int currFrame = 0;
     int frameIncrement = 1;
     float JMPY = -30;

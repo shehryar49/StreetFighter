@@ -19,9 +19,9 @@
 #include "balrog.h"
 #include "credits.h"
 #ifdef _WIN32
-#include <Windows.h>
-#elif __linux__
-#include <unistd.h>
+  #include <Windows.h>
+#elif  __linux__
+  #include <unistd.h>
 #endif
 
 using namespace std;
@@ -722,7 +722,7 @@ void Game::run()
     int* character = nullptr;
     //character = selectScreen();
     //setStage(character);
-    int idek[2] = { 8, 9 }; //set character and enemy index from here for faster debugging/testing
+    int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers)
     int* set = idek;
     setStage(set);
     sf::Music stageSet;
