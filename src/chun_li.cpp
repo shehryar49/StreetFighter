@@ -28,7 +28,7 @@ Chun_Li::Chun_Li(){
     if(!image.loadFromFile("assets/chun-li.png")){
         cerr<<"Err loading character";
     }//spritesheet
-    //image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
+    image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)
     texture.loadFromImage(image);
     
     player.setTexture(texture);
@@ -175,15 +175,15 @@ Chun_Li::Chun_Li(){
     knockout_frames[0] = sf::IntRect(14, 4287, 80, 95);
     knockout_frames[1] = sf::IntRect(96, 4287, 80, 95);
     knockout_frames[2] = sf::IntRect(179, 4287, 91, 95);
-    knockout_frames[3] = sf::IntRect(14, 4808, 130, 95);
-    knockout_frames[4] = sf::IntRect(146, 4818, 130, 95);
-    knockout_frames[5] = sf::IntRect(275, 4808, 120, 95);
-    knockout_frames[6] = sf::IntRect(374, 4800, 130, 95);
-    knockout_frames[7] = sf::IntRect(414, 4808, 130, 95);
-    knockout_frames[8] = sf::IntRect(514, 4808, 130, 95);
-    knockout_frames[9] = sf::IntRect(614, 4808, 130, 95);
-    knockout_frames[10] = sf::IntRect(14, 4808, 130, 95);
-    knockout_frames[11] = sf::IntRect(14, 4287, 80, 95);
+    knockout_frames[3] = sf::IntRect(14, 4808, 130, 75);
+    knockout_frames[4] = sf::IntRect(146, 4838, 130, 50);
+    knockout_frames[5] = sf::IntRect(280, 4812, 100, 70);
+    knockout_frames[6] = sf::IntRect(381, 4838, 130, 45);
+    knockout_frames[7] = sf::IntRect(512, 4818, 130, 65);
+    knockout_frames[8] = sf::IntRect(645, 4838, 143, 45);
+    knockout_frames[9] = sf::IntRect(590, 4953, 140, 50);
+    knockout_frames[10] = sf::IntRect(730, 4928, 110, 75);
+    knockout_frames[11] = sf::IntRect(847, 4908, 80, 95);
 
     player.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
     player.setScale(sf::Vector2f(2.1, 2.1));
@@ -321,6 +321,10 @@ bool Chun_Li::processEvent(sf::Event &event){
             knockout(1);
             return true;
         }
+        else if (event.key.code == sf::Keyboard::Enter) {
+            knockout(2);
+            return true;
+        }
     }
     return false;
 }
@@ -328,6 +332,16 @@ void Chun_Li::jump() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::jump;
+        return;
+    }
+    if (curr_state == AnimationState::move_right) {
+        curr_frame = 0;
+        curr_state = AnimationState::jump_right;
+        return;
+    }
+    if (curr_state == AnimationState::move_left) {
+        curr_frame = 0;
+        curr_state = AnimationState::jump_left;
     }
 }
 void Chun_Li::punch1() {
@@ -420,6 +434,10 @@ void Chun_Li::knockout(int type) {
     case 1:
         curr_frame = 0;
         curr_state = AnimationState::knockout;
+        break;
+    case 2:
+        curr_frame = 0;
+        curr_state = AnimationState::defeat;
     }
 }
 void Chun_Li::update(float time){
@@ -476,6 +494,48 @@ void Chun_Li::update(float time){
                 setPosition(player.getPosition().x, player.getPosition().y - 50);
             else if(curr_frame > 4)
                 setPosition(player.getPosition().x, player.getPosition().y + 50);
+            player.setTextureRect(jump_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::jump_right) {
+        if (curr_frame == 9) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (curr_frame > 0 && curr_frame < 5)
+                setPosition(player.getPosition().x, player.getPosition().y - 50);
+            else if (curr_frame > 4)
+                setPosition(player.getPosition().x, player.getPosition().y + 50);
+            if(player.getPosition().x + 40 <= 700)
+                setPosition(player.getPosition().x + 40, player.getPosition().y);
+            else
+                setPosition(700, player.getPosition().y);
+            player.setTextureRect(jump_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::jump_left) {
+        if (curr_frame == 9) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (curr_frame > 0 && curr_frame < 5)
+                setPosition(player.getPosition().x, player.getPosition().y - 50);
+            else if (curr_frame > 4)
+                setPosition(player.getPosition().x, player.getPosition().y + 50);
+            if (player.getPosition().x - 40 >=  0)
+                setPosition(player.getPosition().x - 40, player.getPosition().y);
+            else
+                setPosition(0, player.getPosition().y);
             player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;
@@ -729,7 +789,7 @@ void Chun_Li::update(float time){
         time_elapsed = 0;
         return;
     }
-    if (time_elapsed >= 1.0f && curr_state == AnimationState::knockout) {
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::knockout) {
         if (curr_frame == 12) {
             curr_frame = 0;
             incr_to_next_frame = 0;
@@ -739,7 +799,38 @@ void Chun_Li::update(float time){
         }
         else {
             player.setTextureRect(knockout_frames[curr_frame++]);
-            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            if (curr_frame < 9)
+                if (player.getPosition().x - 50 >= 0)
+                    player.setPosition(player.getPosition().x - 50, player.getPosition().y);
+                else
+                    player.setPosition(0, player.getPosition().y);
+            if(curr_frame < 5 || curr_frame == 7)
+                player.setPosition(player.getPosition().x, player.getPosition().y - 20);
+            else if (curr_frame == 5)
+                player.setPosition(player.getPosition().x, player.getPosition().y + 60);
+            else
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::defeat) {
+        if (curr_frame == 9) {
+            curr_state = AnimationState::still;
+        }
+        else {
+            player.setTextureRect(knockout_frames[curr_frame++]);
+            if (curr_frame < 9)
+                if (player.getPosition().x - 50 >= 0)
+                    player.setPosition(player.getPosition().x - 50, player.getPosition().y);
+                else
+                    player.setPosition(0, player.getPosition().y);
+            if (curr_frame < 5 || curr_frame == 7)
+                player.setPosition(player.getPosition().x, player.getPosition().y - 20);
+            else if (curr_frame == 5)
+                player.setPosition(player.getPosition().x, player.getPosition().y + 60);
+            else
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;

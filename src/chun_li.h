@@ -14,6 +14,8 @@ private:
         move_right,
         move_left,
         jump,
+        jump_right,
+        jump_left,
         block,
         crouch,
         crouch_block,
@@ -29,6 +31,7 @@ private:
         hit_taken_body3,
         hit_taken_face_body,
         knockout,
+        defeat,
 
         //to be implemented
         punch2,

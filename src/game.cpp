@@ -708,16 +708,16 @@ void Game::run()
     ////key was pressed, so we are back after playing intro
     //while (true) 
     //{
-    //    int option = showMenu();
-    //    //some option was selected from the menu
-    //    if (option == 0) //option 0 is play
-    //        break;
-    //    else if (option == 1)
-    //        showCredits();
-    //    else if (option == 2)
-    //        showTerminal();
-    //    else if (option == 3)
-    //        return;
+    //   int option = showMenu();
+    //   //some option was selected from the menu
+    //   if (option == 0) //option 0 is play
+    //       break;
+    //   else if (option == 1)
+    //       showCredits();
+    //   else if (option == 2)
+    //       showTerminal();
+    //   else if (option == 3)
+    //       return;
     //}
     int* character = nullptr;
     //character = selectScreen();
