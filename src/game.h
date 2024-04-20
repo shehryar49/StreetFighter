@@ -51,6 +51,7 @@ private:
     int player_selected_music;
     int vs_music;
     int fight_bgm;
+    int terminal_music;
     
 public:
     Game();

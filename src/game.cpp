@@ -314,7 +314,7 @@ int* Game::selectScreen()
       flags[0],
       flags[0],
     };
-    
+
     float scale_x[] = {1.5,2.5,2,2,3.5,2.5,2.5,2.5,2,2,2,-2,3.5,3.5};
     float scale_y[] = {1.5,2.5,2,2,3.5,2.5,2.5,2.5,2,2,2,2,3.5,3.5};
     float pos_x[] = {345,255,40,650,62.5,240,240,240,40,650,25,770,coordinates[0][0],coordinates[0][0]};
@@ -566,7 +566,7 @@ void Game::showTerminal()
   outputText.setFont(f);
   outputText.setFillColor(sf::Color::Green);
   outputText.setCharacterSize(14);
-  outputText.setString("You wish is my command, master.");
+  outputText.setString("Your wish is my command, master.");
   outputText.setPosition(5,25);
 
   text.setFont(f);
@@ -585,6 +585,7 @@ void Game::showTerminal()
   sf::Clock clock;
   float elapsed = 0;
   bool showCursor = true;
+  smg.play(terminal_music);
   while (window.isOpen())
   {
     float dt = clock.restart().asSeconds();
@@ -694,6 +695,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
   vs_music = smg.load("assets/SFX/VS.wav");
   fight_bgm = smg.load("assets/SFX/Theme_of_Ryu.ogg");
+  terminal_music = smg.load("assets/SFX/hackerman.wav");
   smg.setVolume(100); // change volume here or using terminal
 }
 void Game::run()
