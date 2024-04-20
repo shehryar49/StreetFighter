@@ -478,9 +478,10 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=MOVE_TIME && state == AnimationState::HELICOPTER_KICK)
+    else if(elapsed>=MOVE_TIME*5 && state == AnimationState::HELICOPTER_KICK)
     {
         player.setTextureRect(helicopter_kick_frames[currFrame++]);
+        player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
         elapsed = 0;
         if(currFrame == 12)
         { 

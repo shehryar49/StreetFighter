@@ -175,11 +175,8 @@ void Game::playIntro()
     s.setScale(1.7f, 1.7f);
     int i = 0;
     window.setFramerateLimit(30); //run at 30fps
-    bgm.openFromFile("assets/intro/intro.ogg");
+    smg.play(intro_music);
 
-    bgm.setLoop(true);
-    //bgm.play();
-    bgm.setVolume(40);
     while (window.isOpen())
     {
         sf::Event event;
@@ -190,7 +187,7 @@ void Game::playIntro()
             if (event.type == sf::Event::KeyPressed)
             {
                 window.setFramerateLimit(0);
-                bgm.stop();
+                smg.stop(intro_music);
                 return;
             }
         }
@@ -203,22 +200,17 @@ void Game::playIntro()
         if (i == 796)
         {
             i = 0;
-            //bgm.play();
+            smg.play(intro_music);//restart music
         }
     }
     window.setFramerateLimit(0);
-    bgm.stop();
+    smg.stop(intro_music);
 }
 
-int* Game::selectScreen(){
+int* Game::selectScreen()
+{
     int* choices = new int[2];
-
-    sf::Music selector, lockIN, bgm;
-    selector.openFromFile("assets/SFX/CMN_HUD_0.wav");
-    lockIN.openFromFile("assets/SFX/CMN_HUD_1.wav");
-    bgm.openFromFile("assets/SFX/Player Select.wav");
-    bgm.setLoop(true);
-    //bgm.play();
+    smg.play(player_selectionbgm_music,true);
     sf::Image img;
     if (!img.loadFromFile("assets/Stage Select.png")) 
     {
@@ -367,7 +359,7 @@ int* Game::selectScreen(){
             {
                 if (e.key.code == sf::Keyboard::Enter)
                 {
-                    //lockIN.play();
+                    smg.play(player_lockin_music);
                     if (second)
                     {
                         end = true;
@@ -405,7 +397,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Right && ((choices[indx] < 6) || (choices[indx] > 6 && choices[indx] < 12)))
                 {
-                    /////selector.play();
+                    smg.play(player_selected_music);
                     if (second)
                     {
                         enemyHover.setPosition(enemyHover.getPosition().x + COL_WIDTH, enemyHover.getPosition().y);
@@ -428,7 +420,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Left && ((choices[indx] > 1 && choices[indx] <= 6) || (choices[indx] > 7 && choices[indx] <= 12)))
                 {
-                    //selector.play();
+                    smg.play(player_selected_music);
                     if (second)
                     {
                         enemyHover.setPosition(enemyHover.getPosition().x - COL_WIDTH, enemyHover.getPosition().y);
@@ -451,7 +443,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Down && choices[indx] < 7)
                 {
-                    //selector.play();
+                    smg.play(player_selected_music);
                     selection += 6;
                     if (second)
                     {
@@ -475,7 +467,7 @@ int* Game::selectScreen(){
                 }
                 else if (e.key.code == sf::Keyboard::Up && choices[indx] > 6)
                 {
-                    //selector.play();
+                    smg.play(player_selected_music);
                     selection -= 6;
                     if (second)
                     {
@@ -519,7 +511,7 @@ int* Game::selectScreen(){
 
         }
     }
-    bgm.stop();
+    smg.stop(player_selectionbgm_music);
     return choices;
 }
 
@@ -695,10 +687,14 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   health2.setFillColor(sf::Color(255,255,0));
   health1.setPosition(0,0);
   health2.setPosition(500,0);
-
   damage.setSize(sf::Vector2f(0,25));
   damage.setFillColor(sf::Color::Red);
   damage.setPosition(500,0);
+  //Load sounds
+  intro_music = smg.load("assets/intro/intro.ogg");
+  player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
+  player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
+  player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
 }
 void Game::run()
 {
@@ -736,24 +732,7 @@ void Game::run()
 void Game::testRun()
 {
     window.setFramerateLimit(60);
-    //playIntro();
-    ////key was pressed, so we are back after playing intro
-    //while (true) 
-    //{
-    //    int option = showMenu();
-    //    //some option was selected from the menu
-    //    if (option == 0) //option 0 is play
-    //        break;
-    //    else if (option == 1)
-    //        showCredits();
-    //    else if (option == 2)
-    //        showTerminal();
-    //    else if (option == 3)
-    //        return;
-    //}
     int* character = nullptr;
-    //character = selectScreen();
-    //setStage(character);
     int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers)
     int* set = idek;
     setStage(set);
@@ -777,15 +756,15 @@ void Game::testRun()
     delete[] character;
 }
 
-void Game::playMusic(const char* filename) 
+void Game::playMusic(const char* filename) //deprecated
 {
-    if (bgm.getStatus() == sf::Music::Playing)
+    /*if (bgm.getStatus() == sf::Music::Playing)
         bgm.stop(); //if any music was playing before
     if (!(bgm.openFromFile(filename)))
         perror("Error loading assets\n");
     bgm.setVolume(10);
     bgm.setLoop(true); //infinitely play song on loop
-    //bgm.play();
+    //bgm.play();*/
 }
 
 void Game::setStage(int* c)
