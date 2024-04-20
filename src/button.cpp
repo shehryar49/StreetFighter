@@ -1,7 +1,7 @@
 #include "button.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <iostream>
+
 using namespace std;
 Button::Button()
 {
@@ -39,7 +39,6 @@ void Button::setText(const char* str,int size)
   float charHeight = glyph.bounds.height;
   textY -= (charHeight / 2.0);
   text.setPosition(textX, textY);
-  //text.setPosition(x,y);
 }
 
 void Button::render(sf::RenderWindow& win)

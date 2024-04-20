@@ -45,14 +45,16 @@ private:
     int playerSelected = 0;
     int enemySelected = 0;
     //Identifiers for various sounds
-    int intro_music;
-    int player_selectionbgm_music;
-    int player_lockin_music;
-    int player_selected_music;
-    int vs_music;
-    int fight_bgm;
-    int terminal_music;
-    
+    int intro_music = -1;
+    int player_selectionbgm_music = -1;
+    int player_lockin_music = -1;
+    int player_selected_music = -1;
+    int vs_music = -1;
+    int fight_bgm = -1;
+    int terminal_music = -1;
+    //small attack voice lines
+    int player_sma = -1;
+    int enemy_sma = -1;
 public:
     Game();
     void run();

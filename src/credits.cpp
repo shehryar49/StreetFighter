@@ -1,5 +1,5 @@
 #include "credits.h"
-#include <iostream>
+
 using namespace std;
 
 Credits::Credits(sf::RenderWindow& window, sf::Font& font, sf::Sprite& background): window(window), font(font), background(background) {

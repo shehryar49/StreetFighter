@@ -16,7 +16,7 @@ public:
   void setPosition(int,int);
   void setText(const char*,int);
   void setFont(sf::Font&);
-  void render(sf::RenderWindow&);
+  void render(sf::RenderWindow&);//render the button to a window
   bool processMouseMove(int,int); // mouse hover events
 };
 #endif

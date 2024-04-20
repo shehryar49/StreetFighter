@@ -80,6 +80,7 @@ void Game::pollEvents()
                   player->specialMove2();
                   break;
                 case sf::Keyboard::A:
+                  smg.play(player_sma);
                   player->punch1();
                   break;
                 case sf::Keyboard::S:
@@ -89,6 +90,7 @@ void Game::pollEvents()
                   player->punch3();
                   break;
                 case sf::Keyboard::Z:
+                  smg.play(player_sma);
                   player->kick1();
                   break;
                 case sf::Keyboard::X:
@@ -694,7 +696,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
   player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
   vs_music = smg.load("assets/SFX/VS.wav");
-  fight_bgm = smg.load("assets/SFX/Theme_of_Ryu.ogg");
+  fight_bgm = -1;//smg.load("assets/SFX/Theme_of_Ryu.ogg");
   terminal_music = smg.load("assets/SFX/hackerman.wav");
   smg.setVolume(100); // change volume here or using terminal
 }
@@ -775,6 +777,7 @@ void Game::setStage(int* c)
             break;
         case 9:
             player = new Zangief();
+            player_sma = smg.load("assets/PlayerVoiceLines/Zangief/small_attack.wav");
             break;
         case 10:
             player = new Dhalsim();
@@ -831,6 +834,10 @@ void Game::setStage(int* c)
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
+            if(c[0] == c[1]) // reuse audio
+              enemy_sma = player_sma;
+            else
+              enemy_sma = smg.load("assets/PlayerVoiceLines/Zangief/small_attack.wav");
             smg.play(fight_bgm);
             break;
         case 10:
