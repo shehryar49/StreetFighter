@@ -5,7 +5,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <string>
 #include "player.h"
-
+#include "sound_manager.h"
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
@@ -24,6 +24,7 @@ private:
     sf::RectangleShape damage;
     sf::RectangleShape playerDamage;
     float enemyDamage = 0;
+    SoundManager smg;
     enum class GameState
     {
       MENU,
@@ -33,19 +34,28 @@ private:
     void pollEvents();
     void update(float);
     void setStage(int*);
-    void playMusic(const char* filename);
     int showMenu();
     void showTerminal();
     int* selectScreen();
     std::string execCommand(const std::string&);
     void showCredits();
     GameState state;
-    sf::Music bgm; //play all bgm through 1 var so that we dont get conflicts (doesnt apply to move sounds...they can play over bgm...make separate local vars for them)
+    //sf::Music bgm; //play all bgm through 1 var so that we dont get conflicts (doesnt apply to move sounds...they can play over bgm...make separate local vars for them)
+    //^---- not anymore
     int playerSelected = 0;
     int enemySelected = 0;
+    //Identifiers for various sounds
+    int intro_music;
+    int player_selectionbgm_music;
+    int player_lockin_music;
+    int player_selected_music;
+    int vs_music;
+    int fight_bgm;
+    
 public:
     Game();
     void run();
+    void testRun(); //for testing
     ~Game();
 };
 #endif

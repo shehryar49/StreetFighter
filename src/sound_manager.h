@@ -8,10 +8,13 @@
 class SoundManager
 {
 private:
-    std::vector<sf::Music> audios;
+    std::vector<sf::Music*> audios;
 public:
+    
     int load(const std::string& filename);
     void play(int id,bool looped = false);
     void stop(int id);
+    void setVolume(float);
+    ~SoundManager();
 };
 #endif

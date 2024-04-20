@@ -5,8 +5,6 @@
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
 
-#define STOP false
-
 sf::IntRect Ken::IDLE_frames[6];
 sf::IntRect Ken::moveright_frames[6];
 sf::IntRect Ken::moveleft_frames[6];
@@ -18,6 +16,11 @@ sf::IntRect Ken::jmp_frames[8];
 sf::IntRect Ken::kick2_frames[3];
 sf::IntRect Ken::kick3_frames[6];
 sf::IntRect Ken::crouching_frames[3];
+sf::IntRect Ken::crouched_punch1_frames[2];
+sf::IntRect Ken::crouched_punch2_frames[3];
+sf::IntRect Ken::crouched_kick1_frames[5];
+sf::IntRect Ken::crouched_kick2_frames[5];
+sf::IntRect Ken::helicopter_kick_frames[12];
 
 Ken::Ken()
 {
@@ -95,11 +98,41 @@ Ken::Ken()
     crouching_frames[0] = sf::IntRect(10,1115,60,100);
     crouching_frames[1] = sf::IntRect(75,1115,60,100);
     crouching_frames[2] = sf::IntRect(140,1115,60,100);
+    
+    crouched_punch1_frames[0] = sf::IntRect(15,1280,70,100);
+    crouched_punch1_frames[1] = sf::IntRect(90,1280,100,100);
 
+    crouched_punch2_frames[0] = sf::IntRect(315,1280,65,100);
+    crouched_punch2_frames[1] = sf::IntRect(385,1280,65,100);
+    crouched_punch2_frames[2] = sf::IntRect(460,1280,95,100);
+
+    crouched_kick1_frames[0] = sf::IntRect(330,1385,75,100); 
+    crouched_kick1_frames[1] = sf::IntRect(410,1385,95,100);
+    crouched_kick1_frames[2] = sf::IntRect(515,1385,145,100);
+    crouched_kick1_frames[3] = sf::IntRect(670,1385,95,100);
+    crouched_kick1_frames[4] = sf::IntRect(775,1385,70,100);
+
+    crouched_kick2_frames[0] = sf::IntRect(895,1385,50,100);
+    crouched_kick2_frames[1] = sf::IntRect(950,1385,125,100);
+    crouched_kick2_frames[2] = sf::IntRect(1080,1385,65,100);
+    crouched_kick2_frames[3] = sf::IntRect(1150,1385,65,100);
+    crouched_kick2_frames[4] = sf::IntRect(1220,1385,65,100);
+
+    helicopter_kick_frames[0] = sf::IntRect(15,2940,70,110); 
+    helicopter_kick_frames[1] = sf::IntRect(85,2905,70,110);
+    helicopter_kick_frames[2] = sf::IntRect(155,2905,60,110);
+    helicopter_kick_frames[3] = sf::IntRect(215,2910,100,110);
+    helicopter_kick_frames[4] = sf::IntRect(320,2910,60,110);
+    helicopter_kick_frames[5] = sf::IntRect(380,2910,100,110);
+    helicopter_kick_frames[6] = sf::IntRect(480,2910,70,110);
+    helicopter_kick_frames[7] = sf::IntRect(550,2910,60,110);
+    helicopter_kick_frames[8] = sf::IntRect(610,2910,60,110);
+    helicopter_kick_frames[9] = sf::IntRect(670,2910,65,110);
+    helicopter_kick_frames[10] = sf::IntRect(735,2920,60,110);
+    helicopter_kick_frames[11] = sf::IntRect(795,2945,60,110);
+    #define STOP false
     player.setTextureRect(IDLE_frames[0]);
-
-    
-    
+        
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -113,6 +146,11 @@ void Ken::punch1()
       currFrame = 0;
       state = AnimationState::PUNCH1;
     }
+    else if(state == AnimationState::CROUCHED)
+    {
+      currFrame = 0;
+      state = AnimationState::CROUCHED_PUNCH1;
+    }
 }
 void Ken::punch2()
 {
@@ -120,6 +158,11 @@ void Ken::punch2()
     {
         currFrame = 0;
         state = AnimationState::PUNCH2;
+    }
+    else if(state == AnimationState::CROUCHED)
+    {
+      currFrame = 0;
+      state = AnimationState::CROUCHED_PUNCH2;
     }
 }
 void Ken::punch3()
@@ -138,6 +181,11 @@ void Ken::kick1()
     state = AnimationState::KICK1;
     frameIncrement = 1;
   }
+  else if(state == AnimationState::CROUCHED)
+  {
+    currFrame = 0;
+    state = AnimationState::CROUCHED_KICK1;
+  }
 }
 void Ken::kick2()
 {
@@ -146,6 +194,11 @@ void Ken::kick2()
     currFrame = 0;
     state = AnimationState::KICK2;
     frameIncrement = 1;
+  }
+  else if(state == AnimationState::CROUCHED)
+  {
+    currFrame = 0;
+    state = AnimationState::CROUCHED_KICK2;
   }
 }
 void Ken::kick3()
@@ -197,12 +250,24 @@ void Ken::crouch()
 void Ken::uncrouch()
 {
   if( state == AnimationState::CROUCHED || 
-      state == AnimationState::CROUCHING
+      state == AnimationState::CROUCHING ||
+      state == AnimationState::CROUCHED_KICK1 ||
+      state == AnimationState::CROUCHED_KICK2 ||
+      state == AnimationState::CROUCHED_PUNCH1 ||
+      state == AnimationState::CROUCHED_PUNCH2  
     )
   {
     state = AnimationState::FASTIDLE;
     currFrame = 0;
     frameIncrement = 1;
+  }
+}
+void Ken::specialMove1()
+{
+  if(IS_IDLE)
+  {
+    currFrame = 0;
+    state = AnimationState::HELICOPTER_KICK;
   }
 }
 void Ken::update(float dt)
@@ -265,6 +330,17 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
+    else if(elapsed>=0.08f && state == AnimationState::CROUCHED_PUNCH1)
+    {
+        player.setTextureRect(crouched_punch1_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 2)
+        { 
+            state = AnimationState::CROUCHING;
+            currFrame = 2;
+            frameIncrement = 1;
+        }
+    }
     else if(elapsed>=0.08f && state == AnimationState::PUNCH2)
     {
         player.setTextureRect(punch2_frames[currFrame++]);
@@ -273,6 +349,17 @@ void Ken::update(float dt)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=0.08f && state == AnimationState::CROUCHED_PUNCH2)
+    {
+        player.setTextureRect(crouched_punch2_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 3)
+        { 
+            state = AnimationState::CROUCHING;
+            currFrame = 2;
             frameIncrement = 1;
         }
     }
@@ -363,6 +450,40 @@ void Ken::update(float dt)
         player.setTextureRect(kick3_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 6)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
+    {
+        player.setTextureRect(crouched_kick1_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
+        { 
+            state = AnimationState::CROUCHING;
+            currFrame = 2;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME && state == AnimationState::CROUCHED_KICK2)
+    {
+        player.setTextureRect(crouched_kick2_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
+        { 
+            state = AnimationState::CROUCHING;
+            currFrame = 2;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME*5 && state == AnimationState::HELICOPTER_KICK)
+    {
+        player.setTextureRect(helicopter_kick_frames[currFrame++]);
+        player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
+        elapsed = 0;
+        if(currFrame == 12)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;

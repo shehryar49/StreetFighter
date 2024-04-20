@@ -20,8 +20,6 @@
 #pragma comment(lib,"brotlienc.lib")
 #pragma comment(lib,"brotlidec.lib")
 #pragma comment(lib,"bz2.lib")
-
-
 #endif
 
 #include <SFML/Graphics.hpp>
