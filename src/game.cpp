@@ -1,7 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/WindowStyle.hpp>
@@ -220,50 +223,52 @@ int* Game::selectScreen()
     img.createMaskFromColor(sf::Color(0, 0, 96, 255));
     sf::Texture txtr;
     txtr.loadFromImage(img);
+    
     sf::Sprite map, characters, playerHover, playerName, playerPicture, enemyHover, enemyName, enemyPicture, flag, enemyFlag, selectionName, vs, oneP, twoP;
-    sf::IntRect characterNames[12];
-    characterNames[0] = sf::IntRect(86, 93, 80, 15);
-    characterNames[1] = sf::IntRect(354, 93, 80, 15);
-    characterNames[2] = sf::IntRect(629, 93, 80, 15);
-    characterNames[3] = sf::IntRect(903, 93, 80, 15);
-    characterNames[4] = sf::IntRect(1166, 93, 80, 15);
-    characterNames[5] = sf::IntRect(1451, 93, 80, 15);
-    characterNames[6] = sf::IntRect(94, 315, 80, 15);
-    characterNames[7] = sf::IntRect(349, 315, 80, 15);
-    characterNames[8] = sf::IntRect(627, 312, 80, 15);
-    characterNames[9] = sf::IntRect(895, 312, 80, 15);
-    characterNames[10] = sf::IntRect(1169, 313, 80, 15);
-    characterNames[11] = sf::IntRect(1441, 312, 80, 15);
-
-    sf::IntRect characterImages[12];
-    characterImages[0] = sf::IntRect(6, 110, 100, 100);
-    characterImages[1] = sf::IntRect(274, 110, 100, 100);
-    characterImages[2] = sf::IntRect(555, 110, 100, 100);
-    characterImages[3] = sf::IntRect(823, 113, 100, 100);
-    characterImages[4] = sf::IntRect(1090, 115, 100, 100);
-    characterImages[5] = sf::IntRect(1365, 115, 100, 100);
-    characterImages[6] = sf::IntRect(6, 342, 100, 100);
-    characterImages[7] = sf::IntRect(274, 342, 100, 100);
-    characterImages[8] = sf::IntRect(555, 342, 100, 100);
-    characterImages[9] = sf::IntRect(823, 343, 100, 100);
-    characterImages[10] = sf::IntRect(1090, 343, 100, 100);
-    characterImages[11] = sf::IntRect(1364, 343, 100, 100);
-
-    sf::IntRect flags[12];
-    flags[0] = sf::IntRect(477, 499, 20, 22); //japan - bottom jap ryu
-    flags[1] = sf::IntRect(477, 499, 20, 22); //japan - uper jap e.Honda
-    flags[2] = sf::IntRect(477, 499 + 31, 20, 22); //brazil - blanka
-    flags[3] = sf::IntRect(477 + 36, 499, 20, 22); //bottom right usa  - guile
-    flags[4] = sf::IntRect(477 + 36, 499, 20, 22); //bottom left usa  - balrog
-    flags[5] = sf::IntRect(477 + 36 + 36 + 36, 499, 20, 22); //spain - vega
-    flags[6] = sf::IntRect(477 + 36, 499, 20, 22); //top right usa  - ken
-    flags[7] = sf::IntRect(477 + 36, 499 + 31, 20, 22); //china - chunLi
-    flags[8] = sf::IntRect(477 + 36 + 36, 499, 20, 22); //ussr - zangief
-    flags[9] = sf::IntRect(477 + 36 + 36, 499 + 31, 20, 22); //india - dhalsim
-    flags[10] = sf::IntRect(477 + 36 + 36 + 36, 499 + 31, 20, 22); //thailand - sagat
-    flags[11] = sf::IntRect(0, 0, 0, 0); //M.Bison dont have a flag it seems Thailand
-
-    int coordinates[12][2] = {
+    
+    sf::IntRect characterNames[12] = {
+      sf::IntRect(86, 93, 80, 15),
+      sf::IntRect(354, 93, 80, 15),
+      sf::IntRect(629, 93, 80, 15),
+      sf::IntRect(903, 93, 80, 15),
+      sf::IntRect(1166, 93, 80, 15),
+      sf::IntRect(1451, 93, 80, 15),
+      sf::IntRect(94, 315, 80, 15),
+      sf::IntRect(349, 315, 80, 15),
+      sf::IntRect(627, 312, 80, 15),
+      sf::IntRect(895, 312, 80, 15),
+      sf::IntRect(1169, 313, 80, 15),
+      sf::IntRect(1441, 312, 80, 15)
+    };
+    sf::IntRect characterImages[12] = {
+      sf::IntRect(6, 110, 100, 100),
+      sf::IntRect(274, 110, 100, 100),
+      sf::IntRect(555, 110, 100, 100),
+      sf::IntRect(823, 113, 100, 100),
+      sf::IntRect(1090, 115, 100, 100),
+      sf::IntRect(1365, 115, 100, 100),
+      sf::IntRect(6, 342, 100, 100),
+      sf::IntRect(274, 342, 100, 100),
+      sf::IntRect(555, 342, 100, 100),
+      sf::IntRect(823, 343, 100, 100),
+      sf::IntRect(1090, 343, 100, 100),
+      sf::IntRect(1364, 343, 100, 100)
+    };
+    sf::IntRect flags[12] = {
+      sf::IntRect(477, 499, 20, 22), //japan - bottom jap ryu
+      sf::IntRect(477, 499, 20, 22), //japan - uper jap e.Honda
+      sf::IntRect(477, 499 + 31, 20, 22), //brazil - blanka
+      sf::IntRect(477 + 36, 499, 20, 22), //bottom right usa  - guile
+      sf::IntRect(477 + 36, 499, 20, 22), //bottom left usa  - balrog
+      sf::IntRect(477 + 36 + 36 + 36, 499, 20, 22), //spain - vega
+      sf::IntRect(477 + 36, 499, 20, 22), //top right usa  - ken
+      sf::IntRect(477 + 36, 499 + 31, 20, 22), //china - chunLi
+      sf::IntRect(477 + 36 + 36, 499, 20, 22), //ussr - zangief
+      sf::IntRect(477 + 36 + 36, 499 + 31, 20, 22), //india - dhalsim
+      sf::IntRect(477 + 36 + 36 + 36, 499 + 31, 20, 22), //thailand - sagat
+      sf::IntRect(0, 0, 0, 0) //M.Bison dont have a flag it seems Thailand
+    };
+    float coordinates[12][2] = {
         {399,226}, //japan - bottom jap ryu
         {427,133}, //japan - uper jap e.Honda
         {567,282}, //brazil - blanka
@@ -277,64 +282,52 @@ int* Game::selectScreen()
         {317,268}, //thailand - sagat
         {317,268}, //thailand - M.Bison
     };
-    vs.setTexture(txtr);
-    vs.setTextureRect(sf::IntRect(0, 0, 0, 0));
-    vs.setTextureRect(sf::IntRect(15, 509, 70, 50));
-    vs.setScale(1.5, 1.5);
-    vs.setPosition(345, 350);
-    selectionName.setTexture(txtr);
-    selectionName.setTextureRect(sf::IntRect(477, 499 - 26, 120, 25));
-    selectionName.setScale(2.5, 2.5);
-    selectionName.setPosition(255, 5);
-    oneP.setTexture(txtr);
-    oneP.setTextureRect(sf::IntRect(110, 470, 20, 15));
-    oneP.setScale(2, 2);
-    oneP.setPosition(40, 325);
-    twoP.setTexture(txtr);
-    twoP.setTextureRect(sf::IntRect(143, 470, 20, 15));
-    twoP.setScale(2, 2);
-    twoP.setPosition(650, 325);
-    map.setTexture(txtr);
-    map.setTextureRect(sf::IntRect(270,480, 190, 120));
-    map.setScale(3.5, 3.5);
-    map.setPosition(62.5, 30);
-    characters.setTexture(txtr);
-    characters.setTextureRect(sf::IntRect(110, 499, 121, 64));
-    characters.setScale(2.5, 2.5);
-    characters.setPosition(240, 420);
-    playerHover.setTexture(txtr);
-    playerHover.setTextureRect(sf::IntRect(17, 561, 21, 37));
-    playerHover.setScale(2.5, 2.5);
-    playerHover.setPosition(240, 410);
-    enemyHover.setTexture(txtr);
-    enemyHover.setTextureRect(sf::IntRect(48, 561, 21, 37));
-    enemyHover.setScale(2.5, 2.5);
-    enemyHover.setPosition(240, 410);
-    playerName.setTexture(txtr);
-    playerName.setTextureRect(characterNames[0]);
-    playerName.setScale(2, 2);
-    playerName.setPosition(40, 360);
-    enemyName.setTexture(txtr);
-    enemyName.setTextureRect(characterNames[0]);
-    enemyName.setScale(2, 2);
-    enemyName.setPosition(650, 360);
-    playerPicture.setTexture(txtr);
-    playerPicture.setTextureRect(characterImages[0]);
-    playerPicture.setScale(2, 2);
-    playerPicture.setPosition(25, 400);
-    enemyPicture.setTexture(txtr);
-    enemyPicture.setTextureRect(characterImages[0]);
-    enemyPicture.setScale(-2, 2);
-    enemyPicture.setPosition(770, 400);
-    flag.setTexture(txtr);
-    flag.setTextureRect(flags[0]);
-    flag.setScale(3.5, 3.5);
-    flag.setPosition(coordinates[0][0], coordinates[0][1]);
-    enemyFlag.setTexture(txtr);
-    enemyFlag.setTextureRect(flags[0]);
-    enemyFlag.setScale(3.5, 3.5);
-    enemyFlag.setPosition(0, 0);
-    enemyFlag.setPosition(coordinates[0][0], coordinates[0][1]);
+    sf::Sprite* pointers[] = {
+      &vs,
+      &selectionName,
+      &oneP,
+      &twoP,
+      &map,
+      &characters,
+      &playerHover,
+      &enemyHover,
+      &playerName,
+      &enemyName,
+      &playerPicture,
+      &enemyPicture,
+      &flag,
+      &enemyFlag
+    };
+    sf::IntRect rects[] = {
+      sf::IntRect(15, 509, 70, 50),
+      sf::IntRect(477, 499 - 26, 120, 25),
+      sf::IntRect(110, 470, 20, 15),
+      sf::IntRect(143, 470, 20, 15),
+      sf::IntRect(270,480, 190, 120),
+      sf::IntRect(110, 499, 121, 64),
+      sf::IntRect(17, 561, 21, 37),
+      sf::IntRect(48, 561, 21, 37),
+      characterNames[0],
+      characterNames[0],
+      characterImages[0],
+      characterImages[0],
+      flags[0],
+      flags[0],
+    };
+    
+    float scale_x[] = {1.5,2.5,2,2,3.5,2.5,2.5,2.5,2,2,2,-2,3.5,3.5};
+    float scale_y[] = {1.5,2.5,2,2,3.5,2.5,2.5,2.5,2,2,2,2,3.5,3.5};
+    float pos_x[] = {345,255,40,650,62.5,240,240,240,40,650,25,770,coordinates[0][0],coordinates[0][0]};
+    float pos_y[] = {350,5,325,325,30,420,410,410,360,360,400,400,coordinates[0][1],coordinates[0][1]};
+
+    for(int i = 0; i < sizeof(pointers)/sizeof(sf::Sprite*); i++)
+    {
+      sf::Sprite* curr = pointers[i];
+      curr->setTexture(txtr);
+      curr->setTextureRect(rects[i]);
+      curr->setScale(scale_x[i],scale_y[i]);
+      curr->setPosition(pos_x[i],pos_y[i]);
+    }
     window.clear(sf::Color(0,0,96,255));
     window.draw(map);
     window.draw(characters);
@@ -651,6 +644,7 @@ void Game::showCredits()
     backgroundTexture.loadFromFile("SF2.jpeg");
     background.setTexture(backgroundTexture);
     background.setScale(1.5, 1.1);
+    //What the actual F?
     Credits credits(window, font, background);
     credits.run();
 }
