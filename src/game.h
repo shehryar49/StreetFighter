@@ -55,8 +55,8 @@ private:
     //small attack voice lines
     //int player_sma = -1;
     //int enemy_sma = -1;
-    int player_voice_lines[6];
-    int enemy_voice_lines[6];
+    int player_voice_lines[6] = {-1,-1,-1,-1,-1,-1}; // initialize!!
+    int enemy_voice_lines[6] = {-1,-1,-1,-1,-1,-1};;
     //index to voiceline mapping (list will grow when hit_taken functions are called by game class later)
     // 0 - small atk
     // 1 - medium atk
