@@ -6,10 +6,6 @@
 Player::Player()
 {
 }
-bool Player::processEvent(sf::Event &win)
-{
-    return false;
-}
 void Player::update(float dt)
 {
 }

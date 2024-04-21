@@ -7,7 +7,6 @@ class Player // Abstract class
 {
 public:
     Player();
-    virtual bool processEvent(sf::Event &);//it's gonna be dead soon
     virtual void update(float);
     virtual void render(sf::RenderWindow &);
     virtual void setPosition(float,float);

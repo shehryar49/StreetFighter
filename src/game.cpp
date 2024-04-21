@@ -122,7 +122,7 @@ void Game::pollEvents()
                   player->block();
                   break;
                 default:
-                  player->processEvent(event); //remove later need it rn
+                 // player->processEvent(event); //remove later need it rn
                   break;
             }
         }
