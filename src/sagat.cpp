@@ -166,57 +166,66 @@ void Sagat::moveRight()
     }
 }
 //PUNCHES
-void Sagat::punch1()
+bool Sagat::punch1()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::PUNCH1;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
     else if (state == AnimationState::CROUCHED)
     {
         state = AnimationState::CROUCHED_PUNCH1;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
-void Sagat::punch2()
+bool Sagat::punch2()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::PUNCH2;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
     else if (state == AnimationState::CROUCHED)
     {
         state = AnimationState::CROUCHED_PUNCH2;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
-void Sagat::punch3()
+bool Sagat::punch3()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::PUNCH3;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
 //KICKS:
 
-void Sagat::kick1()
+bool Sagat::kick1()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::KICK1;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
     /*else if (state == AnimationState::CROUCHED)
     {
@@ -224,19 +233,22 @@ void Sagat::kick1()
         currFrame = 0;
         frameIncrement = 1;
     }*/
+    return false;
 }
 
-void Sagat::kick2()
+bool Sagat::kick2()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::KICK2;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
-void Sagat::kick3()
+bool Sagat::kick3()
 {
     if (state == AnimationState::IDLE)
     {
@@ -244,11 +256,13 @@ void Sagat::kick3()
         state = AnimationState::KICK3;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
 //JUMPING CROUCHING/UNCROUCHING
-void Sagat::jump()
+bool Sagat::jump()
 {
     if (IS_IDLE)
     {
@@ -256,21 +270,25 @@ void Sagat::jump()
         currFrame = -1;
         frameIncrement = 1;
         pos = player.getPosition();
+        return true;
 
     }
+    return false;
 }
 
-void Sagat::crouch()
+bool Sagat::crouch()
 {
     if (IS_IDLE)
     {
         state = AnimationState::CROUCH;
         currFrame = 0;
-        frameIncrement = 1;
+        frameIncrement = 1;\
+        return true;
     }
+    return false;
 }
 
-void Sagat::uncrouch()
+bool Sagat::uncrouch()
 {
     if (state == AnimationState::CROUCHED ||
         state == AnimationState::CROUCH ||
@@ -282,18 +300,22 @@ void Sagat::uncrouch()
         state = AnimationState::FASTIDLE;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
 
-void Sagat::specialMove1()
+bool Sagat::specialMove1()
 {
     if (IS_IDLE)
     {
         state = AnimationState::UPPERCUT;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
 

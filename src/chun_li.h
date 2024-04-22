@@ -1,5 +1,4 @@
 //~Isbah
-
 #ifndef CHUNLI_H_
 #define CHUNLI_H_
 #include "player.h"
@@ -110,19 +109,19 @@ public:
     void moveRight(float);
     //void flippedMoveLeft(float);
     //void flippedMoveRight(float);
-    void jump();
-    void crouch();
-    void uncrouch();
-    void block();
-    void unblock();
+    bool jump();
+    bool crouch();
+    bool uncrouch();
+    bool block();
+    bool unblock();
     //punches
-    void punch1();
-    void punch2();
-    void punch3();
+    bool punch1();
+    bool punch2();
+    bool punch3();
     //kicks
-    void kick1();
-    void kick2();
-    void kick3();
+    bool kick1();
+    bool kick2();
+    bool kick3();
     //victory
     void victory(int);
     //hits taken

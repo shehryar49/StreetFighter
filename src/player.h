@@ -20,19 +20,19 @@ public:
     virtual void flippedMoveLeft(float);
     virtual void flippedMoveRight(float);
     
-    virtual void punch1();
-    virtual void punch2();
-    virtual void punch3();
-    virtual void kick1();
-    virtual void kick2();
-    virtual void kick3();
-    virtual void jump();
-    virtual void crouch();
-    virtual void uncrouch();
-    virtual void specialMove1();
-    virtual void specialMove2();
-    virtual void block();
-    virtual void unblock();
+    virtual bool punch1();
+    virtual bool punch2();
+    virtual bool punch3();
+    virtual bool kick1();
+    virtual bool kick2();
+    virtual bool kick3();
+    virtual bool jump();
+    virtual bool crouch();
+    virtual bool uncrouch();
+    virtual bool specialMove1();
+    virtual bool specialMove2();
+    virtual bool block();
+    virtual bool unblock();
     virtual bool isIdle();
     virtual ~Player();
 protected:

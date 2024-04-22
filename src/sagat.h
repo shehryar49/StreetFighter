@@ -68,16 +68,16 @@ public:
     void flipX();
     void moveLeft();
     void moveRight();
-    void punch1();
-    void punch2();
-    void punch3();
-    void kick1();
-    void kick2();
-    void kick3();
-    void jump();
-    void crouch();
-    void uncrouch();
-    void specialMove1(); //UPPERCUT
+    bool punch1();
+    bool punch2();
+    bool punch3();
+    bool kick1();
+    bool kick2();
+    bool kick3();
+    bool jump();
+    bool crouch();
+    bool uncrouch();
+    bool specialMove1(); //UPPERCUT
     ~Sagat();
 };
 #endif

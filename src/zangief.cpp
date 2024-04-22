@@ -252,63 +252,77 @@ void Zangief::flippedMoveLeft(float bound) {
         limit = 500; bound;
     }
 }
-void Zangief::jump() {
+bool Zangief::jump() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::jump;
+        return true;
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::jump_forward;
+        return true;
     }
     else if (curr_state == AnimationState::move_left) {
         curr_frame = 0;
         curr_state = AnimationState::jump_backward;
+        return true;
     }
+    return false;
 }
-void Zangief::crouch() {
+bool Zangief::crouch() {
     if (curr_state == AnimationState::idle) {
         curr_state = AnimationState::crouching;
         setPosition(player.getPosition().x, player.getPosition().y + 67);
         player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
+        return true;
     }
     else if (curr_state == AnimationState::blocking) {
         curr_state = AnimationState::crouch_blocking;
         setPosition(player.getPosition().x, player.getPosition().y + 76);
         player.setTextureRect(sf::IntRect(148, 4155, 85, 70));
+        return true;
     }
+    return false;
 }
-void Zangief::block() {
+bool Zangief::block() {
     if (curr_state == AnimationState::idle) {
         setPosition(player.getPosition().x, player.getPosition().y + 10);
         player.setTextureRect(sf::IntRect(15, 4118, 85, 106));
         curr_state = AnimationState::blocking;
+        return true;
     }
     else if (curr_state == AnimationState::crouching) {
         setPosition(player.getPosition().x, player.getPosition().y + 19);
         player.setTextureRect(sf::IntRect(148, 4155, 85, 70));
         curr_state = AnimationState::crouch_blocking;
+        return true;
     }
+    return false;
 }
-void Zangief::uncrouch() {
+bool Zangief::uncrouch() {
     if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         incr_to_next_frame = 1;
         setPosition(player.getPosition().x, player.getPosition().y - 67);
         player.setTextureRect(idle_frames[curr_frame]);
         curr_state = AnimationState::idle;
+        return true;
     }
     else if (curr_state == AnimationState::crouch_blocking) {
         curr_state = AnimationState::blocking;
         setPosition(player.getPosition().x, player.getPosition().y - 76);
         player.setTextureRect(sf::IntRect(15, 4118, 85, 106));
+        return true;
     }
+    return false;
 }
-void Zangief::unblock() {
+bool Zangief::unblock() {
     if (curr_state == AnimationState::crouch_blocking) {
         setPosition(player.getPosition().x, player.getPosition().y - 19);
         player.setTextureRect(sf::IntRect(234, 2720, 91, 79));
         curr_state = AnimationState::crouching;
+        return true;
     }
     else if (curr_state == AnimationState::blocking) {
         curr_frame = 0;
@@ -316,73 +330,93 @@ void Zangief::unblock() {
         setPosition(player.getPosition().x, player.getPosition().y - 10);
         player.setTextureRect(idle_frames[0]);
         curr_state = AnimationState::idle;
+        return true;
     }
+    return false;
 }
 //hits dealt
-void Zangief::punch1() {
+bool Zangief::punch1() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::light_punch_right;
+        return true;
     }
     else if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         curr_state = AnimationState::crouch_light_punch;
+        return true;
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_light_punch;
+        return true;
     }
+    return false;
 }
-void Zangief::punch2() {
+bool Zangief::punch2() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::medium_punch_right;
+        return true;
     }
     else if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         curr_state = AnimationState::crouch_medium_punch;
+        return true;
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_medium_punch;
+        return true;
     }
+    return false;
 }
-void Zangief::kick1() {
+bool Zangief::kick1() {
 
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::light_kick;
+        return true;
     }
     else if (curr_state == AnimationState::crouching) {
         curr_frame = 0;
         curr_state = AnimationState::crouch_kick;
+        return true;
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_light_kick;
+        return true;
     }
+    return false;
 }
-void Zangief::kick2() {
+bool Zangief::kick2() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::medium_kick;
+        return true;
     }
     else if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::forward_heavy_kick;
+        return true;
     }
+    return false;
 }
-void Zangief::kick3() {
+bool Zangief::kick3() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::heavy_kick;
+        return true;
     }
+    return false;
 }
-void Zangief::specialMove1() {
+bool Zangief::specialMove1() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         count = 0;
         curr_state = AnimationState::special_move;
+        return true;
     }
 }
 void Zangief::hit_taken_dhalsim_fire() {

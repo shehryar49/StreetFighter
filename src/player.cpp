@@ -35,18 +35,18 @@ void Player::moveLeft(float){}
 void Player::moveRight(float){}
 void Player::flippedMoveLeft(float){}
 void Player::flippedMoveRight(float){}
-void Player::punch1(){}
-void Player::punch2(){}
-void Player::punch3(){}
-void Player::kick1(){}
-void Player::kick2(){}
-void Player::kick3(){}
-void Player::jump(){}
-void Player::crouch(){}
-void Player::uncrouch(){}
-void Player::specialMove1(){}
-void Player::specialMove2(){}
-void Player::block(){}
-void Player::unblock(){}
+bool Player::punch1(){return false;}
+bool Player::punch2(){return false;}
+bool Player::punch3(){return false;}
+bool Player::kick1(){return false;}
+bool Player::kick2(){return false;}
+bool Player::kick3(){return false;}
+bool Player::jump(){return false;}
+bool Player::crouch(){return false;}
+bool Player::uncrouch(){return false;}
+bool Player::specialMove1(){return false;}
+bool Player::specialMove2(){return false;}
+bool Player::block(){return false;}
+bool Player::unblock(){return false;}
 bool Player::isIdle(){ return false;}
 Player::~Player(){}

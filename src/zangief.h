@@ -101,21 +101,21 @@ public:
     //movements
     void moveLeft(float);
     void moveRight(float);
-    void jump();
-    void crouch();
-    void uncrouch();
-    void unblock();
+    bool jump();
+    bool crouch();
+    bool uncrouch();
+    bool unblock();
     void flippedMoveLeft(float);
     void flippedMoveRight(float);
     //void uncrouch();
-    void block();
+    bool block();
     //hits dealt
-    void punch1();
-    void punch2();
-    void kick1();
-    void kick2();
-    void kick3();
-    void specialMove1(); //helicopter
+    bool punch1();
+    bool punch2();
+    bool kick1();
+    bool kick2();
+    bool kick3();
+    bool specialMove1(); //helicopter
     //hits taken
     void hit_taken_blanka_electricity();
     void hit_taken_dhalsim_fire();

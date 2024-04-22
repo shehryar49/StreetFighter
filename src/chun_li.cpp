@@ -1,6 +1,6 @@
 //~Isbah
 #include "chun_li.h"
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 sf::IntRect Chun_Li::idle_frames[4];
@@ -219,56 +219,66 @@ void Chun_Li::moveLeft(float bound) {
 //        limit = 500; bound;
 //    }
 //}
-void Chun_Li::block() {
+bool Chun_Li::block() {
     if (curr_state == AnimationState::idle) {
         player.setTextureRect(sf::IntRect(96, 3839, 85, 88));
         setPosition(player.getPosition().x,BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::block;
+        return true;
     }
     else if (curr_state == AnimationState::crouch) {
         player.setTextureRect(sf::IntRect(389, 3857, 76, 70));
         setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::crouch_block;
+        return true;
     }
+    return false;
 }
-void Chun_Li::unblock() {
+bool Chun_Li::unblock() {
     if (curr_state == AnimationState::block) {
         curr_frame = 0;
         incr_to_next_frame = 1;
         player.setTextureRect(idle_frames[0]);
         setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::idle;
+        return true;
     }
     else if (curr_state == AnimationState::crouch_block) {
         player.setTextureRect(sf::IntRect(179, 2012, 73, 69));
         setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::crouch;
+        return true;
     }
 }
-void Chun_Li::crouch() {
+bool Chun_Li::crouch() {
     if (curr_state == AnimationState::idle) {
         player.setTextureRect(sf::IntRect(179, 2012, 73, 69));
         setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::crouch;
+        return true;
     }
     else if (curr_state == AnimationState::block) {
         player.setTextureRect(sf::IntRect(389, 3857, 76, 70));
         setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::crouch_block;
+        return true;
     }
+    return true;
 }
-void Chun_Li::uncrouch() {
+bool Chun_Li::uncrouch() {
     if (curr_state == AnimationState::crouch) {
         curr_frame = 0;
         incr_to_next_frame = 1;
         player.setTextureRect(idle_frames[0]);
         setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::idle;
+        return true;
     }
     else if (curr_state == AnimationState::crouch_block) {
         player.setTextureRect(sf::IntRect(96, 3839, 85, 88));
         setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         curr_state = AnimationState::block;
+        return true;
     }
 }
 bool Chun_Li::processEvent(sf::Event &event){
@@ -328,57 +338,71 @@ bool Chun_Li::processEvent(sf::Event &event){
     }
     return false;
 }
-void Chun_Li::jump() {
+bool Chun_Li::jump() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::jump;
-        return;
+        return true;
     }
     if (curr_state == AnimationState::move_right) {
         curr_frame = 0;
         curr_state = AnimationState::jump_right;
-        return;
+        return true;
     }
     if (curr_state == AnimationState::move_left) {
         curr_frame = 0;
         curr_state = AnimationState::jump_left;
+        return true;
     }
+    return false;
 }
-void Chun_Li::punch1() {
+bool Chun_Li::punch1() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::punch5;
+        return true;
     }
+    return false;
 }
-void Chun_Li::punch2() {
+bool Chun_Li::punch2() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::punch1;
-    }    
+        return true;
+    }
+    return false;
 }
-void Chun_Li::punch3() {
+bool Chun_Li::punch3() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::punch3;
+        return true;
     }
+    return false;
 }
-void Chun_Li::kick2() {
+bool Chun_Li::kick2() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::kick1;
+        return true;
     }
+    return false;
 }
-void Chun_Li::kick1() {
+bool Chun_Li::kick1() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::kick4;
+        return true;
     }
+    return false;
 }
-void Chun_Li::kick3() {
+bool Chun_Li::kick3() {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::kick2;
+        return true;
     }
+    return false;
 }
 void Chun_Li::victory(int type) {
     switch (type) {

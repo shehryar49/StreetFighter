@@ -215,7 +215,7 @@ bool Dhalsim::processEvent(sf::Event& event)
     }
     return false;
 }
-void Dhalsim::jump()
+bool Dhalsim::jump()
 {
     if (IS_IDLE)
     {
@@ -223,8 +223,10 @@ void Dhalsim::jump()
         currFrame = -1;
         frameIncrement = 1;
         pos = player.getPosition();
+        return true;
 
     }
+    return false;
 }
 void Dhalsim::moveRight(float f)
 {
@@ -246,16 +248,18 @@ void Dhalsim::moveLeft(float f)
         limit = f;
     }
 }
-void Dhalsim::crouch()
+bool Dhalsim::crouch()
 {
     if (IS_IDLE)
     {
         state = AnimationState::CROUCHING;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
-void Dhalsim::uncrouch()
+bool Dhalsim::uncrouch()
 {
     if (state == AnimationState::CROUCHED ||
         state == AnimationState::CROUCHING ||
@@ -268,18 +272,22 @@ void Dhalsim::uncrouch()
         currFrame = -1;
         frameIncrement = 1;
         elapsed = 0;
+        return true;
     }
+    return false;
 }
-void Dhalsim::block()
+bool Dhalsim::block()
 {
     if (IS_IDLE)
     {
         state = AnimationState::BLOCKING;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
-void Dhalsim::unblock()
+bool Dhalsim::unblock()
 {
     if (state == AnimationState::BLOCKED)
     {
@@ -287,91 +295,110 @@ void Dhalsim::unblock()
         currFrame = -1;
         frameIncrement = 1;
         elapsed = 0;
+        return true;
     }
+    return false;
 }
-void Dhalsim::punch1()
+bool Dhalsim::punch1()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::PUNCH1;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
     else if (state == AnimationState::CROUCHED)
     {
         state = AnimationState::CROUCHED_PUNCH1;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
-void Dhalsim::punch2()
+bool Dhalsim::punch2()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::PUNCH2;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
     else if (state == AnimationState::CROUCHED)
     {
         state = AnimationState::CROUCHED_PUNCH2;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
-void Dhalsim::punch3()
+bool Dhalsim::punch3()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::PUNCH3;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
-void Dhalsim::kick1()
+bool Dhalsim::kick1()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::KICK1;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
     else if (state == AnimationState::CROUCHED)
     {
         state = AnimationState::CROUCHED_KICK1;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
 
-void Dhalsim::kick2()
+bool Dhalsim::kick2()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::KICK2;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
-void Dhalsim::kick3()
+bool Dhalsim::kick3()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::KICK3;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
+    return false;
 }
-void Dhalsim::specialMove1()
+bool Dhalsim::specialMove1()
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::YOGA_FLAME;
         currFrame = -1;
         frameIncrement = 1;
+        return true;
     }
+    return true;
 }
 void Dhalsim::victory(int type=1) //to be set for winning condition
 {

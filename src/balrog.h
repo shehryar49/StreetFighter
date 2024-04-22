@@ -112,19 +112,19 @@ public:
     //movements
     void moveLeft(float);
     void moveRight(float);
-    void jump();
-    void crouch();
-    void uncrouch();
-    void block();
-    void unblock();
+    bool jump();
+    bool crouch();
+    bool uncrouch();
+    bool block();
+    bool unblock();
     void flippedMoveLeft(float);
     void flippedMoveRight(float);
     ////hits dealt
-    void punch1();
-    void punch2();
-    void punch3();
-    void specialMove1(); //punch combo
-    void specialMove2(); //another punch combo because what else can he do
+    bool punch1();
+    bool punch2();
+    bool punch3();
+    bool specialMove1(); //punch combo
+    bool specialMove2(); //another punch combo because what else can he do
     ////hits taken
     //void hit_taken_blanka_electricity();
     void light_hit_taken_face();
