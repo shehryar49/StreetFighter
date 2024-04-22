@@ -21,11 +21,11 @@ sf::IntRect Ken::crouched_punch2_frames[3];
 sf::IntRect Ken::crouched_kick1_frames[5];
 sf::IntRect Ken::crouched_kick2_frames[5];
 sf::IntRect Ken::helicopter_kick_frames[12];
-
+sf::IntRect Ken::tornado_kick_frames[10];
 Ken::Ken()
 {
     img.loadFromFile("assets/ken.png");
-    //img.createMaskFromColor(sf::Color(00,129,129,255));
+    img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -130,9 +130,23 @@ Ken::Ken()
     helicopter_kick_frames[9] = sf::IntRect(670,2910,65,110);
     helicopter_kick_frames[10] = sf::IntRect(735,2920,60,110);
     helicopter_kick_frames[11] = sf::IntRect(795,2945,60,110);
-    #define STOP false
-    player.setTextureRect(IDLE_frames[0]);
-        
+
+    tornado_kick_frames[0] = sf::IntRect(15,2028,60,100);
+    tornado_kick_frames[1] = sf::IntRect(80,2020,60,110);
+    tornado_kick_frames[2] = sf::IntRect(140,2020,70,110);
+    tornado_kick_frames[3] = sf::IntRect(215,2025,60,100);
+    tornado_kick_frames[4] = sf::IntRect(275,2025,100,100);
+    tornado_kick_frames[5] = sf::IntRect(380,2025,60,100);
+    tornado_kick_frames[6] = sf::IntRect(450,2025,60,100);
+    tornado_kick_frames[7] = sf::IntRect(510,2025,60,100);
+    tornado_kick_frames[8] = sf::IntRect(570,2025,60,100);
+    tornado_kick_frames[9] = sf::IntRect(630,2028,60,100);
+    
+
+    #define STOP !true
+    //player.setTextureRect(sf::IntRect(630,2028,60,100));
+    //player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(tornado_kick_frames[9]);  
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -282,17 +296,23 @@ bool Ken::specialMove1()
 {
   if(IS_IDLE)
   {
+    JMPY = 0;
     currFrame = 0;
-    state = AnimationState::HELICOPTER_KICK;
+    state = AnimationState::TORNADO_KICK;
     return true;
   }
   return false;
+}
+bool Ken::isIdle()
+{
+  return IS_IDLE;
 }
 void Ken::update(float dt)
 {
     if(STOP)
       return;
     elapsed += dt;
+    int disp = 10;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
@@ -496,12 +516,17 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=MOVE_TIME*5 && state == AnimationState::HELICOPTER_KICK)
+    else if(elapsed>=MOVE_TIME*1.5 && state == AnimationState::TORNADO_KICK)
     {
-        player.setTextureRect(helicopter_kick_frames[currFrame++]);
-        player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
+        
+        player.setPosition(player.getPosition().x,BOTTOMY - tornado_kick_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1);
+        player.setTextureRect(tornado_kick_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 12)
+        if(currFrame == 6)
+          JMPY = -10;
+        else if(currFrame == 1)
+          JMPY = 10;
+        if(currFrame == 10)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;

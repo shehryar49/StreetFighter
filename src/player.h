@@ -35,8 +35,8 @@ public:
     virtual bool unblock();
     virtual bool isIdle();
     virtual ~Player();
-protected:
-    int health = 100; // player
+public:
+    float damage = 0;//health damage
     sf::Sprite player;
     sf::Image image;
     sf::Texture texture;
