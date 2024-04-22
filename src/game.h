@@ -24,11 +24,7 @@ private:
     sf::RectangleShape playerDamage;
     float enemyDamage = 0;
     SoundManager smg;
-    enum class GameState
-    {
-      MENU,
-      PLAYING
-    };
+    
     void playIntro(void);
     void pollEvents();
     void update(float);
@@ -38,7 +34,7 @@ private:
     int* selectScreen();
     std::string execCommand(const std::string&);
     void showCredits();
-    GameState state;
+
     //sf::Music bgm; //play all bgm through 1 var so that we dont get conflicts (doesnt apply to move sounds...they can play over bgm...make separate local vars for them)
     //^---- not anymore
     int playerSelected = 0;
