@@ -126,6 +126,9 @@ void Game::pollEvents()
                 case sf::Keyboard::LShift:
                   player->block();
                   break;
+                case sf::Keyboard::B:
+                  player->bodyHit();
+                  break;
                 default:
                   break;
             }
@@ -154,7 +157,7 @@ void Game::update(float dt)
     elapsed += dt;
     player->update(dt);
     
-    bool AIBOT = !true;
+    bool AIBOT = true;
     if( player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
     {
       if(player->isIdle())
@@ -163,6 +166,7 @@ void Game::update(float dt)
         if(player->damage <= 99.9f)
           player->damage += 0.1;
         playerDamage.setSize(sf::Vector2f(player->damage*3,25)); 
+        player->bodyHit();
       }
       else if(enemy->isIdle())
       {

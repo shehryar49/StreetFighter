@@ -33,6 +33,7 @@ public:
     virtual bool specialMove2();
     virtual bool block();
     virtual bool unblock();
+    virtual void bodyHit();
     virtual bool isIdle();
     virtual ~Player();
 public:

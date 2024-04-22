@@ -22,10 +22,11 @@ sf::IntRect Ken::crouched_kick1_frames[5];
 sf::IntRect Ken::crouched_kick2_frames[5];
 sf::IntRect Ken::helicopter_kick_frames[12];
 sf::IntRect Ken::tornado_kick_frames[10];
+sf::IntRect Ken::body_hit_frames[3];
 Ken::Ken()
 {
     img.loadFromFile("assets/ken.png");
-    img.createMaskFromColor(sf::Color(00,129,129,255));
+    //img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -142,11 +143,13 @@ Ken::Ken()
     tornado_kick_frames[8] = sf::IntRect(570,2025,60,100);
     tornado_kick_frames[9] = sf::IntRect(630,2028,60,100);
     
+    body_hit_frames[0] = sf::IntRect(120,3235,60,100);
+    body_hit_frames[1] = sf::IntRect(185,3235,70,100);
 
     #define STOP !true
-    //player.setTextureRect(sf::IntRect(630,2028,60,100));
-    //player.setTextureRect(IDLE_frames[0]);
-    player.setTextureRect(tornado_kick_frames[9]);  
+    
+    player.setTextureRect(IDLE_frames[0]);
+     
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -305,7 +308,12 @@ bool Ken::specialMove1()
 }
 bool Ken::isIdle()
 {
-  return IS_IDLE;
+  return state == AnimationState::IDLE;
+}
+void Ken::bodyHit()
+{
+  state = AnimationState::BODY_HIT;
+  currFrame = 0;
 }
 void Ken::update(float dt)
 {
@@ -360,6 +368,17 @@ void Ken::update(float dt)
     else if(elapsed>=0.08f && state == AnimationState::PUNCH1)
     {
         player.setTextureRect(punch1_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 2)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=0.08f*2 && state == AnimationState::BODY_HIT)
+    {
+        player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 2)
         { 
