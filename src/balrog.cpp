@@ -34,7 +34,7 @@ sf::IntRect Balrog::crouch_medium_face_hit_taken_frames[3];
 sf::IntRect Balrog::crouch_heavy_face_hit_taken_frames[5];
 sf::IntRect Balrog::victory1_frames[5];
 sf::IntRect Balrog::victory2_frames[5];
-sf::IntRect Balrog::shirt_frames[4];
+sf::IntRect Balrog::shirt_frames[4]; //good name
 
 sf::IntRect Balrog::hit_taken_blanka_electricity_frames[2];
 
@@ -286,6 +286,7 @@ bool Balrog::jump() {
         curr_state = AnimationState::jump_backward;
         return true;
     }
+    return false;
 }
 bool Balrog::crouch() {
     if (curr_state == AnimationState::idle) {
@@ -300,6 +301,7 @@ bool Balrog::crouch() {
         curr_state = AnimationState::crouch_blocking;
         return true;
     }
+    return false;
 }
 bool Balrog::uncrouch() {
     if (curr_state == AnimationState::crouching) {
@@ -932,16 +934,18 @@ void Balrog::update(float time) {
         player.setPosition(player.getGlobalBounds().left, BOTTOMY - player.getGlobalBounds().height);
     }
     else {
-        if (curr_frame > 0 && curr_frame < 4)
+        if (curr_frame > 0 && curr_frame < 4){
             if (player.getPosition().x + 25 <= 570)
                 setPosition(player.getPosition().x + 25, player.getPosition().y - 50);
             else
                 setPosition(player.getPosition().x, player.getPosition().y - 50);
-        else if (curr_frame > 4 && curr_frame < 8)
+        }
+        else if (curr_frame > 4 && curr_frame < 8){
             if (player.getPosition().x + 50 <= 570)
                 setPosition(player.getPosition().x + 50, player.getPosition().y + 50);
             else
                 setPosition(player.getPosition().x, player.getPosition().y + 50);
+        }
         player.setTextureRect(jump_punch_frames[curr_frame++]);
     }
     time_elapsed = 0;
@@ -955,16 +959,18 @@ void Balrog::update(float time) {
             curr_state = AnimationState::idle;
         }
         else {
-            if (curr_frame > 0 && curr_frame < 4)
+            if (curr_frame > 0 && curr_frame < 4){
                 if (player.getPosition().x - 50 >= 0)
                     setPosition(player.getPosition().x - 50, player.getPosition().y - 50);
                 else
                     setPosition(player.getPosition().x, player.getPosition().y - 50);
-            else if (curr_frame > 3 && curr_frame < 7)
+            }
+            else if (curr_frame > 3 && curr_frame < 7){
                 if (player.getPosition().x - 25 >= 0)
                     setPosition(player.getPosition().x - 25, player.getPosition().y + 50);
                 else
                     setPosition(player.getPosition().x, player.getPosition().y + 50);
+            }
             player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;

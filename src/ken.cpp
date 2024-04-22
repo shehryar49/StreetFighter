@@ -139,41 +139,48 @@ Ken::Ken()
     frameIncrement = 1;
 }
 
-void Ken::punch1()
+bool Ken::punch1()
 {
     if(IS_IDLE)
     {
       currFrame = 0;
       state = AnimationState::PUNCH1;
+      return true;
     }
     else if(state == AnimationState::CROUCHED)
     {
       currFrame = 0;
       state = AnimationState::CROUCHED_PUNCH1;
+      return true;
     }
+    return false;
 }
-void Ken::punch2()
+bool Ken::punch2()
 {
     if(IS_IDLE)
     {
         currFrame = 0;
         state = AnimationState::PUNCH2;
+        return true;
     }
     else if(state == AnimationState::CROUCHED)
     {
       currFrame = 0;
       state = AnimationState::CROUCHED_PUNCH2;
+      return true;
     }
+    return false;
 }
-void Ken::punch3()
+bool Ken::punch3()
 {
     if(IS_IDLE)
     {
       currFrame = 0;
       state = AnimationState::PUNCH3;
     }
+    return false;
 }
-void Ken::kick1()
+bool Ken::kick1()
 {
   if(IS_IDLE)
   {
@@ -186,8 +193,9 @@ void Ken::kick1()
     currFrame = 0;
     state = AnimationState::CROUCHED_KICK1;
   }
+  return false;
 }
-void Ken::kick2()
+bool Ken::kick2()
 {
   if(IS_IDLE)
   {
@@ -200,8 +208,9 @@ void Ken::kick2()
     currFrame = 0;
     state = AnimationState::CROUCHED_KICK2;
   }
+  return false;
 }
-void Ken::kick3()
+bool Ken::kick3()
 {
   if(IS_IDLE)
   {
@@ -210,6 +219,7 @@ void Ken::kick3()
     frameIncrement = 1;
     
   }
+  return false;
 }
 void Ken::moveLeft(float limit)
 {
@@ -229,7 +239,7 @@ void Ken::moveRight(float limit)
     this->limit = limit;
   }
 }
-void Ken::jump()
+bool Ken::jump()
 {
   if(IS_IDLE)
   {
@@ -237,17 +247,21 @@ void Ken::jump()
     currFrame = 0;
     JMPY = -40;
     delay_time = 0.05f;
+    return true;
   }
+  return false;
 }
-void Ken::crouch()
+bool Ken::crouch()
 {
   if(state == AnimationState::IDLE)
   {
     currFrame = 0;
     state = AnimationState::CROUCHING;
+    return true;
   }
+  return false;
 }
-void Ken::uncrouch()
+bool Ken::uncrouch()
 {
   if( state == AnimationState::CROUCHED || 
       state == AnimationState::CROUCHING ||
@@ -260,15 +274,19 @@ void Ken::uncrouch()
     state = AnimationState::FASTIDLE;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
+  return false;
 }
-void Ken::specialMove1()
+bool Ken::specialMove1()
 {
   if(IS_IDLE)
   {
     currFrame = 0;
     state = AnimationState::HELICOPTER_KICK;
+    return true;
   }
+  return false;
 }
 void Ken::update(float dt)
 {

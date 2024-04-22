@@ -122,7 +122,6 @@ void Game::pollEvents()
                   player->block();
                   break;
                 default:
-                 // player->processEvent(event); //remove later need it rn
                   break;
             }
         }
@@ -147,10 +146,11 @@ void Game::pollEvents()
 void Game::update(float dt)
 {
     static float elapsed = 0;
-    static bool AIBOT = true;
     elapsed += dt;
     player->update(dt);
-    if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+    
+    bool AIBOT = true;
+    if(elapsed >= 40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
     {
       if(enemyDamage <= 99.9f)
         enemyDamage += 0.1;

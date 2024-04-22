@@ -249,7 +249,7 @@ void Zangief::flippedMoveLeft(float bound) {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
         curr_state = AnimationState::flipped_move_left;
-        limit = 500; bound;
+        limit = 500; 
     }
 }
 bool Zangief::jump() {
@@ -418,6 +418,7 @@ bool Zangief::specialMove1() {
         curr_state = AnimationState::special_move;
         return true;
     }
+    return false;
 }
 void Zangief::hit_taken_dhalsim_fire() {
     voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_heavy.wav");
@@ -603,15 +604,19 @@ void Zangief::update(float time){
         }
         else {
             if (curr_frame > 0 && curr_frame < 4)
+            {
                 if (player.getPosition().x + 25 <= 570)
                     setPosition(player.getPosition().x + 25, player.getPosition().y - 50);
                 else 
                     setPosition(570, player.getPosition().y - 50);
+            }
             else if (curr_frame > 3 && curr_frame < 7)
+            {
                 if(player.getPosition().x + 50 <= 570)
                     setPosition(player.getPosition().x + 50, player.getPosition().y + 50);
                 else
                     setPosition(570, player.getPosition().y + 50);
+            }
             player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;
@@ -942,16 +947,18 @@ void Zangief::update(float time){
             curr_state = AnimationState::idle;
         }
         else {
-            if (curr_frame > 0 && curr_frame < 4)
+            if (curr_frame > 0 && curr_frame < 4){
                 if (player.getPosition().x - 50 >= 0)
                     setPosition(player.getPosition().x - 50, player.getPosition().y - 50);
                 else
                     setPosition(player.getPosition().x, player.getPosition().y - 50);
-            else if (curr_frame > 3 && curr_frame < 7)
+            }
+            else if (curr_frame > 3 && curr_frame < 7){
                 if (player.getPosition().x - 25 >= 0)
                     setPosition(player.getPosition().x - 25, player.getPosition().y + 50);
                 else
                     setPosition(player.getPosition().x, player.getPosition().y + 50);
+            }
             player.setTextureRect(jump_frames[curr_frame++]);
         }
         time_elapsed = 0;

@@ -169,7 +169,7 @@ void Ryu::flippedMoveRight(float f)
     }
 }
 //
-void Ryu::punch1()
+bool Ryu::punch1()
 {
   if(state == AnimationState::IDLE)
   {
@@ -183,8 +183,9 @@ void Ryu::punch1()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
-void Ryu::punch2()
+bool Ryu::punch2()
 {
   if(state == AnimationState::IDLE)
   {
@@ -198,8 +199,9 @@ void Ryu::punch2()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
-void Ryu::punch3()
+bool Ryu::punch3()
 {
   if(state == AnimationState::IDLE)
   {
@@ -207,9 +209,10 @@ void Ryu::punch3()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
 //Kicks
-void Ryu::kick1()
+bool Ryu::kick1()
 {
   if(state == AnimationState::IDLE)
   {
@@ -223,8 +226,9 @@ void Ryu::kick1()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
-void Ryu::kick2()
+bool Ryu::kick2()
 {
   if(state == AnimationState::IDLE)
   {
@@ -238,8 +242,9 @@ void Ryu::kick2()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
-void Ryu::kick3()
+bool Ryu::kick3()
 {
   if(state == AnimationState::IDLE)
   {
@@ -248,9 +253,10 @@ void Ryu::kick3()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
 //
-void Ryu::jump()
+bool Ryu::jump()
 {
     if(IS_IDLE)
     {
@@ -260,8 +266,9 @@ void Ryu::jump()
         pos = player.getPosition();
          
     }
+    return false;
 }
-void Ryu::crouch()
+bool Ryu::crouch()
 {
   if(IS_IDLE)
   {
@@ -269,8 +276,9 @@ void Ryu::crouch()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
-void Ryu::uncrouch()
+bool Ryu::uncrouch()
 {
   if( state == AnimationState::CROUCHED || 
       state == AnimationState::CROUCHING ||
@@ -284,8 +292,9 @@ void Ryu::uncrouch()
     currFrame = 0;
     frameIncrement = 1;
   }
+  return false;
 }
-void Ryu::specialMove1()
+bool Ryu::specialMove1()
 {
     if(IS_IDLE)
     {
@@ -293,8 +302,9 @@ void Ryu::specialMove1()
         currFrame = 0;
         frameIncrement = 1;
     }
+    return false;
 }
-void Ryu::specialMove2()
+bool Ryu::specialMove2()
 {
     if(IS_IDLE)
     {
@@ -302,6 +312,7 @@ void Ryu::specialMove2()
         currFrame = 0;
         frameIncrement = 1;
     }
+    return false;
 }
 bool Ryu::isIdle()
 {
