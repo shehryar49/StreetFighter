@@ -25,11 +25,7 @@ private:
     sf::RectangleShape playerDamage;
     float enemyDamage = 0;
     SoundManager smg;
-    enum class GameState
-    {
-      MENU,
-      PLAYING
-    };
+    
     void playIntro(void);
     void pollEvents();
     void update(float);
