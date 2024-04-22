@@ -6,8 +6,7 @@
 #include <string>
 #include "player.h"
 #include "sound_manager.h"
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#include "constants.h"
 
 class Game
 {

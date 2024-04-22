@@ -847,7 +847,7 @@ void Game::setStage(int* c)
                     enemy_voice_lines[i] = player_voice_lines[i];
             else
                 for (int i = 0; i < 6; i++)
-                    player_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
+                    enemy_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
             smg.play(fight_bgm);
             break;
         case 10:
