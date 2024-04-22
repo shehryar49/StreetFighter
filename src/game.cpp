@@ -21,6 +21,8 @@
 #include "sagat.h"
 #include "balrog.h"
 #include "credits.h"
+#include "utils.h"
+
 #ifdef _WIN32
   #include <Windows.h>
 #elif  __linux__
@@ -32,21 +34,31 @@ using namespace std;
 #define COL_WIDTH 50
 #define ROW_HEIGHT 79
 
-vector<string> split(const string& s,char x)
+
+//public
+Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar | sf::Style::Close)
 {
-  vector<string> parts;
-  size_t len = s.length();
-  size_t start = 0;
-  for(size_t i = 0;i<len;i++)
-  {
-    if(s[i] == x)
-    {
-      parts.push_back(s.substr(start,i - start));
-      start = i+1;
-    }
-  }
-  parts.push_back(s.substr(start,len - start));
-  return parts;
+  srand(time(0)); //use epoch time as seed 
+  player = nullptr;
+  enemy = nullptr;
+  health1.setSize(sf::Vector2f(300,25));
+  health2.setSize(sf::Vector2f(300,25));
+  health1.setFillColor(sf::Color(255,255,0));
+  health2.setFillColor(sf::Color(255,255,0));
+  health1.setPosition(0,0);
+  health2.setPosition(500,0);
+  damage.setSize(sf::Vector2f(0,25));
+  damage.setFillColor(sf::Color::Red);
+  damage.setPosition(500,0);
+  //Load sounds
+  intro_music = smg.load("assets/intro/intro.ogg");
+  player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
+  player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
+  player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
+  vs_music = smg.load("assets/SFX/VS.wav");
+  fight_bgm = -1;//smg.load("assets/SFX/Theme_of_Ryu.ogg");
+  terminal_music = smg.load("assets/SFX/hackerman.wav");
+  smg.setVolume(100); // change volume here or using terminal
 }
 // private
 void Game::pollEvents()
@@ -110,7 +122,7 @@ void Game::pollEvents()
                   player->block();
                   break;
                 default:
-                    player->processEvent(event); //remove later need it rn
+                 // player->processEvent(event); //remove later need it rn
                   break;
             }
         }
@@ -135,7 +147,7 @@ void Game::pollEvents()
 void Game::update(float dt)
 {
     static float elapsed = 0;
-    static bool AIBOT = false;
+    static bool AIBOT = true;
     elapsed += dt;
     player->update(dt);
     if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
@@ -147,24 +159,24 @@ void Game::update(float dt)
     }
     if(AIBOT && enemy->isIdle())
     {
-      float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
-      float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
-      if(a > b - 80)
-      {
-        enemy->flippedMoveLeft(b);
-      }
-      int r = rand() % 250;
-      if(r == 0)
-        enemy->punch1();
-      else if(r == 1)
-        enemy->punch2();
-      else if(r == 2)
-        enemy->punch3();
-      else if(r == 3)
-        enemy->kick1();
-      else if(r == 4)
-        enemy->kick2();
-      //kick3 needs some fixing
+    	float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
+      	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
+      	if(a > b - 80)
+      	{
+        	enemy->flippedMoveLeft(b);
+      	}
+      	int r = rand() % 3750;
+      	if(r == 0)
+        	enemy->punch1();
+      	else if(r == 1)
+        	enemy->punch2();
+      	else if(r == 2)
+        	enemy->punch3();
+      	else if(r == 3)
+        	enemy->kick1();
+      	else if(r == 4)
+        	enemy->kick2();
+      	//kick3 needs some fixing
     }
     enemy->update(dt);
 }
@@ -181,7 +193,6 @@ void Game::playIntro()
         frames[i].loadFromFile(name);
 
     }
-    cout << "loaded images" << endl;
     // all frames loaded
     sf::Sprite s;
     s.setScale(1.7f, 1.7f);
@@ -519,21 +530,14 @@ int* Game::selectScreen()
 
 std::string Game::execCommand(const std::string& command)
 {
-  if (command == "exit" || command == "quit" || command == "yawr")
-     return "exit";
-  if(command == "")
+  if (command == "exit" || command == "quit" || command == "yawr" || command == "")
     return "";
+
   vector<string> parts = split(command,' ');
-  
   //remove extra space from each word
   for(size_t i=0;i<parts.size();i++)
-  {
-    string& word = parts[i];
-    while(word.length()>1 && word[0] == ' ')
-      word.erase(word.begin());
-    while(word.length()>1 && word.back() == ' ')
-      word.pop_back();
-  }
+    strip(parts[i]);
+
   //Execute da command
   if(parts[0] == "set")
   {
@@ -634,14 +638,14 @@ void Game::showTerminal()
     window.clear();
     if(elapsed >= 700*dt)
     {
-      //toggle cursor
-      showCursor = !showCursor;
-      elapsed = 0;
+    	//toggle cursor
+      	showCursor = !showCursor;
+      	elapsed = 0;
     }
 
     window.draw(introText);
     if(showCursor)
-      window.draw(cursor);
+    	window.draw(cursor);
     window.draw(outputText);
     window.draw(text);
     window.display();
@@ -683,30 +687,7 @@ int Game::showMenu()
   }  
   return 2;
 }
-Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar | sf::Style::Close)
-{
-  srand(time(0)); //use epoch time as seed 
-  player = nullptr;
-  enemy = nullptr;
-  health1.setSize(sf::Vector2f(300,25));
-  health2.setSize(sf::Vector2f(300,25));
-  health1.setFillColor(sf::Color(255,255,0));
-  health2.setFillColor(sf::Color(255,255,0));
-  health1.setPosition(0,0);
-  health2.setPosition(500,0);
-  damage.setSize(sf::Vector2f(0,25));
-  damage.setFillColor(sf::Color::Red);
-  damage.setPosition(500,0);
-  //Load sounds
-  intro_music = smg.load("assets/intro/intro.ogg");
-  player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
-  player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
-  player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
-  vs_music = smg.load("assets/SFX/VS.wav");
-  fight_bgm = -1;//smg.load("assets/SFX/Theme_of_Ryu.ogg");
-  terminal_music = smg.load("assets/SFX/hackerman.wav");
-  smg.setVolume(100); // change volume here or using terminal
-}
+
 void Game::run()
 {
   playIntro();
@@ -785,7 +766,7 @@ void Game::setStage(int* c)
         case 9:
             player = new Zangief();
             for (int i = 0; i < 6; i++)
-                player_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
+              player_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
             break;
         case 10:
             player = new Dhalsim();
@@ -887,7 +868,7 @@ void Game::setStage(int* c)
 Game::~Game()
 {
     if(player)
-      delete player;
+    	delete player;
     if(enemy)
-      delete enemy;
+    	delete enemy;
 }
