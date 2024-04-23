@@ -28,7 +28,7 @@ Ryu::Ryu()
 {
 
     img.loadFromFile("assets/ryu.png");
-    //img.createMaskFromColor(sf::Color(70,112,104,255));
+    img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -355,7 +355,8 @@ bool Ryu::isAttacking()
     state == AnimationState::PUNCH3 ||
     state == AnimationState::KICK1 ||
     state == AnimationState::KICK2 ||
-    state == AnimationState::KICK3 
+    state == AnimationState::KICK3 ||
+    state == AnimationState::FASTIDLE
   );
 }
 //Updation based on animation state
