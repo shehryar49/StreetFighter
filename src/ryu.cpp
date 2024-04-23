@@ -23,11 +23,12 @@ sf::IntRect Ryu::crouched_kick1_frames[3];
 sf::IntRect Ryu::crouched_kick2_frames[5];
 sf::IntRect Ryu::hadoken_frames[4];
 sf::IntRect Ryu::hadoken_ball;
+sf::IntRect Ryu::body_hit_frames[2];
 Ryu::Ryu()
 {
 
     img.loadFromFile("assets/ryu.png");
-    img.createMaskFromColor(sf::Color(70,112,104,255));
+    //img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -114,6 +115,9 @@ Ryu::Ryu()
     crouched_kick2_frames[3] = sf::IntRect(770,1410,70,100);
     crouched_kick2_frames[4] = sf::IntRect(860,1410,70,100);
 
+    body_hit_frames[0] = sf::IntRect(395,2080,70,100);
+    body_hit_frames[1] = sf::IntRect(480,2080,70,100);
+
     hadoken_frames[0] = sf::IntRect(30,1535,80,100);
     hadoken_frames[1] = sf::IntRect(130,1535,90,100);
     hadoken_frames[2] = sf::IntRect(240,1535,90,100);
@@ -121,6 +125,7 @@ Ryu::Ryu()
     gola.setTexture(texture);
     gola.setTextureRect(sf::IntRect(550,1550,60,50));
     gola.setScale(1.2,1.2);
+
 
     player.setTextureRect(IDLE_frames[0]);
  
@@ -205,6 +210,11 @@ bool Ryu::punch2()
     return true;
   }
   return false;
+}
+void Ryu::bodyHit()
+{
+  state = AnimationState::BODY_HIT;
+  currFrame = 0;
 }
 bool Ryu::punch3()
 {
@@ -477,6 +487,17 @@ void Ryu::update(float dt)
         player.setTextureRect(punch3_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 5)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME && state == AnimationState::BODY_HIT)
+    {
+        player.setTextureRect(body_hit_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 2)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;

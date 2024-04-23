@@ -320,7 +320,8 @@ bool Ken::isAttacking()
     state == AnimationState::PUNCH3 ||
     state == AnimationState::KICK1 ||
     state == AnimationState::KICK2 ||
-    state == AnimationState::KICK3 
+    state == AnimationState::KICK3 ||
+    state == AnimationState::FASTIDLE
   );
 }
 void Ken::bodyHit()

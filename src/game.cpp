@@ -102,7 +102,7 @@ void Game::pollEvents()
                 case sf::Keyboard::A:                  
                     if (player->punch1()) {
                         smg.play(player_voice_lines[0]);
-                        cout << "played\n";
+
                     }
                   break;
                 case sf::Keyboard::S:
@@ -170,7 +170,13 @@ void Game::update(float dt)
     elapsed3 += dt;
     player->update(dt);
     //check if player hit enemy
-    if(elapsed1>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && enemy->isIdle() && player->isAttacking())
+    //printf("player->isAttacking = %d\n",player->isAttacking());
+    if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+    {
+    //  printf("here1 %d\n",enemy->isSuffering());
+    }
+    //give damage to enemy
+    if(elapsed1>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
         if(enemy->damage <= 99.7f)
           enemy->damage += 0.3f;
@@ -179,7 +185,8 @@ void Game::update(float dt)
       elapsed1 = 0;
     }
     enemy->update(dt);
-    if(elapsed1!=0 && elapsed2>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && player->isIdle() && !player->isSuffering() && enemy->isAttacking())
+    //give damage to player
+    if(elapsed1!=0 && elapsed2>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking())
     {
       if(player->damage <= 99.7f)
         player->damage += 0.3f;
@@ -189,7 +196,7 @@ void Game::update(float dt)
     }
     // set up things for next updation
     bool AIBOT = !true;
-    if(elapsed3 >= 3000*dt && AIBOT && enemy->isIdle())
+    if(elapsed3 >= 1000*dt && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
@@ -197,7 +204,7 @@ void Game::update(float dt)
       	{
         	enemy->flippedMoveLeft(b);
       	}
-      	int r = 3;//rand() % 5;
+      	int r = rand() % 5;
       	if(r == 0)
         	enemy->punch1();
       	else if(r == 1)
@@ -759,7 +766,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 7, 7 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
