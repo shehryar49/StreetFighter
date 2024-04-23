@@ -2,6 +2,7 @@
 #ifndef RYU_H_
 #define RYU_H_
 #include "player.h"
+#include <SFML/Graphics/Rect.hpp>
 class Ryu : public Player
 {
 private:
@@ -14,6 +15,7 @@ private:
     {
         IDLE,
         FASTIDLE,
+        FASTIDLE_ATTACKING,
         MOVE_RIGHT,
         MOVE_LEFT,
         FLIPPED_MOVE_RIGHT,
@@ -36,7 +38,8 @@ private:
         CROUCHED_PUNCH2,
         CROUCHED_KICK1,
         CROUCHED_KICK2, //sweep
-        HADOKEN
+        HADOKEN,
+        BODY_HIT
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -59,6 +62,7 @@ private:
     static sf::IntRect crouched_kick2_frames[5];
     static sf::IntRect hadoken_ball;
     static sf::IntRect hadoken_frames[4];
+    static sf::IntRect body_hit_frames[2];
     int currFrame = 0;
     int frameIncrement = 1;
     bool hadoken = false; // hadoken travelling
@@ -89,6 +93,9 @@ public:
     bool specialMove1(); //shoryuken
     bool specialMove2(); //hadoken
     bool isIdle();
+    void bodyHit();
+    bool isSuffering();
+    bool isAttacking();
     ~Ryu();
 };
 #endif

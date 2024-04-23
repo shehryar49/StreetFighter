@@ -102,6 +102,8 @@ void Game::pollEvents()
                 case sf::Keyboard::A:                  
                     if (player->punch1())
                         smg.play(player_voice_lines[0]);
+
+                    }
                   break;
                 case sf::Keyboard::S:
                   if(player->punch2())
@@ -129,6 +131,13 @@ void Game::pollEvents()
                 case sf::Keyboard::B:
                   player->bodyHit();
                   break;
+                case sf::Keyboard::J:
+                  enemy->flippedMoveLeft(0);
+                  break;
+                case sf::Keyboard::K:
+                  enemy->kick1();
+                  break;
+                  
                 default:
                   break;
             }
@@ -153,30 +162,42 @@ void Game::pollEvents()
 }
 void Game::update(float dt)
 {
-    static float elapsed = 0;
-    elapsed += dt;
+    static float elapsed1 = 0;
+    static float elapsed2 = 0;
+    static float elapsed3 = 0;
+    elapsed1 += dt;
+    elapsed2 += dt;
+    elapsed3 += dt;
     player->update(dt);
-    
-    bool AIBOT = !true;
-    if( player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+    //check if player hit enemy
+    //printf("player->isAttacking = %d\n",player->isAttacking());
+    if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
     {
-      if(player->isIdle())
-      {
-        //printf("player->damage = %f\n",pl)
-        if(player->damage <= 99.9f)
-          player->damage += 0.1;
-        playerDamage.setSize(sf::Vector2f(player->damage*3,25)); 
-        player->bodyHit();
-      }
-      else if(enemy->isIdle())
-      {
-        if(enemy->damage <= 99.9f)
-          enemy->damage += 0.1;
-        enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25));      
-      }
+    //  printf("here1 %d\n",enemy->isSuffering());
     }
-
-    if(elapsed >= 600*dt && AIBOT && enemy->isIdle())
+    //give damage to enemy
+    if(elapsed1>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
+    {
+        if(enemy->damage <= 99.7f)
+          enemy->damage += 0.3f;
+        enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
+      enemy->bodyHit();     
+      elapsed1 = 0;
+    }
+    enemy->update(dt);
+    //give damage to player
+    if(elapsed1!=0 && elapsed2>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
+    {
+      //printf("giving damage to player %d %d\n",enemy->isAttacking(),enemy->isSuffering());
+      if(player->damage <= 99.7f)
+        player->damage += 0.3f;
+      playerDamage.setSize(sf::Vector2f(player->damage*3,25));
+      player->bodyHit();
+      elapsed2 = 0;
+    }
+    // set up things for next updation
+    bool AIBOT = true;
+    if(elapsed3 >= 3000*dt && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
@@ -196,9 +217,9 @@ void Game::update(float dt)
       	else if(r == 4)
         	enemy->kick2();
       	//kick3 needs some fixing
-        elapsed = 0;
+        elapsed3 = 0;
     }
-    enemy->update(dt);
+
 }
 void Game::playIntro()
 {
@@ -681,7 +702,6 @@ void Game::showCredits()
     Credits credits(window, font, background);
     credits.run();
 }
-
 int Game::showMenu()
 {
   const char* entries[] = {"Play","Credits","Settings","Quit"};
@@ -744,9 +764,10 @@ void Game::run()
 }
 void Game::testRun()
 {
+    smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 7, 7 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);

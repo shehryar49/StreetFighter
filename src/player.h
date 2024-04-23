@@ -35,6 +35,8 @@ public:
     virtual bool unblock();
     virtual void bodyHit();
     virtual bool isIdle();
+    virtual bool isSuffering(); // Are ya suffering son?
+    virtual bool isAttacking(); //I wish, I was the monster you think I am.
     virtual ~Player();
 public:
     float damage = 0;//health damage
