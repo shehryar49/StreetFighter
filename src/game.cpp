@@ -157,7 +157,7 @@ void Game::update(float dt)
     elapsed += dt;
     player->update(dt);
     
-    bool AIBOT = true;
+    bool AIBOT = !true;
     if( player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
     {
       if(player->isIdle())
