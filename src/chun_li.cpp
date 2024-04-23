@@ -249,6 +249,7 @@ bool Chun_Li::unblock() {
         curr_state = AnimationState::crouch;
         return true;
     }
+    return false;
 }
 bool Chun_Li::crouch() {
     if (curr_state == AnimationState::idle) {
@@ -280,6 +281,7 @@ bool Chun_Li::uncrouch() {
         curr_state = AnimationState::block;
         return true;
     }
+    return false;
 }
 bool Chun_Li::processEvent(sf::Event &event){
     if(event.type == sf::Event::KeyPressed){
@@ -631,7 +633,7 @@ void Chun_Li::update(float time){
     }
     if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::victory2) {
         if (curr_frame == 5) {
-            AnimationState::still;
+            //AnimationState::still;
         }
         else {
             player.setTextureRect(victory2_frames[curr_frame++]);
@@ -642,7 +644,7 @@ void Chun_Li::update(float time){
     }
     if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::victory3) {
         if (curr_frame == 16) {
-            AnimationState::still;
+            //AnimationState::still;
         }
         else {
             player.setTextureRect(victory3_frames[curr_frame++]);
@@ -828,10 +830,12 @@ void Chun_Li::update(float time){
         else {
             player.setTextureRect(knockout_frames[curr_frame++]);
             if (curr_frame < 9)
+            {
                 if (player.getPosition().x - 50 >= 0)
                     player.setPosition(player.getPosition().x - 50, player.getPosition().y);
                 else
                     player.setPosition(0, player.getPosition().y);
+            }
             if(curr_frame < 5 || curr_frame == 7)
                 player.setPosition(player.getPosition().x, player.getPosition().y - 20);
             else if (curr_frame == 5)
@@ -849,10 +853,12 @@ void Chun_Li::update(float time){
         else {
             player.setTextureRect(knockout_frames[curr_frame++]);
             if (curr_frame < 9)
+            {
                 if (player.getPosition().x - 50 >= 0)
                     player.setPosition(player.getPosition().x - 50, player.getPosition().y);
                 else
                     player.setPosition(0, player.getPosition().y);
+            }
             if (curr_frame < 5 || curr_frame == 7)
                 player.setPosition(player.getPosition().x, player.getPosition().y - 20);
             else if (curr_frame == 5)
