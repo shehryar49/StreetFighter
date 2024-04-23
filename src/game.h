@@ -20,9 +20,8 @@ private:
     
     sf::RectangleShape health1;
     sf::RectangleShape health2;
-    sf::RectangleShape damage;
+    sf::RectangleShape enemyDamage;
     sf::RectangleShape playerDamage;
-    float enemyDamage = 0;
     SoundManager smg;
     
     void playIntro(void);
@@ -35,8 +34,6 @@ private:
     std::string execCommand(const std::string&);
     void showCredits();
     void setVoiceLines(int c, std::string);
-    //sf::Music bgm; //play all bgm through 1 var so that we dont get conflicts (doesnt apply to move sounds...they can play over bgm...make separate local vars for them)
-    //^---- not anymore
     int playerSelected = 0;
     int enemySelected = 0;
     //Identifiers for various sounds
@@ -47,9 +44,7 @@ private:
     int vs_music = -1;
     int fight_bgm = -1;
     int terminal_music = -1;
-    //small attack voice lines
-    //int player_sma = -1;
-    //int enemy_sma = -1;
+
     int player_voice_lines[6] = {-1,-1,-1,-1,-1,-1}; // initialize!!
     int enemy_voice_lines[6] = {-1,-1,-1,-1,-1,-1};;
     //index to voiceline mapping (list will grow when hit_taken functions are called by game class later)

@@ -17,7 +17,6 @@ void SoundManager::play(int id,bool looped)
 {
     if(id >=0 && id < audios.size())
     {
-        printf("playing %d\n", id);
         audios[id]->play();
         audios[id]->setLoop(looped);
     }

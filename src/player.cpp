@@ -49,4 +49,5 @@ bool Player::specialMove2(){return false;}
 bool Player::block(){return false;}
 bool Player::unblock(){return false;}
 bool Player::isIdle(){ return false;}
+void Player::bodyHit(){}
 Player::~Player(){}

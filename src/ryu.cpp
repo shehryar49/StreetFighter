@@ -84,8 +84,8 @@ Ryu::Ryu()
     kick3_frames[0] = sf::IntRect(630,640,70,120);
     kick3_frames[1] = sf::IntRect(710,640,70,120);
     kick3_frames[2] = sf::IntRect(780,630,70,120);
-    kick3_frames[3] = sf::IntRect(870,630,100,120);
-    kick3_frames[4] = sf::IntRect(970,630,70,120);
+    kick3_frames[3] = sf::IntRect(870,650,100,100);
+    kick3_frames[4] = sf::IntRect(970,650,70,100);
    
     punch3_frames[0] = sf::IntRect(230,513,70,100);
     punch3_frames[1] = sf::IntRect(320,513,70,100);
@@ -123,7 +123,8 @@ Ryu::Ryu()
     gola.setScale(1.2,1.2);
 
     player.setTextureRect(IDLE_frames[0]);
-    player.setScale(sf::Vector2f(2.1, 2.1));
+ 
+    player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
     frameIncrement = 1;
@@ -501,11 +502,12 @@ void Ryu::update(float dt)
     }
     else if (elapsed >= MOVE_TIME && state == AnimationState::KICK3)
     {
+        player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
         player.setTextureRect(kick3_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 5) //last frame rendered
         {
-            player.setPosition(player.getGlobalBounds().left,BOTTOMY - IDLE_frames[0].height*PLAYER_SPRITE_Y_SCALE +1);
+            player.setPosition(player.getPosition().x,BOTTOMY - IDLE_frames[0].height*PLAYER_SPRITE_Y_SCALE +1);
             state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;

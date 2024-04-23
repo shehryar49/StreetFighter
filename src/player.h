@@ -33,10 +33,11 @@ public:
     virtual bool specialMove2();
     virtual bool block();
     virtual bool unblock();
+    virtual void bodyHit();
     virtual bool isIdle();
     virtual ~Player();
-protected:
-    int health = 100; // player
+public:
+    float damage = 0;//health damage
     sf::Sprite player;
     sf::Image image;
     sf::Texture texture;

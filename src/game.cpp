@@ -47,9 +47,14 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   health2.setFillColor(sf::Color(255,255,0));
   health1.setPosition(0,0);
   health2.setPosition(500,0);
-  damage.setSize(sf::Vector2f(0,25));
-  damage.setFillColor(sf::Color::Red);
-  damage.setPosition(500,0);
+  playerDamage.setSize(sf::Vector2f(0,25));
+  playerDamage.setFillColor(sf::Color::Red);
+  playerDamage.setPosition(0,0);
+
+  enemyDamage.setSize(sf::Vector2f(0,25));
+  enemyDamage.setFillColor(sf::Color::Red);
+  enemyDamage.setPosition(500,0);
+  
   //Load sounds
   intro_music = smg.load("assets/intro/intro.ogg");
   player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
@@ -123,6 +128,9 @@ void Game::pollEvents()
                 case sf::Keyboard::LShift:
                   player->block();
                   break;
+                case sf::Keyboard::B:
+                  player->bodyHit();
+                  break;
                 default:
                   break;
             }
@@ -151,23 +159,34 @@ void Game::update(float dt)
     elapsed += dt;
     player->update(dt);
     
-    bool AIBOT = true;
-    if(elapsed >= 40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+    bool AIBOT = !true;
+    if( player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
     {
-      if(enemyDamage <= 99.9f)
-        enemyDamage += 0.1;
-      damage.setSize(sf::Vector2f(enemyDamage*3,25));
-      elapsed = 0;
+      if(player->isIdle())
+      {
+        //printf("player->damage = %f\n",pl)
+        if(player->damage <= 99.9f)
+          player->damage += 0.1;
+        playerDamage.setSize(sf::Vector2f(player->damage*3,25)); 
+        player->bodyHit();
+      }
+      else if(enemy->isIdle())
+      {
+        if(enemy->damage <= 99.9f)
+          enemy->damage += 0.1;
+        enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25));      
+      }
     }
-    if(AIBOT && enemy->isIdle())
+
+    if(elapsed >= 600*dt && AIBOT && enemy->isIdle())
     {
-    	float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
+        float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
       	if(a > b - 80)
       	{
         	enemy->flippedMoveLeft(b);
       	}
-      	int r = rand() % 3750;
+      	int r = rand() % 5;
       	if(r == 0)
         	enemy->punch1();
       	else if(r == 1)
@@ -179,6 +198,7 @@ void Game::update(float dt)
       	else if(r == 4)
         	enemy->kick2();
       	//kick3 needs some fixing
+        elapsed = 0;
     }
     enemy->update(dt);
 }
@@ -716,7 +736,8 @@ void Game::run()
     window.draw(background);
     window.draw(health1);
     window.draw(health2);
-    window.draw(damage);
+    window.draw(playerDamage);
+    window.draw(enemyDamage);
     player->render(window);
     enemy->render(window);
     window.display();
@@ -725,7 +746,7 @@ void Game::run()
 }
 void Game::testRun()
 {
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(0);
     int* character = nullptr;
     int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
@@ -740,7 +761,8 @@ void Game::testRun()
         window.draw(background);
         window.draw(health1);
         window.draw(health2);
-        window.draw(damage);
+        window.draw(playerDamage);
+        window.draw(enemyDamage);
         player->render(window);
         enemy->render(window);
         window.display();

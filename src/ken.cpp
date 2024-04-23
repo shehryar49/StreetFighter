@@ -5,134 +5,143 @@
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
 
-sf::IntRect Ken::IDLE_frames[6];
-sf::IntRect Ken::moveright_frames[6];
-sf::IntRect Ken::moveleft_frames[6];
-sf::IntRect Ken::punch1_frames[2];
-sf::IntRect Ken::punch2_frames[3];
-sf::IntRect Ken::punch3_frames[7];
-sf::IntRect Ken::kick1_frames[3];
-sf::IntRect Ken::jmp_frames[8];
-sf::IntRect Ken::kick2_frames[3];
-sf::IntRect Ken::kick3_frames[6];
-sf::IntRect Ken::crouching_frames[3];
-sf::IntRect Ken::crouched_punch1_frames[2];
-sf::IntRect Ken::crouched_punch2_frames[3];
-sf::IntRect Ken::crouched_kick1_frames[5];
-sf::IntRect Ken::crouched_kick2_frames[5];
-sf::IntRect Ken::helicopter_kick_frames[12];
+//Hard coded sprite cuts
 
+sf::IntRect Ken::IDLE_frames[6] = {
+    sf::IntRect(14, 14, 64, 100),
+    sf::IntRect(82, 14, 64, 100),
+    sf::IntRect(150, 14, 64, 100),
+    sf::IntRect(215, 14, 64, 100),
+    sf::IntRect(283, 14, 64, 100),
+    sf::IntRect(345, 14, 64, 100)
+};
+sf::IntRect Ken::moveright_frames[6] = {
+    sf::IntRect(16,145,60,100),
+    sf::IntRect(78,145,60,100),
+    sf::IntRect(145,145,60,100),
+    sf::IntRect(217,145,60,100),
+    sf::IntRect(288,145,60,100),
+    sf::IntRect(350,145,60,100)
+};
+sf::IntRect Ken::moveleft_frames[6] = {
+    sf::IntRect(448,145,68,100),
+    sf::IntRect(515,145,68,100),
+    sf::IntRect(580,145,68,100),
+    sf::IntRect(648,145,68,100),
+    sf::IntRect(713,145,68,100),
+    sf::IntRect(780,145,68,100)
+};
+sf::IntRect Ken::punch1_frames[2] = {sf::IntRect(15,280,68,100), sf::IntRect(87,280,94,100)};
+
+sf::IntRect Ken::punch2_frames[3] = {
+    sf::IntRect(300,280,65,100),
+    sf::IntRect(370,280,70,100),
+    sf::IntRect(450,280,110,100)
+};
+sf::IntRect Ken::punch3_frames[7] = {
+    sf::IntRect(265,568,60,100),
+    sf::IntRect(335,568,60,100),
+    sf::IntRect(395,568,90,100),
+    sf::IntRect(490,568,70,100),
+    sf::IntRect(560,568,90,100),
+    sf::IntRect(655,568,60,100),
+    sf::IntRect(715,568,65,100)
+};
+sf::IntRect Ken::kick1_frames[3] = { 
+    sf::IntRect(15,415,60,100),
+    sf::IntRect(85,415,60,100),
+    sf::IntRect(155,415,115,100)
+};
+sf::IntRect Ken::jmp_frames[8] = {
+    sf::IntRect(18,1595,60,100),
+    sf::IntRect(78,1588,60,100),
+    sf::IntRect(138,1540,60,100),
+    sf::IntRect(198,1505,60,100),
+    sf::IntRect(262,1500,50,100),
+    sf::IntRect(320,1520,50,100),
+    sf::IntRect(370,1560,60,100),
+    sf::IntRect(430,1595,60,100)
+};
+sf::IntRect Ken::kick2_frames[3] = {
+    sf::IntRect(15,730,60,100),
+    sf::IntRect(85,730,50,100),
+    sf::IntRect(140,730,80,100)
+};
+sf::IntRect Ken::kick3_frames[6] = {
+    sf::IntRect(815,730,65,100),
+    sf::IntRect(880,730,65,100),
+    sf::IntRect(945,705,55,125),
+    sf::IntRect(1000,715,100,115),
+    sf::IntRect(1103,730,50,100),
+    sf::IntRect(1160,730,60,100)
+};
+sf::IntRect Ken::crouching_frames[3] = {
+  sf::IntRect(10,1115,60,100),
+  sf::IntRect(75,1115,60,100),
+  sf::IntRect(140,1115,60,100)
+};
+sf::IntRect Ken::crouched_punch1_frames[2] = {
+  sf::IntRect(15,1280,70,100),
+  sf::IntRect(90,1280,100,100)
+};
+sf::IntRect Ken::crouched_punch2_frames[3] = {
+  sf::IntRect(315,1280,65,100),
+  sf::IntRect(385,1280,65,100),
+  sf::IntRect(460,1280,95,100)
+};
+sf::IntRect Ken::crouched_kick1_frames[5] = {
+    sf::IntRect(330,1385,75,100), 
+    sf::IntRect(410,1385,95,100),
+    sf::IntRect(515,1385,145,100),
+    sf::IntRect(670,1385,95,100),
+    sf::IntRect(775,1385,70,100)
+};
+sf::IntRect Ken::crouched_kick2_frames[5] = {
+  sf::IntRect(895,1385,50,100),
+  sf::IntRect(950,1385,125,100),
+  sf::IntRect(1080,1385,65,100),
+  sf::IntRect(1150,1385,65,100),
+  sf::IntRect(1220,1385,65,100)
+};
+sf::IntRect Ken::helicopter_kick_frames[12] = {
+  sf::IntRect(15,2940,70,110),
+  sf::IntRect(85,2905,70,110),
+  sf::IntRect(155,2905,60,110),
+  sf::IntRect(215,2910,100,110),
+  sf::IntRect(320,2910,60,110),
+  sf::IntRect(380,2910,100,110),
+  sf::IntRect(480,2910,70,110),
+  sf::IntRect(550,2910,60,110),
+  sf::IntRect(610,2910,60,110),
+  sf::IntRect(670,2910,65,110),
+  sf::IntRect(735,2920,60,110),
+  sf::IntRect(795,2945,60,110)
+};
+sf::IntRect Ken::tornado_kick_frames[10] = {
+  sf::IntRect(15,2028,60,100),
+  sf::IntRect(80,2020,60,110),
+  sf::IntRect(140,2020,70,110),
+  sf::IntRect(215,2025,60,100),
+  sf::IntRect(275,2025,100,100),
+  sf::IntRect(380,2025,60,100),
+  sf::IntRect(450,2025,60,100),
+  sf::IntRect(510,2025,60,100),
+  sf::IntRect(570,2025,60,100),
+  sf::IntRect(630,2028,60,100)
+};
+sf::IntRect Ken::body_hit_frames[3]={
+    sf::IntRect(120,3235,60,100),
+    sf::IntRect(185,3235,70,100)
+};
 Ken::Ken()
 {
     img.loadFromFile("assets/ken.png");
     //img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
-
-
-    IDLE_frames[0] = sf::IntRect(14, 14, 64, 100);
-    IDLE_frames[1] = sf::IntRect(82, 14, 64, 100);
-    IDLE_frames[2] = sf::IntRect(150, 14, 64, 100);
-    IDLE_frames[3] = sf::IntRect(215, 14, 64, 100);
-    IDLE_frames[4] = sf::IntRect(283, 14, 64, 100);
-    IDLE_frames[5] = sf::IntRect(345, 14, 64, 100);
-    
-    
-    moveright_frames[0] = sf::IntRect(16,145,60,100);
-    moveright_frames[1] = sf::IntRect(78,145,60,100);
-    moveright_frames[2] = sf::IntRect(145,145,60,100);
-    moveright_frames[3] = sf::IntRect(217,145,60,100);
-    moveright_frames[4] = sf::IntRect(288,145,60,100);
-    moveright_frames[5] = sf::IntRect(350,145,60,100);
-    
-    punch1_frames[0] = sf::IntRect(15,280,68,100);
-    punch1_frames[1] = sf::IntRect(87,280,94,100);
-
-    kick1_frames[0] = sf::IntRect(600,260,70,110);
-    kick1_frames[1] = sf::IntRect(690,260,70,110);
-    kick1_frames[2] = sf::IntRect(780,260,110,110);
-    
-    jmp_frames[0] = sf::IntRect(18,1595,60,100);
-    jmp_frames[1] = sf::IntRect(78,1588,60,100);
-    jmp_frames[2] = sf::IntRect(138,1540,60,100);
-    jmp_frames[3] = sf::IntRect(198,1505,60,100);
-    jmp_frames[4] = sf::IntRect(262,1500,50,100);
-    jmp_frames[5] = sf::IntRect(320,1520,50,100);
-    jmp_frames[6] = sf::IntRect(370,1560,60,100);
-    jmp_frames[7] = sf::IntRect(430,1595,60,100);
-
-    moveleft_frames[0] = sf::IntRect(448,145,68,100);
-    moveleft_frames[1] = sf::IntRect(515,145,68,100);
-    moveleft_frames[2] = sf::IntRect(580,145,68,100);
-    moveleft_frames[3] = sf::IntRect(648,145,68,100);
-    moveleft_frames[4] = sf::IntRect(713,145,68,100);
-    moveleft_frames[5] = sf::IntRect(780,145,68,100);
-
-    punch2_frames[0] = sf::IntRect(300,280,65,100);
-    punch2_frames[1] = sf::IntRect(370,280,70,100);
-    punch2_frames[2] = sf::IntRect(450,280,110,100);
-
-    punch3_frames[0] = sf::IntRect(265,568,60,100);
-    punch3_frames[1] = sf::IntRect(335,568,60,100);
-    punch3_frames[2] = sf::IntRect(395,568,90,100);
-    punch3_frames[3] = sf::IntRect(490,568,70,100);
-    punch3_frames[4] = sf::IntRect(560,568,90,100);
-    punch3_frames[5] = sf::IntRect(655,568,60,100);
-    punch3_frames[6] = sf::IntRect(715,568,65,100);
-
-    kick1_frames[0] = sf::IntRect(15,415,60,100);
-    kick1_frames[1] = sf::IntRect(85,415,60,100);
-    kick1_frames[2] = sf::IntRect(155,415,115,100);
-    
-    kick2_frames[0] = sf::IntRect(15,730,60,100);
-    kick2_frames[1] = sf::IntRect(85,730,50,100);
-    kick2_frames[2] = sf::IntRect(140,730,80,100);
-
-    kick3_frames[0] = sf::IntRect(815,730,65,100);
-    kick3_frames[1] = sf::IntRect(880,730,65,100);
-    kick3_frames[2] = sf::IntRect(945,705,55,125);
-    kick3_frames[3] = sf::IntRect(1000,715,100,115);
-    kick3_frames[4] = sf::IntRect(1103,730,50,100);
-    kick3_frames[5] = sf::IntRect(1160,730,60,100);
-    
-    crouching_frames[0] = sf::IntRect(10,1115,60,100);
-    crouching_frames[1] = sf::IntRect(75,1115,60,100);
-    crouching_frames[2] = sf::IntRect(140,1115,60,100);
-    
-    crouched_punch1_frames[0] = sf::IntRect(15,1280,70,100);
-    crouched_punch1_frames[1] = sf::IntRect(90,1280,100,100);
-
-    crouched_punch2_frames[0] = sf::IntRect(315,1280,65,100);
-    crouched_punch2_frames[1] = sf::IntRect(385,1280,65,100);
-    crouched_punch2_frames[2] = sf::IntRect(460,1280,95,100);
-
-    crouched_kick1_frames[0] = sf::IntRect(330,1385,75,100); 
-    crouched_kick1_frames[1] = sf::IntRect(410,1385,95,100);
-    crouched_kick1_frames[2] = sf::IntRect(515,1385,145,100);
-    crouched_kick1_frames[3] = sf::IntRect(670,1385,95,100);
-    crouched_kick1_frames[4] = sf::IntRect(775,1385,70,100);
-
-    crouched_kick2_frames[0] = sf::IntRect(895,1385,50,100);
-    crouched_kick2_frames[1] = sf::IntRect(950,1385,125,100);
-    crouched_kick2_frames[2] = sf::IntRect(1080,1385,65,100);
-    crouched_kick2_frames[3] = sf::IntRect(1150,1385,65,100);
-    crouched_kick2_frames[4] = sf::IntRect(1220,1385,65,100);
-
-    helicopter_kick_frames[0] = sf::IntRect(15,2940,70,110); 
-    helicopter_kick_frames[1] = sf::IntRect(85,2905,70,110);
-    helicopter_kick_frames[2] = sf::IntRect(155,2905,60,110);
-    helicopter_kick_frames[3] = sf::IntRect(215,2910,100,110);
-    helicopter_kick_frames[4] = sf::IntRect(320,2910,60,110);
-    helicopter_kick_frames[5] = sf::IntRect(380,2910,100,110);
-    helicopter_kick_frames[6] = sf::IntRect(480,2910,70,110);
-    helicopter_kick_frames[7] = sf::IntRect(550,2910,60,110);
-    helicopter_kick_frames[8] = sf::IntRect(610,2910,60,110);
-    helicopter_kick_frames[9] = sf::IntRect(670,2910,65,110);
-    helicopter_kick_frames[10] = sf::IntRect(735,2920,60,110);
-    helicopter_kick_frames[11] = sf::IntRect(795,2945,60,110);
-    #define STOP false
+    #define STOP !true
     player.setTextureRect(IDLE_frames[0]);
-        
+     
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -287,17 +296,28 @@ bool Ken::specialMove1()
 {
   if(IS_IDLE)
   {
+    JMPY = 0;
     currFrame = 0;
-    state = AnimationState::HELICOPTER_KICK;
+    state = AnimationState::TORNADO_KICK;
     return true;
   }
   return false;
+}
+bool Ken::isIdle()
+{
+  return state == AnimationState::IDLE;
+}
+void Ken::bodyHit()
+{
+  state = AnimationState::BODY_HIT;
+  currFrame = 0;
 }
 void Ken::update(float dt)
 {
     if(STOP)
       return;
     elapsed += dt;
+    int disp = 10;
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
@@ -345,6 +365,17 @@ void Ken::update(float dt)
     else if(elapsed>=0.08f && state == AnimationState::PUNCH1)
     {
         player.setTextureRect(punch1_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 2)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=0.08f*2 && state == AnimationState::BODY_HIT)
+    {
+        player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 2)
         { 
@@ -501,12 +532,17 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=MOVE_TIME*5 && state == AnimationState::HELICOPTER_KICK)
+    else if(elapsed>=MOVE_TIME*1.5 && state == AnimationState::TORNADO_KICK)
     {
-        player.setTextureRect(helicopter_kick_frames[currFrame++]);
-        player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
+        
+        player.setPosition(player.getPosition().x,BOTTOMY - tornado_kick_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1);
+        player.setTextureRect(tornado_kick_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 12)
+        if(currFrame == 6)
+          JMPY = -10;
+        else if(currFrame == 1)
+          JMPY = 10;
+        if(currFrame == 10)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;

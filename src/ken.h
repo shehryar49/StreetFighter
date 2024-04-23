@@ -29,8 +29,9 @@ private:
         CROUCHED_PUNCH2,
         CROUCHED_KICK1,
         CROUCHED_KICK2,
-        HELICOPTER_KICK
-        
+        HELICOPTER_KICK,
+        TORNADO_KICK,
+        BODY_HIT
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -51,6 +52,8 @@ private:
     static sf::IntRect crouched_kick1_frames[5];
     static sf::IntRect crouched_kick2_frames[5];
     static sf::IntRect helicopter_kick_frames[12];
+    static sf::IntRect tornado_kick_frames[10];
+    static sf::IntRect body_hit_frames[3];
     int currFrame = 0;
     int frameIncrement = 1;
     float JMPY = -30;
@@ -75,6 +78,8 @@ public:
     bool crouch();
     bool uncrouch();
     bool specialMove1();
+    bool isIdle();
+    void bodyHit();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Ken();
