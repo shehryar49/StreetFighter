@@ -177,6 +177,7 @@ bool Ken::punch3()
     {
       currFrame = 0;
       state = AnimationState::PUNCH3;
+      return true;
     }
     return false;
 }
@@ -187,11 +188,13 @@ bool Ken::kick1()
     currFrame = 0;
     state = AnimationState::KICK1;
     frameIncrement = 1;
+    return true;
   }
   else if(state == AnimationState::CROUCHED)
   {
     currFrame = 0;
     state = AnimationState::CROUCHED_KICK1;
+    return true;
   }
   return false;
 }
@@ -202,11 +205,13 @@ bool Ken::kick2()
     currFrame = 0;
     state = AnimationState::KICK2;
     frameIncrement = 1;
+    return true;
   }
   else if(state == AnimationState::CROUCHED)
   {
     currFrame = 0;
     state = AnimationState::CROUCHED_KICK2;
+    return true;
   }
   return false;
 }
@@ -217,7 +222,7 @@ bool Ken::kick3()
     currFrame = 0;
     state = AnimationState::KICK3;
     frameIncrement = 1;
-    
+    return true;
   }
   return false;
 }

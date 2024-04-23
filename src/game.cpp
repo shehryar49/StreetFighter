@@ -80,43 +80,45 @@ void Game::pollEvents()
                   player->moveRight(enemy->getGlobalBounds().left);
                   break;
                 case sf::Keyboard::Up:
-                  smg.play(player_voice_lines[3]);
-                  player->jump();
+                  if(player->jump())
+                      smg.play(player_voice_lines[3]);
                   break;
                 case sf::Keyboard::Down:
                   player->crouch();
                   break;
                 case sf::Keyboard::Q:
-                  smg.play(player_voice_lines[4]);
-                  player->specialMove1();
+                  if(player->specialMove1())
+                      smg.play(player_voice_lines[4]);
                   break;
                 case sf::Keyboard::W:
-                  smg.play(player_voice_lines[5]);
-                  player->specialMove2();
+                  if(player->specialMove2())
+                      smg.play(player_voice_lines[5]);
                   break;
-                case sf::Keyboard::A:
-                  smg.play(player_voice_lines[0]);
-                  player->punch1();
+                case sf::Keyboard::A:                  
+                    if (player->punch1()) {
+                        smg.play(player_voice_lines[0]);
+                        cout << "played\n";
+                    }
                   break;
                 case sf::Keyboard::S:
-                    smg.play(player_voice_lines[1]);
-                  player->punch2();
+                  if(player->punch2())
+                      smg.play(player_voice_lines[1]);
                   break;
                 case sf::Keyboard::D:
-                  smg.play(player_voice_lines[2]);
-                  player->punch3();
+                  if(player->punch3())
+                      smg.play(player_voice_lines[2]);
                   break;
                 case sf::Keyboard::Z:
-                  smg.play(player_voice_lines[0]);
-                  player->kick1();
+                  if(player->kick1())
+                      smg.play(player_voice_lines[0]);
                   break;
                 case sf::Keyboard::X:
-                  smg.play(player_voice_lines[1]);
-                  player->kick2();
+                  if(player->kick2())
+                      smg.play(player_voice_lines[1]);
                   break;
                 case sf::Keyboard::C:
-                  smg.play(player_voice_lines[2]);
-                  player->kick3();
+                  if(player->kick3())
+                      smg.play(player_voice_lines[2]);
                   break;
                 case sf::Keyboard::LShift:
                   player->block();
@@ -658,7 +660,6 @@ void Game::showCredits()
     backgroundTexture.loadFromFile("SF2.jpeg");
     background.setTexture(backgroundTexture);
     background.setScale(1.5, 1.1);
-    //What the actual F?
     Credits credits(window, font, background);
     credits.run();
 }
@@ -726,7 +727,7 @@ void Game::testRun()
 {
     window.setFramerateLimit(60);
     int* character = nullptr;
-    int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers)
+    int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
@@ -747,27 +748,47 @@ void Game::testRun()
     delete[] character;
 }
 
+void Game::setVoiceLines(int c, string path = "")
+{
+    switch (c)
+    {
+        case -2: //loading for player
+            for (int i = 0; i < NO_OF_VOICE_LINES; i++)
+                player_voice_lines[i] = smg.load(path + to_string(i) + ".wav");
+            return;
+        case -1: //loading for enemy diff to player
+            for (int i = 0; i < NO_OF_VOICE_LINES; i++)
+                enemy_voice_lines[i] = smg.load(path + to_string(i) + ".wav");
+            return;
+        default: //loading for enemy same as player
+            for (int i = 0; i < NO_OF_VOICE_LINES; i++)
+                enemy_voice_lines[i] = player_voice_lines[i];
+            return;
+    }
+}
+
 void Game::setStage(int* c)
 {
     switch (c[0]) 
     {
         case 1:
             player = new Ryu();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
             break;
         case 5:
             player = new Balrog();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Balrog/");
             break;
         case 7:
             player = new Ken();
             break;
         case 8:
             player = new Chun_Li();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/ChunLi/");
             break;
         case 9:
             player = new Zangief();
-            for (int i = 0; i < 6; i++)
-              player_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
-            break;
+            setVoiceLines(-1,"assets/PlayerVoiceLines/Zangief/");
         case 10:
             player = new Dhalsim();
             break;
@@ -776,6 +797,7 @@ void Game::setStage(int* c)
             break;
         default:
             player = new Ryu();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
             break;
     }
     switch (c[1]) 
@@ -787,6 +809,10 @@ void Game::setStage(int* c)
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            if (c[0] == c[1])
+                setVoiceLines(c[0]);
+            else
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
             smg.play(fight_bgm);
             break;
         case 5:
@@ -796,6 +822,10 @@ void Game::setStage(int* c)
             background.setScale(2.1f, 2.5f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(280, 0, 800, 400));
+            if (c[0] == c[1]) // reuse audio
+                setVoiceLines(c[0]);
+            else
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Zangief/");
             smg.play(fight_bgm);
             break;
         case 7:
@@ -814,6 +844,10 @@ void Game::setStage(int* c)
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
+            if (c[0] == c[1])
+                setVoiceLines(c[0]);
+            else
+                setVoiceLines(-1, "assets/PlayerVoiceLines/ChunLi/");
             smg.play(fight_bgm);
             break;
         case 9:
@@ -823,12 +857,10 @@ void Game::setStage(int* c)
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
-            if(c[0] == c[1]) // reuse audio
-                for (int i = 0; i < 6; i++)
-                    enemy_voice_lines[i] = player_voice_lines[i];
+            if (c[0] == c[1])
+                setVoiceLines(c[0]);
             else
-                for (int i = 0; i < 6; i++)
-                    enemy_voice_lines[i] = smg.load("assets/PlayerVoiceLines/Zangief/" + to_string(i) + ".wav");
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Zangief/");
             smg.play(fight_bgm);
             break;
         case 10:
@@ -856,6 +888,7 @@ void Game::setStage(int* c)
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
             smg.play(fight_bgm);
             break;
     }

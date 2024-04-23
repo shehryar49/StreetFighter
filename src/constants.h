@@ -9,7 +9,6 @@
 #define PLAYER_SPRITE_Y_SCALE 2.1f
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
-
-
+#define NO_OF_VOICE_LINES 6
 
 #endif

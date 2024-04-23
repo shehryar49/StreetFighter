@@ -176,12 +176,14 @@ bool Ryu::punch1()
     state = AnimationState::PUNCH1;
     currFrame = -1;
     frameIncrement = 1;
+    return true;
   }
   else if(state == AnimationState::CROUCHED)
   {
     state = AnimationState::CROUCHED_PUNCH1;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -192,12 +194,14 @@ bool Ryu::punch2()
     state = AnimationState::PUNCH2;
     currFrame = -1;
     frameIncrement = 1;
+    return true;
   }
   else if(state == AnimationState::CROUCHED)
   {
     state = AnimationState::CROUCHED_PUNCH2;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -208,6 +212,7 @@ bool Ryu::punch3()
     state = AnimationState::PUNCH3;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -219,12 +224,14 @@ bool Ryu::kick1()
     state = AnimationState::KICK1;
     currFrame = -1;
     frameIncrement = 1;
+    return true;
   }
   else if(state == AnimationState::CROUCHED)
   {
     state = AnimationState::CROUCHED_KICK1;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -235,12 +242,14 @@ bool Ryu::kick2()
     state = AnimationState::KICK2;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   else if(state == AnimationState::CROUCHED)
   {
     state = AnimationState::CROUCHED_KICK2;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -252,6 +261,7 @@ bool Ryu::kick3()
     state = AnimationState::KICK3;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -264,7 +274,7 @@ bool Ryu::jump()
         currFrame = -1;
         frameIncrement = 1;
         pos = player.getPosition();
-         
+        return true;
     }
     return false;
 }
@@ -275,6 +285,7 @@ bool Ryu::crouch()
     state = AnimationState::CROUCHING;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -291,6 +302,7 @@ bool Ryu::uncrouch()
     state = AnimationState::FASTIDLE;
     currFrame = 0;
     frameIncrement = 1;
+    return true;
   }
   return false;
 }
@@ -301,6 +313,7 @@ bool Ryu::specialMove1()
         state = AnimationState::SHORYUKEN;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
     return false;
 }
@@ -311,6 +324,7 @@ bool Ryu::specialMove2()
         state = AnimationState::HADOKEN;
         currFrame = 0;
         frameIncrement = 1;
+        return true;
     }
     return false;
 }
