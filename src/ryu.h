@@ -15,6 +15,7 @@ private:
     {
         IDLE,
         FASTIDLE,
+        FASTIDLE_ATTACKING,
         MOVE_RIGHT,
         MOVE_LEFT,
         FLIPPED_MOVE_RIGHT,

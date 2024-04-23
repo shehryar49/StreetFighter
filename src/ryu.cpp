@@ -356,7 +356,7 @@ bool Ryu::isAttacking()
     state == AnimationState::KICK1 ||
     state == AnimationState::KICK2 ||
     state == AnimationState::KICK3 ||
-    state == AnimationState::FASTIDLE
+    state == AnimationState::FASTIDLE_ATTACKING
   );
 }
 //Updation based on animation state
@@ -382,7 +382,7 @@ void Ryu::update(float dt)
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
+    else if (elapsed >= (MOVE_TIME) && (state == AnimationState::FASTIDLE || state == AnimationState::FASTIDLE_ATTACKING))
     {
         player.setTextureRect(IDLE_frames[0]);
         currFrame++;
@@ -593,17 +593,6 @@ void Ryu::update(float dt)
             state = AnimationState::CROUCHED;
         
     }
-    //else if(elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
-    //{
-    //    player.setTextureRect(crouching_frames[currFrame--]);
-    //    elapsed = 0;
-    //    if(currFrame == -1)
-    //    {
-    //        state = AnimationState::FASTIDLE;
-    //        frameIncrement = 1;
-    //        currFrame = 0;
-    //    }
-    //}
     else if(elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
     {
         elapsed = 0;

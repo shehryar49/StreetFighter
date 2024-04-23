@@ -2,6 +2,7 @@
 #ifndef KEN_H_
 #define KEN_H_
 #include "player.h"
+#include "ryu.h"
 #include <SFML/Graphics/Rect.hpp>
 class Ken : public Player
 {
@@ -13,6 +14,7 @@ private:
     {
         IDLE,
         FASTIDLE,
+        FASTIDLE_ATTACKING,
         moveRight,
         moveLeft,
         PUNCH1,
@@ -31,7 +33,9 @@ private:
         CROUCHED_KICK2,
         HELICOPTER_KICK,
         TORNADO_KICK,
-        BODY_HIT
+        BODY_HIT,
+        FLIPPED_MOVE_LEFT,
+        FLIPPED_MOVE_RIGHT
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -74,6 +78,8 @@ public:
     bool kick3();
     void moveLeft(float);
     void moveRight(float);
+    void flippedMoveLeft(float);
+    void flippedMoveRight(float);
     bool jump();
     bool crouch();
     bool uncrouch();

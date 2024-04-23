@@ -321,13 +321,34 @@ bool Ken::isAttacking()
     state == AnimationState::KICK1 ||
     state == AnimationState::KICK2 ||
     state == AnimationState::KICK3 ||
-    state == AnimationState::FASTIDLE
-  );
+    state == AnimationState::FASTIDLE_ATTACKING
+  );//IMPORTANT
 }
 void Ken::bodyHit()
 {
   state = AnimationState::BODY_HIT;
+  player.setPosition(player.getPosition().x,BOTTOMY - body_hit_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
   currFrame = 0;
+}
+void Ken::flippedMoveLeft(float f)
+{
+    if(state == AnimationState::IDLE)
+    {
+      state = AnimationState::FLIPPED_MOVE_LEFT;
+      currFrame = -1;
+      frameIncrement = 1;
+      limit = f;
+    }
+}
+void Ken::flippedMoveRight(float f)
+{
+    if(state == AnimationState::IDLE)
+    {
+      state = AnimationState::FLIPPED_MOVE_RIGHT;
+      currFrame = -1;
+      frameIncrement = 1;
+      limit = f;
+    }
 }
 void Ken::update(float dt)
 {
@@ -345,7 +366,7 @@ void Ken::update(float dt)
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= (0.08f) && state == AnimationState::FASTIDLE)
+    else if (elapsed >= (0.08f) && (state == AnimationState::FASTIDLE || state == AnimationState::FASTIDLE_ATTACKING))
     {
         player.setTextureRect(IDLE_frames[0]);
         currFrame++;
@@ -385,7 +406,7 @@ void Ken::update(float dt)
         elapsed = 0;
         if(currFrame == 2)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -523,6 +544,34 @@ void Ken::update(float dt)
         if(currFrame == 6)
         { 
             state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::FLIPPED_MOVE_LEFT)
+    {
+        currFrame = currFrame+1;
+        player.setTextureRect(moveright_frames[currFrame]);
+        elapsed = 0;
+        if(player.getPosition().x - player.getGlobalBounds().width -20 > limit) // window width is 800
+          player.setPosition(player.getPosition().x-10,player.getPosition().y);
+        if(currFrame == 5)
+        { 
+            state = AnimationState::FASTIDLE; 
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::FLIPPED_MOVE_RIGHT)
+    {
+        currFrame = currFrame+1;
+        player.setTextureRect(moveleft_frames[currFrame]);
+        elapsed = 0;
+        if(player.getPosition().x + 20 < limit) // window width is 800
+          player.setPosition(player.getPosition().x+10,player.getPosition().y);
+        if(currFrame == 5)
+        { 
+            state = AnimationState::FASTIDLE; 
             currFrame = 0;
             frameIncrement = 1;
         }
