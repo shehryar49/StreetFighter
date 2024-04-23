@@ -89,6 +89,8 @@ public:
     bool specialMove1(); //shoryuken
     bool specialMove2(); //hadoken
     bool isIdle();
+    bool isSuffering();
+    bool isAttacking();
     ~Ryu();
 };
 #endif

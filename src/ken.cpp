@@ -305,7 +305,23 @@ bool Ken::specialMove1()
 }
 bool Ken::isIdle()
 {
-  return state == AnimationState::IDLE;
+  return state==AnimationState::IDLE;
+}
+bool Ken::isSuffering()
+{
+  return state == AnimationState::BODY_HIT;
+//  return 
+}
+bool Ken::isAttacking()
+{
+  return (
+    state == AnimationState::PUNCH1 ||
+    state == AnimationState::PUNCH2 ||
+    state == AnimationState::PUNCH3 ||
+    state == AnimationState::KICK1 ||
+    state == AnimationState::KICK2 ||
+    state == AnimationState::KICK3 
+  );
 }
 void Ken::bodyHit()
 {

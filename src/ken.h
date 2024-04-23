@@ -79,6 +79,8 @@ public:
     bool uncrouch();
     bool specialMove1();
     bool isIdle();
+    bool isSuffering();//taking hits or not
+    bool isAttacking();
     void bodyHit();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();

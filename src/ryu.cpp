@@ -331,7 +331,22 @@ bool Ryu::specialMove2()
 }
 bool Ryu::isIdle()
 {
-  return IS_IDLE;
+  return state == AnimationState::IDLE;
+}
+bool Ryu::isSuffering()
+{
+  return false;
+}
+bool Ryu::isAttacking()
+{
+  return (
+    state == AnimationState::PUNCH1 ||
+    state == AnimationState::PUNCH2 ||
+    state == AnimationState::PUNCH3 ||
+    state == AnimationState::KICK1 ||
+    state == AnimationState::KICK2 ||
+    state == AnimationState::KICK3 
+  );
 }
 //Updation based on animation state
 void Ryu::update(float dt)
