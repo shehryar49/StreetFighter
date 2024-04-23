@@ -102,8 +102,6 @@ void Game::pollEvents()
                 case sf::Keyboard::A:                  
                     if (player->punch1())
                         smg.play(player_voice_lines[0]);
-
-                    }
                   break;
                 case sf::Keyboard::S:
                   if(player->punch2())
@@ -137,7 +135,6 @@ void Game::pollEvents()
                 case sf::Keyboard::K:
                   enemy->kick1();
                   break;
-                  
                 default:
                   break;
             }
@@ -157,8 +154,6 @@ void Game::pollEvents()
             }
         }
     }
-    
-    
 }
 void Game::update(float dt)
 {
