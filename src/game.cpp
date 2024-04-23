@@ -173,8 +173,8 @@ void Game::update(float dt)
     //give damage to enemy
     if(elapsed1>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
-        if(enemy->damage <= 99.7f)
-          enemy->damage += 0.3f;
+        if(enemy->damage <= 99.0f)
+          enemy->damage += 1.0f;
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       enemy->bodyHit();     
       elapsed1 = 0;
@@ -183,8 +183,8 @@ void Game::update(float dt)
     //give damage to player
     if(elapsed1!=0 && elapsed2>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
     {
-      if(player->damage <= 99.7f)
-        player->damage += 0.3f;
+      if(player->damage <= 99.0f)
+        player->damage += 1.0f;
       playerDamage.setSize(sf::Vector2f(player->damage*3,25));
       player->bodyHit();
       elapsed2 = 0;

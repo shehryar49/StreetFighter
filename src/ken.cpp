@@ -326,9 +326,12 @@ bool Ken::isAttacking()
 }
 void Ken::bodyHit()
 {
+  if(state != AnimationState::BODY_HIT)
+  {
   state = AnimationState::BODY_HIT;
   player.setPosition(player.getPosition().x,BOTTOMY - body_hit_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
   currFrame = 0;
+  }
 }
 void Ken::flippedMoveLeft(float f)
 {
