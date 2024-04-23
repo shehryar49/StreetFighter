@@ -129,7 +129,7 @@ public:
     //void hit_taken_blanka_electricity();
     void light_hit_taken_face();
     void heavy_hit_taken_face();
-    void hit_taken_body();
+    void bodyHit();
     void medium_hit_taken_body();
     void heavy_hit_taken_body();
     void face_body_combo_taken();

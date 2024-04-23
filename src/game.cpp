@@ -100,10 +100,8 @@ void Game::pollEvents()
                       smg.play(player_voice_lines[5]);
                   break;
                 case sf::Keyboard::A:                  
-                    if (player->punch1()) {
+                    if (player->punch1())
                         smg.play(player_voice_lines[0]);
-                        cout << "played\n";
-                    }
                   break;
                 case sf::Keyboard::S:
                   if(player->punch2())
@@ -810,7 +808,8 @@ void Game::setStage(int* c)
             break;
         case 9:
             player = new Zangief();
-            setVoiceLines(-1,"assets/PlayerVoiceLines/Zangief/");
+            setVoiceLines(-2,"assets/PlayerVoiceLines/Zangief/");
+            break;
         case 10:
             player = new Dhalsim();
             break;

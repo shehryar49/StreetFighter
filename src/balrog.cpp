@@ -452,7 +452,7 @@ void Balrog::heavy_hit_taken_face() {
     curr_frame = 0;
     curr_state = AnimationState::heavy_hit_taken_face;
 }
-void Balrog::hit_taken_body() {
+void Balrog::bodyHit() {
     curr_frame = 0;
     curr_state = AnimationState::hit_taken_body;
 }
@@ -526,10 +526,6 @@ bool Balrog::processEvent(sf::Event& event) {
             }
             else if (event.key.code == sf::Keyboard::Num3) {
                 heavy_hit_taken_face();
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num4) {
-                hit_taken_body();
                 return true;
             }
             else if (event.key.code == sf::Keyboard::Num5) {

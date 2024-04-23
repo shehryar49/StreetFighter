@@ -440,7 +440,7 @@ void Zangief::hit_taken_face() {
     curr_frame = 0;
     curr_state = AnimationState::hit_taken_face;
 }
-void Zangief::hit_taken_body() {
+void Zangief::bodyHit() {
     voiceline.openFromFile("assets/PlayerVoiceLines/Zangief/hit_taken_light.wav");
     voiceline.play();
     curr_frame = 0;
@@ -518,10 +518,6 @@ bool Zangief::processEvent(sf::Event &event){
             }
             else if (event.key.code == sf::Keyboard::Num2) {
                 hit_taken_face();
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num3) {
-                hit_taken_body();
                 return true;
             }
             else if (event.key.code == sf::Keyboard::Num4) {

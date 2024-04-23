@@ -433,6 +433,10 @@ void Chun_Li::hit_taken_face(int type) {
         break;
     }
 }
+void Chun_Li::bodyHit(){
+    curr_frame = 0;
+    curr_state = AnimationState::hit_taken_body1;
+}
 void Chun_Li::hit_taken_body(int type) {
     switch (type) {
     case 1:

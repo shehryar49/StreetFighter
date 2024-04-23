@@ -127,6 +127,7 @@ public:
     //hits taken
     void hit_taken_face(int);
     void hit_taken_body(int);
+    void bodyHit();
     void hit_taken_face_body_combo();
     void knockout(int);
     ~Chun_Li();

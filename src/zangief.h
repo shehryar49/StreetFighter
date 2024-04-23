@@ -120,7 +120,7 @@ public:
     void hit_taken_blanka_electricity();
     void hit_taken_dhalsim_fire();
     void hit_taken_face();
-    void hit_taken_body();
+    void bodyHit();
     void heavy_hit_taken_body();
     void crouch_face_hit_taken();
     void face_body_combo_taken();
