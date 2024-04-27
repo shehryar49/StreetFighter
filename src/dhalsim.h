@@ -17,6 +17,7 @@ private:
         //-------------idle
         IDLE,
         FASTIDLE,
+        FASTIDLE_ATTACKING,
         //-------------jump
         JMP, 
         LAND,
@@ -121,6 +122,8 @@ public:
     void hit_taken_face();
     void bodyHit();
     bool isIdle();
+    bool isSuffering();//taking hits or not
+    bool isAttacking();
     ~Dhalsim();
 };
 #endif

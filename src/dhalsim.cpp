@@ -474,7 +474,7 @@ void Dhalsim::update(float dt)
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
+    else if (elapsed >= (MOVE_TIME) && (state == AnimationState::FASTIDLE || state == AnimationState::FASTIDLE_ATTACKING))
     {
         player.setTextureRect(IDLE_frames[0]);
         currFrame++;
@@ -639,7 +639,7 @@ void Dhalsim::update(float dt)
         elapsed = 0;
         if (currFrame == 2) //last frame rendered
         {
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -798,7 +798,7 @@ void Dhalsim::update(float dt)
         player.setTextureRect(knockout1_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= MOVE_TIME && state == AnimationState::HIT_TAKEN_FACE)
+    else if (elapsed >= 0.2 && state == AnimationState::HIT_TAKEN_FACE)
     {
         currFrame = currFrame + 1;
         player.setTextureRect(hit_taken_face_frames[currFrame]);
@@ -841,6 +841,22 @@ sf::FloatRect Dhalsim::getLocalBounds()
 }
 bool Dhalsim::isIdle() {
     return state == AnimationState::IDLE;
+}
+bool Dhalsim::isSuffering()
+{
+    return state == AnimationState::HIT_TAKEN_BODY;
+}
+bool Dhalsim::isAttacking()
+{
+    return (
+        state == AnimationState::PUNCH1 ||
+        state == AnimationState::PUNCH2 ||
+        state == AnimationState::PUNCH3 ||
+        state == AnimationState::KICK1 ||
+        state == AnimationState::KICK2 ||
+        state == AnimationState::KICK3 ||
+        state == AnimationState::FASTIDLE_ATTACKING
+        );
 }
 Dhalsim::~Dhalsim()
 {
