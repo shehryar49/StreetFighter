@@ -639,7 +639,7 @@ void Dhalsim::update(float dt)
         elapsed = 0;
         if (currFrame == 2) //last frame rendered
         {
-            state = AnimationState::FASTIDLE_ATTACKING;
+            state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
         }
