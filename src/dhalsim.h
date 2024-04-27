@@ -115,7 +115,7 @@ public:
     void knockout(int);
     bool specialMove1(); //yoga flame
     void hit_taken_face();
-    //void hit_taken_body();
+    void bodyHit();
     ~Dhalsim();
 };
 #endif

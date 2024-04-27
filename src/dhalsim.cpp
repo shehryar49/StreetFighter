@@ -155,6 +155,9 @@ Dhalsim::Dhalsim()
 
     hit_taken_face_frames[0]= sf::IntRect(110 + 90 + 90 + 90, 2565, 90, 110);
     hit_taken_face_frames[1]= sf::IntRect(110 + 90 + 90 + 90 + 90, 2565, 90, 110);
+
+    hit_taken_body_frames[0] = sf::IntRect(115 + 90+ 90 + 90 + 90+90, 2565, 90, 110);
+    hit_taken_body_frames[1] = sf::IntRect(15+115 + 90 + 90 + 90 + 90+90+90, 2565, 90, 110);
                                    
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
@@ -427,6 +430,15 @@ void Dhalsim::hit_taken_face() //to be set for hit face condition
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::HIT_TAKEN_FACE;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+}
+void Dhalsim::bodyHit() //to be set for body hit condition
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::HIT_TAKEN_BODY;
         currFrame = -1;
         frameIncrement = 1;
     }
@@ -744,6 +756,16 @@ void Dhalsim::update(float dt)
     {
         currFrame = currFrame + 1;
         player.setTextureRect(hit_taken_face_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 1)
+        {
+            state = AnimationState::FASTIDLE;
+        }
+    }
+    else if (elapsed >= 0.2 && state == AnimationState::HIT_TAKEN_BODY)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(hit_taken_body_frames[currFrame]);
         elapsed = 0;
         if (currFrame == 1)
         {
