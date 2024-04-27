@@ -245,11 +245,29 @@ void Dhalsim::moveRight(float f)
         limit = f;
     }
 }
+void Dhalsim::flippedMoveRight(float f) {
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::flipped_move_right;
+        currFrame = -1;
+        frameIncrement = 1;
+        limit = f;
+    }
+}
 void Dhalsim::moveLeft(float f)
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::moveLeft;
+        currFrame = -1;
+        frameIncrement = 1;
+        limit = f;
+    }
+}
+void Dhalsim::flippedMoveLeft(float f) {
+    if (state == AnimationState::IDLE) 
+    {
+        state = AnimationState::flipped_move_left;
         currFrame = -1;
         frameIncrement = 1;
         limit = f;
@@ -526,6 +544,34 @@ void Dhalsim::update(float dt)
             frameIncrement = 1;
         }
     }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::flipped_move_left)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(moveright_frames[currFrame]);
+        elapsed = 0;
+        if (player.getPosition().x - player.getGlobalBounds().width - 20 > limit) // window width is 800
+            player.setPosition(player.getPosition().x - 10, player.getPosition().y);
+        if (currFrame == 5)
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::flipped_move_right)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(moveleft_frames[currFrame]);
+        elapsed = 0;
+        if (player.getPosition().x + 20 < limit) // window width is 800
+            player.setPosition(player.getPosition().x + 10, player.getPosition().y);
+        if (currFrame == 5)
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
     else if (elapsed >= MOVE_TIME && state == AnimationState::PUNCH1)
     {
         currFrame = currFrame + 1;
@@ -792,6 +838,9 @@ sf::FloatRect Dhalsim::getGlobalBounds()
 sf::FloatRect Dhalsim::getLocalBounds()
 {
     return player.getLocalBounds();
+}
+bool Dhalsim::isIdle() {
+    return state == AnimationState::IDLE;
 }
 Dhalsim::~Dhalsim()
 {

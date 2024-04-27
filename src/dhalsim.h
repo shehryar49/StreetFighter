@@ -23,6 +23,8 @@ private:
         //-------------move
         moveRight, 
         moveLeft, 
+        flipped_move_right,
+        flipped_move_left,
         //-------------punches
 
         PUNCH1, //Low Punch(Jab)
@@ -100,6 +102,8 @@ public:
     void flipX();
     void moveLeft(float);
     void moveRight(float);
+    void flippedMoveLeft(float);
+    void flippedMoveRight(float);
     bool punch1();
     bool punch2();
     bool punch3();
@@ -116,6 +120,7 @@ public:
     bool specialMove1(); //yoga flame
     void hit_taken_face();
     void bodyHit();
+    bool isIdle();
     ~Dhalsim();
 };
 #endif
