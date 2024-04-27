@@ -24,6 +24,8 @@ sf::IntRect Dhalsim::block_frames[2];
 sf::IntRect Dhalsim::victory1_frames[12];
 sf::IntRect Dhalsim::knockout1_frames[4];
 sf::IntRect Dhalsim::yogaflame_frames[20];
+sf::IntRect Dhalsim::hit_taken_face_frames[2];
+sf::IntRect Dhalsim::hit_taken_body_frames[2];
 
 Dhalsim::Dhalsim()
 {
@@ -151,6 +153,8 @@ Dhalsim::Dhalsim()
     yogaflame_frames[18] =sf::IntRect(15+30+165, 2050, 155, 110);
     yogaflame_frames[19] =sf::IntRect(15+30+10+165+155, 2050, 155, 110);
 
+    hit_taken_face_frames[0]= sf::IntRect(110 + 90 + 90 + 90, 2565, 90, 110);
+    hit_taken_face_frames[1]= sf::IntRect(110 + 90 + 90 + 90 + 90, 2565, 90, 110);
                                    
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
@@ -173,10 +177,10 @@ bool Dhalsim::processEvent(sf::Event& event)
             //    hit_taken_blanka_electricity();
             //    return true;
             //}
-            //else if (event.key.code == sf::Keyboard::Num2) {
-            //    hit_taken_face();
-            //    return true;
-            //}
+            if (event.key.code == sf::Keyboard::Num2) {
+                hit_taken_face();
+                return true;
+            }
             //else if (event.key.code == sf::Keyboard::Num3) {
             //    hit_taken_body();
             //    return true;
@@ -189,7 +193,7 @@ bool Dhalsim::processEvent(sf::Event& event)
             //    face_body_combo_taken();
             //    return true;
             //}
-            if (event.key.code == sf::Keyboard::Num7) {
+            else if (event.key.code == sf::Keyboard::Num7) {
                 knockout(1);
                 return true;
             }
@@ -415,6 +419,15 @@ void Dhalsim::knockout(int type = 1) //to be set when bar becomes empty
     {
         state = AnimationState::KNOCKOUT_1;
         currFrame = 4;
+        frameIncrement = 1;
+    }
+}
+void Dhalsim::hit_taken_face() //to be set for hit face condition
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::HIT_TAKEN_FACE;
+        currFrame = -1;
         frameIncrement = 1;
     }
 }
@@ -726,6 +739,16 @@ void Dhalsim::update(float dt)
         currFrame = (currFrame + frameIncrement);
         player.setTextureRect(knockout1_frames[currFrame]);
         elapsed = 0;
+    }
+    else if (elapsed >= MOVE_TIME && state == AnimationState::HIT_TAKEN_FACE)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(hit_taken_face_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 1)
+        {
+            state = AnimationState::FASTIDLE;
+        }
     }
 }
 void Dhalsim::setPosition(float x, float y)

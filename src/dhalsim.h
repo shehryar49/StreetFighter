@@ -58,7 +58,11 @@ private:
         VICTORY_1,//to be set when player wins
 
         //--------------lose
-        KNOCKOUT_1//to be set when bar becomes red
+        KNOCKOUT_1,//to be set when bar becomes red
+
+        //--------------hits taken (to be set when player takes a hit)
+        HIT_TAKEN_FACE, //2
+        HIT_TAKEN_BODY//3
     };
     AnimationState state;
     static sf::IntRect IDLE_frames[6];
@@ -79,6 +83,8 @@ private:
     static sf::IntRect victory1_frames[12];
     static sf::IntRect knockout1_frames[4];
     static sf::IntRect yogaflame_frames[20];
+    static sf::IntRect hit_taken_face_frames[2];
+    static sf::IntRect hit_taken_body_frames[2];
 
     int currFrame = 0;
     int frameIncrement = 1;
@@ -108,6 +114,8 @@ public:
     void victory(int);
     void knockout(int);
     bool specialMove1(); //yoga flame
+    void hit_taken_face();
+    //void hit_taken_body();
     ~Dhalsim();
 };
 #endif
