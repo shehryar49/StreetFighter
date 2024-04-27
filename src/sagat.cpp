@@ -141,28 +141,30 @@ Sagat::Sagat()
     gola.setScale(1.2, 1.2);
 
     player.setTextureRect(IDLE_frames[0]);
-    player.setScale(sf::Vector2f(2.1, 2.1));
+    player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
 
-void Sagat::moveLeft()
+void Sagat::moveLeft(float f)
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::moveLeft;
         currFrame = -1;
         frameIncrement = 1;
+        limit = f;
     }
 }
-void Sagat::moveRight()
+void Sagat::moveRight(float f)
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::moveRight;
         currFrame = -1;
         frameIncrement = 1;
+        limit = f;
     }
 }
 //PUNCHES
@@ -360,7 +362,7 @@ void Sagat::update(float dt)
         currFrame = currFrame + 1;
         player.setTextureRect(moveright_frames[currFrame]);
         elapsed = 0;
-        if (player.getPosition().x + 150 < 800) // window width is 800
+        if (player.getPosition().x + 150 < limit) // window width is 800
             player.setPosition(player.getPosition().x + 10, player.getPosition().y);
         if (currFrame == 3)
         {
@@ -374,7 +376,7 @@ void Sagat::update(float dt)
         currFrame = currFrame + 1;
         player.setTextureRect(moveleft_frames[currFrame]);
         elapsed = 0;
-        if (player.getPosition().x - 20 > 0) // window width is 800
+        if (player.getPosition().x - 20 > limit) // window width is 800
             player.setPosition(player.getPosition().x - 10, player.getPosition().y);
         if (currFrame == 3)
         {
@@ -582,6 +584,10 @@ sf::FloatRect Sagat::getGlobalBounds()
 sf::FloatRect Sagat::getLocalBounds()
 {
     return player.getLocalBounds();
+}
+sf::Vector2f Sagat::getPosition()
+{
+    return player.getPosition();
 }
 
 void Sagat::render(sf::RenderWindow& win)

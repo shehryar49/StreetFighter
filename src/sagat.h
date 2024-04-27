@@ -54,20 +54,21 @@ private:
     //static sf::IntRect crouched_kick1_frames[5];
     static sf::IntRect uppercut_frames[10];
 
-
-
     int currFrame = 0;
     int frameIncrement = 1;
+    float limit;
+
 public:
     Sagat();
     void update(float);
-    void render(sf::RenderWindow&);
+    void render(sf::RenderWindow &);
     void setPosition(float, float);
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
+    sf::Vector2f getPosition();
     void flipX();
-    void moveLeft();
-    void moveRight();
+    void moveLeft(float);
+    void moveRight(float);
     bool punch1();
     bool punch2();
     bool punch3();
