@@ -35,7 +35,8 @@ private:
         TORNADO_KICK,
         BODY_HIT,
         FLIPPED_MOVE_LEFT,
-        FLIPPED_MOVE_RIGHT
+        FLIPPED_MOVE_RIGHT,
+        KNOCKED_OUT
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -58,6 +59,7 @@ private:
     static sf::IntRect helicopter_kick_frames[12];
     static sf::IntRect tornado_kick_frames[10];
     static sf::IntRect body_hit_frames[3];
+    static sf::IntRect knockout_frames[5];
     int currFrame = 0;
     int frameIncrement = 1;
     float JMPY = -30;
@@ -88,6 +90,8 @@ public:
     bool isSuffering();//taking hits or not
     bool isAttacking();
     void bodyHit();
+    void knockout();
+
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Ken();

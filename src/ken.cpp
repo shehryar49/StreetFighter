@@ -133,13 +133,20 @@ sf::IntRect Ken::body_hit_frames[3]={
     sf::IntRect(120,3235,60,100),
     sf::IntRect(185,3235,70,100)
 };
+sf::IntRect Ken::knockout_frames[5];
 Ken::Ken()
 {
     img.loadFromFile("assets/ken.png");
-    img.createMaskFromColor(sf::Color(00,129,129,255));
+    //img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
-    #define STOP !true
+    #define STOP true
+    knockout_frames[0] = sf::IntRect(20,3550,70,100);
+    knockout_frames[1] = sf::IntRect(98,3550,125,100);
+    knockout_frames[2] = sf::IntRect(225,3550,125,100);
+    knockout_frames[3] = sf::IntRect(355,3540,125,100);
+    knockout_frames[4] = sf::IntRect(485,3540,135,100);
+
     player.setTextureRect(IDLE_frames[0]);
      
     player.setScale(sf::Vector2f(2.1, 2.1));
@@ -332,6 +339,10 @@ void Ken::bodyHit()
   player.setPosition(player.getPosition().x,BOTTOMY - body_hit_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
   currFrame = 0;
   }
+}
+void Ken::knockout()
+{
+  
 }
 void Ken::flippedMoveLeft(float f)
 {
