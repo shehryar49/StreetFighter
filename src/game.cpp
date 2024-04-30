@@ -264,7 +264,34 @@ void Game::playIntro()
     window.setFramerateLimit(0);
     smg.stop(intro_music);
 }
-
+void Game::gameOver()
+{
+  sf::Font f;
+  f.loadFromFile("assets/Hack-Regular.ttf");
+  sf::Text t;
+  t.setFont(f);
+  t.setCharacterSize(28);
+  t.setFillColor(sf::Color::White);
+  t.setPosition(320,280);
+  t.setString("Game Over");
+  while (window.isOpen())
+  {
+      sf::Event event;
+      while (window.pollEvent(event))
+      {
+          if (event.type == sf::Event::Closed)
+              window.close();
+          if (event.type == sf::Event::KeyPressed)
+          {
+              return;
+          }
+      }
+      window.clear();
+      window.draw(t);
+      window.display();
+  }
+  
+}
 int* Game::selectScreen()
 {
     int* choices = new int[2];

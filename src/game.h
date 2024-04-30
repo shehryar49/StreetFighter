@@ -34,6 +34,7 @@ private:
     std::string execCommand(const std::string&);
     void showCredits();
     void setVoiceLines(int c, std::string);
+    void gameOver();
     int playerSelected = 0;
     int enemySelected = 0;
     //Identifiers for various sounds
