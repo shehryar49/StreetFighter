@@ -140,7 +140,7 @@ Ken::Ken()
     //img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
-    #define STOP true
+    #define STOP !true
     knockout_frames[0] = sf::IntRect(20,3550,70,100);
     knockout_frames[1] = sf::IntRect(98,3550,125,100);
     knockout_frames[2] = sf::IntRect(225,3550,125,100);
@@ -342,7 +342,8 @@ void Ken::bodyHit()
 }
 void Ken::knockout()
 {
-  
+  currFrame = 0;
+  state = AnimationState::KNOCKED_OUT;
 }
 void Ken::flippedMoveLeft(float f)
 {
@@ -458,6 +459,18 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
+    else if(elapsed>=0.8f && state == AnimationState::KNOCKED_OUT)
+    {
+        player.setTextureRect(knockout_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    
     else if(elapsed>=0.08f && state == AnimationState::CROUCHED_PUNCH2)
     {
         player.setTextureRect(crouched_punch2_frames[currFrame++]);

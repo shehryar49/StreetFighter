@@ -133,7 +133,7 @@ void Game::pollEvents()
                   enemy->flippedMoveLeft(0);
                   break;
                 case sf::Keyboard::K:
-                  enemy->kick1();
+                  player->knockout();
                   break;
                 default:
                   break;
@@ -165,18 +165,18 @@ void Game::update(float dt)
     elapsed3 += dt;
     player->update(dt);
     //check if player hit enemy
-    //printf("player->isAttacking = %d\n",player->isAttacking());
-    if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
-    {
-    //  printf("here1 %d\n",enemy->isSuffering());
-    }
-    //give damage to enemy
     if(elapsed1>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
         if(enemy->damage <= 99.0f)
           enemy->damage += 1.0f;
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
-      enemy->bodyHit();     
+      if(enemy->damage == 100.0f)
+      {
+        enemy->knockout();
+        game_over = true;
+      }
+      else
+        enemy->bodyHit();     
       elapsed1 = 0;
     }
     enemy->update(dt);
@@ -186,7 +186,13 @@ void Game::update(float dt)
       if(player->damage <= 99.0f)
         player->damage += 1.0f;
       playerDamage.setSize(sf::Vector2f(player->damage*3,25));
-      player->bodyHit();
+      if(player->damage == 100.0f)
+      {
+        player->knockout();
+        game_over = true;
+      }
+      else
+        player->bodyHit();
       elapsed2 = 0;
     }
     // set up things for next updation
@@ -792,7 +798,7 @@ void Game::testRun()
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
-    while (window.isOpen())
+    while (!game_over && window.isOpen())
     {
         pollEvents();
         float dt = clock.restart().asSeconds();
@@ -807,6 +813,8 @@ void Game::testRun()
         enemy->render(window);
         window.display();
     }
+    if(game_over && window.isOpen())
+      gameOver();
     delete[] character;
 }
 
