@@ -31,7 +31,6 @@ private:
         CROUCHED_PUNCH2,
         CROUCHED_KICK1,
         CROUCHED_KICK2,
-        HELICOPTER_KICK,
         TORNADO_KICK,
         BODY_HIT,
         FLIPPED_MOVE_LEFT,
