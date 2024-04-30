@@ -160,6 +160,7 @@ void Game::update(float dt)
     static float elapsed1 = 0;
     static float elapsed2 = 0;
     static float elapsed3 = 0;
+    static int hits = 0;
     elapsed1 += dt;
     elapsed2 += dt;
     elapsed3 += dt;
@@ -178,6 +179,7 @@ void Game::update(float dt)
       else
         enemy->bodyHit();     
       elapsed1 = 0;
+      hits++;
     }
     enemy->update(dt);
     //give damage to player
@@ -197,13 +199,22 @@ void Game::update(float dt)
     }
     // set up things for next updation
     bool AIBOT = !true;
-    if(elapsed3 >= 0.3f && AIBOT && enemy->isIdle())
+    if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
-      	if(a > b - 80)
+      	if(hits >= 5 && a <= b-80)
+        {
+          enemy->flippedMoveRight(WINDOW_WIDTH);
+          elapsed3 = 0;
+          hits = 0;
+          return;
+        }
+        else if(a > b - 80)
       	{
         	enemy->flippedMoveLeft(b);
+          elapsed3 = 0;
+          return;
       	}
       	int r = rand() % 5;
       	if(r == 0)
@@ -794,7 +805,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 7, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 7, 7 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
