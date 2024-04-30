@@ -459,7 +459,7 @@ void Ken::update(float dt)
         elapsed = 0;
         if(currFrame == 3)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -493,7 +493,7 @@ void Ken::update(float dt)
         elapsed = 0;
         if(currFrame == 6)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -547,7 +547,7 @@ void Ken::update(float dt)
         {
             currFrame = 0;
             frameIncrement = 1;
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
         }
     }
     else if(elapsed >= MOVE_TIME && state == AnimationState::KICK2)
@@ -564,7 +564,7 @@ void Ken::update(float dt)
         {
             currFrame = 0;
             frameIncrement = 1;
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
         }
     }
     else if(elapsed>=MOVE_TIME && state == AnimationState::KICK3)
@@ -575,7 +575,7 @@ void Ken::update(float dt)
         elapsed = 0;
         if(currFrame == 6)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -642,7 +642,7 @@ void Ken::update(float dt)
           JMPY = 10;
         if(currFrame == 10)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
