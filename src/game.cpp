@@ -165,7 +165,7 @@ void Game::update(float dt)
     elapsed3 += dt;
     player->update(dt);
     //check if player hit enemy
-    if(elapsed1>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
+    if(elapsed1>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
         if(enemy->damage <= 99.0f)
           enemy->damage += 1.0f;
@@ -181,7 +181,7 @@ void Game::update(float dt)
     }
     enemy->update(dt);
     //give damage to player
-    if(elapsed1!=0 && elapsed2>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
+    if(elapsed1!=0 && elapsed2>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
     {
       if(player->damage <= 99.0f)
         player->damage += 1.0f;
@@ -197,7 +197,7 @@ void Game::update(float dt)
     }
     // set up things for next updation
     bool AIBOT = !true;
-    if(elapsed3 >= 3000*dt && AIBOT && enemy->isIdle())
+    if(elapsed3 >= 0.3f && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
