@@ -39,7 +39,8 @@ private:
         CROUCHED_KICK1,
         CROUCHED_KICK2, //sweep
         HADOKEN,
-        BODY_HIT
+        BODY_HIT,
+        KNOCKED_OUT
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -63,6 +64,7 @@ private:
     static sf::IntRect hadoken_ball;
     static sf::IntRect hadoken_frames[4];
     static sf::IntRect body_hit_frames[2];
+    static sf::IntRect knockout_frames[5];
     int currFrame = 0;
     int frameIncrement = 1;
     bool hadoken = false; // hadoken travelling

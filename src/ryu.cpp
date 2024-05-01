@@ -1,10 +1,11 @@
 // Written by Shahryar Ahmad
 #include "ryu.h"
 #include "constants.h"
+#include <SFML/Graphics/Rect.hpp>
 #include <stdio.h>
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
-#define STOP false
+#define STOP !false
 sf::IntRect Ryu::IDLE_frames[5];
 sf::IntRect Ryu::moveright_frames[6];
 sf::IntRect Ryu::moveleft_frames[6];
@@ -24,11 +25,12 @@ sf::IntRect Ryu::crouched_kick2_frames[5];
 sf::IntRect Ryu::hadoken_frames[4];
 sf::IntRect Ryu::hadoken_ball;
 sf::IntRect Ryu::body_hit_frames[2];
+sf::IntRect Ryu::knockout_frames[5];
 Ryu::Ryu()
 {
 
     img.loadFromFile("assets/ryu.png");
-    img.createMaskFromColor(sf::Color(70,112,104,255));
+    //img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -126,8 +128,8 @@ Ryu::Ryu()
     gola.setTextureRect(sf::IntRect(550,1550,60,50));
     gola.setScale(1.2,1.2);
 
-
-    player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(sf::IntRect(550,2100,70*3,100));
+    //player.setTextureRect(IDLE_frames[0]);
  
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
