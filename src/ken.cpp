@@ -345,10 +345,11 @@ void Ken::bodyHit()
   currFrame = 0;
   }
 }
-void Ken::knockout()
+void Ken::knockout(bool* b)
 {
   currFrame = 0;
   state = AnimationState::KNOCKED_OUT;
+  ptr = b;
 }
 void Ken::flippedMoveLeft(float f)
 {
@@ -473,6 +474,7 @@ void Ken::update(float dt)
             state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
+            *ptr = true;
         }
     }
     

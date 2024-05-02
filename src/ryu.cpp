@@ -478,7 +478,7 @@ void Ryu::update(float dt)
         elapsed = 0;
         if(currFrame == 1)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -490,7 +490,7 @@ void Ryu::update(float dt)
         elapsed = 0;
         if(currFrame == 2)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -501,7 +501,7 @@ void Ryu::update(float dt)
         elapsed = 0;
         if(currFrame == 5)
         { 
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -535,7 +535,7 @@ void Ryu::update(float dt)
         elapsed = 0;
         if(currFrame == 2) //last frame rendered
         {
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -553,7 +553,7 @@ void Ryu::update(float dt)
         }
         else if(currFrame == -1)
         {
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -568,7 +568,7 @@ void Ryu::update(float dt)
         if(currFrame == 5) //last frame rendered
         {
             player.setPosition(player.getPosition().x,BOTTOMY - IDLE_frames[0].height*PLAYER_SPRITE_Y_SCALE +1);
-            state = AnimationState::FASTIDLE;
+            state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }

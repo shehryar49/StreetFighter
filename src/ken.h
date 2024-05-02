@@ -65,6 +65,7 @@ private:
     float delay_time = 0;
     float limit;
     AnimationState lastState;
+    bool* ptr;
 public:
     Ken();
     void update(float);
@@ -89,7 +90,7 @@ public:
     bool isSuffering();//taking hits or not
     bool isAttacking();
     void bodyHit();
-    void knockout();
+    void knockout(bool*);
 
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();

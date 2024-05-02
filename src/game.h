@@ -55,7 +55,8 @@ private:
     // 3 - jump
     // 4 - special1
     // 5 - special2
-    bool game_over = false; 
+    bool game_over = false;
+    bool await_game_over = false; 
 public:
     Game();
     void run();

@@ -133,7 +133,7 @@ void Game::pollEvents()
                   enemy->flippedMoveLeft(0);
                   break;
                 case sf::Keyboard::K:
-                  player->knockout();
+                 // player->knockout();
                   break;
                 default:
                   break;
@@ -173,8 +173,8 @@ void Game::update(float dt)
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       if(enemy->damage == 100.0f)
       {
-        enemy->knockout();
-        game_over = true;
+        enemy->knockout(&game_over);
+        await_game_over = true;
       }
       else
         enemy->bodyHit();     
@@ -190,8 +190,8 @@ void Game::update(float dt)
       playerDamage.setSize(sf::Vector2f(player->damage*3,25));
       if(player->damage == 100.0f)
       {
-        player->knockout();
-        game_over = true;
+        player->knockout(&game_over);
+        await_game_over = true;
       }
       else
         player->bodyHit();
