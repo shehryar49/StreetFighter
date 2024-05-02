@@ -366,8 +366,9 @@ bool Ryu::isAttacking()
     state == AnimationState::FASTIDLE_ATTACKING
   );
 }
-void Ryu::knockout()
+void Ryu::knockout(bool* b)
 {
+  ptr = b;
   state = AnimationState::KNOCKED_OUT;
   currFrame = 0;
 }
@@ -520,12 +521,14 @@ void Ryu::update(float dt)
     else if(elapsed>=0.6f && state == AnimationState::KNOCKED_OUT)
     {
         player.setTextureRect(knockout_frames[currFrame++]);
+        player.setPosition(player.getPosition().x+20,player.getPosition().y);
         elapsed = 0;
         if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
+            *ptr = true;
         }
     }
     else if (elapsed >= MOVE_TIME && state == AnimationState::KICK1)

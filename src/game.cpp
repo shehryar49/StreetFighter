@@ -168,8 +168,9 @@ void Game::update(float dt)
     //check if player hit enemy
     if(elapsed1>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
-        if(enemy->damage <= 99.0f)
-          enemy->damage += 1.0f;
+      //1.0f
+        if(enemy->damage <= 95.0f)
+          enemy->damage += 5.0f;
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       if(enemy->damage == 100.0f)
       {
@@ -198,23 +199,23 @@ void Game::update(float dt)
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = !true;
+    bool AIBOT = true && !await_game_over;
     if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
       	if(hits >= 5 && a <= b-80)
         {
-          enemy->flippedMoveRight(WINDOW_WIDTH);
-          elapsed3 = 0;
-          hits = 0;
-          return;
+        	enemy->flippedMoveRight(WINDOW_WIDTH);
+        	elapsed3 = 0;
+        	hits = 0;
+        	return;
         }
         else if(a > b - 80)
       	{
         	enemy->flippedMoveLeft(b);
-          elapsed3 = 0;
-          return;
+        	elapsed3 = 0;
+          	return;
       	}
       	int r = rand() % 5;
       	if(r == 0)
@@ -805,7 +806,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 1, 7 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 1, 1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
@@ -825,7 +826,12 @@ void Game::testRun()
         window.display();
     }
     if(game_over && window.isOpen())
+	{
+	  #ifdef __linux
+	  sleep(2);
+	  #endif
       gameOver();
+	}
     delete[] character;
 }
 

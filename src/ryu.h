@@ -69,6 +69,7 @@ private:
     int frameIncrement = 1;
     bool hadoken = false; // hadoken travelling
     float limit;
+    bool* ptr;
 public:
     Ryu();
     void update(float);
@@ -98,7 +99,7 @@ public:
     void bodyHit();
     bool isSuffering();
     bool isAttacking();
-    void knockout();
+    void knockout(bool*);
     ~Ryu();
 };
 #endif
