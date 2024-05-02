@@ -40,7 +40,9 @@ private:
         CROUCHED_KICK2, //sweep
         HADOKEN,
         BODY_HIT,
-        KNOCKED_OUT
+        KNOCKED_OUT,
+        DELAY
+
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -65,9 +67,12 @@ private:
     static sf::IntRect hadoken_frames[4];
     static sf::IntRect body_hit_frames[2];
     static sf::IntRect knockout_frames[5];
+    AnimationState lastState; //used by delay
     int currFrame = 0;
     int frameIncrement = 1;
     float limit;
+    float JMPY = -30;
+    float delay_time = 0;
     bool* ptr;
 public:
     Ryu();

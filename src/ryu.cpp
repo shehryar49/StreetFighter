@@ -285,15 +285,15 @@ bool Ryu::kick3()
 //
 bool Ryu::jump()
 {
-    if(IS_IDLE)
-    {
-        state = AnimationState::JMP;
-        currFrame = -1;
-        frameIncrement = 1;
-        pos = player.getPosition();
-        return true;
-    }
-    return false;
+  if(IS_IDLE)
+  {
+    state = AnimationState::JMP;
+    currFrame = 0;
+    JMPY = -40;
+    delay_time = 0.05f;
+    return true;
+  }
+  return false;
 }
 bool Ryu::crouch()
 {
@@ -600,18 +600,33 @@ void Ryu::update(float dt)
             state = AnimationState::FASTIDLE;
         }
     }
+
     else if (elapsed >=  MOVE_TIME && state == AnimationState::JMP)
-    {
-        currFrame++; 
+    { 
         player.setTextureRect(jmp_frames[currFrame]);
-        player.setPosition(player.getPosition().x,player.getPosition().y-30);
+        player.setPosition(player.getPosition().x,player.getPosition().y+JMPY);
         elapsed = 0;
-        if(currFrame == 6) //last frame rendered
+        currFrame++;
+
+        if(currFrame == 3 && delay_time!=0) //start landing
         {
-            currFrame = 7;
-            state = AnimationState::LAND;
+          lastState = AnimationState::JMP;
+          JMPY *= -1;
+          state = AnimationState::DELAY;
         }
-    }  
+        else if(currFrame == 7)
+        {
+          state = AnimationState::FASTIDLE;
+          player.setPosition(player.getPosition().x,player.getPosition().y-JMPY);
+          currFrame = 0;
+        }
+    }   
+    else if(elapsed >= delay_time && state == AnimationState::DELAY)
+    {
+      state = lastState;
+      elapsed = 0;
+      delay_time = 0;
+    }
     else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
     {
         player.setTextureRect(crouching_frames[currFrame++]);
