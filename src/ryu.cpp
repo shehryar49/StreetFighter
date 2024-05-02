@@ -273,11 +273,10 @@ bool Ryu::kick2()
 }
 bool Ryu::kick3()
 {
-  if(state == AnimationState::IDLE)
+  if(IS_IDLE)
   {
-    player.setPosition(player.getGlobalBounds().left,BOTTOMY - (120*PLAYER_SPRITE_Y_SCALE) +1);
-    state = AnimationState::KICK3;
     currFrame = 0;
+    state = AnimationState::KICK3;
     frameIncrement = 1;
     return true;
   }
@@ -571,9 +570,8 @@ void Ryu::update(float dt)
         player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
         player.setTextureRect(kick3_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 5) //last frame rendered
-        {
-            player.setPosition(player.getPosition().x,BOTTOMY - IDLE_frames[0].height*PLAYER_SPRITE_Y_SCALE +1);
+        if(currFrame == 5)
+        { 
             state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
