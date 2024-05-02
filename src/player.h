@@ -2,6 +2,7 @@
 #define PLAYER_H_
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "constants.h"
 class Player // Abstract class
 {
@@ -42,8 +43,10 @@ public:
 public:
     float damage = 0;//health damage
     sf::Sprite player;
+    sf::Sprite projectile;
     sf::Image image;
     sf::Texture texture;
     sf::Music voiceline;
+    bool projectile_active = false;
 };
 #endif

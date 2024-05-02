@@ -124,9 +124,9 @@ Ryu::Ryu()
     hadoken_frames[1] = sf::IntRect(130,1535,90,100);
     hadoken_frames[2] = sf::IntRect(240,1535,90,100);
     hadoken_frames[3] = sf::IntRect(350,1535,120,100); 
-    gola.setTexture(texture);
-    gola.setTextureRect(sf::IntRect(550,1550,60,50));
-    gola.setScale(1.2,1.2);
+    projectile.setTexture(texture);
+    projectile.setTextureRect(sf::IntRect(550,1550,60,50));
+    projectile.setScale(1.2,1.2);
     
     knockout_frames[0] = sf::IntRect(580,2100,90,100);
     knockout_frames[1] = sf::IntRect(890,2100,125,100);
@@ -378,12 +378,12 @@ void Ryu::update(float dt)
     if(STOP)
       return;
     elapsed += dt;
-    if(hadoken)
+    if(projectile_active)
     {
-        if(gola.getPosition().x + 100 >= 800)
-          hadoken = false;
+        if(projectile.getPosition().x + 100 >= 800)
+          projectile_active = false;
         else
-          gola.setPosition(gola.getPosition().x + (100*dt),gola.getPosition().y);
+          projectile.setPosition(projectile.getPosition().x + (100*dt),projectile.getPosition().y);
     }
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
@@ -685,8 +685,8 @@ void Ryu::update(float dt)
         elapsed = 0;
         if(currFrame == 4)
         {
-            hadoken = true;
-            gola.setPosition(player.getPosition().x+220,player.getPosition().y+60);
+            projectile_active = true;
+            projectile.setPosition(player.getPosition().x+220,player.getPosition().y+60);
             state = AnimationState::IDLE;
             currFrame = -1;
             frameIncrement = 1;
@@ -716,8 +716,8 @@ sf::Vector2f Ryu::getPosition()
 void Ryu::render(sf::RenderWindow &win)
 {
     win.draw(player);
-    if(hadoken)
-      win.draw(gola);
+    if(projectile_active)
+      win.draw(projectile);
 }
 Ryu::~Ryu()
 {

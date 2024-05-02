@@ -7,7 +7,7 @@ class Ryu : public Player
 {
 private:
 
-    sf::Sprite gola;
+
     sf::Image img;
     sf::Vector2f pos; // to save before jumping
     float elapsed = 0;
@@ -67,7 +67,6 @@ private:
     static sf::IntRect knockout_frames[5];
     int currFrame = 0;
     int frameIncrement = 1;
-    bool hadoken = false; // hadoken travelling
     float limit;
     bool* ptr;
 public:

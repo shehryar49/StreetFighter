@@ -165,6 +165,21 @@ void Game::update(float dt)
     elapsed2 += dt;
     elapsed3 += dt;
     player->update(dt);
+	//check projectile damage
+	if(player->projectile_active && player->projectile.getGlobalBounds().intersects(enemy->getGlobalBounds()))
+	{
+		if(enemy->damage <= 95.0f)
+			enemy->damage+=5.0f;
+		enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
+        if(enemy->damage == 100.0f)
+        {
+          	enemy->knockout(&game_over);
+          	await_game_over = true;
+        }
+      	else
+        	enemy->bodyHit();  
+		player->projectile_active = false;
+	}
     //check if player hit enemy
     if(elapsed1>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
@@ -200,6 +215,7 @@ void Game::update(float dt)
     }
     // set up things for next updation
     bool AIBOT = true && !await_game_over;
+	
     if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
