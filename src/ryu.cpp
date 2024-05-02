@@ -521,7 +521,10 @@ void Ryu::update(float dt)
     else if(elapsed>=0.6f && state == AnimationState::KNOCKED_OUT)
     {
         player.setTextureRect(knockout_frames[currFrame++]);
-        player.setPosition(player.getPosition().x+20,player.getPosition().y);
+        if(player.getScale().x < 0)
+          player.setPosition(player.getPosition().x+20,player.getPosition().y);
+        else
+          player.setPosition(player.getPosition().x-20,player.getPosition().y);
         elapsed = 0;
         if(currFrame == 5)
         { 
