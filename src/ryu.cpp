@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
-#define STOP !false
+#define STOP false
 sf::IntRect Ryu::IDLE_frames[5];
 sf::IntRect Ryu::moveright_frames[6];
 sf::IntRect Ryu::moveleft_frames[6];
@@ -127,9 +127,14 @@ Ryu::Ryu()
     gola.setTexture(texture);
     gola.setTextureRect(sf::IntRect(550,1550,60,50));
     gola.setScale(1.2,1.2);
+    
+    knockout_frames[0] = sf::IntRect(580,2100,90,100);
+    knockout_frames[1] = sf::IntRect(890,2100,125,100);
+    knockout_frames[2] = sf::IntRect(680,2190,125,100);
+    knockout_frames[3] = sf::IntRect(845,2190,125,100);
+    knockout_frames[4] = sf::IntRect(980,2195,135,100);
 
-    player.setTextureRect(sf::IntRect(550,2100,70*3,100));
-    //player.setTextureRect(IDLE_frames[0]);
+    player.setTextureRect(IDLE_frames[0]);
  
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
@@ -361,6 +366,11 @@ bool Ryu::isAttacking()
     state == AnimationState::FASTIDLE_ATTACKING
   );
 }
+void Ryu::knockout()
+{
+  state = AnimationState::KNOCKED_OUT;
+  currFrame = 0;
+}
 //Updation based on animation state
 void Ryu::update(float dt)
 {
@@ -501,6 +511,17 @@ void Ryu::update(float dt)
         player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 2)
+        { 
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=0.6f && state == AnimationState::KNOCKED_OUT)
+    {
+        player.setTextureRect(knockout_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;

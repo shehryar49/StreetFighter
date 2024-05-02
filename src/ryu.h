@@ -98,6 +98,7 @@ public:
     void bodyHit();
     bool isSuffering();
     bool isAttacking();
+    void knockout();
     ~Ryu();
 };
 #endif
