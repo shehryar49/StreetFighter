@@ -337,7 +337,7 @@ bool Ryu::specialMove1()
 }
 bool Ryu::specialMove2()
 {
-    if(IS_IDLE)
+    if(IS_IDLE && !projectile_active)
     {
         state = AnimationState::HADOKEN;
         currFrame = 0;
