@@ -23,7 +23,7 @@ sf::IntRect Sagat::tiger_frames[3];
 Sagat::Sagat()
 {
     img.loadFromFile("assets/sagat.png");
-    img.createMaskFromColor(sf::Color(248, 0, 248, 255));
+    //img.createMaskFromColor(sf::Color(248, 0, 248, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -105,7 +105,7 @@ Sagat::Sagat()
     projectile.setScale(1.3f,1.3f);
     
     #define STOP true
-
+    player.setTextureRect(sf::IntRect(0,1200,80*3,100));
     //player.setTextureRect(IDLE_frames[0]);
      
     player.setScale(sf::Vector2f(2.1, 2.1));
