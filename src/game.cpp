@@ -233,7 +233,7 @@ void Game::update(float dt)
         	elapsed3 = 0;
           	return;
       	}
-      	int r = rand() % 6;
+        int r = rand() % 6;
       	if(r == 0)
         	enemy->punch1();
       	else if(r == 1)
@@ -823,7 +823,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 9,9 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 5,5 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);

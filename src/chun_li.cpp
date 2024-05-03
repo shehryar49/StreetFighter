@@ -167,7 +167,7 @@ Chun_Li::Chun_Li(){
     special1_frames[11] = sf::IntRect(14, 1525, 70, 107);
 
     player.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
-    player.setScale(sf::Vector2f(2.1, 2.1));
+    player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     curr_state = AnimationState::idle;
     curr_frame = 1;
     incr_to_next_frame = 1;
@@ -753,6 +753,6 @@ sf::Vector2f Chun_Li::getPosition() {
     return player.getPosition();
 }
 void Chun_Li::flipX() {
-    player.setScale(-2.1,2.1);
+    player.setScale(-PLAYER_SPRITE_X_SCALE,PLAYER_SPRITE_Y_SCALE);
 }
 Chun_Li::~Chun_Li(){}
