@@ -30,7 +30,8 @@ private:
         BODY_HIT,
         FLIPPED_MOVE_LEFT,
         FLIPPED_MOVE_RIGHT,
-        KNOCKED_OUT
+        KNOCKED_OUT,
+        TIGER
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -46,8 +47,9 @@ private:
     static sf::IntRect jmp_frames[6]; 
     static sf::IntRect crouching_frames[2];
     static sf::IntRect crouched_punch1_frames[3];
-    static sf::IntRect body_hit_frames[3];
+    static sf::IntRect body_hit_frames[4];
     static sf::IntRect knockout_frames[5];
+    static sf::IntRect tiger_frames[3];
     int currFrame = 0;
     int frameIncrement = 1;
     float JMPY = -30;

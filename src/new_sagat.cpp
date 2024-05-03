@@ -17,13 +17,13 @@ sf::IntRect Sagat::kick3_frames[7];
 sf::IntRect Sagat::jmp_frames[6]; 
 sf::IntRect Sagat::crouching_frames[2];
 sf::IntRect Sagat::crouched_punch1_frames[3];
-sf::IntRect Sagat::body_hit_frames[3];
+sf::IntRect Sagat::body_hit_frames[4];
 sf::IntRect Sagat::knockout_frames[5];
-
+sf::IntRect Sagat::tiger_frames[3];
 Sagat::Sagat()
 {
     img.loadFromFile("assets/sagat.png");
-    //img.createMaskFromColor(sf::Color(248, 0, 248, 255));
+    img.createMaskFromColor(sf::Color(248, 0, 248, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -90,9 +90,23 @@ Sagat::Sagat()
     crouched_punch1_frames[0] = sf::IntRect(590,1045,85,124);
     crouched_punch1_frames[1] = sf::IntRect(695,1045,140,124);
     crouched_punch1_frames[2] = crouched_punch1_frames[0];
-    #define STOP !true
+    //
+    body_hit_frames[0] = sf::IntRect(600,1830,80,124);
+    body_hit_frames[1] = sf::IntRect(685,1830,80,124);
+    body_hit_frames[2] = sf::IntRect(770,1830,80,124);
+    body_hit_frames[3] = sf::IntRect(880,1830,80,124);
+    //
+    tiger_frames[0] = sf::IntRect(20,1180,80,124);
+    tiger_frames[1] = sf::IntRect(130,1180,100,124);
+    tiger_frames[2] = sf::IntRect(265,1180,155,124);
+    
+    projectile.setTexture(texture);
+    projectile.setTextureRect(sf::IntRect(490,1205,40,40));
+    projectile.setScale(1.3f,1.3f);
+    
+    #define STOP true
 
-    player.setTextureRect(IDLE_frames[0]);
+    //player.setTextureRect(IDLE_frames[0]);
      
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -216,7 +230,11 @@ bool Sagat::uncrouch()
 }
 bool Sagat::specialMove1()
 {
-
+  if(state == AnimationState::IDLE && !projectile_active)
+  {
+    state = AnimationState::TIGER;
+    currFrame = 0;
+  }
   return false;
 }
 bool Sagat::isIdle()
@@ -280,7 +298,13 @@ void Sagat::update(float dt)
     if(STOP)
       return;
     elapsed += dt;
-    int disp = 10;
+    if(projectile_active)
+    {
+        if(projectile.getPosition().x + 100 >= 800)
+          projectile_active = false;
+        else
+          projectile.setPosition(projectile.getPosition().x + (100*dt),projectile.getPosition().y);
+    }
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
@@ -340,7 +364,7 @@ void Sagat::update(float dt)
     {
         player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 2)
+        if(currFrame == 4)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
@@ -365,6 +389,19 @@ void Sagat::update(float dt)
         if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE_ATTACKING;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME && state == AnimationState::TIGER)
+    {
+        player.setTextureRect(tiger_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 3)
+        { 
+            projectile_active = true;
+            projectile.setPosition(player.getPosition().x+220,player.getPosition().y+60);
+            state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -494,6 +531,8 @@ void Sagat::flipX()
 void Sagat::render(sf::RenderWindow &win)
 {
     win.draw(player);
+    if(projectile_active)
+      win.draw(projectile);
 }
 sf::FloatRect Sagat::getGlobalBounds()
 {
