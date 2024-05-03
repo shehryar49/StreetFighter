@@ -43,9 +43,9 @@ private:
     static sf::IntRect kick1_frames[7];
     static sf::IntRect kick2_frames[7];
     static sf::IntRect kick3_frames[7];
-    static sf::IntRect jmp_frames[8]; 
-    static sf::IntRect crouching_frames[3];
-    static sf::IntRect crouched_punch1_frames[2];
+    static sf::IntRect jmp_frames[6]; 
+    static sf::IntRect crouching_frames[2];
+    static sf::IntRect crouched_punch1_frames[3];
     static sf::IntRect body_hit_frames[3];
     static sf::IntRect knockout_frames[5];
     int currFrame = 0;

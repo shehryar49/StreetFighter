@@ -14,9 +14,9 @@ sf::IntRect Sagat::punch2_frames[5];
 sf::IntRect Sagat::kick1_frames[7]; // side kick
 sf::IntRect Sagat::kick2_frames[7]; // low kick
 sf::IntRect Sagat::kick3_frames[7];
-sf::IntRect Sagat::jmp_frames[8]; 
-sf::IntRect Sagat::crouching_frames[3];
-sf::IntRect Sagat::crouched_punch1_frames[2];
+sf::IntRect Sagat::jmp_frames[6]; 
+sf::IntRect Sagat::crouching_frames[2];
+sf::IntRect Sagat::crouched_punch1_frames[3];
 sf::IntRect Sagat::body_hit_frames[3];
 sf::IntRect Sagat::knockout_frames[5];
 
@@ -76,10 +76,22 @@ Sagat::Sagat()
     kick3_frames[4] = sf::IntRect(500,913,80,124);
     kick3_frames[5] = sf::IntRect(600,913,100,124);
     kick3_frames[6] = sf::IntRect(710,913,110,124);
-    
+    //
+    jmp_frames[0] = sf::IntRect(19, 318, 79, 124);
+    jmp_frames[1] = sf::IntRect(126, 300, 69, 135);
+    jmp_frames[2] = sf::IntRect(237, 290, 74, 99);
+    jmp_frames[3] = sf::IntRect(335, 292, 66, 79);
+    jmp_frames[4] = sf::IntRect(426, 290, 74, 99);
+    jmp_frames[5] = sf::IntRect(523, 300, 69, 135);
+    //
+    crouching_frames[0] = sf::IntRect(510,151,80,124);
+    crouching_frames[1] = sf::IntRect(610,151,90,124);
+    //
+    crouched_punch1_frames[0] = sf::IntRect(590,1045,85,124);
+    crouched_punch1_frames[1] = sf::IntRect(695,1045,140,124);
+    crouched_punch1_frames[2] = crouched_punch1_frames[0];
     #define STOP !true
-    //player.setTextureRect(sf::IntRect(710,913,110,124));
-    //player.setTextureRect(kick2_frames[3]);
+
     player.setTextureRect(IDLE_frames[0]);
      
     player.setScale(sf::Vector2f(2.1, 2.1));
@@ -339,10 +351,10 @@ void Sagat::update(float dt)
     {
         player.setTextureRect(crouched_punch1_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 2)
+        if(currFrame == 3)
         { 
             state = AnimationState::CROUCHING;
-            currFrame = 2;
+            currFrame = 1;
             frameIncrement = 1;
         }
     }
@@ -386,23 +398,23 @@ void Sagat::update(float dt)
         elapsed = 0;
         currFrame++;
 
-        if(currFrame == 4 && delay_time!=0) //start landing
+        if(currFrame == 3 && delay_time!=0) //start landing
         {
           lastState = AnimationState::JMP;
           JMPY *= -1;
-
           state = AnimationState::DELAY;
         }
-        else if(currFrame == 8)
+        else if(currFrame == 7)
         {
           state = AnimationState::FASTIDLE;
+          player.setPosition(player.getPosition().x,player.getPosition().y-JMPY);
           currFrame = 0;
         }
     }  
     else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
     {
       player.setTextureRect(crouching_frames[currFrame++]);
-      if(currFrame == 3)
+      if(currFrame == 2)
       {
         state = AnimationState::CROUCHED;
         currFrame = 0;
