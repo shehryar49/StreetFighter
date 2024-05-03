@@ -18,7 +18,7 @@ sf::IntRect Sagat::jmp_frames[6];
 sf::IntRect Sagat::crouching_frames[2];
 sf::IntRect Sagat::crouched_punch1_frames[3];
 sf::IntRect Sagat::body_hit_frames[4];
-sf::IntRect Sagat::knockout_frames[5];
+sf::IntRect Sagat::knockout_frames[4];
 sf::IntRect Sagat::tiger_frames[3];
 Sagat::Sagat()
 {
@@ -100,14 +100,18 @@ Sagat::Sagat()
     tiger_frames[0] = sf::IntRect(20,1180,80,124);
     tiger_frames[1] = sf::IntRect(130,1180,100,124);
     tiger_frames[2] = sf::IntRect(265,1180,155,124);
-    
+    //
+    knockout_frames[0] = sf::IntRect(708,1700,120,124);
+    knockout_frames[1] = sf::IntRect(830,1700,80,124);
+    knockout_frames[2] = sf::IntRect(940,1692,105,124);
+    knockout_frames[3] = sf::IntRect(1065,1695,153,124);
+    //
     projectile.setTexture(texture);
     projectile.setTextureRect(sf::IntRect(490,1205,40,40));
     projectile.setScale(1.3f,1.3f);
     
-    #define STOP true
-    player.setTextureRect(sf::IntRect(0,1200,80*3,100));
-    //player.setTextureRect(IDLE_frames[0]);
+    #define STOP !true
+    player.setTextureRect(IDLE_frames[0]);
      
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -415,7 +419,7 @@ void Sagat::update(float dt)
         else
           player.setPosition(player.getPosition().x-20,player.getPosition().y);
         elapsed = 0;
-        if(currFrame == 5)
+        if(currFrame == 4)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
