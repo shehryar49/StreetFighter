@@ -52,4 +52,5 @@ bool Player::isIdle(){ return false;}
 bool Player::isSuffering(){return false;}
 bool Player::isAttacking(){return false;}
 void Player::bodyHit(){}
+void Player::knockout(bool*){}
 Player::~Player(){}

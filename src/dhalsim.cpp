@@ -24,6 +24,8 @@ sf::IntRect Dhalsim::block_frames[2];
 sf::IntRect Dhalsim::victory1_frames[12];
 sf::IntRect Dhalsim::knockout1_frames[4];
 sf::IntRect Dhalsim::yogaflame_frames[20];
+sf::IntRect Dhalsim::hit_taken_face_frames[2];
+sf::IntRect Dhalsim::hit_taken_body_frames[2];
 
 Dhalsim::Dhalsim()
 {
@@ -35,19 +37,19 @@ Dhalsim::Dhalsim()
     texture.loadFromImage(img);
     player.setTexture(texture);
 
-    IDLE_frames[0] = sf::IntRect(0, 0, 90, 110);  //(x-axis,y-axis,width of rect,height of rect)
-    IDLE_frames[1] = sf::IntRect(90, 0, 90, 110);
-    IDLE_frames[2] = sf::IntRect(90 + 90, 0, 90, 110);
-    IDLE_frames[3] = sf::IntRect(90 + 90 + 90, 0, 90, 110);
-    IDLE_frames[4] = sf::IntRect(90 + 90 + 90 + 90, 0, 90, 110);
-    IDLE_frames[5] = sf::IntRect(90 + 90 + 90 + 90 + 90, 0, 90, 110);
+    IDLE_frames[0] = sf::IntRect(10, 0, 80, 110);  //(x-axis,y-axis,width of rect,height of rect)
+    IDLE_frames[1] = sf::IntRect(90, 0, 80, 110);
+    IDLE_frames[2] = sf::IntRect(90 + 90, 0, 75, 110);
+    IDLE_frames[3] = sf::IntRect(90 + 90 + 90, 0, 80, 110);
+    IDLE_frames[4] = sf::IntRect(90 + 90 + 90 + 90, 0, 85, 110);
+    IDLE_frames[5] = sf::IntRect(90 + 90 + 90 + 90 + 90, 0, 85, 110);
 
-    jmp_frames[0] = sf::IntRect(10, 980, 90, 130);
-    jmp_frames[1] = sf::IntRect(10 + 90, 955, 90, 130);
-    jmp_frames[2] = sf::IntRect(10 + 90 + 90, 940, 90, 130);
-    jmp_frames[3] = sf::IntRect(10 + 90 + 90 + 90, 960, 90, 130);
-    jmp_frames[4] = sf::IntRect(10 + 90 + 90 + 90 + 90, 950, 90, 130);
-    jmp_frames[5] = sf::IntRect(10 + 90 + 90 + 90 + 90 + 90, 955, 90, 130);
+    jmp_frames[0] = sf::IntRect(30, 990, 70, 100);
+    jmp_frames[1] = sf::IntRect(30 + 90, 955, 70, 130);
+    jmp_frames[2] = sf::IntRect(10 + 90 + 90, 955, 90, 130);
+    jmp_frames[3] = sf::IntRect(20 + 90 + 90 + 90, 960, 70, 130);
+    jmp_frames[4] = sf::IntRect(20 + 90 + 90 + 90 + 90, 950, 60, 130);
+    jmp_frames[5] = sf::IntRect(20 + 90 + 90 + 90 + 90 + 90, 955, 60, 130);
 
     moveright_frames[0] = sf::IntRect(8 + 0, 125, 90, 110);
     moveright_frames[1] = sf::IntRect(10 + 90 * 1, 125, 90, 110);
@@ -151,6 +153,11 @@ Dhalsim::Dhalsim()
     yogaflame_frames[18] =sf::IntRect(15+30+165, 2050, 155, 110);
     yogaflame_frames[19] =sf::IntRect(15+30+10+165+155, 2050, 155, 110);
 
+    hit_taken_face_frames[0]= sf::IntRect(110 + 90 + 90 + 90, 2565, 90, 110);
+    hit_taken_face_frames[1]= sf::IntRect(110 + 90 + 90 + 90 + 90, 2565, 90, 110);
+
+    hit_taken_body_frames[0] = sf::IntRect(115 + 90+ 90 + 90 + 90+90, 2565, 90, 110);
+    hit_taken_body_frames[1] = sf::IntRect(15+115 + 90 + 90 + 90 + 90+90+90, 2565, 90, 110);
                                    
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
@@ -173,10 +180,10 @@ bool Dhalsim::processEvent(sf::Event& event)
             //    hit_taken_blanka_electricity();
             //    return true;
             //}
-            //else if (event.key.code == sf::Keyboard::Num2) {
-            //    hit_taken_face();
-            //    return true;
-            //}
+            if (event.key.code == sf::Keyboard::Num2) {
+                hit_taken_face();
+                return true;
+            }
             //else if (event.key.code == sf::Keyboard::Num3) {
             //    hit_taken_body();
             //    return true;
@@ -189,7 +196,7 @@ bool Dhalsim::processEvent(sf::Event& event)
             //    face_body_combo_taken();
             //    return true;
             //}
-            if (event.key.code == sf::Keyboard::Num7) {
+            else if (event.key.code == sf::Keyboard::Num7) {
                 knockout(1);
                 return true;
             }
@@ -238,11 +245,29 @@ void Dhalsim::moveRight(float f)
         limit = f;
     }
 }
+void Dhalsim::flippedMoveRight(float f) {
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::flipped_move_right;
+        currFrame = -1;
+        frameIncrement = 1;
+        limit = f;
+    }
+}
 void Dhalsim::moveLeft(float f)
 {
     if (state == AnimationState::IDLE)
     {
         state = AnimationState::moveLeft;
+        currFrame = -1;
+        frameIncrement = 1;
+        limit = f;
+    }
+}
+void Dhalsim::flippedMoveLeft(float f) {
+    if (state == AnimationState::IDLE) 
+    {
+        state = AnimationState::flipped_move_left;
         currFrame = -1;
         frameIncrement = 1;
         limit = f;
@@ -418,6 +443,24 @@ void Dhalsim::knockout(int type = 1) //to be set when bar becomes empty
         frameIncrement = 1;
     }
 }
+void Dhalsim::hit_taken_face() //to be set for hit face condition
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::HIT_TAKEN_FACE;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+}
+void Dhalsim::bodyHit() //to be set for body hit condition
+{
+    if (state == AnimationState::IDLE)
+    {
+        state = AnimationState::HIT_TAKEN_BODY;
+        currFrame = -1;
+        frameIncrement = 1;
+    }
+}
 void Dhalsim::update(float dt)
 {
     elapsed += dt;
@@ -431,7 +474,7 @@ void Dhalsim::update(float dt)
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= (MOVE_TIME) && state == AnimationState::FASTIDLE)
+    else if (elapsed >= (MOVE_TIME) && (state == AnimationState::FASTIDLE || state == AnimationState::FASTIDLE_ATTACKING))
     {
         player.setTextureRect(IDLE_frames[0]);
         currFrame++;
@@ -497,6 +540,34 @@ void Dhalsim::update(float dt)
         if (currFrame == 5)
         {
             state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::flipped_move_left)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(moveright_frames[currFrame]);
+        elapsed = 0;
+        if (player.getPosition().x - player.getGlobalBounds().width - 20 > limit) // window width is 800
+            player.setPosition(player.getPosition().x - 10, player.getPosition().y);
+        if (currFrame == 5)
+        {
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            frameIncrement = 1;
+        }
+    }
+    else if (elapsed >= (MOVE_TIME) && state == AnimationState::flipped_move_right)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(moveleft_frames[currFrame]);
+        elapsed = 0;
+        if (player.getPosition().x + 20 < limit) // window width is 800
+            player.setPosition(player.getPosition().x + 10, player.getPosition().y);
+        if (currFrame == 5)
+        {
+            state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
         }
@@ -727,7 +798,26 @@ void Dhalsim::update(float dt)
         player.setTextureRect(knockout1_frames[currFrame]);
         elapsed = 0;
     }
-    /*return;*/
+    else if (elapsed >= 0.2 && state == AnimationState::HIT_TAKEN_FACE)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(hit_taken_face_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 1)
+        {
+            state = AnimationState::FASTIDLE;
+        }
+    }
+    else if (elapsed >= 0.2 && state == AnimationState::HIT_TAKEN_BODY)
+    {
+        currFrame = currFrame + 1;
+        player.setTextureRect(hit_taken_body_frames[currFrame]);
+        elapsed = 0;
+        if (currFrame == 1)
+        {
+            state = AnimationState::FASTIDLE;
+        }
+    }
 }
 void Dhalsim::setPosition(float x, float y)
 {
@@ -748,6 +838,25 @@ sf::FloatRect Dhalsim::getGlobalBounds()
 sf::FloatRect Dhalsim::getLocalBounds()
 {
     return player.getLocalBounds();
+}
+bool Dhalsim::isIdle() {
+    return state == AnimationState::IDLE;
+}
+bool Dhalsim::isSuffering()
+{
+    return state == AnimationState::HIT_TAKEN_BODY;
+}
+bool Dhalsim::isAttacking()
+{
+    return (
+        state == AnimationState::PUNCH1 ||
+        state == AnimationState::PUNCH2 ||
+        state == AnimationState::PUNCH3 ||
+        state == AnimationState::KICK1 ||
+        state == AnimationState::KICK2 ||
+        state == AnimationState::KICK3 ||
+        state == AnimationState::FASTIDLE_ATTACKING
+        );
 }
 Dhalsim::~Dhalsim()
 {

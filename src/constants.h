@@ -10,5 +10,5 @@
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define NO_OF_VOICE_LINES 6
-
+#define KNOCKOUT_TIME 0.6f
 #endif

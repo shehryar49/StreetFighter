@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+ #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -133,7 +133,7 @@ void Game::pollEvents()
                   enemy->flippedMoveLeft(0);
                   break;
                 case sf::Keyboard::K:
-                  enemy->kick1();
+                 // player->knockout();
                   break;
                 default:
                   break;
@@ -160,47 +160,80 @@ void Game::update(float dt)
     static float elapsed1 = 0;
     static float elapsed2 = 0;
     static float elapsed3 = 0;
+    static int hits = 0;
     elapsed1 += dt;
     elapsed2 += dt;
     elapsed3 += dt;
     player->update(dt);
+	//check projectile damage
+	if(player->projectile_active && player->projectile.getGlobalBounds().intersects(enemy->getGlobalBounds()))
+	{
+		if(enemy->damage <= 95.0f)
+			enemy->damage+=5.0f;
+		enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
+        if(enemy->damage == 100.0f)
+        {
+          	enemy->knockout(&game_over);
+          	await_game_over = true;
+        }
+      	else
+        	enemy->bodyHit();  
+		player->projectile_active = false;
+	}
     //check if player hit enemy
-    //printf("player->isAttacking = %d\n",player->isAttacking());
-    if(player->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+    if(elapsed1>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
-    //  printf("here1 %d\n",enemy->isSuffering());
-    }
-    //give damage to enemy
-    if(elapsed1>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
-    {
-        if(enemy->damage <= 99.7f)
-          enemy->damage += 0.3f;
+      //1.0f
+        if(enemy->damage <= 95.0f)
+          enemy->damage += 5.0f;
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
-      enemy->bodyHit();     
+      if(enemy->damage == 100.0f)
+      {
+        enemy->knockout(&game_over);
+        await_game_over = true;
+      }
+      else
+        enemy->bodyHit();     
       elapsed1 = 0;
+      hits++;
     }
     enemy->update(dt);
     //give damage to player
-    if(elapsed1!=0 && elapsed2>=40*dt && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
+    if(elapsed1!=0 && elapsed2>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
     {
-      //printf("giving damage to player %d %d\n",enemy->isAttacking(),enemy->isSuffering());
-      if(player->damage <= 99.7f)
-        player->damage += 0.3f;
+      if(player->damage <= 99.0f)
+        player->damage += 1.0f;
       playerDamage.setSize(sf::Vector2f(player->damage*3,25));
-      player->bodyHit();
+      if(player->damage == 100.0f)
+      {
+        player->knockout(&game_over);
+        await_game_over = true;
+      }
+      else
+        player->bodyHit();
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = true;
-    if(elapsed3 >= 3000*dt && AIBOT && enemy->isIdle())
+    bool AIBOT = !true && !await_game_over;
+	
+    if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
-      	if(a > b - 80)
+      	if(hits >= 5 && a <= b-80)
+        {
+        	enemy->flippedMoveRight(WINDOW_WIDTH);
+        	elapsed3 = 0;
+        	hits = 0;
+        	return;
+        }
+        else if(a > b - 80)
       	{
         	enemy->flippedMoveLeft(b);
+        	elapsed3 = 0;
+          	return;
       	}
-      	int r = rand() % 5;
+      	int r = rand() % 6;
       	if(r == 0)
         	enemy->punch1();
       	else if(r == 1)
@@ -211,7 +244,8 @@ void Game::update(float dt)
         	enemy->kick1();
       	else if(r == 4)
         	enemy->kick2();
-      	//kick3 needs some fixing
+		else if(r == 5)
+  			enemy->kick3();
         elapsed3 = 0;
     }
 
@@ -265,7 +299,34 @@ void Game::playIntro()
     window.setFramerateLimit(0);
     smg.stop(intro_music);
 }
-
+void Game::gameOver()
+{
+  sf::Font f;
+  f.loadFromFile("assets/Hack-Regular.ttf");
+  sf::Text t;
+  t.setFont(f);
+  t.setCharacterSize(28);
+  t.setFillColor(sf::Color::White);
+  t.setPosition(320,280);
+  t.setString("Game Over");
+  while (window.isOpen())
+  {
+      sf::Event event;
+      while (window.pollEvent(event))
+      {
+          if (event.type == sf::Event::Closed)
+              window.close();
+          if (event.type == sf::Event::KeyPressed)
+          {
+              return;
+          }
+      }
+      window.clear();
+      window.draw(t);
+      window.display();
+  }
+  
+}
 int* Game::selectScreen()
 {
     int* choices = new int[2];
@@ -762,11 +823,11 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 7, 7 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 1,1  }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
-    while (window.isOpen())
+    while (!game_over && window.isOpen())
     {
         pollEvents();
         float dt = clock.restart().asSeconds();
@@ -781,6 +842,13 @@ void Game::testRun()
         enemy->render(window);
         window.display();
     }
+    if(game_over && window.isOpen())
+	{
+	  #ifdef __linux
+	  sleep(2);
+	  #endif
+      gameOver();
+	}
     delete[] character;
 }
 

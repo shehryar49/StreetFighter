@@ -7,7 +7,7 @@ class Ryu : public Player
 {
 private:
 
-    sf::Sprite gola;
+
     sf::Image img;
     sf::Vector2f pos; // to save before jumping
     float elapsed = 0;
@@ -39,7 +39,10 @@ private:
         CROUCHED_KICK1,
         CROUCHED_KICK2, //sweep
         HADOKEN,
-        BODY_HIT
+        BODY_HIT,
+        KNOCKED_OUT,
+        DELAY
+
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -63,10 +66,14 @@ private:
     static sf::IntRect hadoken_ball;
     static sf::IntRect hadoken_frames[4];
     static sf::IntRect body_hit_frames[2];
+    static sf::IntRect knockout_frames[5];
+    AnimationState lastState; //used by delay
     int currFrame = 0;
     int frameIncrement = 1;
-    bool hadoken = false; // hadoken travelling
     float limit;
+    float JMPY = -30;
+    float delay_time = 0;
+    bool* ptr;
 public:
     Ryu();
     void update(float);
@@ -96,6 +103,7 @@ public:
     void bodyHit();
     bool isSuffering();
     bool isAttacking();
+    void knockout(bool*);
     ~Ryu();
 };
 #endif

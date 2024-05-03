@@ -2,6 +2,7 @@
 #define PLAYER_H_
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "constants.h"
 class Player // Abstract class
 {
@@ -37,12 +38,15 @@ public:
     virtual bool isIdle();
     virtual bool isSuffering(); // Are ya suffering son?
     virtual bool isAttacking(); //I wish, I was the monster you think I am.
+    virtual void knockout(bool*);
     virtual ~Player();
 public:
     float damage = 0;//health damage
     sf::Sprite player;
+    sf::Sprite projectile;
     sf::Image image;
     sf::Texture texture;
     sf::Music voiceline;
+    bool projectile_active = false;
 };
 #endif
