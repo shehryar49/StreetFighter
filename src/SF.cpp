@@ -27,6 +27,7 @@
 using namespace std;
 int main()
 {
+	
 	Game sf;
 	//sf.run();
 	sf.testRun();

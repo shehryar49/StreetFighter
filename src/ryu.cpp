@@ -353,6 +353,7 @@ bool Ryu::isSuffering()
 {
   return state == AnimationState::BODY_HIT;
 }
+
 bool Ryu::isAttacking()
 {
   return (

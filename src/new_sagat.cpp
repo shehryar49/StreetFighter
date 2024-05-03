@@ -27,6 +27,7 @@ Sagat::Sagat()
     texture.loadFromImage(img);
     player.setTexture(texture);
 
+
     IDLE_frames[0] = sf::IntRect(11, 20, 80, 124);
     IDLE_frames[1] = sf::IntRect(109, 20, 80, 124);
     IDLE_frames[2] = sf::IntRect(214, 20, 80, 124);

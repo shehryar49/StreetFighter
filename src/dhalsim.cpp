@@ -2,7 +2,7 @@
 #include "dhalsim.h"
 #include "constants.h"
 #include<iostream>
-using namespace std;
+
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
 #define STOP false
@@ -30,7 +30,7 @@ sf::IntRect Dhalsim::hit_taken_body_frames[2];
 Dhalsim::Dhalsim()
 {
     if (!img.loadFromFile("assets/dhalsim.png")) {
-        cerr << "Err loading character";
+        std::cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }
     img.createMaskFromColor(sf::Color(70, 112, 104, 255));

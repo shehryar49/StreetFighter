@@ -33,6 +33,7 @@ private:
         KNOCKED_OUT,
         TIGER
     };
+    
     AnimationState state;
     //'Frames' actually might not be the right word
     // but who's gonna stop me?

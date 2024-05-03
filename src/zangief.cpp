@@ -35,6 +35,7 @@ sf::IntRect Zangief::victory3_frames[9];
 sf::IntRect Zangief::knockout_frames[14];
 sf::IntRect Zangief::hit_taken_dhalsim_fire_frames[9];
 
+
 Zangief::Zangief(){
     if(!image.loadFromFile("assets/zangief.png")){
         cerr<<"Err loading character";
