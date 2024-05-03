@@ -351,7 +351,7 @@ bool Ryu::isIdle()
 }
 bool Ryu::isSuffering()
 {
-  return false;
+  return state == AnimationState::BODY_HIT;
 }
 bool Ryu::isAttacking()
 {
@@ -362,7 +362,12 @@ bool Ryu::isAttacking()
     state == AnimationState::KICK1 ||
     state == AnimationState::KICK2 ||
     state == AnimationState::KICK3 ||
-    state == AnimationState::FASTIDLE_ATTACKING
+    state == AnimationState::FASTIDLE_ATTACKING ||
+    state == AnimationState::CROUCHED_KICK1 ||
+    state == AnimationState::CROUCHED_KICK2 ||
+    state == AnimationState::CROUCHED_PUNCH1 || 
+    state == AnimationState::CROUCHED_PUNCH2 ||
+    state == AnimationState::SHORYUKEN
   );
 }
 void Ryu::knockout(bool* b)
