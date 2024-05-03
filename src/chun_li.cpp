@@ -976,6 +976,6 @@ sf::Vector2f Chun_Li::getPosition() {
     return player.getPosition();
 }
 void Chun_Li::flipX() {
-    player.setScale(-2.3,2.3);
+    player.setScale(-2.1,2.1);
 }
 Chun_Li::~Chun_Li(){}

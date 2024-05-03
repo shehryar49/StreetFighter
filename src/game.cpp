@@ -1005,6 +1005,7 @@ void Game::setStage(int* c)
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
             setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
             smg.play(fight_bgm);
+            smg.play(fight_bgm);
             break;
     }
     //was common in all
