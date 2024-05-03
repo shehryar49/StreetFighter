@@ -23,6 +23,7 @@ sf::IntRect Chun_Li::hit_taken_body2_frames[5];
 sf::IntRect Chun_Li::hit_taken_body1_frames[3];
 sf::IntRect Chun_Li::hit_taken_face_body_combo_frames[8];
 sf::IntRect Chun_Li::knockout_frames[12];
+sf::IntRect Chun_Li::special1_frames[12];
 
 Chun_Li::Chun_Li(){
     if(!image.loadFromFile("assets/chun-li.png")){
@@ -185,6 +186,20 @@ Chun_Li::Chun_Li(){
     knockout_frames[10] = sf::IntRect(730, 4928, 110, 75);
     knockout_frames[11] = sf::IntRect(847, 4908, 80, 95);
 
+    special1_frames[0] = sf::IntRect(14, 1525, 70, 107);
+    special1_frames[1] = sf::IntRect(89, 1525, 73, 107);
+    special1_frames[2] = sf::IntRect(169, 1525, 109, 107);
+    special1_frames[3] = sf::IntRect(284, 1525, 124, 107);
+    special1_frames[4] = sf::IntRect(415, 1525, 120, 107);
+    special1_frames[5] = sf::IntRect(542, 1525, 139, 107);
+    special1_frames[6] = sf::IntRect(686, 1525, 122, 107);
+    special1_frames[7] = sf::IntRect(814, 1525, 152, 107);
+    special1_frames[8] = sf::IntRect(975, 1525, 104, 107);
+    special1_frames[9] = sf::IntRect(1084, 1525, 139, 107);
+    special1_frames[10] = sf::IntRect(89, 1525, 73, 107);
+    special1_frames[11] = sf::IntRect(14, 1525, 70, 107);
+     
+
     player.setTextureRect(idle_frames[0]);//IntRect(left,top,width,height)
     player.setScale(sf::Vector2f(2.1, 2.1));
     curr_state = AnimationState::idle;
@@ -198,13 +213,13 @@ void Chun_Li::moveRight(float bound) {
         limit = bound - player.getGlobalBounds().width;
     }
 }
-//void Chun_Li::flippedMoveRight(float bound) {
-//    if (curr_state == AnimationState::idle) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::flipped_move_right;
-//        limit = 500;//bound;
-//    }
-//}
+void Chun_Li::flippedMoveRight(float bound) {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::flipped_move_right;
+        limit = bound;
+    }
+}
 void Chun_Li::moveLeft(float bound) {
     if (curr_state == AnimationState::idle) {
         curr_frame = 0;
@@ -212,13 +227,27 @@ void Chun_Li::moveLeft(float bound) {
         limit = bound;
     }
 }
-//void Chun_Li::flippedMoveLeft(float bound) {
-//    if (curr_state == AnimationState::idle) {
-//        curr_frame = 0;
-//        curr_state = AnimationState::flipped_move_left;
-//        limit = 500; bound;
-//    }
-//}
+void Chun_Li::flippedMoveLeft(float bound) {
+    if (curr_state == AnimationState::idle) {
+        curr_frame = 0;
+        curr_state = AnimationState::flipped_move_left;
+        limit = bound;
+    }
+}
+bool Chun_Li::specialMove1() {
+    if (curr_state == AnimationState::idle) {
+        count = 0;
+        curr_frame = 0;
+        curr_state = AnimationState::special1;
+        return true;
+    }
+    return false;
+}
+
+bool Chun_Li::isIdle() {
+    return curr_state == AnimationState::idle;
+}
+
 bool Chun_Li::block() {
     if (curr_state == AnimationState::idle) {
         player.setTextureRect(sf::IntRect(96, 3839, 85, 88));
@@ -499,6 +528,23 @@ void Chun_Li::update(float time){
         time_elapsed = 0;
         return;
     }
+    if (time_elapsed >= MOVE_TIME / 2.0 && curr_state == AnimationState::flipped_move_left) {
+        if (curr_frame == 12) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (player.getPosition().x - 5 >= limit)
+                setPosition(player.getPosition().x - 5, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
+            player.setTextureRect(move_right_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
     if (time_elapsed >= MOVE_TIME/2.0 && curr_state == AnimationState::move_left) {
         if (curr_frame == 12) {
             curr_frame = 0;
@@ -512,6 +558,23 @@ void Chun_Li::update(float time){
             else
                 setPosition(limit, player.getPosition().y);
            player.setTextureRect(move_left_frames[curr_frame++]);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME / 2.0 && curr_state == AnimationState::flipped_move_right) {
+        if (curr_frame == 12) {
+            curr_frame = 0;
+            incr_to_next_frame = 1;
+            player.setTextureRect(idle_frames[0]);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            if (player.getPosition().x + 5 <= limit)
+                setPosition(player.getPosition().x + 5, player.getPosition().y);
+            else
+                setPosition(limit, player.getPosition().y);
+            player.setTextureRect(move_left_frames[curr_frame++]);
         }
         time_elapsed = 0;
         return;
@@ -869,6 +932,29 @@ void Chun_Li::update(float time){
                 player.setPosition(player.getPosition().x, player.getPosition().y + 60);
             else
                 player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+        }
+        time_elapsed = 0;
+        return;
+    }
+    if (time_elapsed >= MOVE_TIME/1.5 && curr_state == AnimationState::special1) {
+        if (curr_frame == 12) {
+            curr_frame = 0;
+            player.setTextureRect(idle_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            curr_state = AnimationState::idle;
+        }
+        else {
+            player.setTextureRect(special1_frames[curr_frame++]);
+            if (curr_frame == 1)
+                player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
+            if (curr_frame == 3 && !count)
+                player.setPosition(player.getPosition().x - 30, BOTTOMY - player.getGlobalBounds().height);
+            if (curr_frame == 10 && count < 2) {
+                curr_frame = 2;
+                count++;
+            }
+            else if (curr_frame == 11 && count >= 2)
+                player.setPosition(player.getPosition().x + 30, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;

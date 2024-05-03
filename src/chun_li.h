@@ -18,6 +18,8 @@ private:
         block,
         crouch,
         crouch_block,
+        flipped_move_right,
+        flipped_move_left,
         punch1,
         punch3,
         punch5,
@@ -29,6 +31,7 @@ private:
         hit_taken_body2,
         hit_taken_body3,
         hit_taken_face_body,
+        special1,
         knockout,
         defeat,
 
@@ -77,6 +80,8 @@ private:
     static sf::IntRect victory2_frames[5];
     static sf::IntRect victory3_frames[16];
 
+    static sf::IntRect special1_frames[12];
+
     //hits
     static sf::IntRect hit_taken_face1_frames[5];
     static sf::IntRect hit_taken_face2_frames[3];
@@ -107,8 +112,8 @@ public:
     //movements
     void moveLeft(float);
     void moveRight(float);
-    //void flippedMoveLeft(float);
-    //void flippedMoveRight(float);
+    void flippedMoveLeft(float);
+    void flippedMoveRight(float);
     bool jump();
     bool crouch();
     bool uncrouch();
@@ -122,6 +127,8 @@ public:
     bool kick1();
     bool kick2();
     bool kick3();
+    //special
+    bool specialMove1();
     //victory
     void victory(int);
     //hits taken
@@ -130,6 +137,8 @@ public:
     void bodyHit();
     void hit_taken_face_body_combo();
     void knockout(int);
+    //AI
+    bool isIdle();
     ~Chun_Li();
 };
 #endif
