@@ -187,15 +187,15 @@ void Game::update(float dt)
         if(enemy->damage <= 95.0f)
           enemy->damage += 5.0f;
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
-      if(enemy->damage == 100.0f)
-      {
-        enemy->knockout(&game_over);
-        await_game_over = true;
-      }
-      else
-        enemy->bodyHit();     
-      elapsed1 = 0;
-      hits++;
+      	if(enemy->damage == 100.0f)
+      	{
+        	enemy->knockout(&game_over);
+        	await_game_over = true;
+      	}
+      	else
+        	enemy->bodyHit();     
+      	elapsed1 = 0;
+      	hits++;
     }
     enemy->update(dt);
     //give damage to player
@@ -214,7 +214,7 @@ void Game::update(float dt)
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = true && !await_game_over;
+    bool AIBOT = !true && !await_game_over;
 	
     if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
@@ -823,7 +823,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 11,9 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 11,7 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
