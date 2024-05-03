@@ -5,3 +5,4 @@ Makefile
 CMakeFiles/
 SF
 assets/PlayerVoiceLines
+src/.vscode/settings.json
