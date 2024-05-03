@@ -320,7 +320,7 @@ void Chun_Li::bodyHit(){
     curr_state = AnimationState::hit_taken_body1;
 }
 void Chun_Li::knockout(bool* game_over){
-    game_is_over = game_is_over;
+    this->game_is_over = game_over;
     knockout(2);
 }
 void Chun_Li::knockout(int type) {
