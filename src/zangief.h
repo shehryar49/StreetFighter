@@ -15,9 +15,7 @@ private:
         move_left, //Left Arrow
         flipped_move_right,
         flipped_move_left,
-        blocking, //Hold LShift
         crouching, //Hold Down Arrow
-        crouch_blocking, //Hold LShift + Down Arrow
         jump, //Up Arrow
         jump_forward,//Right Arrow then Up Arrow 
         jump_backward, //Left Arrow then Up Arrow
@@ -36,20 +34,15 @@ private:
         forward_light_kick, //Right Arrow + Z
         forward_heavy_kick, //Right Arrow + X
         //-------hits taken (should prolly be call-able functions instead of key-event updates)-------//
-        hit_taken_blanka_electricity, //1
-        hit_taken_face, //2
         hit_taken_body,//3
-        heavy_hit_taken_body,//4
-        crouch_face_hit_taken,//5 (must be crouching - can uncrouch mid animation)
-        face_body_combo_taken,//6
         knockout, //7
-        hit_taken_dhalsim_fire,//P
         //---------------------------------------victory----------------------------------------------//
         //victory_1 is on 8
         victory_2,//9
         victory_3,//0
         //---------------------------------------defeat----------------------------------------------//
-        defeat, //Enter
+        defeat_player, //Enter
+        defeat_enemy,
         //-------------------------------------special move------------------------------------------//
         special_move, // Q (Can press/hold Left or Right after Q to move Left and Right)
         //---------------------------------------nothing--------------------------------------------//
@@ -72,23 +65,18 @@ private:
     static sf::IntRect jump_frames[7];
     static sf::IntRect forward_light_kick_frames[5];
     static sf::IntRect forward_heavy_kick_frames[9];
-    static sf::IntRect hit_taken_blanka_electricity_frames[2];
-    static sf::IntRect hit_taken_face_frames[3];
     static sf::IntRect hit_taken_body_frames[3];
-    static sf::IntRect heavy_hit_taken_body_frames[4];
-    static sf::IntRect crouch_face_hit_taken_frames[3];
-    static sf::IntRect face_body_combo_taken_frames[6];
     static sf::IntRect special_move[5];
     static sf::IntRect victory1_frames[1];
     static sf::IntRect victory2_frames[3];
     static sf::IntRect victory3_frames[9];
     static sf::IntRect knockout_frames[14];
-    static sf::IntRect hit_taken_dhalsim_fire_frames[9];
 
     int curr_frame = -1;
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
     float limit;
+    bool* game_is_over;
 public:
     Zangief();
     void update(float);
@@ -104,11 +92,6 @@ public:
     bool jump();
     bool crouch();
     bool uncrouch();
-    bool unblock();
-    void flippedMoveLeft(float);
-    void flippedMoveRight(float);
-    //void uncrouch();
-    bool block();
     //hits dealt
     bool punch1();
     bool punch2();
@@ -117,16 +100,16 @@ public:
     bool kick3();
     bool specialMove1(); //helicopter
     //hits taken
-    void hit_taken_blanka_electricity();
-    void hit_taken_dhalsim_fire();
-    void hit_taken_face();
     void bodyHit();
-    void heavy_hit_taken_body();
-    void crouch_face_hit_taken();
-    void face_body_combo_taken();
     void knockout(int);
+    void knockout(bool*);
     void victory(int);
+    //AI
     bool isIdle();
+    void flippedMoveLeft(float);
+    void flippedMoveRight(float);
+    bool isAttacking();
+    bool isSuffering();
     ~Zangief();
 };
 

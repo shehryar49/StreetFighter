@@ -319,6 +319,10 @@ void Chun_Li::bodyHit(){
     curr_frame = 0;
     curr_state = AnimationState::hit_taken_body1;
 }
+void Chun_Li::knockout(bool* game_over){
+    game_is_over = game_is_over;
+    knockout(2);
+}
 void Chun_Li::knockout(int type) {
     switch (type) {
     case 1:
@@ -724,10 +728,6 @@ void Chun_Li::update(float time){
         time_elapsed = 0;
         return;
     }
-}
-void Chun_Li::knockout(bool* game_over){
-    game_is_over = game_is_over;
-    knockout(2);
 }
 void Chun_Li::render(sf::RenderWindow &window){
     window.draw(player);

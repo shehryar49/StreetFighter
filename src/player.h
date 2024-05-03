@@ -47,7 +47,6 @@ public:
     sf::Sprite projectile;
     sf::Image image;
     sf::Texture texture;
-    sf::Music voiceline;
     bool projectile_active = false;
 };
 #endif
