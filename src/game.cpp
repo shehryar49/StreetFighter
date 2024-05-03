@@ -189,6 +189,7 @@ void Game::update(float dt)
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       	if(enemy->damage == 100.0f)
       	{
+			player->victory();
         	enemy->knockout(&game_over);
         	await_game_over = true;
       	}
@@ -823,7 +824,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 9,9 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 11,1 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
