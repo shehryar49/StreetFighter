@@ -423,7 +423,7 @@ bool Dhalsim::specialMove1()
         frameIncrement = 1;
         return true;
     }
-    return true;
+    return false;
 }
 void Dhalsim::victory(int type=1) //to be set for winning condition
 {

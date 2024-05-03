@@ -885,6 +885,7 @@ void Game::setStage(int* c)
             break;
         case 7:
             player = new Ken();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Ken/");
             break;
         case 8:
             player = new Chun_Li();
@@ -896,6 +897,7 @@ void Game::setStage(int* c)
             break;
         case 10:
             player = new Dhalsim();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Dhalsim/");
             break;
         case 11:
             player = new Sagat();
@@ -940,6 +942,10 @@ void Game::setStage(int* c)
             background.setScale(1.4f, 3.0f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(100, 0, 800, 400));
+            if (c[0] == c[1])
+                setVoiceLines(c[0]);
+            else
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Ken/");
             smg.play(fight_bgm);
             break;
         case 8:
@@ -975,6 +981,10 @@ void Game::setStage(int* c)
             background.setScale(1.2f, 2.5f);
             background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(50, 0, 800, 400));
+            if (c[0] == c[1])
+                setVoiceLines(c[0]);
+            else
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Dhalsim/");
             smg.play(fight_bgm);
             break;
         case 11:
