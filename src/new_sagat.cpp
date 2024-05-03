@@ -1,152 +1,59 @@
 //Written by Shahryar Ahmad
-#include "ken.h"
+#include "new_sagat.h"
 #include "constants.h"
 #include <SFML/Graphics/Rect.hpp>
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
 
-//Hard coded sprite cuts
 
-sf::IntRect Ken::IDLE_frames[6] = {
-    sf::IntRect(14, 14, 64, 100),
-    sf::IntRect(82, 14, 64, 100),
-    sf::IntRect(150, 14, 64, 100),
-    sf::IntRect(215, 14, 64, 100),
-    sf::IntRect(283, 14, 64, 100),
-    sf::IntRect(345, 14, 64, 100)
-};
-sf::IntRect Ken::moveright_frames[6] = {
-    sf::IntRect(16,145,60,100),
-    sf::IntRect(78,145,60,100),
-    sf::IntRect(145,145,60,100),
-    sf::IntRect(217,145,60,100),
-    sf::IntRect(288,145,60,100),
-    sf::IntRect(350,145,60,100)
-};
-sf::IntRect Ken::moveleft_frames[6] = {
-    sf::IntRect(448,145,68,100),
-    sf::IntRect(515,145,68,100),
-    sf::IntRect(580,145,68,100),
-    sf::IntRect(648,145,68,100),
-    sf::IntRect(713,145,68,100),
-    sf::IntRect(780,145,68,100)
-};
-sf::IntRect Ken::punch1_frames[2] = {sf::IntRect(15,280,68,100), sf::IntRect(87,280,94,100)};
+sf::IntRect Sagat::IDLE_frames[5];
+sf::IntRect Sagat::moveright_frames[4];
+sf::IntRect Sagat::moveleft_frames[4];
+sf::IntRect Sagat::punch1_frames[3];
+sf::IntRect Sagat::punch2_frames[5]; 
+sf::IntRect Sagat::kick1_frames[3]; // side kick
+sf::IntRect Sagat::kick2_frames[3]; // low kick
+sf::IntRect Sagat::kick3_frames[6];
+sf::IntRect Sagat::jmp_frames[8]; 
+sf::IntRect Sagat::crouching_frames[3];
+sf::IntRect Sagat::crouched_punch1_frames[2];
+sf::IntRect Sagat::body_hit_frames[3];
+sf::IntRect Sagat::knockout_frames[5];
 
-sf::IntRect Ken::punch2_frames[3] = {
-    sf::IntRect(300,280,65,100),
-    sf::IntRect(370,280,70,100),
-    sf::IntRect(450,280,110,100)
-};
-sf::IntRect Ken::punch3_frames[7] = {
-    sf::IntRect(265,568,60,100),
-    sf::IntRect(335,568,60,100),
-    sf::IntRect(395,568,90,100),
-    sf::IntRect(490,568,70,100),
-    sf::IntRect(560,568,90,100),
-    sf::IntRect(655,568,60,100),
-    sf::IntRect(715,568,65,100)
-};
-sf::IntRect Ken::kick1_frames[3] = { 
-    sf::IntRect(15,415,60,100),
-    sf::IntRect(85,415,60,100),
-    sf::IntRect(155,415,115,100)
-};
-sf::IntRect Ken::jmp_frames[8] = {
-    sf::IntRect(18,1595,60,100),
-    sf::IntRect(78,1588,60,100),
-    sf::IntRect(138,1540,60,100),
-    sf::IntRect(198,1505,60,100),
-    sf::IntRect(262,1500,50,100),
-    sf::IntRect(320,1520,50,100),
-    sf::IntRect(370,1560,60,100),
-    sf::IntRect(430,1595,60,100)
-};
-sf::IntRect Ken::kick2_frames[3] = {
-    sf::IntRect(15,730,60,100),
-    sf::IntRect(85,730,50,100),
-    sf::IntRect(140,730,80,100)
-};
-sf::IntRect Ken::kick3_frames[6] = {
-    sf::IntRect(815,730,65,100),
-    sf::IntRect(880,730,65,100),
-    sf::IntRect(945,705,55,125),
-    sf::IntRect(1000,715,100,115),
-    sf::IntRect(1103,730,50,100),
-    sf::IntRect(1160,730,60,100)
-};
-sf::IntRect Ken::crouching_frames[3] = {
-  sf::IntRect(10,1115,60,100),
-  sf::IntRect(75,1115,60,100),
-  sf::IntRect(140,1115,60,100)
-};
-sf::IntRect Ken::crouched_punch1_frames[2] = {
-  sf::IntRect(15,1280,70,100),
-  sf::IntRect(90,1280,100,100)
-};
-sf::IntRect Ken::crouched_punch2_frames[3] = {
-  sf::IntRect(315,1280,65,100),
-  sf::IntRect(385,1280,65,100),
-  sf::IntRect(460,1280,95,100)
-};
-sf::IntRect Ken::crouched_kick1_frames[5] = {
-    sf::IntRect(330,1385,75,100), 
-    sf::IntRect(410,1385,95,100),
-    sf::IntRect(515,1385,145,100),
-    sf::IntRect(670,1385,95,100),
-    sf::IntRect(775,1385,70,100)
-};
-sf::IntRect Ken::crouched_kick2_frames[5] = {
-  sf::IntRect(895,1385,50,100),
-  sf::IntRect(950,1385,125,100),
-  sf::IntRect(1080,1385,65,100),
-  sf::IntRect(1150,1385,65,100),
-  sf::IntRect(1220,1385,65,100)
-};
-sf::IntRect Ken::helicopter_kick_frames[12] = {
-  sf::IntRect(15,2940,70,110),
-  sf::IntRect(85,2905,70,110),
-  sf::IntRect(155,2905,60,110),
-  sf::IntRect(215,2910,100,110),
-  sf::IntRect(320,2910,60,110),
-  sf::IntRect(380,2910,100,110),
-  sf::IntRect(480,2910,70,110),
-  sf::IntRect(550,2910,60,110),
-  sf::IntRect(610,2910,60,110),
-  sf::IntRect(670,2910,65,110),
-  sf::IntRect(735,2920,60,110),
-  sf::IntRect(795,2945,60,110)
-};
-sf::IntRect Ken::tornado_kick_frames[10] = {
-  sf::IntRect(15,2028,60,100),
-  sf::IntRect(80,2020,60,110),
-  sf::IntRect(140,2020,70,110),
-  sf::IntRect(215,2025,60,100),
-  sf::IntRect(275,2025,100,100),
-  sf::IntRect(380,2025,60,100),
-  sf::IntRect(450,2025,60,100),
-  sf::IntRect(510,2025,60,100),
-  sf::IntRect(570,2025,60,100),
-  sf::IntRect(630,2028,60,100)
-};
-sf::IntRect Ken::body_hit_frames[3]={
-    sf::IntRect(120,3235,60,100),
-    sf::IntRect(185,3235,70,100)
-};
-sf::IntRect Ken::knockout_frames[5];
-Ken::Ken()
+Sagat::Sagat()
 {
-    img.loadFromFile("assets/ken.png");
-    img.createMaskFromColor(sf::Color(00,129,129,255));
+    img.loadFromFile("assets/sagat.png");
+    //img.createMaskFromColor(sf::Color(248, 0, 248, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
-    #define STOP !true
-    knockout_frames[0] = sf::IntRect(20,3550,70,100);
-    knockout_frames[1] = sf::IntRect(98,3550,125,100);
-    knockout_frames[2] = sf::IntRect(225,3550,125,100);
-    knockout_frames[3] = sf::IntRect(355,3540,125,100);
-    knockout_frames[4] = sf::IntRect(485,3540,135,100);
 
+    IDLE_frames[0] = sf::IntRect(11, 20, 80, 124);
+    IDLE_frames[1] = sf::IntRect(109, 20, 80, 124);
+    IDLE_frames[2] = sf::IntRect(214, 20, 80, 124);
+    IDLE_frames[3] = sf::IntRect(321, 20, 81, 124);
+    IDLE_frames[4] = sf::IntRect(430, 20, 80, 124);
+
+    moveright_frames[0] = sf::IntRect(10, 151, 78, 124);
+    moveright_frames[1] = sf::IntRect(119, 151, 67, 124);
+    moveright_frames[2] = sf::IntRect(231, 151, 69, 124);
+    moveright_frames[3] = sf::IntRect(339, 151, 67, 124);
+
+    moveleft_frames[0] = sf::IntRect(330, 150, 80, 124);
+    moveleft_frames[1] = sf::IntRect(230, 150, 80, 124);
+    moveleft_frames[2] = sf::IntRect(115, 150, 80, 124);
+    moveleft_frames[3] = sf::IntRect(10, 150, 80, 124);
+
+    punch1_frames[0] = sf::IntRect(20,455,100,124);
+    punch1_frames[1] = sf::IntRect(155,455,130,124);
+    punch1_frames[2] = sf::IntRect(310,455,100,124);
+    //
+    punch2_frames[0] = sf::IntRect(520,453,80,124);
+    punch2_frames[1] = sf::IntRect(630,453,100,124);
+    punch2_frames[2] = sf::IntRect(760,453,160,124);
+    punch2_frames[3] = sf::IntRect(940,453,100,124);
+    punch2_frames[4] = sf::IntRect(1060,453,80,124);
+    #define STOP !true
+    //player.setTextureRect(sf::IntRect(1060,453,80,124));
     player.setTextureRect(IDLE_frames[0]);
      
     player.setScale(sf::Vector2f(2.1, 2.1));
@@ -155,7 +62,7 @@ Ken::Ken()
     frameIncrement = 1;
 }
 
-bool Ken::punch1()
+bool Sagat::punch1()
 {
     if(IS_IDLE)
     {
@@ -171,7 +78,7 @@ bool Ken::punch1()
     }
     return false;
 }
-bool Ken::punch2()
+bool Sagat::punch2()
 {
     if(IS_IDLE)
     {
@@ -179,25 +86,10 @@ bool Ken::punch2()
         state = AnimationState::PUNCH2;
         return true;
     }
-    else if(state == AnimationState::CROUCHED)
-    {
-      currFrame = 0;
-      state = AnimationState::CROUCHED_PUNCH2;
-      return true;
-    }
     return false;
 }
-bool Ken::punch3()
-{
-    if(IS_IDLE)
-    {
-      currFrame = 0;
-      state = AnimationState::PUNCH3;
-      return true;
-    }
-    return false;
-}
-bool Ken::kick1()
+
+bool Sagat::kick1()
 {
   if(IS_IDLE)
   {
@@ -206,15 +98,9 @@ bool Ken::kick1()
     frameIncrement = 1;
     return true;
   }
-  else if(state == AnimationState::CROUCHED)
-  {
-    currFrame = 0;
-    state = AnimationState::CROUCHED_KICK1;
-    return true;
-  }
   return false;
 }
-bool Ken::kick2()
+bool Sagat::kick2()
 {
   if(IS_IDLE)
   {
@@ -223,15 +109,9 @@ bool Ken::kick2()
     frameIncrement = 1;
     return true;
   }
-  else if(state == AnimationState::CROUCHED)
-  {
-    currFrame = 0;
-    state = AnimationState::CROUCHED_KICK2;
-    return true;
-  }
   return false;
 }
-bool Ken::kick3()
+bool Sagat::kick3()
 {
   if(IS_IDLE)
   {
@@ -242,7 +122,7 @@ bool Ken::kick3()
   }
   return false;
 }
-void Ken::moveLeft(float limit)
+void Sagat::moveLeft(float limit)
 {
   if(IS_IDLE)
   {
@@ -251,7 +131,7 @@ void Ken::moveLeft(float limit)
     this->limit = limit;
   }
 }
-void Ken::moveRight(float limit)
+void Sagat::moveRight(float limit)
 {
   if(IS_IDLE)
   {
@@ -260,7 +140,7 @@ void Ken::moveRight(float limit)
     this->limit = limit;
   }
 }
-bool Ken::jump()
+bool Sagat::jump()
 {
   if(IS_IDLE)
   {
@@ -272,7 +152,7 @@ bool Ken::jump()
   }
   return false;
 }
-bool Ken::crouch()
+bool Sagat::crouch()
 {
   if(state == AnimationState::IDLE)
   {
@@ -282,14 +162,11 @@ bool Ken::crouch()
   }
   return false;
 }
-bool Ken::uncrouch()
+bool Sagat::uncrouch()
 {
   if( state == AnimationState::CROUCHED || 
       state == AnimationState::CROUCHING ||
-      state == AnimationState::CROUCHED_KICK1 ||
-      state == AnimationState::CROUCHED_KICK2 ||
-      state == AnimationState::CROUCHED_PUNCH1 ||
-      state == AnimationState::CROUCHED_PUNCH2  
+      state == AnimationState::CROUCHED_PUNCH1
     )
   {
     state = AnimationState::FASTIDLE;
@@ -299,44 +176,33 @@ bool Ken::uncrouch()
   }
   return false;
 }
-bool Ken::specialMove1()
+bool Sagat::specialMove1()
 {
-  if(IS_IDLE)
-  {
-    JMPY = 0;
-    currFrame = 0;
-    state = AnimationState::TORNADO_KICK;
-    return true;
-  }
+
   return false;
 }
-bool Ken::isIdle()
+bool Sagat::isIdle()
 {
   return state==AnimationState::IDLE;
 }
-bool Ken::isSuffering()
+bool Sagat::isSuffering()
 {
   return state == AnimationState::BODY_HIT;
 //  return 
 }
-bool Ken::isAttacking()
+bool Sagat::isAttacking()
 {
   return (
     state == AnimationState::PUNCH1 ||
     state == AnimationState::PUNCH2 ||
-    state == AnimationState::PUNCH3 ||
     state == AnimationState::KICK1 ||
     state == AnimationState::KICK2 ||
     state == AnimationState::KICK3 ||
     state == AnimationState::FASTIDLE_ATTACKING ||
-    state == AnimationState::CROUCHED_KICK1 ||
-    state == AnimationState::CROUCHED_KICK2 ||
-    state == AnimationState::CROUCHED_PUNCH1 ||
-    state == AnimationState::CROUCHED_PUNCH2 ||
-    state == AnimationState::TORNADO_KICK
+    state == AnimationState::CROUCHED_PUNCH1
   );//IMPORTANT
 }
-void Ken::bodyHit()
+void Sagat::bodyHit()
 {
   if(state != AnimationState::BODY_HIT)
   {
@@ -345,13 +211,13 @@ void Ken::bodyHit()
   currFrame = 0;
   }
 }
-void Ken::knockout(bool* b)
+void Sagat::knockout(bool* b)
 {
   currFrame = 0;
   state = AnimationState::KNOCKED_OUT;
   ptr = b;
 }
-void Ken::flippedMoveLeft(float f)
+void Sagat::flippedMoveLeft(float f)
 {
     if(state == AnimationState::IDLE)
     {
@@ -361,7 +227,7 @@ void Ken::flippedMoveLeft(float f)
       limit = f;
     }
 }
-void Ken::flippedMoveRight(float f)
+void Sagat::flippedMoveRight(float f)
 {
     if(state == AnimationState::IDLE)
     {
@@ -371,7 +237,7 @@ void Ken::flippedMoveRight(float f)
       limit = f;
     }
 }
-void Ken::update(float dt)
+void Sagat::update(float dt)
 {
     if(STOP)
       return;
@@ -381,58 +247,58 @@ void Ken::update(float dt)
     {
         if(currFrame == 0)
           frameIncrement = 1;
-        else if(currFrame == 5)
+        else if(currFrame == 4)
           frameIncrement = -1;
         currFrame = (currFrame+frameIncrement); 
         player.setTextureRect(IDLE_frames[currFrame]);
         elapsed = 0;
     }
-    else if (elapsed >= (0.08f) && (state == AnimationState::FASTIDLE || state == AnimationState::FASTIDLE_ATTACKING))
+    else if (elapsed >= (MOVE_TIME) && (state == AnimationState::FASTIDLE || state == AnimationState::FASTIDLE_ATTACKING))
     {
         player.setTextureRect(IDLE_frames[0]);
         currFrame++;
         state = AnimationState::IDLE;
         elapsed = 0;
     }  
-    else if(elapsed>=(0.08f) && state == AnimationState::moveRight)
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::moveRight)
     {
         player.setTextureRect(moveright_frames[currFrame++]);
         elapsed = 0;
         if(player.getPosition().x + 150 < limit) // window width is 800
           player.setPosition(player.getPosition().x+10,player.getPosition().y);
-        if(currFrame == 6)
+        if(currFrame == 4)
         { 
             state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
             currFrame = 0;
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=(0.08f) && state == AnimationState::moveLeft)
+    else if(elapsed>=(MOVE_TIME) && state == AnimationState::moveLeft)
     {
         //printf("rendering frame %d\n",currFrame);
         player.setTextureRect(moveleft_frames[currFrame++]);
         elapsed = 0;
         if(player.getPosition().x - 20 > limit) // window width is 800
           player.setPosition(player.getPosition().x-10,player.getPosition().y);
-        if(currFrame == 6)
+        if(currFrame == 4)
         { 
             state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
             currFrame = 0;
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f && state == AnimationState::PUNCH1)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::PUNCH1)
     {
         player.setTextureRect(punch1_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 2)
+        if(currFrame == 3)
         { 
             state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f*2 && state == AnimationState::BODY_HIT)
+    else if(elapsed>=MOVE_TIME*2 && state == AnimationState::BODY_HIT)
     {
         player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
@@ -443,7 +309,7 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f && state == AnimationState::CROUCHED_PUNCH1)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::CROUCHED_PUNCH1)
     {
         player.setTextureRect(crouched_punch1_frames[currFrame++]);
         elapsed = 0;
@@ -454,11 +320,11 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f && state == AnimationState::PUNCH2)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::PUNCH2)
     {
         player.setTextureRect(punch2_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 3)
+        if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
@@ -479,29 +345,6 @@ void Ken::update(float dt)
             currFrame = 0;
             frameIncrement = 1;
             *ptr = true;
-        }
-    }
-    
-    else if(elapsed>=0.08f && state == AnimationState::CROUCHED_PUNCH2)
-    {
-        player.setTextureRect(crouched_punch2_frames[currFrame++]);
-        elapsed = 0;
-        if(currFrame == 3)
-        { 
-            state = AnimationState::CROUCHING;
-            currFrame = 2;
-            frameIncrement = 1;
-        }
-    }
-    else if(elapsed>=0.08f && state == AnimationState::PUNCH3)
-    {
-        player.setTextureRect(punch3_frames[currFrame++]);
-        elapsed = 0;
-        if(currFrame == 6)
-        { 
-            state = AnimationState::FASTIDLE_ATTACKING;
-            currFrame = 0;
-            frameIncrement = 1;
         }
     }
     else if(elapsed >= delay_time && state == AnimationState::DELAY)
@@ -614,66 +457,28 @@ void Ken::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=MOVE_TIME && state == AnimationState::CROUCHED_KICK1)
-    {
-        player.setTextureRect(crouched_kick1_frames[currFrame++]);
-        elapsed = 0;
-        if(currFrame == 5)
-        { 
-            state = AnimationState::CROUCHING;
-            currFrame = 2;
-            frameIncrement = 1;
-        }
-    }
-    else if(elapsed>=MOVE_TIME && state == AnimationState::CROUCHED_KICK2)
-    {
-        player.setTextureRect(crouched_kick2_frames[currFrame++]);
-        elapsed = 0;
-        if(currFrame == 5)
-        { 
-            state = AnimationState::CROUCHING;
-            currFrame = 2;
-            frameIncrement = 1;
-        }
-    }
-    else if(elapsed>=MOVE_TIME*1.5 && state == AnimationState::TORNADO_KICK)
-    {
-        
-        player.setPosition(player.getPosition().x,BOTTOMY - tornado_kick_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1);
-        player.setTextureRect(tornado_kick_frames[currFrame++]);
-        elapsed = 0;
-        if(currFrame == 6)
-          JMPY = -10;
-        else if(currFrame == 1)
-          JMPY = 10;
-        if(currFrame == 10)
-        { 
-            state = AnimationState::FASTIDLE_ATTACKING;
-            currFrame = 0;
-            frameIncrement = 1;
-        }
-    }
+
 }
-void Ken::setPosition(float x,float y)
+void Sagat::setPosition(float x,float y)
 {
     player.setPosition(x,y);
 }
-void Ken::flipX()
+void Sagat::flipX()
 {
   player.setScale(-2.1,2.1);
 }
-void Ken::render(sf::RenderWindow &win)
+void Sagat::render(sf::RenderWindow &win)
 {
     win.draw(player);
 }
-sf::FloatRect Ken::getGlobalBounds()
+sf::FloatRect Sagat::getGlobalBounds()
 {
     return player.getGlobalBounds();
 }
-sf::FloatRect Ken::getLocalBounds()
+sf::FloatRect Sagat::getLocalBounds()
 {
     return player.getLocalBounds();
 }
-Ken::~Ken()
+Sagat::~Sagat()
 {
 }

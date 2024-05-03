@@ -40,7 +40,7 @@ Zangief::Zangief(){
         cerr<<"Err loading character";
         exit(EXIT_FAILURE);
     }//spritesheet
-    image.createMaskFromColor(sf::Color(84,118,135,255));//removing background colour (84,118,135,255) //prev: (67,70,181,255)
+    //image.createMaskFromColor(sf::Color(84,118,135,255));//removing background colour (84,118,135,255) //prev: (67,70,181,255)
     texture.loadFromImage(image);
     player.setTexture(texture);
 
