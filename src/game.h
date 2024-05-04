@@ -63,7 +63,7 @@ private:
     // 10 - sys call win
     bool game_over = false;
     bool await_game_over = false; 
-    bool ai_bot = !true;
+    bool ai_bot = true;
     sf::Font timer_font;
     sf::Text timer;
     float timer_elapsed = 0;

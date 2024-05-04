@@ -342,6 +342,11 @@ void Zangief::bodyHit() {
     curr_frame = 0;
     curr_state = AnimationState::hit_taken_body;
 }
+void Zangief::victory(){
+    setPosition(player.getPosition().x, player.getPosition().y - 20);
+    player.setTextureRect(victory1_frames[0]);
+    curr_state = AnimationState::still;   
+}
 void Zangief::victory(int type) {
     switch (type) {
     case 1:
