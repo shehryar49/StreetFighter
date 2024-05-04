@@ -29,7 +29,7 @@ sf::IntRect Balrog::victory2_frames[5];
 sf::IntRect Balrog::shirt_frames[4]; //good name - its fitting
 
 Balrog::Balrog() {
-    if (!image.loadFromFile("assets/Balrog.png")) {
+    if (!image.loadFromFile("assets/players/Balrog.png")) {
         cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }//spritesheet

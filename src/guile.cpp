@@ -29,7 +29,7 @@ sf::IntRect Guile::sonicboom_frames[4];
 sf::IntRect Guile::projectile_frames[4];
 Guile::Guile()
 {
-    img.loadFromFile("assets/guile.png");
+    img.loadFromFile("assets/players/guile.png");
     img.createMaskFromColor(sf::Color(102, 119, 136,255));
     texture.loadFromImage(img);
     player.setTexture(texture);

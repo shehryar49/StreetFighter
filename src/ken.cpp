@@ -137,7 +137,7 @@ sf::IntRect Ken::knockout_frames[5];
 sf::IntRect Ken::victory_frames[4];
 Ken::Ken()
 {
-    img.loadFromFile("assets/ken.png");
+    img.loadFromFile("assets/players/ken.png");
     img.createMaskFromColor(sf::Color(00,129,129,255));
     texture.loadFromImage(img);
     player.setTexture(texture);

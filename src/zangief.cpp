@@ -31,7 +31,7 @@ sf::IntRect Zangief::knockout_frames[14];
 
 
 Zangief::Zangief(){
-    if(!image.loadFromFile("assets/zangief.png")){
+    if(!image.loadFromFile("assets/players/zangief.png")){
         cerr<<"Err loading character";
         exit(EXIT_FAILURE);
     }//spritesheet

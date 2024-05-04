@@ -335,7 +335,7 @@ void Game::playIntro()
 void Game::gameOver()
 {
   sf::Font f;
-  f.loadFromFile("assets/Hack-Regular.ttf");
+  f.loadFromFile("assets/fonts/Hack-Regular.ttf");
   sf::Text t;
   t.setFont(f);
   t.setCharacterSize(28);
@@ -698,7 +698,7 @@ void Game::showTerminal()
   sf::Text cursor;
 
   sf::Font f;
-  f.loadFromFile("assets/Hack-Regular.ttf");
+  f.loadFromFile("assets/fonts/Hack-Regular.ttf");
   introText.setFont(f);
   introText.setCharacterSize(14);
   introText.setString("In a world full of GUI users, be a CLI user. Welcome master!");
@@ -784,7 +784,7 @@ void Game::showTerminal()
 void Game::showCredits() 
 {
     sf::Font font;
-    font.loadFromFile("assets/crunch_chips.otf");//for consistency
+    font.loadFromFile("assets/fonts/crunch_chips.otf");//for consistency
     backgroundTexture.loadFromFile("SF2.jpeg");
     background.setTexture(backgroundTexture);
     background.setScale(1.5, 1.1);
@@ -949,7 +949,7 @@ void Game::setStage(int* c)
     {
         case 1:
             enemy = new Ryu();
-            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
@@ -962,7 +962,7 @@ void Game::setStage(int* c)
             break;
         case 4:
             enemy = new Guile();
-            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
@@ -976,7 +976,7 @@ void Game::setStage(int* c)
         
         case 5:
             enemy = new Balrog();
-            backgroundTexture.loadFromFile("assets/Balrog Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Balrog Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(2.1f, 2.5f);
             background.setPosition(0, 0);
@@ -989,7 +989,7 @@ void Game::setStage(int* c)
             break;
         case 7:
             enemy = new Ken();
-            backgroundTexture.loadFromFile("assets/Ken Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Ken Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 3.0f);
             background.setPosition(0, 0);
@@ -1002,7 +1002,7 @@ void Game::setStage(int* c)
             break;
         case 8:
             enemy = new Chun_Li();
-            backgroundTexture.loadFromFile("assets/ChunLi Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/ChunLi Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
@@ -1015,7 +1015,7 @@ void Game::setStage(int* c)
             break;
         case 9:
             enemy = new Zangief();
-            backgroundTexture.loadFromFile("assets/Zangief Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Zangief Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
@@ -1028,7 +1028,7 @@ void Game::setStage(int* c)
             break;
         case 10:
             enemy = new Dhalsim();
-            backgroundTexture.loadFromFile("assets/Dhalsim Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Dhalsim Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.5f);
             background.setPosition(0, 0);
@@ -1041,7 +1041,7 @@ void Game::setStage(int* c)
             break;
         case 11:
             enemy = new Sagat();
-            backgroundTexture.loadFromFile("assets/Sagat Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Sagat Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
@@ -1050,7 +1050,7 @@ void Game::setStage(int* c)
             break;
         default:
             enemy = new Ryu();
-            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);

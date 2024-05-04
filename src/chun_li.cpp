@@ -21,7 +21,7 @@ sf::IntRect Chun_Li::knockout_frames[12];
 sf::IntRect Chun_Li::special1_frames[12];
 
 Chun_Li::Chun_Li(){
-    if(!image.loadFromFile("assets/chun-li.png")){
+    if(!image.loadFromFile("assets/players/chun-li.png")){
         cerr<<"Err loading character";
     }//spritesheet
     image.createMaskFromColor(sf::Color(24,140,140,255));//removing background colour (24,140,140,255)

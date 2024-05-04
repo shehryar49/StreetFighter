@@ -30,7 +30,7 @@ sf::IntRect Ryu::victory_frames[5];
 Ryu::Ryu()
 {
 
-    img.loadFromFile("assets/ryu.png");
+    img.loadFromFile("assets/players/ryu.png");
     img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
