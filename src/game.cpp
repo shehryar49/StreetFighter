@@ -849,14 +849,16 @@ void Game::run()
     enemy->render(window);
     window.display();
   }
-  smg.stop(fight_bgm);
+  
   if(game_over && window.isOpen())
   {
     #ifdef __linux
     sleep(2);
     #endif
+    smg.stop(fight_bgm);
     gameOver();
   }
+  smg.stop(fight_bgm);
   delete[] character;
 }
 void Game::testRun()
