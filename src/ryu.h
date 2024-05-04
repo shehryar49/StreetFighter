@@ -41,7 +41,8 @@ private:
         HADOKEN,
         BODY_HIT,
         KNOCKED_OUT,
-        DELAY
+        DELAY,
+        VICTORY
 
     };
     AnimationState state;
@@ -67,6 +68,7 @@ private:
     static sf::IntRect hadoken_frames[4];
     static sf::IntRect body_hit_frames[2];
     static sf::IntRect knockout_frames[5];
+    static sf::IntRect victory_frames[5];
     AnimationState lastState; //used by delay
     int currFrame = 0;
     int frameIncrement = 1;
@@ -104,6 +106,7 @@ public:
     bool isSuffering();
     bool isAttacking();
     void knockout(bool*);
+    void victory();
     ~Ryu();
 };
 #endif

@@ -26,6 +26,7 @@ sf::IntRect Ryu::hadoken_frames[4];
 sf::IntRect Ryu::hadoken_ball;
 sf::IntRect Ryu::body_hit_frames[2];
 sf::IntRect Ryu::knockout_frames[5];
+sf::IntRect Ryu::victory_frames[5];
 Ryu::Ryu()
 {
 
@@ -133,8 +134,15 @@ Ryu::Ryu()
     knockout_frames[2] = sf::IntRect(680,2190,125,100);
     knockout_frames[3] = sf::IntRect(845,2190,125,100);
     knockout_frames[4] = sf::IntRect(980,2195,135,100);
-
+    //
+    victory_frames[0] = sf::IntRect(45,2465,70,100);
+    victory_frames[1] = sf::IntRect(125,2465,70,100);
+    victory_frames[2] = sf::IntRect(205,2465,70,100);
+    victory_frames[3] = sf::IntRect(290,2465,70,100);
+    victory_frames[4] = sf::IntRect(380,2465,70,100);
+    //
     player.setTextureRect(IDLE_frames[0]);
+    //player.setTextureRect(victory_frames[4]);
  
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
@@ -377,6 +385,11 @@ void Ryu::knockout(bool* b)
   state = AnimationState::KNOCKED_OUT;
   currFrame = 0;
 }
+void Ryu::victory()
+{
+  currFrame = 0;
+  state = AnimationState::VICTORY;
+}
 //Updation based on animation state
 void Ryu::update(float dt)
 {
@@ -510,6 +523,15 @@ void Ryu::update(float dt)
             state = AnimationState::FASTIDLE_ATTACKING;
             currFrame = 0;
             frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME*5 && state == AnimationState::VICTORY)
+    {
+        player.setTextureRect(victory_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 5)
+        { 
+            currFrame = 4;
         }
     }
     else if(elapsed>=MOVE_TIME && state == AnimationState::BODY_HIT)
