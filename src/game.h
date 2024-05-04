@@ -16,8 +16,8 @@ private:
     sf::Texture backgroundTexture;
     sf::Sprite background;
     sf::Clock clock;
-    Player *player;
-    Player* enemy;
+    Player *player = nullptr;
+    Player* enemy = nullptr;
     
     sf::RectangleShape health1;
     sf::RectangleShape health2;

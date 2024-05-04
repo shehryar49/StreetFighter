@@ -231,22 +231,22 @@ void Game::update(float dt)
     //give damage to player
     if(elapsed1!=0 && elapsed2>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
     {
-      if(player->damage <= 99.0f)
-        player->damage += 1.0f;
-      playerDamage.setSize(sf::Vector2f(player->damage*3,25));
-      if(player->damage == 100.0f)
-      {
-		enemy->victory();
-        player->knockout(&game_over);
-        smg.play(player_voice_lines[7]);
-        await_game_over = true;
-      }
-      else
-      {
-        player->bodyHit();
-        smg.play(player_voice_lines[6]);
-      }
-      elapsed2 = 0;
+    	if(player->damage <= 99.0f)
+        	player->damage += 1.0f;
+      	playerDamage.setSize(sf::Vector2f(player->damage*3,25));
+      	if(player->damage == 100.0f)
+      	{
+			enemy->victory();
+        	player->knockout(&game_over);
+        	smg.play(player_voice_lines[7]);
+        	await_game_over = true;
+      	}
+      	else
+      	{
+        	player->bodyHit();
+        	smg.play(player_voice_lines[6]);
+      	}
+      	elapsed2 = 0;
     }
     // set up things for next updation
 
@@ -881,8 +881,8 @@ void Game::run()
 		window.draw(playerDamage);
 		window.draw(enemyDamage);
 		window.draw(timer);
-		player->render(window);
 		enemy->render(window);
+		player->render(window);
 		window.display();
 		}
 		if(game_over && window.isOpen())
@@ -960,6 +960,10 @@ void Game::setVoiceLines(int c, string path = "")
 
 void Game::setStage(int* c)
 {
+	if(player)
+	  delete player;
+    if(enemy)
+	  delete enemy;
     switch (c[0]) 
     {
         case 1:

@@ -2,7 +2,7 @@
 #include "ryu.h"
 #include "constants.h"
 #include <SFML/Graphics/Rect.hpp>
-#include <stdio.h>
+
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
 #define STOP false
@@ -230,6 +230,7 @@ void Ryu::bodyHit()
 {
   state = AnimationState::BODY_HIT;
   currFrame = 0;
+  player.setPosition(player.getPosition().x,BOTTOMY - body_hit_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
 }
 bool Ryu::punch3()
 {
