@@ -843,7 +843,7 @@ void Game::run()
   int* character = selectScreen();
   setStage(character);
   smg.play(vs_music);
-  while (window.isOpen())
+  while (!game_over && window.isOpen())
   {
     pollEvents();
     float dt = clock.restart().asSeconds();
@@ -857,6 +857,13 @@ void Game::run()
     player->render(window);
     enemy->render(window);
     window.display();
+  }
+  if(game_over && window.isOpen())
+  {
+    #ifdef __linux
+    sleep(2);
+    #endif
+    gameOver();
   }
   delete[] character;
 }
@@ -885,12 +892,12 @@ void Game::testRun()
         window.display();
     }
     if(game_over && window.isOpen())
-	{
-	  #ifdef __linux
-	  sleep(2);
-	  #endif
-      gameOver();
-	}
+    {
+      #ifdef __linux
+      sleep(2);
+      #endif
+        gameOver();
+    }
     delete[] character;
 }
 
