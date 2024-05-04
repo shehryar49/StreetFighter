@@ -230,20 +230,20 @@ void Game::update(float dt)
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = !true && !await_game_over;
+    bool AIBOT = true && !await_game_over;
 	
     if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
-      	if(hits >= 5 && a <= b-80)
+      	if(hits >= 5 && a <= b-100)
         {
         	enemy->flippedMoveRight(WINDOW_WIDTH);
         	elapsed3 = 0;
         	hits = 0;
         	return;
         }
-        else if(a > b - 80)
+        else if(a > b - 100)
       	{
         	enemy->flippedMoveLeft(b);
         	elapsed3 = 0;
@@ -251,23 +251,35 @@ void Game::update(float dt)
       	}
         int r = rand() % 6;
       	if(r == 0)
+        {
         	if(enemy->punch1())
             smg.play(enemy_voice_lines[0]);
+        }
       	else if(r == 1)
+        {
         	if(enemy->punch2())
             smg.play(enemy_voice_lines[1]);
+        }
       	else if(r == 2)
+        {
         	if(enemy->punch3())
             smg.play(enemy_voice_lines[2]);
+        }
       	else if(r == 3)
+        {
         	if(enemy->kick1())
             smg.play(enemy_voice_lines[0]);
+        }
       	else if(r == 4)
+        {
         	if(enemy->kick2())
             smg.play(enemy_voice_lines[1]);
+        }
 		    else if(r == 5)
+        {
   			  if(enemy->kick3())
             smg.play(enemy_voice_lines[2]);
+        }
           elapsed3 = 0;
     }
 }

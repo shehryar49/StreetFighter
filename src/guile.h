@@ -31,11 +31,12 @@ private:
         CROUCHED_PUNCH2,
         CROUCHED_KICK1,
         CROUCHED_KICK2,
-        TORNADO_KICK,
         BODY_HIT,
         FLIPPED_MOVE_LEFT,
         FLIPPED_MOVE_RIGHT,
-        KNOCKED_OUT
+        KNOCKED_OUT,
+        VICTORY,
+        SONIC_BOOM
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -43,23 +44,25 @@ private:
     static sf::IntRect IDLE_frames[6];
     static sf::IntRect moveright_frames[5];
     static sf::IntRect moveleft_frames[5];  
-    static sf::IntRect punch1_frames[2];
-    static sf::IntRect punch2_frames[3]; 
-    static sf::IntRect punch3_frames[7];
-    static sf::IntRect kick1_frames[3]; // side kick
-    static sf::IntRect kick2_frames[3]; // low kick
+    static sf::IntRect punch1_frames[3];
+    static sf::IntRect punch2_frames[5]; 
+    static sf::IntRect punch3_frames[6];
+    static sf::IntRect kick1_frames[3];
+    static sf::IntRect kick2_frames[6];
     static sf::IntRect kick3_frames[6];
-    static sf::IntRect jmp_frames[8]; 
+    static sf::IntRect jmp_frames[5]; 
     static sf::IntRect crouching_frames[3];
-    static sf::IntRect crouched_punch1_frames[2];
-    static sf::IntRect crouched_punch2_frames[3];
-    static sf::IntRect crouched_kick1_frames[5];
+    static sf::IntRect crouched_punch1_frames[3];
+    static sf::IntRect crouched_punch2_frames[4];
+    static sf::IntRect crouched_kick1_frames[3];
     static sf::IntRect crouched_kick2_frames[5];
-    static sf::IntRect helicopter_kick_frames[12];
-    static sf::IntRect tornado_kick_frames[10];
     static sf::IntRect body_hit_frames[3];
-    static sf::IntRect knockout_frames[5];
+    static sf::IntRect knockout_frames[4];
+    static sf::IntRect victory_frames[2];
+    static sf::IntRect sonicboom_frames[4];
+    static sf::IntRect projectile_frames[4];
     int currFrame = 0;
+    int pid = 0;
     int frameIncrement = 1;
     float JMPY = -30;
     float delay_time = 0;
@@ -91,7 +94,7 @@ public:
     bool isAttacking();
     void bodyHit();
     void knockout(bool*);
-
+    void victory();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Guile();
