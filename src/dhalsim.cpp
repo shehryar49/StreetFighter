@@ -859,7 +859,10 @@ bool Dhalsim::isAttacking()
         state == AnimationState::KICK2 ||
         state == AnimationState::KICK3 ||
         state == AnimationState::FASTIDLE_ATTACKING ||
-        state == AnimationState::YOGA_FLAME
+        state == AnimationState::YOGA_FLAME ||
+        state == AnimationState::CROUCHED_KICK1 ||
+        state == AnimationState::CROUCHED_PUNCH1 ||
+        state == AnimationState::CROUCHED_PUNCH2
         );
 }
 void Dhalsim::knockout(bool* game_over)

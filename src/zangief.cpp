@@ -748,10 +748,12 @@ void Zangief::update(float time){
             curr_frame = 0;
             incr_to_next_frame = 1;
             player.setTextureRect(idle_frames[0]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
             curr_state = AnimationState::idle;
         }
         else {
             player.setTextureRect(hit_taken_body_frames[curr_frame++]);
+            player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
