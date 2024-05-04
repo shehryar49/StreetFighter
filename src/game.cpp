@@ -679,8 +679,21 @@ std::string Game::execCommand(const std::string& command)
   }
   else if(parts.size() == 2 && parts[0] == "disable" && parts[1] == "ai")
   {
-    AIBOT = false;
-    return "AI disabled.";
+    if(AIBOT)
+    {
+      AIBOT = false;
+      return "AI disabled.";
+    }
+    return "AI already disabled.";
+  }
+  else if(parts.size() == 2 && parts[0] == "enable" && parts[1] == "ai")
+  {
+    if(!AIBOT)
+    {
+      AIBOT = true;
+      return "AI enabled.";
+    }
+    return "AI already enabled.";
   }
   return "Invalid syntax! Fallback to GUI if you are a noob.";
 }
