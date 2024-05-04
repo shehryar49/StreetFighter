@@ -25,6 +25,8 @@ sf::IntRect Guile::crouched_kick2_frames[5];
 sf::IntRect Guile::body_hit_frames[3];
 sf::IntRect Guile::knockout_frames[4];
 sf::IntRect Guile::victory_frames[2];
+sf::IntRect Guile::sonicboom_frames[4];
+sf::IntRect Guile::projectile_frames[4];
 Guile::Guile()
 {
     img.loadFromFile("assets/guile.png");
@@ -127,9 +129,20 @@ Guile::Guile()
     victory_frames[0] = sf::IntRect(25,4230,80,115);
     victory_frames[1] = victory_frames[0]; //literally the same thing
     //
+    sonicboom_frames[0] = sf::IntRect(25,2348,80,100);
+    sonicboom_frames[1] = sf::IntRect(117,2348,100,100);
+    sonicboom_frames[2] = sf::IntRect(230,2348,140,100);
+    sonicboom_frames[3] = sf::IntRect(375,2348,140,100);
+    //
+    projectile_frames[0] = sf::IntRect(520,2370,70,30);
+    projectile_frames[1] = sf::IntRect(600,2370,70,30);
+    projectile_frames[2] = sf::IntRect(680,2370,70,30);
+    projectile_frames[3] = sf::IntRect(750,2370,70,30);
+    //
+    projectile.setTexture(texture);
+    projectile.setScale(1.3f,1.3f);
+    //
     player.setTextureRect(IDLE_frames[0]);
-    
-     
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -283,12 +296,11 @@ bool Guile::uncrouch()
 }
 bool Guile::specialMove1()
 {
-  return false;
   if(IS_IDLE)
   {
     JMPY = 0;
     currFrame = 0;
-    //state = AnimationState::TORNADO_KICK;
+    state = AnimationState::SONIC_BOOM;
     return true;
   }
   return false;
@@ -364,7 +376,17 @@ void Guile::update(float dt)
     if(STOP)
       return;
     elapsed += dt;
-
+    if(projectile_active)
+    {
+        if(projectile.getPosition().x + 100 >= WINDOW_WIDTH)
+          projectile_active = false;
+        else
+        {
+          projectile.setTextureRect(projectile_frames[pid]);
+          pid = (pid+1) % 4;
+          projectile.setPosition(projectile.getPosition().x + (100*dt),projectile.getPosition().y);
+        }
+    }
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
@@ -569,7 +591,7 @@ void Guile::update(float dt)
         elapsed = 0;
         if(player.getPosition().x - player.getGlobalBounds().width -20 > limit) // window width is 800
           player.setPosition(player.getPosition().x-10,player.getPosition().y);
-        if(currFrame == 5)
+        if(currFrame == 4)
         { 
             state = AnimationState::FASTIDLE; 
             currFrame = 0;
@@ -583,7 +605,7 @@ void Guile::update(float dt)
         elapsed = 0;
         if(player.getPosition().x + 20 < limit) // window width is 800
           player.setPosition(player.getPosition().x+10,player.getPosition().y);
-        if(currFrame == 5)
+        if(currFrame == 4)
         { 
             state = AnimationState::FASTIDLE; 
             currFrame = 0;
@@ -617,6 +639,21 @@ void Guile::update(float dt)
       player.setTextureRect(victory_frames[0]);
       elapsed = 0;
     }
+    else if(elapsed >= MOVE_TIME && state == AnimationState::SONIC_BOOM)
+    {
+        player.setTextureRect(sonicboom_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 4)
+        {
+            projectile_active = true;
+            projectile.setPosition(player.getPosition().x+220,player.getPosition().y+60);
+            projectile.setTextureRect(projectile_frames[0]);
+            state = AnimationState::FASTIDLE;
+            currFrame = 0;
+            pid = 0;
+            frameIncrement = 1;
+        }
+    }
 
 }
 void Guile::setPosition(float x,float y)
@@ -630,6 +667,8 @@ void Guile::flipX()
 void Guile::render(sf::RenderWindow &win)
 {
     win.draw(player);
+    if(projectile_active)
+      win.draw(projectile);
 }
 sf::FloatRect Guile::getGlobalBounds()
 {

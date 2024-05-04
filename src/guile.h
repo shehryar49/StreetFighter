@@ -35,7 +35,8 @@ private:
         FLIPPED_MOVE_LEFT,
         FLIPPED_MOVE_RIGHT,
         KNOCKED_OUT,
-        VICTORY
+        VICTORY,
+        SONIC_BOOM
     };
     AnimationState state;
     //'Frames' actually might not be the right word
@@ -58,7 +59,10 @@ private:
     static sf::IntRect body_hit_frames[3];
     static sf::IntRect knockout_frames[4];
     static sf::IntRect victory_frames[2];
+    static sf::IntRect sonicboom_frames[4];
+    static sf::IntRect projectile_frames[4];
     int currFrame = 0;
+    int pid = 0;
     int frameIncrement = 1;
     float JMPY = -30;
     float delay_time = 0;
