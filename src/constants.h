@@ -11,4 +11,6 @@
 #define WINDOW_HEIGHT 600
 #define NO_OF_VOICE_LINES 11
 #define KNOCKOUT_TIME 0.6f
+#define DAMAGE_PER_HIT 5.0f
+
 #endif

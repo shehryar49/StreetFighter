@@ -441,7 +441,7 @@ void Guile::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f*2 && state == AnimationState::BODY_HIT)
+    else if(elapsed>=0.08f && state == AnimationState::BODY_HIT)
     {
         player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;

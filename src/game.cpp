@@ -864,7 +864,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = {4,11}; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = {1,4}; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
@@ -970,11 +970,11 @@ void Game::setStage(int* c)
             break;
         case 4:
             enemy = new Guile();
-            backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Guile Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
-            background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            background.setTextureRect(sf::IntRect(150, 50, 600, 230));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else

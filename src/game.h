@@ -62,7 +62,7 @@ private:
     // 10 - sys call win
     bool game_over = false;
     bool await_game_over = false; 
-    bool AIBOT = true;
+    bool AIBOT = !true;
 public:
     Game();
     void run();
