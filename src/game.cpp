@@ -236,14 +236,14 @@ void Game::update(float dt)
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
-      	if(hits >= 5 && a <= b-80)
+      	if(hits >= 5 && a <= b-100)
         {
         	enemy->flippedMoveRight(WINDOW_WIDTH);
         	elapsed3 = 0;
         	hits = 0;
         	return;
         }
-        else if(a > b - 80)
+        else if(a > b - 100)
       	{
         	enemy->flippedMoveLeft(b);
         	elapsed3 = 0;
