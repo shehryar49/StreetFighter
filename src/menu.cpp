@@ -3,13 +3,12 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <iostream>
-using namespace std;
 
 sf::Font Menu::font;
 Menu::Menu(const char* values[],int totalButtons)
 {
     if(!font.loadFromFile("assets/fonts/crunch_chips.otf"))
-      cout<<"error loading font"<<endl;
+      std::cerr<<"error loading font"<<std::endl;
     texture.loadFromFile("SF2.jpeg");
     bg.setTexture(texture);
     bg.setScale(1.5,1.1);
@@ -21,11 +20,13 @@ Menu::Menu(const char* values[],int totalButtons)
         //keep this order pos, font, text
         // why tho?
         // logic to centralize the text goes haywire otherwise
-        buttons[i].setPosition(350, y);
+		// no it doesn't, i changed the order
         buttons[i].setFont(font);
-        buttons[i].setText(values[i],20);
-        buttons[i].setBackgroundColor(sf::Color::Black);
         buttons[i].setForegroundColor(sf::Color::White);
+        buttons[i].setPosition(350, y);
+        buttons[i].setBackgroundColor(sf::Color::Black);
+        buttons[i].setText(values[i],20);
+
         y += 80;
     }
 }

@@ -230,9 +230,8 @@ void Game::update(float dt)
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = true && !await_game_over;
-	
-    if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
+
+    if(elapsed3 >= 1.0f && AIBOT && !await_game_over && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
@@ -660,8 +659,10 @@ int* Game::selectScreen()
 
 std::string Game::execCommand(const std::string& command)
 {
-  if (command == "exit" || command == "quit" || command == "yawr" || command == "")
+  if (command == "exit" || command == "quit" || command == "yawr" )
     return "exit";
+  if(command == "")
+    return "";
 
   vector<string> parts = split(command,' ');
   //remove extra space from each word
@@ -687,6 +688,11 @@ std::string Game::execCommand(const std::string& command)
       return "FPS set to "+parts[2];
     }
     return "Invalid syntax! Fallback to GUI if you are a noob.";
+  }
+  else if(parts.size() == 2 && parts[0] == "disable" && parts[1] == "ai")
+  {
+    AIBOT = false;
+    return "AI disabled.";
   }
   return "Invalid syntax! Fallback to GUI if you are a noob.";
 }
@@ -756,7 +762,10 @@ void Game::showTerminal()
           {
             std::string res = execCommand(command);
             if (res == "exit")
+            {
+                smg.stop(terminal_music);
                 return;
+            }
             command = "";
             text.setString("shell> ");
             cursor.setPosition(60,50);
