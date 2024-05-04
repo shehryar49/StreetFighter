@@ -134,6 +134,7 @@ sf::IntRect Ken::body_hit_frames[3]={
     sf::IntRect(185,3235,70,100)
 };
 sf::IntRect Ken::knockout_frames[5];
+sf::IntRect Ken::victory_frames[4];
 Ken::Ken()
 {
     img.loadFromFile("assets/ken.png");
@@ -146,9 +147,14 @@ Ken::Ken()
     knockout_frames[2] = sf::IntRect(225,3550,125,100);
     knockout_frames[3] = sf::IntRect(355,3540,125,100);
     knockout_frames[4] = sf::IntRect(485,3540,135,100);
+    //
+    victory_frames[0] = sf::IntRect(293,5073,60,100);
+    victory_frames[1] = sf::IntRect(353,5073,60,100);
+    victory_frames[2] = sf::IntRect(420,5073,60,100);
+    victory_frames[3] = sf::IntRect(485,5050,60,123);
 
     player.setTextureRect(IDLE_frames[0]);
-     
+
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
@@ -317,7 +323,12 @@ bool Ken::isIdle()
 bool Ken::isSuffering()
 {
   return state == AnimationState::BODY_HIT;
-//  return 
+}
+void Ken::victory()
+{
+  state = AnimationState::VICTORY;
+  player.setPosition(player.getPosition().x,BOTTOMY - victory_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
+  currFrame = 0;
 }
 bool Ken::isAttacking()
 {
@@ -503,6 +514,17 @@ void Ken::update(float dt)
             currFrame = 0;
             frameIncrement = 1;
         }
+    }  
+    else if(elapsed>=MOVE_TIME*5 && state == AnimationState::VICTORY)
+    {
+        player.setPosition(player.getPosition().x,BOTTOMY - victory_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
+        player.setTextureRect(victory_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 4)
+        { 
+            currFrame = 3;
+            frameIncrement = 1;
+        }
     }
     else if(elapsed >= delay_time && state == AnimationState::DELAY)
     {
@@ -575,7 +597,6 @@ void Ken::update(float dt)
     }
     else if(elapsed>=MOVE_TIME && state == AnimationState::KICK3)
     {
-
         player.setPosition(player.getPosition().x,BOTTOMY - kick3_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
         player.setTextureRect(kick3_frames[currFrame++]);
         elapsed = 0;
