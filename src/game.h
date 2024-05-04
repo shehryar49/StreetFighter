@@ -2,6 +2,7 @@
 #define GAME_H_
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <string>
 #include "player.h"
@@ -15,8 +16,8 @@ private:
     sf::Texture backgroundTexture;
     sf::Sprite background;
     sf::Clock clock;
-    Player *player;
-    Player* enemy;
+    Player *player = nullptr;
+    Player* enemy = nullptr;
     
     sf::RectangleShape health1;
     sf::RectangleShape health2;
@@ -62,7 +63,10 @@ private:
     // 10 - sys call win
     bool game_over = false;
     bool await_game_over = false; 
-    bool AIBOT = !true;
+    bool ai_bot = true;
+    sf::Font timer_font;
+    sf::Text timer;
+    float timer_elapsed = 0;
 public:
     Game();
     void run();

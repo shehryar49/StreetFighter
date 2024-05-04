@@ -103,6 +103,7 @@ public:
     void bodyHit();
     void knockout(int);
     void knockout(bool*);
+    void victory();
     void victory(int);
     //AI
     bool isIdle();
