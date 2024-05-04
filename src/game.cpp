@@ -59,7 +59,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   //Setup timer
   timer_font.loadFromFile("assets/fonts/Hack-Regular.ttf");
   timer.setCharacterSize(60);
-  timer.setString("nigga i'm here");
+  timer.setString("0");
   timer.setPosition(360,20);
   timer.setFillColor(sf::Color::White);
   timer.setFont(timer_font);
@@ -157,14 +157,11 @@ void Game::update(float dt)
     static float elapsed1 = 0;
     static float elapsed2 = 0;
     static float elapsed3 = 0;
-	if(timer_elapsed == 0)
-	{
-		printf("first update called\n");
-	}
     static int hits = 0;
     elapsed1 += dt;
     elapsed2 += dt;
     elapsed3 += dt;
+	
 	//set time
 	int time = timer_elapsed;
 	if(time >= 120) // time up
@@ -239,6 +236,7 @@ void Game::update(float dt)
       playerDamage.setSize(sf::Vector2f(player->damage*3,25));
       if(player->damage == 100.0f)
       {
+		enemy->victory();
         player->knockout(&game_over);
         smg.play(player_voice_lines[7]);
         await_game_over = true;
@@ -850,52 +848,60 @@ void Game::run()
 {
   playIntro();
   window.setFramerateLimit(0);
-  while(true)
+  while(window.isOpen())
   {
-    int option = showMenu();
-    if(option == 0)
-      break;
-    else if(option == 1)
-      showCredits();
-    else if(option == 2)
-      showTerminal();
-    else if(option == 3)
-      return;
-  }
-  int* character = selectScreen();
-  setStage(character);
-  //smg.play(vs_music);
-  smg.play(fight_bgm);
-  smg.setVolume(20,fight_bgm);
-  clock.restart();
-  while (!game_over && window.isOpen())
-  {
-	float dt = clock.restart().asSeconds();
-	timer_elapsed += dt;
-    pollEvents();
-    update(dt);
-    window.clear(sf::Color::Black);
-    window.draw(background);
-    window.draw(health1);
-    window.draw(health2);
-    window.draw(playerDamage);
-    window.draw(enemyDamage);
-	window.draw(timer);
-    player->render(window);
-    enemy->render(window);
-    window.display();
-  }
-  
-  if(game_over && window.isOpen())
-  {
-    #ifdef __linux
-    sleep(2);
-    #endif
-    smg.stop(fight_bgm);
-    gameOver();
-  }
-  smg.stop(fight_bgm);
-  delete[] character;
+		while(true)
+		{
+		int option = showMenu();
+		if(option == 0)
+		break;
+		else if(option == 1)
+		showCredits();
+		else if(option == 2)
+		showTerminal();
+		else if(option == 3)
+		return;
+		}
+		int* character = selectScreen();
+		setStage(character);
+		//smg.play(vs_music);
+		smg.play(fight_bgm);
+		smg.setVolume(20,fight_bgm);
+		clock.restart();
+		while (!game_over && window.isOpen())
+		{
+		float dt = clock.restart().asSeconds();
+		timer_elapsed += dt;
+		pollEvents();
+		update(dt);
+		window.clear(sf::Color::Black);
+		window.draw(background);
+		window.draw(health1);
+		window.draw(health2);
+		window.draw(playerDamage);
+		window.draw(enemyDamage);
+		window.draw(timer);
+		player->render(window);
+		enemy->render(window);
+		window.display();
+		}
+		if(game_over && window.isOpen())
+		{
+			#ifdef __linux
+				sleep(6);
+			#else
+				Sleep(6000);
+			#endif
+			smg.stop(fight_bgm);
+			game_over = false;
+			await_game_over = false;
+			playerDamage.setSize(sf::Vector2f(0,25));
+			enemyDamage.setSize(sf::Vector2f(0,25));
+			timer_elapsed = 0;
+		}
+		smg.stop(fight_bgm);
+  		delete[] character;
+  	}
 }
 void Game::testRun()
 {
