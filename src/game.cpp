@@ -230,7 +230,7 @@ void Game::update(float dt)
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = !true && !await_game_over;
+    bool AIBOT = true && !await_game_over;
 	
     if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
@@ -251,23 +251,35 @@ void Game::update(float dt)
       	}
         int r = rand() % 6;
       	if(r == 0)
+        {
         	if(enemy->punch1())
             smg.play(enemy_voice_lines[0]);
+        }
       	else if(r == 1)
+        {
         	if(enemy->punch2())
             smg.play(enemy_voice_lines[1]);
+        }
       	else if(r == 2)
+        {
         	if(enemy->punch3())
             smg.play(enemy_voice_lines[2]);
+        }
       	else if(r == 3)
+        {
         	if(enemy->kick1())
             smg.play(enemy_voice_lines[0]);
+        }
       	else if(r == 4)
+        {
         	if(enemy->kick2())
             smg.play(enemy_voice_lines[1]);
+        }
 		    else if(r == 5)
+        {
   			  if(enemy->kick3())
             smg.play(enemy_voice_lines[2]);
+        }
           elapsed3 = 0;
     }
 }
@@ -844,7 +856,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = {4,7 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = {4,4 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
