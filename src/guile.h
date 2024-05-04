@@ -1,10 +1,10 @@
 //Written by Shahryar Ahmad
-#ifndef KEN_H_
-#define KEN_H_
+#ifndef GUILE_H_
+#define GUILE_H_
 #include "player.h"
 #include "ryu.h"
 #include <SFML/Graphics/Rect.hpp>
-class Ken : public Player
+class Guile : public Player
 {
 private:
     sf::Image img;
@@ -41,8 +41,8 @@ private:
     //'Frames' actually might not be the right word
     // but who's gonna stop me?
     static sf::IntRect IDLE_frames[6];
-    static sf::IntRect moveright_frames[6];
-    static sf::IntRect moveleft_frames[6];  
+    static sf::IntRect moveright_frames[5];
+    static sf::IntRect moveleft_frames[5];  
     static sf::IntRect punch1_frames[2];
     static sf::IntRect punch2_frames[3]; 
     static sf::IntRect punch3_frames[7];
@@ -67,7 +67,7 @@ private:
     AnimationState lastState;
     bool* ptr;
 public:
-    Ken();
+    Guile();
     void update(float);
     void render(sf::RenderWindow &);
     void setPosition(float,float);
@@ -94,6 +94,6 @@ public:
 
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
-    ~Ken();
+    ~Guile();
 };
 #endif

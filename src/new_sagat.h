@@ -1,6 +1,6 @@
 //Written by Shahryar Ahmad
-#ifndef KEN_H_
-#define KEN_H_
+#ifndef SAGAT_H_
+#define SAGAT_H_
 #include "player.h"
 #include "ryu.h"
 #include <SFML/Graphics/Rect.hpp>

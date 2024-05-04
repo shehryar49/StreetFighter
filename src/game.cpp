@@ -20,6 +20,7 @@
 #include "ken.h"
 #include "sagat.h"
 #include "balrog.h"
+#include "guile.h"
 #include "credits.h"
 #include "utils.h"
 #include <string.h>
@@ -900,6 +901,10 @@ void Game::setStage(int* c)
             player = new Ryu();
             setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
             break;
+        case 4:
+            player = new Guile();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
+            break;
         case 5:
             player = new Balrog();
             setVoiceLines(-2, "assets/PlayerVoiceLines/Balrog/");
@@ -943,6 +948,20 @@ void Game::setStage(int* c)
                 setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
             smg.play(fight_bgm);
             break;
+        case 4:
+            enemy = new Guile();
+            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            background.setTexture(backgroundTexture);
+            background.setScale(1.4f, 2.8f);
+            background.setPosition(0, 0);
+            background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            if (c[0] == c[1])
+                setVoiceLines(c[0]);
+            else
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
+            smg.play(fight_bgm);
+            break;
+        
         case 5:
             enemy = new Balrog();
             backgroundTexture.loadFromFile("assets/Balrog Stage.png");
