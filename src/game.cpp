@@ -825,12 +825,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-<<<<<<< HEAD
     int idek[2] = { 5,5 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
-=======
-    int idek[2] = { 1,11 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers)
-    // - remember em then - ok my fuhrer
->>>>>>> 06b2aead55b916c2a6b0af3378cab86129e1149f
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
