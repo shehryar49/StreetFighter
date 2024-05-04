@@ -189,6 +189,7 @@ void Game::update(float dt)
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       	if(enemy->damage == 100.0f)
       	{
+			player->victory();
         	enemy->knockout(&game_over);
         	await_game_over = true;
       	}

@@ -1,6 +1,7 @@
 //Written by Shahryar Ahmad
 #include "new_sagat.h"
 #include "constants.h"
+#include "player.h"
 #include <SFML/Graphics/Rect.hpp>
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
@@ -20,10 +21,11 @@ sf::IntRect Sagat::crouched_punch1_frames[3];
 sf::IntRect Sagat::body_hit_frames[4];
 sf::IntRect Sagat::knockout_frames[4];
 sf::IntRect Sagat::tiger_frames[3];
+sf::IntRect Sagat::victory_frames[4];
 Sagat::Sagat()
 {
     img.loadFromFile("assets/sagat.png");
-    //img.createMaskFromColor(sf::Color(248, 0, 248, 255));
+    img.createMaskFromColor(sf::Color(248, 0, 248, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);
 
@@ -106,11 +108,17 @@ Sagat::Sagat()
     knockout_frames[2] = sf::IntRect(940,1692,105,124);
     knockout_frames[3] = sf::IntRect(1065,1695,153,124);
     //
+    victory_frames[0] = sf::IntRect(262,1978,60,135);
+    victory_frames[1] = sf::IntRect(352,1978,60,135);
+    victory_frames[2] = sf::IntRect(449,1977,60,135);
+    victory_frames[3] = sf::IntRect(539,1977,60,135);
+    //
     projectile.setTexture(texture);
     projectile.setTextureRect(sf::IntRect(490,1205,40,40));
     projectile.setScale(1.3f,1.3f);
     
     #define STOP !true
+    //player.setTextureRect(victory_frames[3]);
     player.setTextureRect(IDLE_frames[0]);
      
     player.setScale(sf::Vector2f(2.1, 2.1));
@@ -298,6 +306,12 @@ void Sagat::flippedMoveRight(float f)
       limit = f;
     }
 }
+void Sagat::victory()
+{
+  player.setPosition(player.getPosition().x,BOTTOMY - victory_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
+  state = AnimationState::VICTORY;
+  currFrame = 0;
+}
 void Sagat::update(float dt)
 {
     if(STOP)
@@ -365,7 +379,7 @@ void Sagat::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=MOVE_TIME*2 && state == AnimationState::BODY_HIT)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::BODY_HIT)
     {
         player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
@@ -374,6 +388,15 @@ void Sagat::update(float dt)
             state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;
+        }
+    }
+    else if(elapsed>=MOVE_TIME*2 && state == AnimationState::VICTORY)
+    {
+        player.setTextureRect(victory_frames[currFrame++]);
+        elapsed = 0;
+        if(currFrame == 4)
+        { 
+            currFrame = 0;
         }
     }
     else if(elapsed>=MOVE_TIME && state == AnimationState::CROUCHED_PUNCH1)

@@ -31,7 +31,8 @@ private:
         FLIPPED_MOVE_LEFT,
         FLIPPED_MOVE_RIGHT,
         KNOCKED_OUT,
-        TIGER
+        TIGER,
+        VICTORY
     };
 
     AnimationState state;
@@ -51,6 +52,7 @@ private:
     static sf::IntRect body_hit_frames[4];
     static sf::IntRect knockout_frames[4];
     static sf::IntRect tiger_frames[3];
+    static sf::IntRect victory_frames[4];
     int currFrame = 0;
     int frameIncrement = 1;
     float JMPY = -30;
@@ -82,7 +84,7 @@ public:
     bool isAttacking();
     void bodyHit();
     void knockout(bool*);
-
+    void victory();
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     ~Sagat();
