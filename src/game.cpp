@@ -56,7 +56,14 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   enemyDamage.setSize(sf::Vector2f(0,25));
   enemyDamage.setFillColor(sf::Color::Red);
   enemyDamage.setPosition(500,0);
-  
+  //Setup timer
+  timer_font.loadFromFile("assets/fonts/Hack-Regular.ttf");
+  timer.setCharacterSize(60);
+  timer.setString("nigga i'm here");
+  timer.setPosition(360,20);
+  timer.setFillColor(sf::Color::White);
+  timer.setFont(timer_font);
+
   //Load sounds
   intro_music = smg.load("assets/intro/intro.ogg");
   player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
@@ -150,28 +157,54 @@ void Game::update(float dt)
     static float elapsed1 = 0;
     static float elapsed2 = 0;
     static float elapsed3 = 0;
+	if(timer_elapsed == 0)
+	{
+		printf("first update called\n");
+	}
     static int hits = 0;
     elapsed1 += dt;
     elapsed2 += dt;
     elapsed3 += dt;
+	//set time
+	int time = timer_elapsed;
+	if(time >= 120) // time up
+	{
+		if(player->damage < enemy->damage) // player won
+		{
+			//play something
+			smg.play(player_voice_lines[10]);
+		}
+		else if(player->damage > enemy->damage) // player lost
+		{
+			//play something
+			smg.play(enemy_voice_lines[10]);
+		}
+		else //draw
+		{
+			//play something
+		}
+		game_over = true;
+	}
+	timer.setString(std::to_string(time));
     player->update(dt);
 	//check projectile damage
 	if(player->projectile_active && player->projectile.getGlobalBounds().intersects(enemy->getGlobalBounds()))
 	{
+
 		if(enemy->damage <= 95.0f)
 			enemy->damage+=5.0f;
 		enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
-        if(enemy->damage == 100.0f)
-        {
+      	if(enemy->damage == 100.0f)
+      	{
           	enemy->knockout(&game_over);
             smg.play(enemy_voice_lines[6]);
           	await_game_over = true;
-        }
+      	}
       	else
-        {
-        	enemy->bodyHit();
-          smg.play(enemy_voice_lines[6]);
-        }  
+      	{
+      		enemy->bodyHit();
+        	smg.play(enemy_voice_lines[6]);
+      	}  
 		player->projectile_active = false;
 	}
     //check if player hit enemy
@@ -183,16 +216,16 @@ void Game::update(float dt)
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       	if(enemy->damage == 100.0f)
       	{
-			    player->victory();
-          smg.play(player_voice_lines[10]);
+			player->victory();
+          	smg.play(player_voice_lines[10]);
         	enemy->knockout(&game_over);
-          smg.play(enemy_voice_lines[7]);
+          	smg.play(enemy_voice_lines[7]);
         	await_game_over = true;
       	}
       	else
         {
         	enemy->bodyHit();
-          smg.play(enemy_voice_lines[6]);
+            smg.play(enemy_voice_lines[6]);
         }     
       	elapsed1 = 0;
       	hits++;
@@ -219,7 +252,7 @@ void Game::update(float dt)
     }
     // set up things for next updation
 
-    if(elapsed3 >= 1.0f && AIBOT && !await_game_over && enemy->isIdle())
+    if(elapsed3 >= 1.0f && ai_bot && !await_game_over && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
@@ -679,7 +712,7 @@ std::string Game::execCommand(const std::string& command)
   }
   else if(parts.size() == 2 && parts[0] == "disable" && parts[1] == "ai")
   {
-    AIBOT = false;
+    ai_bot = false;
     return "AI disabled.";
   }
   return "Invalid syntax! Fallback to GUI if you are a noob.";
@@ -816,6 +849,7 @@ int Game::showMenu()
 void Game::run()
 {
   playIntro();
+  window.setFramerateLimit(0);
   while(true)
   {
     int option = showMenu();
@@ -833,11 +867,12 @@ void Game::run()
   //smg.play(vs_music);
   smg.play(fight_bgm);
   smg.setVolume(20,fight_bgm);
-
+  clock.restart();
   while (!game_over && window.isOpen())
   {
+	float dt = clock.restart().asSeconds();
+	timer_elapsed += dt;
     pollEvents();
-    float dt = clock.restart().asSeconds();
     update(dt);
     window.clear(sf::Color::Black);
     window.draw(background);
@@ -845,6 +880,7 @@ void Game::run()
     window.draw(health2);
     window.draw(playerDamage);
     window.draw(enemyDamage);
+	window.draw(timer);
     player->render(window);
     enemy->render(window);
     window.display();
@@ -872,8 +908,8 @@ void Game::testRun()
     smg.play(vs_music);
     while (!game_over && window.isOpen())
     {
+		float dt = clock.restart().asSeconds();
         pollEvents();
-        float dt = clock.restart().asSeconds();
         update(dt);
         window.clear(sf::Color::Black);
         window.draw(background);
@@ -881,6 +917,7 @@ void Game::testRun()
         window.draw(health2);
         window.draw(playerDamage);
         window.draw(enemyDamage);
+		window.draw(timer);
         player->render(window);
         enemy->render(window);
         window.display();
@@ -890,7 +927,7 @@ void Game::testRun()
       #ifdef __linux
       sleep(2);
       #endif
-        gameOver();
+      gameOver();
     }
     delete[] character;
 }
@@ -925,7 +962,7 @@ void Game::setStage(int* c)
             break;
         case 4:
             player = new Guile();
-            setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Guile/");
             break;
         case 5:
             player = new Balrog();
