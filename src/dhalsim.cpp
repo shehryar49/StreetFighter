@@ -829,7 +829,7 @@ void Dhalsim::render(sf::RenderWindow& win)
 }
 void Dhalsim::flipX()
 {
-    player.setScale(-2.1, 2.1);
+    player.setScale(-PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE);
 }
 sf::FloatRect Dhalsim::getGlobalBounds()
 {

@@ -175,10 +175,14 @@ void Game::update(float dt)
         if(enemy->damage == 100.0f)
         {
           	enemy->knockout(&game_over);
+            smg.play(enemy_voice_lines[6]);
           	await_game_over = true;
         }
       	else
-        	enemy->bodyHit();  
+        {
+        	enemy->bodyHit();
+          smg.play(enemy_voice_lines[6]);
+        }  
 		player->projectile_active = false;
 	}
     //check if player hit enemy
@@ -190,12 +194,17 @@ void Game::update(float dt)
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       	if(enemy->damage == 100.0f)
       	{
-			player->victory();
+			    player->victory();
+          smg.play(player_voice_lines[10]);
         	enemy->knockout(&game_over);
+          smg.play(enemy_voice_lines[7]);
         	await_game_over = true;
       	}
       	else
-        	enemy->bodyHit();     
+        {
+        	enemy->bodyHit();
+          smg.play(enemy_voice_lines[6]);
+        }     
       	elapsed1 = 0;
       	hits++;
     }
@@ -209,10 +218,14 @@ void Game::update(float dt)
       if(player->damage == 100.0f)
       {
         player->knockout(&game_over);
+        smg.play(player_voice_lines[7]);
         await_game_over = true;
       }
       else
+      {
         player->bodyHit();
+        smg.play(player_voice_lines[6]);
+      }
       elapsed2 = 0;
     }
     // set up things for next updation
@@ -237,20 +250,25 @@ void Game::update(float dt)
       	}
         int r = rand() % 6;
       	if(r == 0)
-        	enemy->punch1();
+        	if(enemy->punch1())
+            smg.play(enemy_voice_lines[0]);
       	else if(r == 1)
-        	enemy->punch2();
+        	if(enemy->punch2())
+            smg.play(enemy_voice_lines[1]);
       	else if(r == 2)
-        	enemy->punch3();
+        	if(enemy->punch3())
+            smg.play(enemy_voice_lines[2]);
       	else if(r == 3)
-        	enemy->kick1();
+        	if(enemy->kick1())
+            smg.play(enemy_voice_lines[0]);
       	else if(r == 4)
-        	enemy->kick2();
-		else if(r == 5)
-  			enemy->kick3();
-        elapsed3 = 0;
+        	if(enemy->kick2())
+            smg.play(enemy_voice_lines[1]);
+		    else if(r == 5)
+  			  if(enemy->kick3())
+            smg.play(enemy_voice_lines[2]);
+          elapsed3 = 0;
     }
-
 }
 void Game::playIntro()
 {
@@ -825,7 +843,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 5,5 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = { 9,5 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
@@ -935,7 +953,7 @@ void Game::setStage(int* c)
             if (c[0] == c[1]) // reuse audio
                 setVoiceLines(c[0]);
             else
-                setVoiceLines(-1, "assets/PlayerVoiceLines/Zangief/");
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Balrog/");
             smg.play(fight_bgm);
             break;
         case 7:
