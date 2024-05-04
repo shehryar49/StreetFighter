@@ -33,6 +33,11 @@ void SoundManager::setVolume(float volume)
     for(auto p: audios)
         p->setVolume(volume);
 }
+void SoundManager::setVolume(float volume,int id)
+{
+    if(id >= 0 && id < audios.size())
+      audios[id]->setVolume(volume);
+}
 SoundManager::~SoundManager()
 {
     for(auto m: audios)

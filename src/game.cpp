@@ -18,7 +18,7 @@
 #include "chun_li.h"
 #include "dhalsim.h"
 #include "ken.h"
-#include "sagat.h"
+#include "new_sagat.h"
 #include "balrog.h"
 #include "guile.h"
 #include "credits.h"
@@ -63,7 +63,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
   player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
   vs_music = smg.load("assets/SFX/VS.wav");
-  fight_bgm = -1;//smg.load("assets/SFX/Theme_of_Ryu.ogg");
+  fight_bgm = smg.load("assets/SFX/Theme_of_Ryu.ogg");
   terminal_music = smg.load("assets/SFX/hackerman.wav");
   smg.setVolume(100); // change volume here or using terminal
 }
@@ -124,18 +124,6 @@ void Game::pollEvents()
                 case sf::Keyboard::C:
                   if(player->kick3())
                       smg.play(player_voice_lines[2]);
-                  break;
-                case sf::Keyboard::LShift:
-                  player->block();
-                  break;
-                case sf::Keyboard::B:
-                  player->bodyHit();
-                  break;
-                case sf::Keyboard::J:
-                  enemy->flippedMoveLeft(0);
-                  break;
-                case sf::Keyboard::V:
-                  player->victory();
                   break;
                 default:
                   break;
@@ -230,20 +218,19 @@ void Game::update(float dt)
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = true && !await_game_over;
-	
-    if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
+
+    if(elapsed3 >= 1.0f && AIBOT && !await_game_over && enemy->isIdle())
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
-      	if(hits >= 5 && a <= b-100)
+      	if(hits >= 5 && a <= b-80)
         {
         	enemy->flippedMoveRight(WINDOW_WIDTH);
         	elapsed3 = 0;
         	hits = 0;
         	return;
         }
-        else if(a > b - 100)
+        else if(a > b - 80)
       	{
         	enemy->flippedMoveLeft(b);
         	elapsed3 = 0;
@@ -335,7 +322,7 @@ void Game::playIntro()
 void Game::gameOver()
 {
   sf::Font f;
-  f.loadFromFile("assets/Hack-Regular.ttf");
+  f.loadFromFile("assets/fonts/Hack-Regular.ttf");
   sf::Text t;
   t.setFont(f);
   t.setCharacterSize(28);
@@ -660,8 +647,10 @@ int* Game::selectScreen()
 
 std::string Game::execCommand(const std::string& command)
 {
-  if (command == "exit" || command == "quit" || command == "yawr" || command == "")
+  if (command == "exit" || command == "quit" || command == "yawr" )
     return "exit";
+  if(command == "")
+    return "";
 
   vector<string> parts = split(command,' ');
   //remove extra space from each word
@@ -688,6 +677,11 @@ std::string Game::execCommand(const std::string& command)
     }
     return "Invalid syntax! Fallback to GUI if you are a noob.";
   }
+  else if(parts.size() == 2 && parts[0] == "disable" && parts[1] == "ai")
+  {
+    AIBOT = false;
+    return "AI disabled.";
+  }
   return "Invalid syntax! Fallback to GUI if you are a noob.";
 }
 void Game::showTerminal()
@@ -698,7 +692,7 @@ void Game::showTerminal()
   sf::Text cursor;
 
   sf::Font f;
-  f.loadFromFile("assets/Hack-Regular.ttf");
+  f.loadFromFile("assets/fonts/Hack-Regular.ttf");
   introText.setFont(f);
   introText.setCharacterSize(14);
   introText.setString("In a world full of GUI users, be a CLI user. Welcome master!");
@@ -756,7 +750,10 @@ void Game::showTerminal()
           {
             std::string res = execCommand(command);
             if (res == "exit")
+            {
+                smg.stop(terminal_music);
                 return;
+            }
             command = "";
             text.setString("shell> ");
             cursor.setPosition(60,50);
@@ -784,7 +781,7 @@ void Game::showTerminal()
 void Game::showCredits() 
 {
     sf::Font font;
-    font.loadFromFile("assets/crunch_chips.otf");//for consistency
+    font.loadFromFile("assets/fonts/crunch_chips.otf");//for consistency
     backgroundTexture.loadFromFile("SF2.jpeg");
     background.setTexture(backgroundTexture);
     background.setScale(1.5, 1.1);
@@ -833,8 +830,11 @@ void Game::run()
   }
   int* character = selectScreen();
   setStage(character);
-  smg.play(vs_music);
-  while (window.isOpen())
+  //smg.play(vs_music);
+  smg.play(fight_bgm);
+  smg.setVolume(20,fight_bgm);
+
+  while (!game_over && window.isOpen())
   {
     pollEvents();
     float dt = clock.restart().asSeconds();
@@ -849,6 +849,16 @@ void Game::run()
     enemy->render(window);
     window.display();
   }
+  
+  if(game_over && window.isOpen())
+  {
+    #ifdef __linux
+    sleep(2);
+    #endif
+    smg.stop(fight_bgm);
+    gameOver();
+  }
+  smg.stop(fight_bgm);
   delete[] character;
 }
 void Game::testRun()
@@ -876,12 +886,12 @@ void Game::testRun()
         window.display();
     }
     if(game_over && window.isOpen())
-	{
-	  #ifdef __linux
-	  sleep(2);
-	  #endif
-      gameOver();
-	}
+    {
+      #ifdef __linux
+      sleep(2);
+      #endif
+        gameOver();
+    }
     delete[] character;
 }
 
@@ -949,7 +959,7 @@ void Game::setStage(int* c)
     {
         case 1:
             enemy = new Ryu();
-            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
@@ -962,11 +972,11 @@ void Game::setStage(int* c)
             break;
         case 4:
             enemy = new Guile();
-            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Guile Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
-            background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            background.setTextureRect(sf::IntRect(150, 50, 600, 230));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else
@@ -976,7 +986,7 @@ void Game::setStage(int* c)
         
         case 5:
             enemy = new Balrog();
-            backgroundTexture.loadFromFile("assets/Balrog Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Balrog Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(2.1f, 2.5f);
             background.setPosition(0, 0);
@@ -989,7 +999,7 @@ void Game::setStage(int* c)
             break;
         case 7:
             enemy = new Ken();
-            backgroundTexture.loadFromFile("assets/Ken Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Ken Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 3.0f);
             background.setPosition(0, 0);
@@ -1002,7 +1012,7 @@ void Game::setStage(int* c)
             break;
         case 8:
             enemy = new Chun_Li();
-            backgroundTexture.loadFromFile("assets/ChunLi Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/ChunLi Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
@@ -1015,7 +1025,7 @@ void Game::setStage(int* c)
             break;
         case 9:
             enemy = new Zangief();
-            backgroundTexture.loadFromFile("assets/Zangief Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Zangief Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.8f);
             background.setPosition(0, 0);
@@ -1028,7 +1038,7 @@ void Game::setStage(int* c)
             break;
         case 10:
             enemy = new Dhalsim();
-            backgroundTexture.loadFromFile("assets/Dhalsim Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Dhalsim Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.5f);
             background.setPosition(0, 0);
@@ -1041,7 +1051,7 @@ void Game::setStage(int* c)
             break;
         case 11:
             enemy = new Sagat();
-            backgroundTexture.loadFromFile("assets/Sagat Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Sagat Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);
@@ -1050,7 +1060,7 @@ void Game::setStage(int* c)
             break;
         default:
             enemy = new Ryu();
-            backgroundTexture.loadFromFile("assets/Ryu Stage.png");
+            backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setPosition(0, 0);

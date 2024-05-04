@@ -29,7 +29,7 @@ sf::IntRect Dhalsim::hit_taken_body_frames[2];
 
 Dhalsim::Dhalsim()
 {
-    if (!img.loadFromFile("assets/dhalsim.png")) {
+    if (!img.loadFromFile("assets/players/dhalsim.png")) {
         std::cerr << "Err loading character";
         exit(EXIT_FAILURE);
     }

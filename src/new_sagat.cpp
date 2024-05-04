@@ -24,7 +24,7 @@ sf::IntRect Sagat::tiger_frames[3];
 sf::IntRect Sagat::victory_frames[4];
 Sagat::Sagat()
 {
-    img.loadFromFile("assets/sagat.png");
+    img.loadFromFile("assets/players/sagat.png");
     img.createMaskFromColor(sf::Color(248, 0, 248, 255));
     texture.loadFromImage(img);
     player.setTexture(texture);

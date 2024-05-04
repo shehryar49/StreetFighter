@@ -30,7 +30,7 @@ sf::IntRect Ryu::victory_frames[5];
 Ryu::Ryu()
 {
 
-    img.loadFromFile("assets/ryu.png");
+    img.loadFromFile("assets/players/ryu.png");
     img.createMaskFromColor(sf::Color(70,112,104,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
@@ -461,7 +461,6 @@ void Ryu::update(float dt)
             frameIncrement = 1;
         }
     }
-
     else if(elapsed>=(MOVE_TIME) && state == AnimationState::MOVE_LEFT)
     {
         currFrame = currFrame+1;
@@ -555,6 +554,7 @@ void Ryu::update(float dt)
         elapsed = 0;
         if(currFrame == 5)
         { 
+            printf("setting game over to true\n");
             state = AnimationState::FASTIDLE;
             currFrame = 0;
             frameIncrement = 1;

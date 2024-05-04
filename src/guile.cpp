@@ -29,7 +29,7 @@ sf::IntRect Guile::sonicboom_frames[4];
 sf::IntRect Guile::projectile_frames[4];
 Guile::Guile()
 {
-    img.loadFromFile("assets/guile.png");
+    img.loadFromFile("assets/players/guile.png");
     img.createMaskFromColor(sf::Color(102, 119, 136,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
@@ -441,7 +441,7 @@ void Guile::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=0.08f*2 && state == AnimationState::BODY_HIT)
+    else if(elapsed>=0.08f && state == AnimationState::BODY_HIT)
     {
         player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
