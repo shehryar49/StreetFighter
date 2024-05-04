@@ -29,7 +29,7 @@ int main()
 {
 	
 	Game sf;
-	//sf.run();
-	sf.testRun();
+	sf.run();
+	//sf.testRun();
 	return 0;
 }

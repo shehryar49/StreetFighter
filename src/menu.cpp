@@ -8,7 +8,7 @@ using namespace std;
 sf::Font Menu::font;
 Menu::Menu(const char* values[],int totalButtons)
 {
-    if(!font.loadFromFile("assets/crunch_chips.otf"))
+    if(!font.loadFromFile("assets/fonts/crunch_chips.otf"))
       cout<<"error loading font"<<endl;
     texture.loadFromFile("SF2.jpeg");
     bg.setTexture(texture);
