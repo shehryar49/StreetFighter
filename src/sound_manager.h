@@ -15,6 +15,7 @@ public:
     void play(int id,bool looped = false);
     void stop(int id);
     void setVolume(float);
+    void setVolume(float,int);
     ~SoundManager();
 };
 #endif

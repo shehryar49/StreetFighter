@@ -63,7 +63,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
   player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
   vs_music = smg.load("assets/SFX/VS.wav");
-  fight_bgm = -1;//smg.load("assets/SFX/Theme_of_Ryu.ogg");
+  fight_bgm = smg.load("assets/SFX/Theme_of_Ryu.ogg");
   terminal_music = smg.load("assets/SFX/hackerman.wav");
   smg.setVolume(100); // change volume here or using terminal
 }
@@ -830,7 +830,10 @@ void Game::run()
   }
   int* character = selectScreen();
   setStage(character);
-  smg.play(vs_music);
+  //smg.play(vs_music);
+  smg.play(fight_bgm);
+  smg.setVolume(20,fight_bgm);
+
   while (!game_over && window.isOpen())
   {
     pollEvents();
@@ -846,6 +849,7 @@ void Game::run()
     enemy->render(window);
     window.display();
   }
+  smg.stop(fight_bgm);
   if(game_over && window.isOpen())
   {
     #ifdef __linux
