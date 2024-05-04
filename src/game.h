@@ -46,8 +46,8 @@ private:
     int fight_bgm = -1;
     int terminal_music = -1;
 
-    int player_voice_lines[6] = {-1,-1,-1,-1,-1,-1}; // initialize!!
-    int enemy_voice_lines[6] = {-1,-1,-1,-1,-1,-1};;
+    int player_voice_lines[11] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}; // initialize!!
+    int enemy_voice_lines[11] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
     //index to voiceline mapping (list will grow when hit_taken functions are called by game class later)
     // 0 - small atk
     // 1 - medium atk
@@ -55,6 +55,11 @@ private:
     // 3 - jump
     // 4 - special1
     // 5 - special2
+    // 6 - bodyHit
+    // 7 - knockout
+    // 8 - victory
+    // 9 - defeat
+    // 10 - sys call win
     bool game_over = false;
     bool await_game_over = false; 
 public:
