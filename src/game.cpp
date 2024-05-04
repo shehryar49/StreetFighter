@@ -22,6 +22,7 @@
 #include "balrog.h"
 #include "credits.h"
 #include "utils.h"
+#include <string.h>
 
 #ifdef _WIN32
   #include <Windows.h>
@@ -132,8 +133,8 @@ void Game::pollEvents()
                 case sf::Keyboard::J:
                   enemy->flippedMoveLeft(0);
                   break;
-                case sf::Keyboard::K:
-                 // player->knockout();
+                case sf::Keyboard::V:
+                  player->victory();
                   break;
                 default:
                   break;
@@ -215,7 +216,7 @@ void Game::update(float dt)
       elapsed2 = 0;
     }
     // set up things for next updation
-    bool AIBOT = true && !await_game_over;
+    bool AIBOT = !true && !await_game_over;
 	
     if(elapsed3 >= 1.0f && AIBOT && enemy->isIdle())
     {
@@ -824,7 +825,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = { 8,8 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers)
+    int idek[2] = { 1,11 }; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers)
     // - remember em then - ok my fuhrer
     int* set = idek;
     setStage(set);
@@ -867,8 +868,9 @@ void Game::setVoiceLines(int c, string path = "")
                 enemy_voice_lines[i] = smg.load(path + to_string(i) + ".wav");
             return;
         default: //loading for enemy same as player
-            for (int i = 0; i < NO_OF_VOICE_LINES; i++)
-                enemy_voice_lines[i] = player_voice_lines[i];
+            memcpy(enemy_voice_lines,player_voice_lines,sizeof(int)*6);
+            //for (int i = 0; i < NO_OF_VOICE_LINES; i++)
+            //    enemy_voice_lines[i] = player_voice_lines[i];
             return;
     }
 }
