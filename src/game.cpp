@@ -18,7 +18,7 @@
 #include "chun_li.h"
 #include "dhalsim.h"
 #include "ken.h"
-#include "sagat.h"
+#include "new_sagat.h"
 #include "balrog.h"
 #include "guile.h"
 #include "credits.h"
@@ -236,14 +236,14 @@ void Game::update(float dt)
     {
         float a  = enemy->getGlobalBounds().left - enemy->getGlobalBounds().width;
       	float b = player->getGlobalBounds().left + player->getGlobalBounds().width - 1;
-      	if(hits >= 5 && a <= b-100)
+      	if(hits >= 5 && a <= b-80)
         {
         	enemy->flippedMoveRight(WINDOW_WIDTH);
         	elapsed3 = 0;
         	hits = 0;
         	return;
         }
-        else if(a > b - 100)
+        else if(a > b - 80)
       	{
         	enemy->flippedMoveLeft(b);
         	elapsed3 = 0;
@@ -856,7 +856,7 @@ void Game::testRun()
     smg.setVolume(0);
     window.setFramerateLimit(0);
     int* character = nullptr;
-    int idek[2] = {10,10}; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
+    int idek[2] = {4,11}; //set character and enemy index from here for faster debugging/testing(no so fast when you have to look integers) - remember em then
     int* set = idek;
     setStage(set);
     smg.play(vs_music);
