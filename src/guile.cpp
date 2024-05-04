@@ -12,21 +12,19 @@ sf::IntRect Guile::moveright_frames[5];
 sf::IntRect Guile::moveleft_frames[5];
 sf::IntRect Guile::punch1_frames[3];
 sf::IntRect Guile::punch2_frames[5];
-sf::IntRect Guile::punch3_frames[7];
+sf::IntRect Guile::punch3_frames[6];
 sf::IntRect Guile::kick1_frames[3];
-sf::IntRect Guile::jmp_frames[8];
+sf::IntRect Guile::jmp_frames[5];
 sf::IntRect Guile::kick2_frames[6];
 sf::IntRect Guile::kick3_frames[6];
 sf::IntRect Guile::crouching_frames[3];
-sf::IntRect Guile::crouched_punch1_frames[2];
-sf::IntRect Guile::crouched_punch2_frames[3];
-sf::IntRect Guile::crouched_kick1_frames[5];
+sf::IntRect Guile::crouched_punch1_frames[3];
+sf::IntRect Guile::crouched_punch2_frames[4];
+sf::IntRect Guile::crouched_kick1_frames[3];
 sf::IntRect Guile::crouched_kick2_frames[5];
-sf::IntRect Guile::helicopter_kick_frames[12];
-sf::IntRect Guile::tornado_kick_frames[10];
 sf::IntRect Guile::body_hit_frames[3];
-sf::IntRect Guile::knockout_frames[5];
-
+sf::IntRect Guile::knockout_frames[4];
+sf::IntRect Guile::victory_frames[2];
 Guile::Guile()
 {
     img.loadFromFile("assets/guile.png");
@@ -80,10 +78,57 @@ Guile::Guile()
     kick3_frames[3] = sf::IntRect(845,895,100,100);
     kick3_frames[4] = sf::IntRect(955,900,70,100);
     kick3_frames[5] = sf::IntRect(1055,900,70,100);
-
+    //
+    punch3_frames[0] = sf::IntRect(25,893,70,100);
+    punch3_frames[1] = sf::IntRect(100,893,70,100);
+    punch3_frames[2] = sf::IntRect(175,893,70,100);
+    punch3_frames[3] = sf::IntRect(245,893,110,100);
+    punch3_frames[4] = sf::IntRect(372,893,70,100);
+    punch3_frames[5] = sf::IntRect(442,893,85,100);
+    //
+    crouching_frames[0] = sf::IntRect(25,1045,70,100);
+    crouching_frames[1] = sf::IntRect(113,1045,70,100);
+    crouching_frames[2] = sf::IntRect(200,1045,70,100);
+    //
+    crouched_punch1_frames[0] = sf::IntRect(350,1045,75,100);
+    crouched_punch1_frames[1] = sf::IntRect(440,1045,100,100);
+    crouched_punch1_frames[2] = sf::IntRect(555,1045,100,100);
+    //
+    crouched_punch2_frames[0] = sf::IntRect(735,1045,90,100);
+    crouched_punch2_frames[1] = sf::IntRect(840,1045,105,100);
+    crouched_punch2_frames[2] = sf::IntRect(960,1045,95,100);
+    crouched_punch2_frames[3] = sf::IntRect(1068,1045,90,100);
+    //
+    crouched_kick1_frames[0] = sf::IntRect(23,1388,70,100);
+    crouched_kick1_frames[1] = sf::IntRect(100,1388,100,100);
+    crouched_kick1_frames[2] = sf::IntRect(220,1388,135,100);
+    //
+    crouched_kick2_frames[0] = sf::IntRect(435,1388,60,100);
+    crouched_kick2_frames[1] = sf::IntRect(505,1388,100,100);
+    crouched_kick2_frames[2] = sf::IntRect(620,1388,140,100);
+    crouched_kick2_frames[3] = sf::IntRect(780,1390,110,100);
+    crouched_kick2_frames[4] = sf::IntRect(905,1388,95,100);
+    //
+    jmp_frames[0] = sf::IntRect(25,1707,80,100);
+    jmp_frames[1] = sf::IntRect(110,1700,80,110);
+    jmp_frames[2] = sf::IntRect(195,1700,80,110);
+    jmp_frames[3] = sf::IntRect(275,1700,70,110);
+    jmp_frames[4] = sf::IntRect(345,1700,70,110);
+    //
+    knockout_frames[0] = sf::IntRect(25,3565,75,100);
+    knockout_frames[1] = sf::IntRect(120,3565,105,100);
+    knockout_frames[2] = sf::IntRect(240,3565,115,100);
+    knockout_frames[3] = sf::IntRect(375,3565,140,100);
+    //
+    body_hit_frames[0] = sf::IntRect(25,3397,80,100);
+    body_hit_frames[1] = sf::IntRect(108,3397,80,100);
+    body_hit_frames[2] = sf::IntRect(190,3397,80,100);
+    //
+    victory_frames[0] = sf::IntRect(25,4230,80,115);
+    victory_frames[1] = victory_frames[0]; //literally the same thing
+    //
     player.setTextureRect(IDLE_frames[0]);
     
-    //player.setTextureRect(sf::IntRect(1055,900,70,100));
      
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -238,11 +283,12 @@ bool Guile::uncrouch()
 }
 bool Guile::specialMove1()
 {
+  return false;
   if(IS_IDLE)
   {
     JMPY = 0;
     currFrame = 0;
-    state = AnimationState::TORNADO_KICK;
+    //state = AnimationState::TORNADO_KICK;
     return true;
   }
   return false;
@@ -269,8 +315,7 @@ bool Guile::isAttacking()
     state == AnimationState::CROUCHED_KICK1 ||
     state == AnimationState::CROUCHED_KICK2 ||
     state == AnimationState::CROUCHED_PUNCH1 ||
-    state == AnimationState::CROUCHED_PUNCH2 ||
-    state == AnimationState::TORNADO_KICK
+    state == AnimationState::CROUCHED_PUNCH2
   );//IMPORTANT
 }
 void Guile::bodyHit()
@@ -307,6 +352,12 @@ void Guile::flippedMoveRight(float f)
       frameIncrement = 1;
       limit = f;
     }
+}
+void Guile::victory()
+{
+  state = AnimationState::VICTORY;
+  player.setPosition(player.getPosition().x,BOTTOMY - victory_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
+  currFrame = 0;
 }
 void Guile::update(float dt)
 {
@@ -372,7 +423,7 @@ void Guile::update(float dt)
     {
         player.setTextureRect(body_hit_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 2)
+        if(currFrame == 3)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
@@ -383,7 +434,7 @@ void Guile::update(float dt)
     {
         player.setTextureRect(crouched_punch1_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 2)
+        if(currFrame == 3)
         { 
             state = AnimationState::CROUCHING;
             currFrame = 2;
@@ -411,7 +462,7 @@ void Guile::update(float dt)
         else
           player.setPosition(player.getPosition().x-20,player.getPosition().y);
         elapsed = 0;
-        if(currFrame == 5)
+        if(currFrame == 4)
         { 
             state = AnimationState::FASTIDLE;
             currFrame = 0;
@@ -424,7 +475,7 @@ void Guile::update(float dt)
     {
         player.setTextureRect(crouched_punch2_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 3)
+        if(currFrame == 4)
         { 
             state = AnimationState::CROUCHING;
             currFrame = 2;
@@ -455,15 +506,16 @@ void Guile::update(float dt)
         elapsed = 0;
         currFrame++;
 
-        if(currFrame == 4 && delay_time!=0) //start landing
+        if(currFrame == 3 && delay_time!=0) //start landing
         {
           lastState = AnimationState::JMP;
           JMPY *= -1;
 
           state = AnimationState::DELAY;
         }
-        else if(currFrame == 8)
+        else if(currFrame == 5)
         {
+          player.setPosition(player.getPosition().x,player.getPosition().y+JMPY);
           state = AnimationState::FASTIDLE;
           currFrame = 0;
         }
@@ -542,7 +594,7 @@ void Guile::update(float dt)
     {
         player.setTextureRect(crouched_kick1_frames[currFrame++]);
         elapsed = 0;
-        if(currFrame == 5)
+        if(currFrame == 3)
         { 
             state = AnimationState::CROUCHING;
             currFrame = 2;
@@ -560,23 +612,12 @@ void Guile::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if(elapsed>=MOVE_TIME*1.5 && state == AnimationState::TORNADO_KICK)
+    else if(elapsed>=MOVE_TIME && state == AnimationState::VICTORY)
     {
-        
-        player.setPosition(player.getPosition().x,BOTTOMY - tornado_kick_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1);
-        player.setTextureRect(tornado_kick_frames[currFrame++]);
-        elapsed = 0;
-        if(currFrame == 6)
-          JMPY = -10;
-        else if(currFrame == 1)
-          JMPY = 10;
-        if(currFrame == 10)
-        { 
-            state = AnimationState::FASTIDLE_ATTACKING;
-            currFrame = 0;
-            frameIncrement = 1;
-        }
+      player.setTextureRect(victory_frames[0]);
+      elapsed = 0;
     }
+
 }
 void Guile::setPosition(float x,float y)
 {
