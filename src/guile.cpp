@@ -30,7 +30,7 @@ sf::IntRect Guile::projectile_frames[4];
 Guile::Guile()
 {
     img.loadFromFile("assets/guile.png");
-    //img.createMaskFromColor(sf::Color(102, 119, 136,255));
+    img.createMaskFromColor(sf::Color(102, 119, 136,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
     #define STOP !true
