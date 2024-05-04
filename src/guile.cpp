@@ -1,5 +1,5 @@
 //Written by Shahryar Ahmad
-#include "ken.h"
+#include "guile.h"
 #include "constants.h"
 #include <SFML/Graphics/Rect.hpp>
 
@@ -7,147 +7,55 @@
 
 //Hard coded sprite cuts
 
-sf::IntRect Ken::IDLE_frames[6] = {
-    sf::IntRect(14, 14, 64, 100),
-    sf::IntRect(82, 14, 64, 100),
-    sf::IntRect(150, 14, 64, 100),
-    sf::IntRect(215, 14, 64, 100),
-    sf::IntRect(283, 14, 64, 100),
-    sf::IntRect(345, 14, 64, 100)
-};
-sf::IntRect Ken::moveright_frames[6] = {
-    sf::IntRect(16,145,60,100),
-    sf::IntRect(78,145,60,100),
-    sf::IntRect(145,145,60,100),
-    sf::IntRect(217,145,60,100),
-    sf::IntRect(288,145,60,100),
-    sf::IntRect(350,145,60,100)
-};
-sf::IntRect Ken::moveleft_frames[6] = {
-    sf::IntRect(448,145,68,100),
-    sf::IntRect(515,145,68,100),
-    sf::IntRect(580,145,68,100),
-    sf::IntRect(648,145,68,100),
-    sf::IntRect(713,145,68,100),
-    sf::IntRect(780,145,68,100)
-};
-sf::IntRect Ken::punch1_frames[2] = {sf::IntRect(15,280,68,100), sf::IntRect(87,280,94,100)};
+sf::IntRect Guile::IDLE_frames[6];
+sf::IntRect Guile::moveright_frames[5];
+sf::IntRect Guile::moveleft_frames[5];
+sf::IntRect Guile::punch1_frames[2];
+sf::IntRect Guile::punch2_frames[3];
+sf::IntRect Guile::punch3_frames[7];
+sf::IntRect Guile::kick1_frames[3];
+sf::IntRect Guile::jmp_frames[8];
+sf::IntRect Guile::kick2_frames[3];
+sf::IntRect Guile::kick3_frames[6];
+sf::IntRect Guile::crouching_frames[3];
+sf::IntRect Guile::crouched_punch1_frames[2];
+sf::IntRect Guile::crouched_punch2_frames[3];
+sf::IntRect Guile::crouched_kick1_frames[5];
+sf::IntRect Guile::crouched_kick2_frames[5];
+sf::IntRect Guile::helicopter_kick_frames[12];
+sf::IntRect Guile::tornado_kick_frames[10];
+sf::IntRect Guile::body_hit_frames[3];
+sf::IntRect Guile::knockout_frames[5];
 
-sf::IntRect Ken::punch2_frames[3] = {
-    sf::IntRect(300,280,65,100),
-    sf::IntRect(370,280,70,100),
-    sf::IntRect(450,280,110,100)
-};
-sf::IntRect Ken::punch3_frames[7] = {
-    sf::IntRect(265,568,60,100),
-    sf::IntRect(335,568,60,100),
-    sf::IntRect(395,568,90,100),
-    sf::IntRect(490,568,70,100),
-    sf::IntRect(560,568,90,100),
-    sf::IntRect(655,568,60,100),
-    sf::IntRect(715,568,65,100)
-};
-sf::IntRect Ken::kick1_frames[3] = { 
-    sf::IntRect(15,415,60,100),
-    sf::IntRect(85,415,60,100),
-    sf::IntRect(155,415,115,100)
-};
-sf::IntRect Ken::jmp_frames[8] = {
-    sf::IntRect(18,1595,60,100),
-    sf::IntRect(78,1588,60,100),
-    sf::IntRect(138,1540,60,100),
-    sf::IntRect(198,1505,60,100),
-    sf::IntRect(262,1500,50,100),
-    sf::IntRect(320,1520,50,100),
-    sf::IntRect(370,1560,60,100),
-    sf::IntRect(430,1595,60,100)
-};
-sf::IntRect Ken::kick2_frames[3] = {
-    sf::IntRect(15,730,60,100),
-    sf::IntRect(85,730,50,100),
-    sf::IntRect(140,730,80,100)
-};
-sf::IntRect Ken::kick3_frames[6] = {
-    sf::IntRect(815,730,65,100),
-    sf::IntRect(880,730,65,100),
-    sf::IntRect(945,705,55,125),
-    sf::IntRect(1000,715,100,115),
-    sf::IntRect(1103,730,50,100),
-    sf::IntRect(1160,730,60,100)
-};
-sf::IntRect Ken::crouching_frames[3] = {
-  sf::IntRect(10,1115,60,100),
-  sf::IntRect(75,1115,60,100),
-  sf::IntRect(140,1115,60,100)
-};
-sf::IntRect Ken::crouched_punch1_frames[2] = {
-  sf::IntRect(15,1280,70,100),
-  sf::IntRect(90,1280,100,100)
-};
-sf::IntRect Ken::crouched_punch2_frames[3] = {
-  sf::IntRect(315,1280,65,100),
-  sf::IntRect(385,1280,65,100),
-  sf::IntRect(460,1280,95,100)
-};
-sf::IntRect Ken::crouched_kick1_frames[5] = {
-    sf::IntRect(330,1385,75,100), 
-    sf::IntRect(410,1385,95,100),
-    sf::IntRect(515,1385,145,100),
-    sf::IntRect(670,1385,95,100),
-    sf::IntRect(775,1385,70,100)
-};
-sf::IntRect Ken::crouched_kick2_frames[5] = {
-  sf::IntRect(895,1385,50,100),
-  sf::IntRect(950,1385,125,100),
-  sf::IntRect(1080,1385,65,100),
-  sf::IntRect(1150,1385,65,100),
-  sf::IntRect(1220,1385,65,100)
-};
-sf::IntRect Ken::helicopter_kick_frames[12] = {
-  sf::IntRect(15,2940,70,110),
-  sf::IntRect(85,2905,70,110),
-  sf::IntRect(155,2905,60,110),
-  sf::IntRect(215,2910,100,110),
-  sf::IntRect(320,2910,60,110),
-  sf::IntRect(380,2910,100,110),
-  sf::IntRect(480,2910,70,110),
-  sf::IntRect(550,2910,60,110),
-  sf::IntRect(610,2910,60,110),
-  sf::IntRect(670,2910,65,110),
-  sf::IntRect(735,2920,60,110),
-  sf::IntRect(795,2945,60,110)
-};
-sf::IntRect Ken::tornado_kick_frames[10] = {
-  sf::IntRect(15,2028,60,100),
-  sf::IntRect(80,2020,60,110),
-  sf::IntRect(140,2020,70,110),
-  sf::IntRect(215,2025,60,100),
-  sf::IntRect(275,2025,100,100),
-  sf::IntRect(380,2025,60,100),
-  sf::IntRect(450,2025,60,100),
-  sf::IntRect(510,2025,60,100),
-  sf::IntRect(570,2025,60,100),
-  sf::IntRect(630,2028,60,100)
-};
-sf::IntRect Ken::body_hit_frames[3]={
-    sf::IntRect(120,3235,60,100),
-    sf::IntRect(185,3235,70,100)
-};
-sf::IntRect Ken::knockout_frames[5];
-Ken::Ken()
+Guile::Guile()
 {
-    img.loadFromFile("assets/ken.png");
-    img.createMaskFromColor(sf::Color(00,129,129,255));
+    img.loadFromFile("assets/guile.png");
+    //img.createMaskFromColor(sf::Color(102, 119, 136,255));
     texture.loadFromImage(img);
     player.setTexture(texture);
     #define STOP !true
-    knockout_frames[0] = sf::IntRect(20,3550,70,100);
-    knockout_frames[1] = sf::IntRect(98,3550,125,100);
-    knockout_frames[2] = sf::IntRect(225,3550,125,100);
-    knockout_frames[3] = sf::IntRect(355,3540,125,100);
-    knockout_frames[4] = sf::IntRect(485,3540,135,100);
+    IDLE_frames[0] = sf::IntRect(25,52,80,100);
+    IDLE_frames[1] = sf::IntRect(115,52,80,100);
+    IDLE_frames[2] = sf::IntRect(208,52,80,100);
+    IDLE_frames[3] = sf::IntRect(300,52,80,100);
+    IDLE_frames[4] = sf::IntRect(392,52,80,100);
+    IDLE_frames[5] = sf::IntRect(483,52,80,100);
+    //
+    moveright_frames[0] = sf::IntRect(25,230,84,100);
+    moveright_frames[1] = sf::IntRect(125,227,84,100);
+    moveright_frames[2] = sf::IntRect(210,227,84,100);
+    moveright_frames[3] = sf::IntRect(290,227,84,100);
+    moveright_frames[4] = sf::IntRect(380,227,84,100);
+    //
+    moveleft_frames[0] = sf::IntRect(535,227,84,100);
+    moveleft_frames[1] = sf::IntRect(635,227,84,100);
+    moveleft_frames[2] = sf::IntRect(720,227,60,100);
+    moveleft_frames[3] = sf::IntRect(800,227,60,100);
+    moveleft_frames[4] = sf::IntRect(870,227,60,100);
 
     player.setTextureRect(IDLE_frames[0]);
+    
+   // player.setTextureRect(sf::IntRect(870,227,60,100));
      
     player.setScale(sf::Vector2f(2.1, 2.1));
     player.setPosition(0, 0);
@@ -155,7 +63,7 @@ Ken::Ken()
     frameIncrement = 1;
 }
 
-bool Ken::punch1()
+bool Guile::punch1()
 {
     if(IS_IDLE)
     {
@@ -171,7 +79,7 @@ bool Ken::punch1()
     }
     return false;
 }
-bool Ken::punch2()
+bool Guile::punch2()
 {
     if(IS_IDLE)
     {
@@ -187,7 +95,7 @@ bool Ken::punch2()
     }
     return false;
 }
-bool Ken::punch3()
+bool Guile::punch3()
 {
     if(IS_IDLE)
     {
@@ -197,7 +105,7 @@ bool Ken::punch3()
     }
     return false;
 }
-bool Ken::kick1()
+bool Guile::kick1()
 {
   if(IS_IDLE)
   {
@@ -214,7 +122,7 @@ bool Ken::kick1()
   }
   return false;
 }
-bool Ken::kick2()
+bool Guile::kick2()
 {
   if(IS_IDLE)
   {
@@ -231,7 +139,7 @@ bool Ken::kick2()
   }
   return false;
 }
-bool Ken::kick3()
+bool Guile::kick3()
 {
   if(IS_IDLE)
   {
@@ -242,7 +150,7 @@ bool Ken::kick3()
   }
   return false;
 }
-void Ken::moveLeft(float limit)
+void Guile::moveLeft(float limit)
 {
   if(IS_IDLE)
   {
@@ -251,7 +159,7 @@ void Ken::moveLeft(float limit)
     this->limit = limit;
   }
 }
-void Ken::moveRight(float limit)
+void Guile::moveRight(float limit)
 {
   if(IS_IDLE)
   {
@@ -260,7 +168,7 @@ void Ken::moveRight(float limit)
     this->limit = limit;
   }
 }
-bool Ken::jump()
+bool Guile::jump()
 {
   if(IS_IDLE)
   {
@@ -272,7 +180,7 @@ bool Ken::jump()
   }
   return false;
 }
-bool Ken::crouch()
+bool Guile::crouch()
 {
   if(state == AnimationState::IDLE)
   {
@@ -282,7 +190,7 @@ bool Ken::crouch()
   }
   return false;
 }
-bool Ken::uncrouch()
+bool Guile::uncrouch()
 {
   if( state == AnimationState::CROUCHED || 
       state == AnimationState::CROUCHING ||
@@ -299,7 +207,7 @@ bool Ken::uncrouch()
   }
   return false;
 }
-bool Ken::specialMove1()
+bool Guile::specialMove1()
 {
   if(IS_IDLE)
   {
@@ -310,16 +218,16 @@ bool Ken::specialMove1()
   }
   return false;
 }
-bool Ken::isIdle()
+bool Guile::isIdle()
 {
   return state==AnimationState::IDLE;
 }
-bool Ken::isSuffering()
+bool Guile::isSuffering()
 {
   return state == AnimationState::BODY_HIT;
 //  return 
 }
-bool Ken::isAttacking()
+bool Guile::isAttacking()
 {
   return (
     state == AnimationState::PUNCH1 ||
@@ -336,7 +244,7 @@ bool Ken::isAttacking()
     state == AnimationState::TORNADO_KICK
   );//IMPORTANT
 }
-void Ken::bodyHit()
+void Guile::bodyHit()
 {
   if(state != AnimationState::BODY_HIT)
   {
@@ -345,13 +253,13 @@ void Ken::bodyHit()
   currFrame = 0;
   }
 }
-void Ken::knockout(bool* b)
+void Guile::knockout(bool* b)
 {
   currFrame = 0;
   state = AnimationState::KNOCKED_OUT;
   ptr = b;
 }
-void Ken::flippedMoveLeft(float f)
+void Guile::flippedMoveLeft(float f)
 {
     if(state == AnimationState::IDLE)
     {
@@ -361,7 +269,7 @@ void Ken::flippedMoveLeft(float f)
       limit = f;
     }
 }
-void Ken::flippedMoveRight(float f)
+void Guile::flippedMoveRight(float f)
 {
     if(state == AnimationState::IDLE)
     {
@@ -371,12 +279,12 @@ void Ken::flippedMoveRight(float f)
       limit = f;
     }
 }
-void Ken::update(float dt)
+void Guile::update(float dt)
 {
     if(STOP)
       return;
     elapsed += dt;
-    int disp = 10;
+
     if ((elapsed >= (0.7f)) && state == AnimationState::IDLE)
     {
         if(currFrame == 0)
@@ -400,7 +308,7 @@ void Ken::update(float dt)
         elapsed = 0;
         if(player.getPosition().x + 150 < limit) // window width is 800
           player.setPosition(player.getPosition().x+10,player.getPosition().y);
-        if(currFrame == 6)
+        if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
             currFrame = 0;
@@ -409,12 +317,11 @@ void Ken::update(float dt)
     }
     else if(elapsed>=(0.08f) && state == AnimationState::moveLeft)
     {
-        //printf("rendering frame %d\n",currFrame);
         player.setTextureRect(moveleft_frames[currFrame++]);
         elapsed = 0;
         if(player.getPosition().x - 20 > limit) // window width is 800
           player.setPosition(player.getPosition().x-10,player.getPosition().y);
-        if(currFrame == 6)
+        if(currFrame == 5)
         { 
             state = AnimationState::FASTIDLE; // transitions quickly in 100dt instead of 900dt
             currFrame = 0;
@@ -654,26 +561,26 @@ void Ken::update(float dt)
         }
     }
 }
-void Ken::setPosition(float x,float y)
+void Guile::setPosition(float x,float y)
 {
     player.setPosition(x,y);
 }
-void Ken::flipX()
+void Guile::flipX()
 {
   player.setScale(-2.1,2.1);
 }
-void Ken::render(sf::RenderWindow &win)
+void Guile::render(sf::RenderWindow &win)
 {
     win.draw(player);
 }
-sf::FloatRect Ken::getGlobalBounds()
+sf::FloatRect Guile::getGlobalBounds()
 {
     return player.getGlobalBounds();
 }
-sf::FloatRect Ken::getLocalBounds()
+sf::FloatRect Guile::getLocalBounds()
 {
     return player.getLocalBounds();
 }
-Ken::~Ken()
+Guile::~Guile()
 {
 }
