@@ -125,18 +125,6 @@ void Game::pollEvents()
                   if(player->kick3())
                       smg.play(player_voice_lines[2]);
                   break;
-                case sf::Keyboard::LShift:
-                  player->block();
-                  break;
-                case sf::Keyboard::B:
-                  player->bodyHit();
-                  break;
-                case sf::Keyboard::J:
-                  enemy->flippedMoveLeft(0);
-                  break;
-                case sf::Keyboard::V:
-                  player->victory();
-                  break;
                 default:
                   break;
             }
