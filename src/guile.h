@@ -43,11 +43,11 @@ private:
     static sf::IntRect IDLE_frames[6];
     static sf::IntRect moveright_frames[5];
     static sf::IntRect moveleft_frames[5];  
-    static sf::IntRect punch1_frames[2];
-    static sf::IntRect punch2_frames[3]; 
+    static sf::IntRect punch1_frames[3];
+    static sf::IntRect punch2_frames[5]; 
     static sf::IntRect punch3_frames[7];
-    static sf::IntRect kick1_frames[3]; // side kick
-    static sf::IntRect kick2_frames[3]; // low kick
+    static sf::IntRect kick1_frames[3];
+    static sf::IntRect kick2_frames[6];
     static sf::IntRect kick3_frames[6];
     static sf::IntRect jmp_frames[8]; 
     static sf::IntRect crouching_frames[3];
