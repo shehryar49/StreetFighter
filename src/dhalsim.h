@@ -61,8 +61,8 @@ private:
         VICTORY_1,//to be set when player wins
 
         //--------------lose
-        KNOCKOUT_1,//to be set when bar becomes red
-
+        KNOCKOUT_1,//to be set when bar becomes red - player
+        KNOCKOUT_2,//enemy
         //--------------hits taken (to be set when player takes a hit)
         HIT_TAKEN_FACE, //2
         HIT_TAKEN_BODY//3
@@ -92,6 +92,7 @@ private:
     int currFrame = 0;
     int frameIncrement = 1;
     float limit;
+    bool* game_is_over;
 public:
     Dhalsim();
     void update(float);
@@ -124,6 +125,7 @@ public:
     bool isIdle();
     bool isSuffering();//taking hits or not
     bool isAttacking();
+    void knockout(bool*);
     ~Dhalsim();
 };
 #endif

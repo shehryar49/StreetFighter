@@ -438,9 +438,12 @@ void Dhalsim::knockout(int type = 1) //to be set when bar becomes empty
 {
     if (state == AnimationState::IDLE)
     {
-        state = AnimationState::KNOCKOUT_1;
         currFrame = 4;
         frameIncrement = 1;
+        if(player.getScale().x < 0)
+            state = AnimationState::KNOCKOUT_2;
+        else
+            state = AnimationState::KNOCKOUT_1;
     }
 }
 void Dhalsim::hit_taken_face() //to be set for hit face condition
@@ -786,7 +789,7 @@ void Dhalsim::update(float dt)
             frameIncrement = 1;
         }
     }
-    else if ((elapsed >= (MOVE_TIME)) && state == AnimationState::KNOCKOUT_1)
+    else if ((elapsed >= (MOVE_TIME)) && state == AnimationState::KNOCKOUT_1 || state == AnimationState::KNOCKOUT_2)
     {
         if (currFrame == 0)
         {
@@ -855,8 +858,14 @@ bool Dhalsim::isAttacking()
         state == AnimationState::KICK1 ||
         state == AnimationState::KICK2 ||
         state == AnimationState::KICK3 ||
-        state == AnimationState::FASTIDLE_ATTACKING
+        state == AnimationState::FASTIDLE_ATTACKING ||
+        state == AnimationState::YOGA_FLAME
         );
+}
+void Dhalsim::knockout(bool* game_over)
+{
+    game_is_over = game_over;
+    knockout();
 }
 Dhalsim::~Dhalsim()
 {
