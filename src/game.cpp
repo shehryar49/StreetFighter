@@ -711,212 +711,207 @@ std::string Game::execCommand(const std::string& command)
   //Execute da command
   if(parts[0] == "set")
   {
-    if(parts.size() != 3)
-      return "usage: set option value";
-    if(parts[1] == "volume")
-    {
-      int vol = atoi(parts[2].c_str());
-      if(vol < 0 || vol >= 100)
-        return "Volume must be in range [0,100]";
-      smg.setVolume(vol);
-      return "Volume set to "+parts[2];
-    }
-    else if(parts[1] == "fps")
-    {
-      int fps = atoi(parts[2].c_str());
-      return "FPS set to "+parts[2];
-    }
-    return "Invalid syntax! Fallback to GUI if you are a noob.";
+  	  if(parts.size() != 3)
+          return "usage: set option value";
+      if(parts[1] == "volume")
+      {
+          int vol = atoi(parts[2].c_str());
+          if(vol < 0 || vol >= 100)
+            return "Volume must be in range [0,100]";
+          smg.setVolume(vol);
+          return "Volume set to "+parts[2];
+      }
+      else if(parts[1] == "fps")
+      {
+        int fps = atoi(parts[2].c_str());
+        return "FPS set to "+parts[2];
+      }
+      return "Invalid syntax! Fallback to GUI if you are a noob.";
   }
   else if(parts.size() == 2 && parts[0] == "disable" && parts[1] == "ai")
   {
-    if(ai_bot)
-    {
-      ai_bot = false;
-      return "AI disabled.";
-    }
-    return "AI already disabled.";
+      if(ai_bot)
+      {
+        ai_bot = false;
+        return "AI disabled.";
+      }
+      return "AI already disabled.";
   }
   else if(parts.size() == 2 && parts[0] == "enable" && parts[1] == "ai")
   {
-    if(!ai_bot)
-    {
-      ai_bot = true;
-      return "AI enabled.";
-    }
-    return "AI already enabled.";
+      if(!ai_bot)
+      {
+        ai_bot = true;
+        return "AI enabled.";
+      }
+      return "AI already enabled, Master";
   }
   return "Invalid syntax! Fallback to GUI if you are a noob.";
 }
 void Game::showTerminal()
 {
-  sf::Text text;
-  sf::Text introText;
-  sf::Text outputText;
-  sf::Text cursor;
+	sf::Text text;
+  	sf::Text introText;
+  	sf::Text outputText;
+  	sf::Text cursor;
+	sf::Font f;
+  	f.loadFromFile("assets/fonts/Hack-Regular.ttf");
+  	introText.setFont(f);
+  	introText.setCharacterSize(14);
+  	introText.setString("In a world full of GUI users, be a CLI user. Welcome master!");
+  	introText.setStyle(sf::Text::Style::Regular);
+  	introText.setPosition(5,0);
+  	introText.setFillColor(sf::Color::Green);
 
-  sf::Font f;
-  f.loadFromFile("assets/fonts/Hack-Regular.ttf");
-  introText.setFont(f);
-  introText.setCharacterSize(14);
-  introText.setString("In a world full of GUI users, be a CLI user. Welcome master!");
-  introText.setStyle(sf::Text::Style::Regular);
-  introText.setPosition(5,0);
-  introText.setFillColor(sf::Color::Green);
+  	outputText.setFont(f);
+  	outputText.setFillColor(sf::Color::Green);
+  	outputText.setCharacterSize(14);
+  	outputText.setString("Your wish is my command, master.");
+  	outputText.setPosition(5,25);
 
-  outputText.setFont(f);
-  outputText.setFillColor(sf::Color::Green);
-  outputText.setCharacterSize(14);
-  outputText.setString("Your wish is my command, master.");
-  outputText.setPosition(5,25);
+  	text.setFont(f);
+  	text.setString("shell> ");
+  	text.setCharacterSize(14);
+  	text.setPosition(5,50);
+  	text.setFillColor(sf::Color::Green);
 
-  text.setFont(f);
-  text.setString("shell> ");
-  text.setCharacterSize(14);
-  text.setPosition(5,50);
-  text.setFillColor(sf::Color::Green);
+  	cursor.setFont(f);
+  	cursor.setString("_");
+  	cursor.setCharacterSize(14);
+  	cursor.setPosition(60,50);
+  	cursor.setFillColor(sf::Color::Green);
 
-  cursor.setFont(f);
-  cursor.setString("_");
-  cursor.setCharacterSize(14);
-  cursor.setPosition(60,50);
-  cursor.setFillColor(sf::Color::Green);
+  	std::string command;
+  	sf::Clock clock;
+  	float elapsed = 0;
+  	bool showCursor = true;
+  	smg.play(terminal_music);
+  	while (window.isOpen())
+  	{
+    	float dt = clock.restart().asSeconds();
+    	elapsed += dt;
+    	sf::Event event;
+    	while (window.pollEvent(event))
+    	{
+        	if (event.type == sf::Event::Closed)
+            	window.close();
+        	if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::BackSpace && command.length() >= 1)
+        	{
+          		command.pop_back();
+          		text.setString("shell> "+command);
+          		cursor.setPosition(cursor.getPosition().x-8,cursor.getPosition().y);
+        	}
+        	if (event.type == sf::Event::TextEntered)
+        	{
+          		if (event.text.unicode < 128 && (isalpha(event.text.unicode) || isdigit(event.text.unicode) || event.text.unicode == 32))
+          		{
+            		command += static_cast<char>(event.text.unicode);
+            		text.setString(text.getString() + static_cast<char>(event.text.unicode) );
+            		cursor.setPosition(cursor.getPosition().x+8,cursor.getPosition().y);
+          		}
+          		if(event.text.unicode == 13)//newline
+          		{
+            		std::string res = execCommand(command);
+            		if (res == "exit")
+            		{
+                		smg.stop(terminal_music);
+                		return;
+            		}
+            		command = "";
+            		text.setString("shell> ");
+            		cursor.setPosition(60,50);
+            		outputText.setString(res);
+          		}
+        	}
 
-  std::string command;
-  sf::Clock clock;
-  float elapsed = 0;
-  bool showCursor = true;
-  smg.play(terminal_music);
-  while (window.isOpen())
-  {
-    float dt = clock.restart().asSeconds();
-    elapsed += dt;
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-            window.close();
-        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::BackSpace && command.length() >= 1)
-        {
-          command.pop_back();
-          text.setString("shell> "+command);
-          cursor.setPosition(cursor.getPosition().x-8,cursor.getPosition().y);
-        }
-        if (event.type == sf::Event::TextEntered)
-        {
-          if (event.text.unicode < 128 && (isalpha(event.text.unicode) || isdigit(event.text.unicode) || event.text.unicode == 32))
-          {
-            command += static_cast<char>(event.text.unicode);
-            text.setString(text.getString() + static_cast<char>(event.text.unicode) );
-            cursor.setPosition(cursor.getPosition().x+8,cursor.getPosition().y);
-          }
-          if(event.text.unicode == 13)//newline
-          {
-            std::string res = execCommand(command);
-            if (res == "exit")
-            {
-                smg.stop(terminal_music);
-                return;
-            }
-            command = "";
-            text.setString("shell> ");
-            cursor.setPosition(60,50);
-            outputText.setString(res);
-          }
-        }
-
-    }
-    window.clear();
-    if(elapsed >= 700*dt)
-    {
-    	//toggle cursor
-      	showCursor = !showCursor;
-      	elapsed = 0;
-    }
-
-    window.draw(introText);
-    if(showCursor)
-    	window.draw(cursor);
-    window.draw(outputText);
-    window.draw(text);
-    window.display();
-  }
+    	}
+    	window.clear();
+    	if(elapsed >= 700*dt)
+    	{
+    		//toggle cursor
+      		showCursor = !showCursor;
+      		elapsed = 0;
+    	}
+    	window.draw(introText);
+    	if(showCursor)
+    		window.draw(cursor);
+    	window.draw(outputText);
+    	window.draw(text);
+    	window.display();
+  	}
 }
 void Game::showCredits() 
 {
-    sf::Font font;
-    font.loadFromFile("assets/fonts/crunch_chips.otf");//for consistency
     backgroundTexture.loadFromFile("SF2.jpeg");
     background.setTexture(backgroundTexture);
     background.setScale(1.5, 1.1);
-    Credits credits(window, font, background);
+    Credits credits(window, font_crunchchips, background);
     credits.run();
 }
 int Game::showMenu()
 {
-  const char* entries[] = {"Play","Credits","Settings","Quit"};
-  Menu m(entries,4);
-  while(window.isOpen())
-  {
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-            window.close();
-        else
-        {
-          int i = m.pollEvent(event);
-          if(i >= 0)
-            return i;
-        }
-    }
-    window.clear(sf::Color::White);
-    m.render(window);
-    window.display();
-  }  
-  return 2;
+	const char* entries[] = {"Play","Credits","Settings","Quit"};
+  	Menu m(entries,4);
+  	while(window.isOpen())
+  	{
+    	sf::Event event;
+    	while (window.pollEvent(event))
+    	{
+        	if (event.type == sf::Event::Closed)
+            	window.close();
+        	else
+        	{
+          		int i = m.pollEvent(event);
+          		if(i >= 0)
+            		return i;
+        	}
+    	}
+    	window.clear(sf::Color::White);
+    	m.render(window);
+    	window.display();
+  	}  
+  	return 2;
 }
 
 void Game::run()
 {
-  playIntro();
-  window.setFramerateLimit(0);
-  while(window.isOpen())
-  {
+  	playIntro();
+  	window.setFramerateLimit(0);
+  	while(window.isOpen())
+  	{
 		while(true)
 		{
-		int option = showMenu();
-		if(option == 0)
-		break;
-		else if(option == 1)
-		showCredits();
-		else if(option == 2)
-		showTerminal();
-		else if(option == 3)
-		return;
+			int option = showMenu();
+			if(option == 0)
+				break;
+			else if(option == 1)
+				showCredits();
+			else if(option == 2)
+				showTerminal();
+			else if(option == 3)
+				return;
 		}
 		int* character = selectScreen();
 		setStage(character);
-		//smg.play(vs_music);
 		smg.play(fight_bgm);
 		smg.setVolume(20,fight_bgm);
 		clock.restart();
 		while (!game_over && window.isOpen())
 		{
-		float dt = clock.restart().asSeconds();
-		time_remaining -= dt;
-		pollEvents();
-		update(dt);
-		window.clear(sf::Color::Black);
-		window.draw(background);
-		window.draw(health1);
-		window.draw(health2);
-		window.draw(playerDamage);
-		window.draw(enemyDamage);
-		window.draw(timer);
-		enemy->render(window);
-		player->render(window);
-		window.display();
+			float dt = clock.restart().asSeconds();
+			time_remaining -= dt;
+			pollEvents();
+			update(dt);
+			window.clear(sf::Color::Black);
+			window.draw(background);
+			window.draw(health1);
+			window.draw(health2);
+			window.draw(playerDamage);
+			window.draw(enemyDamage);
+			window.draw(timer);
+			enemy->render(window);
+			player->render(window);
+			window.display();
 		}
 		if(game_over && window.isOpen())
 		{
@@ -973,28 +968,27 @@ void Game::testRun()
 
 void Game::setVoiceLines(int c, std::string path = "")
 {
-    switch (c)
-    {
-        case -2: //loading for player
-            for (int i = 0; i < NO_OF_VOICE_LINES; i++)
-                player_voice_lines[i] = smg.load(path + std::to_string(i) + ".wav");
-            return;
-        case -1: //loading for enemy diff to player
-            for (int i = 0; i < NO_OF_VOICE_LINES; i++)
-                enemy_voice_lines[i] = smg.load(path + std::to_string(i) + ".wav");
-            return;
-        default: //loading for enemy same as player
-            memcpy(enemy_voice_lines,player_voice_lines,sizeof(int)*NO_OF_VOICE_LINES);
-            return;
-    }
+	//3 cases ke liye switch-case doesn't make any sense
+	if(c == -2)//loading for player
+	{
+        for (int i = 0; i < NO_OF_VOICE_LINES; i++)
+            player_voice_lines[i] = smg.load(path + std::to_string(i) + ".wav");
+	}
+	else if(c == -1) //loading for enemy diff to player
+	{
+        for (int i = 0; i < NO_OF_VOICE_LINES; i++)
+            enemy_voice_lines[i] = smg.load(path + std::to_string(i) + ".wav");
+	}
+	else //loading for enemy same as player
+		memcpy(enemy_voice_lines,player_voice_lines,sizeof(int)*NO_OF_VOICE_LINES);
 }
 
 void Game::setStage(int* c)
 {
 	if(player)
-	  delete player;
+		delete player;
     if(enemy)
-	  delete enemy;
+		delete enemy;
     switch (c[0]) 
     {
         case 1:
@@ -1033,6 +1027,7 @@ void Game::setStage(int* c)
             setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
             break;
     }
+	
     switch (c[1]) 
     {
         case 1:
@@ -1040,26 +1035,22 @@ void Game::setStage(int* c)
             backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else
                 setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
-            smg.play(fight_bgm);
             break;
         case 4:
             enemy = new Guile();
             backgroundTexture.loadFromFile("assets/stages/Guile Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 50, 600, 230));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else
                 setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
-            smg.play(fight_bgm);
             break;
         
         case 5:
@@ -1067,88 +1058,74 @@ void Game::setStage(int* c)
             backgroundTexture.loadFromFile("assets/stages/Balrog Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(2.1f, 2.5f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(280, 0, 800, 400));
             if (c[0] == c[1]) // reuse audio
                 setVoiceLines(c[0]);
             else
                 setVoiceLines(-1, "assets/PlayerVoiceLines/Balrog/");
-            smg.play(fight_bgm);
             break;
         case 7:
             enemy = new Ken();
             backgroundTexture.loadFromFile("assets/stages/Ken Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 3.0f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(100, 0, 800, 400));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else
                 setVoiceLines(-1, "assets/PlayerVoiceLines/Ken/");
-            smg.play(fight_bgm);
             break;
         case 8:
             enemy = new Chun_Li();
             backgroundTexture.loadFromFile("assets/stages/ChunLi Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.8f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else
                 setVoiceLines(-1, "assets/PlayerVoiceLines/ChunLi/");
-            smg.play(fight_bgm);
             break;
         case 9:
             enemy = new Zangief();
             backgroundTexture.loadFromFile("assets/stages/Zangief Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.8f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(65, 0, 800, 400));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else
                 setVoiceLines(-1, "assets/PlayerVoiceLines/Zangief/");
-            smg.play(fight_bgm);
             break;
         case 10:
             enemy = new Dhalsim();
             backgroundTexture.loadFromFile("assets/stages/Dhalsim Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.2f, 2.5f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(50, 0, 800, 400));
             if (c[0] == c[1])
                 setVoiceLines(c[0]);
             else
                 setVoiceLines(-1, "assets/PlayerVoiceLines/Dhalsim/");
-            smg.play(fight_bgm);
             break;
         case 11:
             enemy = new Sagat();
             backgroundTexture.loadFromFile("assets/stages/Sagat Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
-            smg.play(fight_bgm);
             break;
         default:
             enemy = new Ryu();
             backgroundTexture.loadFromFile("assets/stages/Ryu Stage.png");
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
-            background.setPosition(0, 0);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
             setVoiceLines(-1, "assets/PlayerVoiceLines/Ryu/");
-            smg.play(fight_bgm);
-            smg.play(fight_bgm);
             break;
     }
     //was common in all
+	background.setPosition(0, 0);
     enemy->flipX();
     player->setPosition(120, BOTTOMY - (player->getGlobalBounds().height) + 1);
     enemy->setPosition(650, BOTTOMY - (enemy->getGlobalBounds().height) + 1);
