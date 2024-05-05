@@ -334,7 +334,6 @@ bool Dhalsim::kick1()
     }
     return false;
 }
-
 bool Dhalsim::kick2()
 {
     if (state == AnimationState::IDLE)
