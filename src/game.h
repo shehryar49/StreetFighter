@@ -66,7 +66,7 @@ private:
     bool ai_bot = true;
     sf::Font timer_font;
     sf::Text timer;
-    float timer_elapsed = 0;
+    float timer_elapsed = 120;
 public:
     Game();
     void run();

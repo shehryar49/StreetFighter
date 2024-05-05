@@ -298,6 +298,9 @@ bool Chun_Li::kick3() {
     }
     return false;
 }
+void Chun_Li::victory(){
+    victory(3);
+}
 void Chun_Li::victory(int type) {
     switch (type) {
     case 1:

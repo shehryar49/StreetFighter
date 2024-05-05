@@ -58,9 +58,9 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   enemyDamage.setPosition(500,0);
   //Setup timer
   timer_font.loadFromFile("assets/fonts/Hack-Regular.ttf");
-  timer.setCharacterSize(60);
-  timer.setString("0");
-  timer.setPosition(360,20);
+  timer.setCharacterSize(40);
+  timer.setString("02:00");
+  timer.setPosition(345,0);
   timer.setFillColor(sf::Color::White);
   timer.setFont(timer_font);
 
@@ -164,7 +164,7 @@ void Game::update(float dt)
 	
 	//set time
 	int time = timer_elapsed;
-	if(time >= 120) // time up
+	if(time <= 0) // time up
 	{
 		if(player->damage < enemy->damage) // player won
 		{
@@ -182,7 +182,27 @@ void Game::update(float dt)
 		}
 		game_over = true;
 	}
-	timer.setString(std::to_string(time));
+    if (time == 120)
+    {
+        timer.setString("02:00");
+    }
+    else if (time < 120 && time >= 60)
+    {
+        int rem_time = time % 60;
+        if (rem_time < 10)
+            timer.setString("01:0" + std::to_string(rem_time));
+        else
+            timer.setString("01:" + std::to_string(rem_time));
+    }
+    else
+    {
+        int rem_time = time % 60;
+        if (rem_time < 10)
+            timer.setString("00:0" + std::to_string(rem_time));
+        else
+            timer.setString("00:" + std::to_string(rem_time));
+    }
+	//timer.setString(std::to_string(time));
     player->update(dt);
 	//check projectile damage
 	if(player->projectile_active && player->projectile.getGlobalBounds().intersects(enemy->getGlobalBounds()))
@@ -884,7 +904,7 @@ void Game::run()
 		while (!game_over && window.isOpen())
 		{
 		float dt = clock.restart().asSeconds();
-		timer_elapsed += dt;
+		timer_elapsed -= dt;
 		pollEvents();
 		update(dt);
 		window.clear(sf::Color::Black);
@@ -910,7 +930,7 @@ void Game::run()
 			await_game_over = false;
 			playerDamage.setSize(sf::Vector2f(0,25));
 			enemyDamage.setSize(sf::Vector2f(0,25));
-			timer_elapsed = 0;
+			timer_elapsed = 120;
 		}
 		smg.stop(fight_bgm);
   		delete[] character;

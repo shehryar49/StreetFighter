@@ -91,6 +91,7 @@ public:
     //special
     bool specialMove1();
     //victory
+    void victory();
     void victory(int);
     //hits taken
     void bodyHit();
