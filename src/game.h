@@ -42,6 +42,7 @@ private:
     int intro_music = -1;
     int player_selectionbgm_music = -1;
     int player_lockin_music = -1;
+    int character_locked_sfx = -1;
     int player_selected_music = -1;
     int vs_music = -1;
     int fight_bgm = -1;

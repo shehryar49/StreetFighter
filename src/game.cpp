@@ -62,6 +62,7 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   intro_music = smg.load("assets/intro/intro.ogg");
   player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
   player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
+  character_locked_sfx = smg.load("assets/SFX/CMN_HUD_2.wav");
   player_selectionbgm_music = smg.load("assets/SFX/Player Select.wav");
   vs_music = smg.load("assets/SFX/VS.wav");
   fight_bgm = smg.load("assets/SFX/Theme_of_Ryu.ogg");
@@ -523,41 +524,46 @@ int* Game::selectScreen()
             {
                 if (e.key.code == sf::Keyboard::Enter)
                 {
-                    smg.play(player_lockin_music);
-                    if (second)
+                    if(selection == 1 || selection == 2 || selection == 5 || selection == 11)
+                        smg.play(character_locked_sfx);
+                    else
                     {
-                        end = true;
-                        #ifdef _WIN32
-                            Sleep(1000);
-                        #elif __linux__
-                            sleep(1);
-                        #endif
+                        smg.play(player_lockin_music);
+                        if (second)
+                        {
+                            end = true;
+                            #ifdef _WIN32
+                                Sleep(1000);
+                            #elif __linux__
+                                sleep(1);
+                            #endif
+                        }
+                        else 
+                        {
+                            second = true;
+                            indx++;
+                            selection = 0;
+                            selectionName.setTextureRect(sf::IntRect(477, 570, 120, 20));
+                            selectionName.setScale(3, 3);
+                            window.clear(sf::Color(0, 0, 96, 255));
+                            window.draw(map);
+                            window.draw(characters);
+                            window.draw(playerHover);
+                            window.draw(enemyHover);
+                            window.draw(enemyName);
+                            window.draw(playerName);
+                            window.draw(playerPicture);
+                            window.draw(enemyPicture);
+                            window.draw(flag);
+                            window.draw(enemyFlag);
+                            window.draw(vs);
+                            window.draw(selectionName);
+                            window.draw(oneP);
+                            window.draw(twoP);
+                            window.display();
+                        }
+                        break;
                     }
-                    else 
-                    {
-                        second = true;
-                        indx++;
-                        selection = 0;
-                        selectionName.setTextureRect(sf::IntRect(477, 570, 120, 20));
-                        selectionName.setScale(3, 3);
-                        window.clear(sf::Color(0, 0, 96, 255));
-                        window.draw(map);
-                        window.draw(characters);
-                        window.draw(playerHover);
-                        window.draw(enemyHover);
-                        window.draw(enemyName);
-                        window.draw(playerName);
-                        window.draw(playerPicture);
-                        window.draw(enemyPicture);
-                        window.draw(flag);
-                        window.draw(enemyFlag);
-                        window.draw(vs);
-                        window.draw(selectionName);
-                        window.draw(oneP);
-                        window.draw(twoP);
-                        window.display();
-                    }
-                    break;
                 }
                 else if (e.key.code == sf::Keyboard::Right && ((choices[indx] < 6) || (choices[indx] > 6 && choices[indx] < 12)))
                 {
@@ -1000,6 +1006,7 @@ void Game::setStage(int* c)
             break;
         case 11:
             player = new Sagat();
+            setVoiceLines(-2, "assets/PlayerVoiceLines/Sagat/");
             break;
         default:
             player = new Ryu();
@@ -1092,6 +1099,10 @@ void Game::setStage(int* c)
             background.setTexture(backgroundTexture);
             background.setScale(1.4f, 2.8f);
             background.setTextureRect(sf::IntRect(150, 0, 600, 230));
+            if (c[0] == c[1])
+                setVoiceLines(c[0]);
+            else
+                setVoiceLines(-1, "assets/PlayerVoiceLines/Sagat/");
             break;
         default:
             enemy = new Ryu();
