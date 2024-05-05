@@ -165,19 +165,6 @@ Dhalsim::Dhalsim()
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-bool Dhalsim::jump()
-{
-    if (IS_IDLE)
-    {
-        state = AnimationState::JMP;
-        currFrame = -1;
-        frameIncrement = 1;
-        pos = player.getPosition();
-        return true;
-
-    }
-    return false;
-}
 void Dhalsim::moveRight(float f)
 {
     if (state == AnimationState::IDLE)
@@ -208,13 +195,26 @@ void Dhalsim::moveLeft(float f)
     }
 }
 void Dhalsim::flippedMoveLeft(float f) {
-    if (state == AnimationState::IDLE) 
+    if (state == AnimationState::IDLE)
     {
         state = AnimationState::flipped_move_left;
         currFrame = -1;
         frameIncrement = 1;
         limit = f;
     }
+}
+bool Dhalsim::jump()
+{
+    if (IS_IDLE)
+    {
+        state = AnimationState::JMP;
+        currFrame = -1;
+        frameIncrement = 1;
+        pos = player.getPosition();
+        return true;
+
+    }
+    return false;
 }
 bool Dhalsim::crouch()
 {
