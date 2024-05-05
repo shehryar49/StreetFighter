@@ -6,5 +6,4 @@
 
 std::vector<std::string> split(const std::string&,char);
 void strip(std::string&);
-
 #endif

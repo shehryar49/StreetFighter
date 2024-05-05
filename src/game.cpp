@@ -37,8 +37,6 @@
 Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighter",sf::Style::Titlebar | sf::Style::Close)
 {
   srand(time(0)); //use epoch time as seed 
-  player = nullptr;
-  enemy = nullptr;
   health1.setSize(sf::Vector2f(300,25));
   health2.setSize(sf::Vector2f(300,25));
   health1.setFillColor(sf::Color(255,255,0));
@@ -48,19 +46,19 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   playerDamage.setSize(sf::Vector2f(0,25));
   playerDamage.setFillColor(sf::Color::Red);
   playerDamage.setPosition(0,0);
-
   enemyDamage.setSize(sf::Vector2f(0,25));
   enemyDamage.setFillColor(sf::Color::Red);
   enemyDamage.setPosition(500,0);
-  //Setup timer
-  timer_font.loadFromFile("assets/fonts/Hack-Regular.ttf");
+  // Load fonts
+  font_hack.loadFromFile("assets/fonts/Hack-Regular.ttf");
+  font_crunchchips.loadFromFile("assets/fonts/crunch_chips.otf");
+  // Setup timer
   timer.setCharacterSize(40);
   timer.setString("02:00");
   timer.setPosition(345,0);
   timer.setFillColor(sf::Color::White);
-  timer.setFont(timer_font);
-
-  //Load sounds
+  timer.setFont(font_hack);
+  // Load sounds
   intro_music = smg.load("assets/intro/intro.ogg");
   player_selected_music = smg.load("assets/SFX/CMN_HUD_0.wav");
   player_lockin_music =  smg.load("assets/SFX/CMN_HUD_1.wav");
@@ -68,13 +66,14 @@ Game::Game() : window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Street Fighte
   vs_music = smg.load("assets/SFX/VS.wav");
   fight_bgm = smg.load("assets/SFX/Theme_of_Ryu.ogg");
   terminal_music = smg.load("assets/SFX/hackerman.wav");
+  // Set initial volume
   smg.setVolume(100); // change volume here or using terminal
+  smg.setVolume(20,fight_bgm);
 }
 // private
 void Game::pollEvents()
 {
     sf::Event event;
-    int i = 0;
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
@@ -139,9 +138,6 @@ void Game::pollEvents()
                 case sf::Keyboard::Down:
                     player->uncrouch();
                     break;
-                case sf::Keyboard::LShift:
-                    player->unblock();
-                    break;
                 default:
                     break;
             }
@@ -150,7 +146,7 @@ void Game::pollEvents()
 }
 void Game::update(float dt)
 {
-    static float elapsed1 = 0;
+	static float elapsed1 = 0;
     static float elapsed2 = 0;
     static float elapsed3 = 0;
     static int hits = 0;
@@ -164,25 +160,25 @@ void Game::update(float dt)
 	{
 		if(player->damage < enemy->damage) // player won
 		{
-			//play something
+			player->victory();
 			smg.play(player_voice_lines[10]);
 		}
 		else if(player->damage > enemy->damage) // player lost
 		{
-			//play something
+			enemy->victory();
 			smg.play(enemy_voice_lines[10]);
 		}
 		else //draw
-		{
-			//play something
-		}
+		;
 		game_over = true;
 	}
-    if (time == 120)
+    /*if (time == 120)
     {
-        timer.setString("02:00");
-    }
-    else if (time < 120 && time >= 60)
+        timer.setString("02:00");//already set 
+    }*/
+
+	//Use your brain for fuck's sake
+    /*if (time < 120 && time >= 60)
     {
         int rem_time = time % 60;
         if (rem_time < 10)
@@ -197,15 +193,24 @@ void Game::update(float dt)
             timer.setString("00:0" + std::to_string(rem_time));
         else
             timer.setString("00:" + std::to_string(rem_time));
-    }
-	//timer.setString(std::to_string(time));
+    }*/
+
+	int minutes = time / 60;
+	int seconds = time % 60;
+	std::string m = std::to_string(minutes);
+	std::string s = std::to_string(seconds);
+	if(m.length() == 1)
+	  m = "0" + m;
+	if(s.length() == 1)
+	  s = "0"+s;
+	timer.setString(m+":"+s);
+	////
     player->update(dt);
 	//check projectile damage
 	if(player->projectile_active && player->projectile.getGlobalBounds().intersects(enemy->getGlobalBounds()))
 	{
-
-		if(enemy->damage <= 95.0f)
-			enemy->damage+=5.0f;
+		if(enemy->damage <= 100.0f - DAMAGE_PER_HIT)
+			enemy->damage += DAMAGE_PER_HIT;
 		enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       	if(enemy->damage == 100.0f)
       	{
@@ -223,9 +228,8 @@ void Game::update(float dt)
     //check if player hit enemy
     if(elapsed1>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !enemy->isAttacking() && player->isAttacking() && !enemy->isSuffering())
     {
-      //1.0f
-        if(enemy->damage <= 95.0f)
-          enemy->damage += 5.0f;
+        if(enemy->damage <= 100.0f - DAMAGE_PER_HIT)
+          enemy->damage += DAMAGE_PER_HIT;
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       	if(enemy->damage == 100.0f)
       	{
@@ -247,8 +251,8 @@ void Game::update(float dt)
     //give damage to player
     if(elapsed1!=0 && elapsed2>=0.4f && player->getGlobalBounds().intersects(enemy->getGlobalBounds()) && !player->isAttacking() && !player->isSuffering() && enemy->isAttacking() && !enemy->isSuffering())
     {
-    	if(player->damage <= 99.0f)
-        	player->damage += 1.0f;
+    	if(player->damage <= 100.0f - DAMAGE_PER_HIT)
+        	player->damage += DAMAGE_PER_HIT;
       	playerDamage.setSize(sf::Vector2f(player->damage*3,25));
       	if(player->damage == 100.0f)
       	{
@@ -981,8 +985,6 @@ void Game::setVoiceLines(int c, std::string path = "")
             return;
         default: //loading for enemy same as player
             memcpy(enemy_voice_lines,player_voice_lines,sizeof(int)*NO_OF_VOICE_LINES);
-            //for (int i = 0; i < NO_OF_VOICE_LINES; i++)
-            //    enemy_voice_lines[i] = player_voice_lines[i];
             return;
     }
 }

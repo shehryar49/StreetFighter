@@ -23,21 +23,21 @@ private:
     sf::RectangleShape health2;
     sf::RectangleShape enemyDamage;
     sf::RectangleShape playerDamage;
-    SoundManager smg;
+    SoundManager smg; // to manage all sounds
     
-    void playIntro(void);
+    void playIntro();
     void pollEvents();
     void update(float);
     void setStage(int*);
     int showMenu();
     void showTerminal();
     int* selectScreen();
-    std::string execCommand(const std::string&);
+    std::string execCommand(const std::string&); // sets the state of Game, so it needs to be a member
     void showCredits();
     void setVoiceLines(int c, std::string);
     void gameOver();
-    int playerSelected = 0;
-    int enemySelected = 0;
+    int player_selected = 0;
+    int enemy_selected = 0;
     //Identifiers for various sounds
     int intro_music = -1;
     int player_selectionbgm_music = -1;
@@ -61,10 +61,13 @@ private:
     // 8 - victory
     // 9 - defeat
     // 10 - sys call win
+    
+    // Fonts
+    sf::Font font_crunchchips;
+    sf::Font font_hack;
     bool game_over = false;
     bool await_game_over = false; 
     bool ai_bot = true;
-    sf::Font timer_font;
     sf::Text timer;
     float timer_elapsed = 120;
 public:
