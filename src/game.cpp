@@ -350,7 +350,6 @@ void Game::playIntro()
                 window.close();
             if (event.type == sf::Event::KeyPressed)
             {
-                window.setFramerateLimit(0);
                 smg.stop(intro_music);
                 return;
             }
@@ -367,36 +366,30 @@ void Game::playIntro()
             smg.play(intro_music);//restart music
         }
     }
-    window.setFramerateLimit(0);
     smg.stop(intro_music);
 }
 void Game::gameOver()
 {
-  sf::Font f;
-  f.loadFromFile("assets/fonts/Hack-Regular.ttf");
-  sf::Text t;
-  t.setFont(f);
-  t.setCharacterSize(28);
-  t.setFillColor(sf::Color::White);
-  t.setPosition(320,280);
-  t.setString("Game Over");
-  while (window.isOpen())
-  {
-      sf::Event event;
-      while (window.pollEvent(event))
-      {
-          if (event.type == sf::Event::Closed)
-              window.close();
-          if (event.type == sf::Event::KeyPressed)
-          {
-              return;
-          }
-      }
-      window.clear();
-      window.draw(t);
-      window.display();
-  }
-  
+	sf::Text t;
+  	t.setFont(font_hack);
+  	t.setCharacterSize(28);
+  	t.setFillColor(sf::Color::White);
+  	t.setPosition(320,280);
+  	t.setString("Game Over");
+  	while (window.isOpen())
+  	{
+      	sf::Event event;
+      	while (window.pollEvent(event))
+      	{
+        	if (event.type == sf::Event::Closed)
+            	window.close();
+          	if (event.type == sf::Event::KeyPressed)
+            	return;
+      	}
+      	window.clear();
+     	window.draw(t);
+    	window.display();
+  	}
 }
 int* Game::selectScreen()
 {
@@ -698,55 +691,57 @@ int* Game::selectScreen()
 
 std::string Game::execCommand(const std::string& command)
 {
-  if (command == "exit" || command == "quit" || command == "yawr" )
-    return "exit";
-  if(command == "")
-    return "";
+  	if (command == "exit" || command == "quit" || command == "yawr" )
+    	return "exit";
+  	if(command == "")
+    	return "";
+  	std::vector<std::string> parts = split(command,' ');
+  	//remove extra space from each word
+  	for(size_t i=0;i<parts.size();i++)
+    	strip(parts[i]);
 
-  std::vector<std::string> parts = split(command,' ');
-  //remove extra space from each word
-  for(size_t i=0;i<parts.size();i++)
-    strip(parts[i]);
-
-  //Execute da command
-  if(parts[0] == "set")
-  {
-  	  if(parts.size() != 3)
-          return "usage: set option value";
-      if(parts[1] == "volume")
-      {
-          int vol = atoi(parts[2].c_str());
-          if(vol < 0 || vol >= 100)
-            return "Volume must be in range [0,100]";
-          smg.setVolume(vol);
-          return "Volume set to "+parts[2];
-      }
-      else if(parts[1] == "fps")
-      {
-        int fps = atoi(parts[2].c_str());
-        return "FPS set to "+parts[2];
-      }
-      return "Invalid syntax! Fallback to GUI if you are a noob.";
-  }
-  else if(parts.size() == 2 && parts[0] == "disable" && parts[1] == "ai")
-  {
-      if(ai_bot)
-      {
-        ai_bot = false;
-        return "AI disabled.";
-      }
-      return "AI already disabled.";
-  }
-  else if(parts.size() == 2 && parts[0] == "enable" && parts[1] == "ai")
-  {
-      if(!ai_bot)
-      {
-        ai_bot = true;
-        return "AI enabled.";
-      }
-      return "AI already enabled, Master";
-  }
-  return "Invalid syntax! Fallback to GUI if you are a noob.";
+  	//Execute da command
+  	if(parts[0] == "set")
+  	{
+  		if(parts.size() != 3)
+        	return "usage: set option value";
+      	if(parts[1] == "volume")
+      	{
+        	int vol = atoi(parts[2].c_str());
+          	if(vol < 0 || vol >= 100)
+            	return "Volume must be in range [0,100]";
+          	smg.setVolume(vol);
+          	return "Volume set to "+parts[2];
+      	}
+      	else if(parts[1] == "fps")
+      	{
+        	int fps = atoi(parts[2].c_str());
+			if(fps < 0 )
+		  		return "FPS must be positive. I thought you knew that, master";
+			this->fps = fps;
+        	return "FPS set to "+parts[2];
+      	}
+      	return "Invalid syntax! Fallback to GUI if you are a noob.";
+  	}
+  	else if(parts.size() == 2 && parts[0] == "disable" && parts[1] == "ai")
+  	{
+    	if(ai_bot)
+      	{
+        	ai_bot = false;
+        	return "AI disabled.";
+      	}
+      	return "AI already disabled.";
+  	}
+  	else if(parts.size() == 2 && parts[0] == "enable" && parts[1] == "ai")
+  	{
+    	if(!ai_bot)
+      	{
+        	ai_bot = true;
+          	return "AI enabled.";
+      	}
+      	return "AI already enabled, Master";
+  	}
+	return "Invalid syntax! Fallback to GUI if you are a noob.";
 }
 void Game::showTerminal()
 {
@@ -754,28 +749,26 @@ void Game::showTerminal()
   	sf::Text introText;
   	sf::Text outputText;
   	sf::Text cursor;
-	sf::Font f;
-  	f.loadFromFile("assets/fonts/Hack-Regular.ttf");
-  	introText.setFont(f);
+  	introText.setFont(font_hack);
   	introText.setCharacterSize(14);
   	introText.setString("In a world full of GUI users, be a CLI user. Welcome master!");
   	introText.setStyle(sf::Text::Style::Regular);
   	introText.setPosition(5,0);
   	introText.setFillColor(sf::Color::Green);
 
-  	outputText.setFont(f);
+  	outputText.setFont(font_hack);
   	outputText.setFillColor(sf::Color::Green);
   	outputText.setCharacterSize(14);
   	outputText.setString("Your wish is my command, master.");
   	outputText.setPosition(5,25);
 
-  	text.setFont(f);
+  	text.setFont(font_hack);
   	text.setString("shell> ");
   	text.setCharacterSize(14);
   	text.setPosition(5,50);
   	text.setFillColor(sf::Color::Green);
 
-  	cursor.setFont(f);
+  	cursor.setFont(font_hack);
   	cursor.setString("_");
   	cursor.setCharacterSize(14);
   	cursor.setPosition(60,50);
