@@ -384,12 +384,14 @@ void Ryu::knockout(bool* b)
 {
   ptr = b;
   state = AnimationState::KNOCKED_OUT;
+  player.setPosition(player.getPosition().x,BOTTOMY - knockout_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
   currFrame = 0;
 }
 void Ryu::victory()
 {
   currFrame = 0;
   state = AnimationState::VICTORY;
+  player.setPosition(player.getPosition().x,BOTTOMY - victory_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
 }
 //Updation based on animation state
 void Ryu::update(float dt)

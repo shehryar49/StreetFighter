@@ -1,4 +1,4 @@
- #include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -23,18 +23,14 @@
 #include "guile.h"
 #include "credits.h"
 #include "utils.h"
-#include <string.h>
+#include <string.h> //for my beloved memcpy
 
 #ifdef _WIN32
-  #include <Windows.h>
+  #include <Windows.h> //🤮🤮
 #elif  __linux__
-  #include <unistd.h>
+  #include <unistd.h> //❤️❤️
 #endif
 
-using namespace std;
-
-#define COL_WIDTH 50
-#define ROW_HEIGHT 79
 
 
 //public
@@ -326,7 +322,7 @@ void Game::playIntro()
     window.clear();
     window.display();
     sf::Texture frames[796];
-    string name;
+    std::string name;
     for (int i = 0; i < 796; i++)
     {
         name = std::to_string(i + 1);
@@ -405,7 +401,7 @@ int* Game::selectScreen()
     sf::Image img;
     if (!img.loadFromFile("assets/Stage Select.png")) 
     {
-        cerr << "Error openning file";
+        std::cerr << "Error openning file";
         exit(EXIT_FAILURE);
     }
     img.createMaskFromColor(sf::Color(0, 0, 96, 255));
@@ -703,7 +699,7 @@ std::string Game::execCommand(const std::string& command)
   if(command == "")
     return "";
 
-  vector<string> parts = split(command,' ');
+  std::vector<std::string> parts = split(command,' ');
   //remove extra space from each word
   for(size_t i=0;i<parts.size();i++)
     strip(parts[i]);
@@ -971,17 +967,17 @@ void Game::testRun()
     delete[] character;
 }
 
-void Game::setVoiceLines(int c, string path = "")
+void Game::setVoiceLines(int c, std::string path = "")
 {
     switch (c)
     {
         case -2: //loading for player
             for (int i = 0; i < NO_OF_VOICE_LINES; i++)
-                player_voice_lines[i] = smg.load(path + to_string(i) + ".wav");
+                player_voice_lines[i] = smg.load(path + std::to_string(i) + ".wav");
             return;
         case -1: //loading for enemy diff to player
             for (int i = 0; i < NO_OF_VOICE_LINES; i++)
-                enemy_voice_lines[i] = smg.load(path + to_string(i) + ".wav");
+                enemy_voice_lines[i] = smg.load(path + std::to_string(i) + ".wav");
             return;
         default: //loading for enemy same as player
             memcpy(enemy_voice_lines,player_voice_lines,sizeof(int)*NO_OF_VOICE_LINES);

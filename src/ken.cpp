@@ -327,7 +327,7 @@ bool Ken::isSuffering()
 void Ken::victory()
 {
   state = AnimationState::VICTORY;
-  player.setPosition(player.getPosition().x,BOTTOMY - victory_frames[currFrame].height*PLAYER_SPRITE_Y_SCALE + 1 );
+  player.setPosition(player.getPosition().x,BOTTOMY - victory_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
   currFrame = 0;
 }
 bool Ken::isAttacking()
@@ -360,6 +360,7 @@ void Ken::knockout(bool* b)
 {
   currFrame = 0;
   state = AnimationState::KNOCKED_OUT;
+  player.setPosition(player.getPosition().x,BOTTOMY - knockout_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
   ptr = b;
 }
 void Ken::flippedMoveLeft(float f)
