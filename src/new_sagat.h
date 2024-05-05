@@ -64,8 +64,6 @@ public:
     Sagat();
     void update(float);
     void render(sf::RenderWindow &);
-    void setPosition(float,float);
-    void flipX();
     bool punch1();
     bool punch2();
     bool kick1();
@@ -85,8 +83,6 @@ public:
     void bodyHit();
     void knockout();
     void victory();
-    sf::FloatRect getGlobalBounds();
-    sf::FloatRect getLocalBounds();
     ~Sagat();
 };
 #endif

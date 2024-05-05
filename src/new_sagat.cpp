@@ -541,27 +541,11 @@ void Sagat::update(float dt)
     }
 
 }
-void Sagat::setPosition(float x,float y)
-{
-    player.setPosition(x,y);
-}
-void Sagat::flipX()
-{
-  player.setScale(-2.1,2.1);
-}
 void Sagat::render(sf::RenderWindow &win)
 {
     win.draw(player);
     if(projectile_active)
       win.draw(projectile);
-}
-sf::FloatRect Sagat::getGlobalBounds()
-{
-    return player.getGlobalBounds();
-}
-sf::FloatRect Sagat::getLocalBounds()
-{
-    return player.getLocalBounds();
 }
 Sagat::~Sagat()
 {
