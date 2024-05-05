@@ -1,4 +1,4 @@
-//Written by Usman 
+//Written by Usman A
 #ifndef SAGAT_H_
 #define SAGAT_H_
 #include "player.h"
