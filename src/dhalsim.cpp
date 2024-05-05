@@ -201,7 +201,7 @@ bool Dhalsim::processEvent(sf::Event& event)
                 return true;
             }
             else if (event.key.code == sf::Keyboard::Num8) {
-                victory(1);
+                victory();
                 return true;
             }
             //else if (event.key.code == sf::Keyboard::Num9) {
@@ -425,14 +425,11 @@ bool Dhalsim::specialMove1()
     }
     return false;
 }
-void Dhalsim::victory(int type=1) //to be set for winning condition
+void Dhalsim::victory() //to be set for winning condition
 {
-    if (state == AnimationState::IDLE)
-    {
-        state = AnimationState::VICTORY_1;
-        currFrame = -1;
-        frameIncrement = 1;
-    }
+    state = AnimationState::VICTORY_1;
+    currFrame = -1;
+    frameIncrement = 1;
 }
 void Dhalsim::knockout(int type = 1) //to be set when bar becomes empty
 {

@@ -117,7 +117,7 @@ public:
     bool uncrouch();
     bool block();
     bool unblock();
-    void victory(int);
+    void victory();
     void knockout(int);
     bool specialMove1(); //yoga flame
     void hit_taken_face();
