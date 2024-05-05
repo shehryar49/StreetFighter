@@ -19,11 +19,11 @@ private:
         FASTIDLE,
         FASTIDLE_ATTACKING,
         //-------------jump
-        JMP, 
+        JMP,
         LAND,
         //-------------move
-        moveRight, 
-        moveLeft, 
+        moveRight,
+        moveLeft,
         flipped_move_right,
         flipped_move_left,
         //-------------punches
@@ -37,11 +37,11 @@ private:
 
         //-------------kicks
         KICK1,
-        KICK2, 
+        KICK2,
         KICK3,
 
         //-------------crouch
-        CROUCHING, 
+        CROUCHING,
         UNCROUCHING, //standing up
         CROUCHED,
         FAST_CROUCHED,
@@ -75,8 +75,8 @@ private:
     static sf::IntRect punch1_frames[3];
     static sf::IntRect punch2_frames[4];
     static sf::IntRect punch3_frames[4];
-    static sf::IntRect kick1_frames[3]; 
-    static sf::IntRect kick2_frames[3]; 
+    static sf::IntRect kick1_frames[3];
+    static sf::IntRect kick2_frames[3];
     static sf::IntRect kick3_frames[6];
     static sf::IntRect crouching_frames[3];
     static sf::IntRect crouched_punch1_frames[2];
@@ -95,7 +95,12 @@ private:
 public:
     Dhalsim();
     void update(float);
+    bool processEvent(sf::Event&);
     void render(sf::RenderWindow&);
+    void setPosition(float, float);
+    sf::FloatRect getGlobalBounds();
+    sf::FloatRect getLocalBounds();
+    void flipX();
     void moveLeft(float);
     void moveRight(float);
     void flippedMoveLeft(float);
@@ -123,4 +128,3 @@ public:
     ~Dhalsim();
 };
 #endif
-

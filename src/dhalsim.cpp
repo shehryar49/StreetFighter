@@ -67,9 +67,9 @@ Dhalsim::Dhalsim()
     moveleft_frames[5] = sf::IntRect(5 + 700 + 90 * 5, 125, 95, 110);
     moveleft_frames[6] = sf::IntRect(5 + 700 + 90 * 6, 125, 95, 110);
 
-    punch1_frames[0] = sf::IntRect(10+0, 250, 100, 110);
-    punch1_frames[1] = sf::IntRect(10+100*1, 250, 100, 110);
-    punch1_frames[2] = sf::IntRect(10+100*2, 250, 160, 110);
+    punch1_frames[0] = sf::IntRect(10 + 0, 250, 100, 110);
+    punch1_frames[1] = sf::IntRect(10 + 100 * 1, 250, 100, 110);
+    punch1_frames[2] = sf::IntRect(10 + 100 * 2, 250, 160, 110);
 
     punch2_frames[0] = sf::IntRect(50 + 90 * 4, 250, 90, 110);
     punch2_frames[1] = sf::IntRect(50 + 90 * 5, 250, 100, 110);
@@ -78,92 +78,105 @@ Dhalsim::Dhalsim()
 
     punch3_frames[0] = sf::IntRect(0, 375, 90, 110);
     punch3_frames[1] = sf::IntRect(90, 375, 100, 110);
-    punch3_frames[2] = sf::IntRect(15+90+100, 375, 170, 110);
-    punch3_frames[3] = sf::IntRect(15+90+100+170, 375, 240, 110);
+    punch3_frames[2] = sf::IntRect(15 + 90 + 100, 375, 170, 110);
+    punch3_frames[3] = sf::IntRect(15 + 90 + 100 + 170, 375, 240, 110);
 
-    kick1_frames[0] = sf::IntRect(65+15 + 90 + 100 + 170 + 240, 375, 90, 110);
-    kick1_frames[1] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90, 375, 130, 110);
-    kick1_frames[2] = sf::IntRect(65+15 + 90 + 100 + 170 + 240 + 90 + 130, 375, 190, 110);
+    kick1_frames[0] = sf::IntRect(65 + 15 + 90 + 100 + 170 + 240, 375, 90, 110);
+    kick1_frames[1] = sf::IntRect(65 + 15 + 90 + 100 + 170 + 240 + 90, 375, 130, 110);
+    kick1_frames[2] = sf::IntRect(65 + 15 + 90 + 100 + 170 + 240 + 90 + 130, 375, 190, 110);
 
     kick2_frames[0] = sf::IntRect(0, 520, 90, 110);
-    kick2_frames[1] = sf::IntRect(10+90, 520, 125, 110);
-    kick2_frames[2] = sf::IntRect(10+90+125, 505, 200, 125);
+    kick2_frames[1] = sf::IntRect(10 + 90, 520, 125, 110);
+    kick2_frames[2] = sf::IntRect(10 + 90 + 125, 505, 200, 125);
 
-    kick3_frames[0] = sf::IntRect(10+90+125+200+50,520,90,110);
-    kick3_frames[1] = sf::IntRect(10+90+125+200+50+90,515,90,115);
-    kick3_frames[2] = sf::IntRect(10+90+125+200+50+90+90,515,90,115);
-    kick3_frames[3] = sf::IntRect(10+90+125+200+50+90+90+90,520,110,110);
-    kick3_frames[4] = sf::IntRect(10+90+125+200+50+90+90+90+110,515,210,115);
-    kick3_frames[5] = sf::IntRect(10+90+125+200+50+90+90+90+110+210,520,90,110);
+    kick3_frames[0] = sf::IntRect(10 + 90 + 125 + 200 + 50, 520, 90, 110);
+    kick3_frames[1] = sf::IntRect(10 + 90 + 125 + 200 + 50 + 90, 515, 90, 115);
+    kick3_frames[2] = sf::IntRect(10 + 90 + 125 + 200 + 50 + 90 + 90, 515, 90, 115);
+    kick3_frames[3] = sf::IntRect(10 + 90 + 125 + 200 + 50 + 90 + 90 + 90, 520, 110, 110);
+    kick3_frames[4] = sf::IntRect(10 + 90 + 125 + 200 + 50 + 90 + 90 + 90 + 110, 515, 210, 115);
+    kick3_frames[5] = sf::IntRect(10 + 90 + 125 + 200 + 50 + 90 + 90 + 90 + 110 + 210, 520, 90, 110);
 
     crouching_frames[0] = sf::IntRect(10, 1415, 90, 110);
-    crouching_frames[1] = sf::IntRect(10+90*1, 1415, 90, 110);
-    crouching_frames[2] = sf::IntRect(10+90*2, 1415, 90, 110);
+    crouching_frames[1] = sf::IntRect(10 + 90 * 1, 1415, 90, 110);
+    crouching_frames[2] = sf::IntRect(10 + 90 * 2, 1415, 90, 110);
 
-    crouched_punch1_frames[0] = sf::IntRect(20 + 90+110+160+260, 1530, 90, 110);
-    crouched_punch1_frames[1] = sf::IntRect(25 + 90+110+160+260+90, 1530, 130, 110);
+    crouched_punch1_frames[0] = sf::IntRect(20 + 90 + 110 + 160 + 260, 1530, 90, 110);
+    crouched_punch1_frames[1] = sf::IntRect(25 + 90 + 110 + 160 + 260 + 90, 1530, 130, 110);
 
     crouched_punch2_frames[0] = sf::IntRect(20, 1530, 90, 110);
     crouched_punch2_frames[1] = sf::IntRect(20 + 90, 1530, 110, 110);
-    crouched_punch2_frames[2] = sf::IntRect(20 + 90+110, 1530, 160, 110);
-    crouched_punch2_frames[3] = sf::IntRect(20 + 90+110+160, 1530, 210, 110);
+    crouched_punch2_frames[2] = sf::IntRect(20 + 90 + 110, 1530, 160, 110);
+    crouched_punch2_frames[3] = sf::IntRect(20 + 90 + 110 + 160, 1530, 210, 110);
 
-    crouched_kick1_frames[0] = sf::IntRect(20 + 90 + 110 + 160 + 260+90+180, 1530, 90, 110);
-    crouched_kick1_frames[1] = sf::IntRect(20 + 90 + 110 + 160 + 260 + 90+180+90, 1530, 170, 110);
+    crouched_kick1_frames[0] = sf::IntRect(20 + 90 + 110 + 160 + 260 + 90 + 180, 1530, 90, 110);
+    crouched_kick1_frames[1] = sf::IntRect(20 + 90 + 110 + 160 + 260 + 90 + 180 + 90, 1530, 170, 110);
 
-    block_frames[0] = sf::IntRect(15+16+25+28+20+105+105+105, 2815, 90, 110);
-    block_frames[1] = sf::IntRect(15+16+25+28+20+105+105+105+90, 2815, 90, 110);
+    block_frames[0] = sf::IntRect(15 + 16 + 25 + 28 + 20 + 105 + 105 + 105, 2815, 90, 110);
+    block_frames[1] = sf::IntRect(15 + 16 + 25 + 28 + 20 + 105 + 105 + 105 + 90, 2815, 90, 110);
 
     victory1_frames[0] = sf::IntRect(15, 2945, 105, 110);
-    victory1_frames[1] = sf::IntRect(15+16+105, 2945, 105, 110);
-    victory1_frames[2] = sf::IntRect(15+16+25+105+105, 2945, 105, 110);
-    victory1_frames[3] = sf::IntRect(15+16+25+28+105+105+105, 2945, 125, 110);
-    victory1_frames[4] = sf::IntRect(15+16+25+28+20+105+105+105+125, 2945, 125, 110);
-    victory1_frames[5] = sf::IntRect(15+16+25+28+20+20+105+105+105+125+125, 2945, 135, 110);
-    victory1_frames[6] = sf::IntRect(15+16+25+28+20+20+10+105+105+105+125+125+135, 2945, 140, 110);
-    victory1_frames[7] = sf::IntRect(15+16+25+28+20+20+10+16+105+105+105+125+125+135+140, 2945, 125, 110);
-    victory1_frames[8] = sf::IntRect(15+16+25+28+20+20+10+16+18+105+105+105+125+125+135+140+125, 2945, 125, 110);
+    victory1_frames[1] = sf::IntRect(15 + 16 + 105, 2945, 105, 110);
+    victory1_frames[2] = sf::IntRect(15 + 16 + 25 + 105 + 105, 2945, 105, 110);
+    victory1_frames[3] = sf::IntRect(15 + 16 + 25 + 28 + 105 + 105 + 105, 2945, 125, 110);
+    victory1_frames[4] = sf::IntRect(15 + 16 + 25 + 28 + 20 + 105 + 105 + 105 + 125, 2945, 125, 110);
+    victory1_frames[5] = sf::IntRect(15 + 16 + 25 + 28 + 20 + 20 + 105 + 105 + 105 + 125 + 125, 2945, 135, 110);
+    victory1_frames[6] = sf::IntRect(15 + 16 + 25 + 28 + 20 + 20 + 10 + 105 + 105 + 105 + 125 + 125 + 135, 2945, 140, 110);
+    victory1_frames[7] = sf::IntRect(15 + 16 + 25 + 28 + 20 + 20 + 10 + 16 + 105 + 105 + 105 + 125 + 125 + 135 + 140, 2945, 125, 110);
+    victory1_frames[8] = sf::IntRect(15 + 16 + 25 + 28 + 20 + 20 + 10 + 16 + 18 + 105 + 105 + 105 + 125 + 125 + 135 + 140 + 125, 2945, 125, 110);
     victory1_frames[9] = sf::IntRect(22, 3095, 105, 115);
-    victory1_frames[10]= sf::IntRect(22 + 16 + 105, 3095, 105, 115);
-    victory1_frames[11]= sf::IntRect(22 + 16 + 25 + 105 + 105, 3095, 105, 115);
+    victory1_frames[10] = sf::IntRect(22 + 16 + 105, 3095, 105, 115);
+    victory1_frames[11] = sf::IntRect(22 + 16 + 25 + 105 + 105, 3095, 105, 115);
 
-    knockout1_frames[0] = sf::IntRect(25+90+90+90,2690,135,110);
-    knockout1_frames[1] = sf::IntRect(25+25+90+90+90+135,2690,125,110);
-    knockout1_frames[2] = sf::IntRect(25+25+25+90+90+90+135+125,2690,125,110);
-    knockout1_frames[3] = sf::IntRect(25+25+25+15+90+90+90+135+125+125,2690,90,110);
+    knockout1_frames[0] = sf::IntRect(25 + 90 + 90 + 90, 2690, 135, 110);
+    knockout1_frames[1] = sf::IntRect(25 + 25 + 90 + 90 + 90 + 135, 2690, 125, 110);
+    knockout1_frames[2] = sf::IntRect(25 + 25 + 25 + 90 + 90 + 90 + 135 + 125, 2690, 125, 110);
+    knockout1_frames[3] = sf::IntRect(25 + 25 + 25 + 15 + 90 + 90 + 90 + 135 + 125 + 125, 2690, 90, 110);
 
-    yogaflame_frames[0] = sf::IntRect(15,1790,90,110);
-    yogaflame_frames[1] = sf::IntRect(15+15+90,1790,90,110);
-    yogaflame_frames[2] = sf::IntRect(15+15+10+90+90,1790,90,110);
-    yogaflame_frames[3] = sf::IntRect(15+15+10+15+90+90+90,1790,90,110);
-    yogaflame_frames[4] = sf::IntRect(15+15+10+15+10+90+90+90+90,1790,90,110);
-    yogaflame_frames[5] = sf::IntRect(15+15+10+15+10+15+90+90+90+90+90,1790,90,110);
-    yogaflame_frames[6] = sf::IntRect(15+15+10+15+10+15+15+90+90+90+90+90+90,1790,100,110);
-    yogaflame_frames[7] = sf::IntRect(15+15+10+15+10+15+15+15+90+90+90+90+90+90+100,1790,145,110);
-    yogaflame_frames[8] = sf::IntRect(15+15+10+15+10+15+15+15+15+90+90+90+90+90+90+100+145,1790,150,110);
-    yogaflame_frames[9] = sf::IntRect(15+15+10+15+10+15+15+15+15+15+90+90+90+90+90+90+100+145+150,1790,165,110);
-    yogaflame_frames[10] =sf::IntRect(15, 1920, 170, 110);
-    yogaflame_frames[11] =sf::IntRect(15+15+170, 1920, 175, 110);
-    yogaflame_frames[12] =sf::IntRect(15+15+15+170+175, 1920, 180, 110);
-    yogaflame_frames[13] =sf::IntRect(15+15+15+15+170+175+180, 1920, 180, 110);
-    yogaflame_frames[14] =sf::IntRect(15+15+15+15+15+170+175+180+180, 1920, 175, 110);
-    yogaflame_frames[15] =sf::IntRect(15+15+15+15+15+20+170+175+180+180+175, 1920, 175, 110);
-    yogaflame_frames[16] =sf::IntRect(15+15+15+15+15+20+15+170+175+180+180+175+175, 1920, 170, 110);
-    yogaflame_frames[17] =sf::IntRect(15, 2050, 165, 110);
-    yogaflame_frames[18] =sf::IntRect(15+30+165, 2050, 155, 110);
-    yogaflame_frames[19] =sf::IntRect(15+30+10+165+155, 2050, 155, 110);
+    yogaflame_frames[0] = sf::IntRect(15, 1790, 90, 110);
+    yogaflame_frames[1] = sf::IntRect(15 + 15 + 90, 1790, 90, 110);
+    yogaflame_frames[2] = sf::IntRect(15 + 15 + 10 + 90 + 90, 1790, 90, 110);
+    yogaflame_frames[3] = sf::IntRect(15 + 15 + 10 + 15 + 90 + 90 + 90, 1790, 90, 110);
+    yogaflame_frames[4] = sf::IntRect(15 + 15 + 10 + 15 + 10 + 90 + 90 + 90 + 90, 1790, 90, 110);
+    yogaflame_frames[5] = sf::IntRect(15 + 15 + 10 + 15 + 10 + 15 + 90 + 90 + 90 + 90 + 90, 1790, 90, 110);
+    yogaflame_frames[6] = sf::IntRect(15 + 15 + 10 + 15 + 10 + 15 + 15 + 90 + 90 + 90 + 90 + 90 + 90, 1790, 100, 110);
+    yogaflame_frames[7] = sf::IntRect(15 + 15 + 10 + 15 + 10 + 15 + 15 + 15 + 90 + 90 + 90 + 90 + 90 + 90 + 100, 1790, 145, 110);
+    yogaflame_frames[8] = sf::IntRect(15 + 15 + 10 + 15 + 10 + 15 + 15 + 15 + 15 + 90 + 90 + 90 + 90 + 90 + 90 + 100 + 145, 1790, 150, 110);
+    yogaflame_frames[9] = sf::IntRect(15 + 15 + 10 + 15 + 10 + 15 + 15 + 15 + 15 + 15 + 90 + 90 + 90 + 90 + 90 + 90 + 100 + 145 + 150, 1790, 165, 110);
+    yogaflame_frames[10] = sf::IntRect(15, 1920, 170, 110);
+    yogaflame_frames[11] = sf::IntRect(15 + 15 + 170, 1920, 175, 110);
+    yogaflame_frames[12] = sf::IntRect(15 + 15 + 15 + 170 + 175, 1920, 180, 110);
+    yogaflame_frames[13] = sf::IntRect(15 + 15 + 15 + 15 + 170 + 175 + 180, 1920, 180, 110);
+    yogaflame_frames[14] = sf::IntRect(15 + 15 + 15 + 15 + 15 + 170 + 175 + 180 + 180, 1920, 175, 110);
+    yogaflame_frames[15] = sf::IntRect(15 + 15 + 15 + 15 + 15 + 20 + 170 + 175 + 180 + 180 + 175, 1920, 175, 110);
+    yogaflame_frames[16] = sf::IntRect(15 + 15 + 15 + 15 + 15 + 20 + 15 + 170 + 175 + 180 + 180 + 175 + 175, 1920, 170, 110);
+    yogaflame_frames[17] = sf::IntRect(15, 2050, 165, 110);
+    yogaflame_frames[18] = sf::IntRect(15 + 30 + 165, 2050, 155, 110);
+    yogaflame_frames[19] = sf::IntRect(15 + 30 + 10 + 165 + 155, 2050, 155, 110);
 
-    hit_taken_face_frames[0]= sf::IntRect(110 + 90 + 90 + 90, 2565, 90, 110);
-    hit_taken_face_frames[1]= sf::IntRect(110 + 90 + 90 + 90 + 90, 2565, 90, 110);
+    hit_taken_face_frames[0] = sf::IntRect(110 + 90 + 90 + 90, 2565, 90, 110);
+    hit_taken_face_frames[1] = sf::IntRect(110 + 90 + 90 + 90 + 90, 2565, 90, 110);
 
-    hit_taken_body_frames[0] = sf::IntRect(115 + 90+ 90 + 90 + 90+90, 2565, 90, 110);
-    hit_taken_body_frames[1] = sf::IntRect(15+115 + 90 + 90 + 90 + 90+90+90, 2565, 90, 110);
-                                   
+    hit_taken_body_frames[0] = sf::IntRect(115 + 90 + 90 + 90 + 90 + 90, 2565, 90, 110);
+    hit_taken_body_frames[1] = sf::IntRect(15 + 115 + 90 + 90 + 90 + 90 + 90 + 90, 2565, 90, 110);
+
     player.setTextureRect(IDLE_frames[0]);
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
     player.setPosition(0, 0);
     state = AnimationState::IDLE;
     frameIncrement = 1;
+}
+bool Dhalsim::jump()
+{
+    if (IS_IDLE)
+    {
+        state = AnimationState::JMP;
+        currFrame = -1;
+        frameIncrement = 1;
+        pos = player.getPosition();
+        return true;
+
+    }
+    return false;
 }
 void Dhalsim::moveRight(float f)
 {
@@ -202,19 +215,6 @@ void Dhalsim::flippedMoveLeft(float f) {
         frameIncrement = 1;
         limit = f;
     }
-}
-bool Dhalsim::jump()
-{
-    if (IS_IDLE)
-    {
-        state = AnimationState::JMP;
-        currFrame = -1;
-        frameIncrement = 1;
-        pos = player.getPosition();
-        return true;
-
-    }
-    return false;
 }
 bool Dhalsim::crouch()
 {
@@ -376,12 +376,12 @@ void Dhalsim::victory() //to be set for winning condition
 void Dhalsim::knockout(int type) //to be set when bar becomes empty
 {
 
-        currFrame = 4;
-        frameIncrement = 1;
-        if(player.getScale().x < 0)
-            state = AnimationState::KNOCKOUT_2;
-        else
-            state = AnimationState::KNOCKOUT_1;
+    currFrame = 4;
+    frameIncrement = 1;
+    if (player.getScale().x < 0)
+        state = AnimationState::KNOCKOUT_2;
+    else
+        state = AnimationState::KNOCKOUT_1;
 }
 void Dhalsim::hit_taken_face() //to be set for hit face condition
 {
@@ -527,7 +527,7 @@ void Dhalsim::update(float dt)
         currFrame--;
         player.setTextureRect(punch1_frames[currFrame]);
         elapsed = 0;
-        if (currFrame == 1) 
+        if (currFrame == 1)
         {
             state = AnimationState::FASTIDLE;
         }
@@ -547,7 +547,7 @@ void Dhalsim::update(float dt)
         currFrame--;
         player.setTextureRect(punch2_frames[currFrame]);
         elapsed = 0;
-        if (currFrame == 1) 
+        if (currFrame == 1)
         {
             state = AnimationState::FASTIDLE;
         }
@@ -567,7 +567,7 @@ void Dhalsim::update(float dt)
         currFrame--;
         player.setTextureRect(punch3_frames[currFrame]);
         elapsed = 0;
-        if (currFrame == 1) 
+        if (currFrame == 1)
         {
             state = AnimationState::FASTIDLE;
         }
@@ -624,55 +624,55 @@ void Dhalsim::update(float dt)
             state = AnimationState::CROUCHED;
 
     }
-    else if(elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
+    else if (elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
     {
         elapsed = 0;
         state = AnimationState::CROUCHED;
         player.setTextureRect(crouching_frames[2]);
     }
-    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH1)
+    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH1)
     {
         player.setTextureRect(crouched_punch1_frames[currFrame]);
         currFrame += frameIncrement;
         elapsed = 0;
-        if(currFrame == 1)
+        if (currFrame == 1)
         {
             frameIncrement = -1;
             currFrame = 1;
         }
-        else if(currFrame == -1)
+        else if (currFrame == -1)
         {
             state = AnimationState::CROUCHED;
             player.setTextureRect(crouching_frames[2]);
         }
     }
-    else if(elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH2)
+    else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED_PUNCH2)
     {
         player.setTextureRect(crouched_punch2_frames[currFrame]);
         currFrame += frameIncrement;
         elapsed = 0;
-        if(currFrame == 3)
+        if (currFrame == 3)
         {
             frameIncrement = -1;
             currFrame = 3;
         }
-        else if(currFrame == -1)
+        else if (currFrame == -1)
         {
             state = AnimationState::CROUCHED;
             player.setTextureRect(crouching_frames[2]);
         }
     }
-    else if(elapsed >= 0.2 && state == AnimationState::CROUCHED_KICK1)
+    else if (elapsed >= 0.2 && state == AnimationState::CROUCHED_KICK1)
     {
         player.setTextureRect(crouched_kick1_frames[currFrame]);
         currFrame += frameIncrement;
         elapsed = 0;
-        if(currFrame == 1)
+        if (currFrame == 1)
         {
             frameIncrement = -1;
             currFrame = 1;
         }
-        else if(currFrame == -1)
+        else if (currFrame == -1)
         {
             state = AnimationState::CROUCHED;
             player.setTextureRect(crouching_frames[2]);
@@ -693,7 +693,7 @@ void Dhalsim::update(float dt)
     else if ((elapsed >= (MOVE_TIME)) && state == AnimationState::KNOCKOUT_1 || state == AnimationState::KNOCKOUT_2)
     {
         if (currFrame == 0)
-        {   
+        {
             frameIncrement = 0;
         }
         else if (currFrame == 4)
@@ -723,9 +723,25 @@ void Dhalsim::update(float dt)
         }
     }
 }
+void Dhalsim::setPosition(float x, float y)
+{
+    player.setPosition(x, y);
+}
 void Dhalsim::render(sf::RenderWindow& win)
 {
     win.draw(player);
+}
+void Dhalsim::flipX()
+{
+    player.setScale(-PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE);
+}
+sf::FloatRect Dhalsim::getGlobalBounds()
+{
+    return player.getGlobalBounds();
+}
+sf::FloatRect Dhalsim::getLocalBounds()
+{
+    return player.getLocalBounds();
 }
 bool Dhalsim::isIdle() {
     return state == AnimationState::IDLE;
