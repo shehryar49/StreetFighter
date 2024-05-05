@@ -486,12 +486,7 @@ void Ken::update(float dt)
           player.setPosition(player.getPosition().x-20,player.getPosition().y);
         elapsed = 0;
         if(currFrame == 5)
-        { 
-            state = AnimationState::FASTIDLE;
-            currFrame = 0;
-            frameIncrement = 1;
-            *ptr = true;
-        }
+          state = AnimationState::NONE;
     }
     
     else if(elapsed>=0.08f && state == AnimationState::CROUCHED_PUNCH2)

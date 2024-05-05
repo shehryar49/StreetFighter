@@ -32,7 +32,8 @@ private:
         FLIPPED_MOVE_RIGHT,
         KNOCKED_OUT,
         TIGER,
-        VICTORY
+        VICTORY,
+        NONE //does not update anything
     };
 
     AnimationState state;

@@ -532,9 +532,7 @@ void Ryu::update(float dt)
         player.setTextureRect(victory_frames[currFrame++]);
         elapsed = 0;
         if(currFrame == 5)
-        { 
-            currFrame = 4;
-        }
+         state = AnimationState::NONE;
     }
     else if(elapsed>=MOVE_TIME && state == AnimationState::BODY_HIT)
     {
@@ -555,13 +553,9 @@ void Ryu::update(float dt)
         else
           player.setPosition(player.getPosition().x-20,player.getPosition().y);
         elapsed = 0;
-        if(currFrame == 5)
-        { 
-            state = AnimationState::FASTIDLE;
-            currFrame = 0;
-            frameIncrement = 1;
-            *ptr = true;
-        }
+        if(currFrame == 5) 
+          state = AnimationState::NONE;
+        
     }
     else if (elapsed >= MOVE_TIME && state == AnimationState::KICK1)
     {

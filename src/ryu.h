@@ -42,7 +42,8 @@ private:
         BODY_HIT,
         KNOCKED_OUT,
         DELAY,
-        VICTORY
+        VICTORY,
+        NONE //does not update anything
 
     };
     AnimationState state;

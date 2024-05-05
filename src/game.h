@@ -72,7 +72,7 @@ private:
 
     sf::Text timer;
     float time_remaining = 120; 
-
+    int curr_time = 0;
     unsigned int fps = 0; //0 means infinite 
 public:
     Game();

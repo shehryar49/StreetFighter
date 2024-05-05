@@ -150,12 +150,20 @@ void Game::update(float dt)
     static float elapsed2 = 0;
     static float elapsed3 = 0;
     static int hits = 0;
+	bool dummy;
     elapsed1 += dt;
     elapsed2 += dt;
     elapsed3 += dt;
 	
 	//set time
 	int time = time_remaining;
+	if(await_game_over)
+	{
+		game_over = ((curr_time - time) >= WAIT_AFTER_KNOCKOUT);
+		player->update(dt);
+		enemy->update(dt);
+		return;
+	}
 	if(time <= 0) // time up
 	{
 		if(player->damage < enemy->damage) // player won
@@ -172,28 +180,6 @@ void Game::update(float dt)
 		;
 		game_over = true;
 	}
-    /*if (time == 120)
-    {
-        timer.setString("02:00");//already set 
-    }*/
-
-	//Use your brain for fuck's sake
-    /*if (time < 120 && time >= 60)
-    {
-        int rem_time = time % 60;
-        if (rem_time < 10)
-            timer.setString("01:0" + std::to_string(rem_time));
-        else
-            timer.setString("01:" + std::to_string(rem_time));
-    }
-    else
-    {
-        int rem_time = time % 60;
-        if (rem_time < 10)
-            timer.setString("00:0" + std::to_string(rem_time));
-        else
-            timer.setString("00:" + std::to_string(rem_time));
-    }*/
 
 	int minutes = time / 60;
 	int seconds = time % 60;
@@ -214,9 +200,11 @@ void Game::update(float dt)
 		enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
       	if(enemy->damage == 100.0f)
       	{
-          	enemy->knockout(&game_over);
+			player->victory();
+          	enemy->knockout(&dummy);
             smg.play(enemy_voice_lines[6]);
           	await_game_over = true;
+			curr_time = time;
       	}
       	else
       	{
@@ -235,9 +223,10 @@ void Game::update(float dt)
       	{
 			player->victory();
           	smg.play(player_voice_lines[10]);
-        	enemy->knockout(&game_over);
+        	enemy->knockout(&dummy);
           	smg.play(enemy_voice_lines[7]);
         	await_game_over = true;
+			curr_time = time;
       	}
       	else
         {
@@ -257,9 +246,10 @@ void Game::update(float dt)
       	if(player->damage == 100.0f)
       	{
 			enemy->victory();
-        	player->knockout(&game_over);
+        	player->knockout(&dummy);
         	smg.play(player_voice_lines[7]);
         	await_game_over = true;
+			curr_time = time;
       	}
       	else
       	{
@@ -865,7 +855,6 @@ int Game::showMenu()
   	}  
   	return 2;
 }
-
 void Game::run()
 {
   	playIntro();
@@ -889,6 +878,7 @@ void Game::run()
 		setStage(character);
 		smg.play(fight_bgm);
 		clock.restart();
+		//do the fight
 		while (!game_over && window.isOpen())
 		{
 			float dt = clock.restart().asSeconds();
@@ -906,13 +896,10 @@ void Game::run()
 			player->render(window);
 			window.display();
 		}
-		if(game_over && window.isOpen())
+		// fight over (by either knockout or timeout)
+		// or maybe window closed?
+		if(window.isOpen())
 		{
-			#ifdef __linux
-				sleep(6);
-			#else
-				Sleep(6000);
-			#endif
 			smg.stop(fight_bgm);
 			game_over = false;
 			await_game_over = false;
@@ -920,7 +907,6 @@ void Game::run()
 			enemyDamage.setSize(sf::Vector2f(0,25));
 			time_remaining = 120;
 		}
-		smg.stop(fight_bgm);
   		delete[] character;
   	}
 }

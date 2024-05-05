@@ -24,5 +24,6 @@
 #define ROW_HEIGHT 79
 #define NO_OF_VOICE_LINES 11
 
-
+// Miscallaneous
+#define WAIT_AFTER_KNOCKOUT 8
 #endif

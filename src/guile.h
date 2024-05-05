@@ -36,7 +36,8 @@ private:
         FLIPPED_MOVE_RIGHT,
         KNOCKED_OUT,
         VICTORY,
-        SONIC_BOOM
+        SONIC_BOOM,
+        NONE //does not update anything
     };
     AnimationState state;
     //'Frames' actually might not be the right word

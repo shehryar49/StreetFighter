@@ -486,12 +486,8 @@ void Guile::update(float dt)
           player.setPosition(player.getPosition().x-20,player.getPosition().y);
         elapsed = 0;
         if(currFrame == 4)
-        { 
-            state = AnimationState::FASTIDLE;
-            currFrame = 0;
-            frameIncrement = 1;
-            *ptr = true;
-        }
+          state = AnimationState::NONE;
+        
     }
     
     else if(elapsed>=MOVE_TIME && state == AnimationState::CROUCHED_PUNCH2)
