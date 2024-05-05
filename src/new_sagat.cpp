@@ -1,4 +1,4 @@
-//Written by Usman Ali
+//Written by Shahryar Ahmad
 #include "new_sagat.h"
 #include "constants.h"
 #include <SFML/Graphics/Rect.hpp>
