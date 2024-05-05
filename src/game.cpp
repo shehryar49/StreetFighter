@@ -876,9 +876,10 @@ int Game::showMenu()
 void Game::run()
 {
   	playIntro();
-  	window.setFramerateLimit(0);
+	window.setFramerateLimit(fps);
   	while(window.isOpen())
   	{
+		//Show main menu
 		while(true)
 		{
 			int option = showMenu();
@@ -889,12 +890,11 @@ void Game::run()
 			else if(option == 2)
 				showTerminal();
 			else if(option == 3)
-				return;
+				return; // exit
 		}
 		int* character = selectScreen();
 		setStage(character);
 		smg.play(fight_bgm);
-		smg.setVolume(20,fight_bgm);
 		clock.restart();
 		while (!game_over && window.isOpen())
 		{
@@ -1026,8 +1026,7 @@ void Game::setStage(int* c)
             player = new Ryu();
             setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
             break;
-    }
-	
+    }	
     switch (c[1]) 
     {
         case 1:
