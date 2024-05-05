@@ -339,12 +339,11 @@ void Guile::bodyHit()
   currFrame = 0;
   }
 }
-void Guile::knockout(bool* b)
+void Guile::knockout()
 {
   currFrame = 0;
   state = AnimationState::KNOCKED_OUT;
   player.setPosition(player.getPosition().x,BOTTOMY - knockout_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
-  ptr = b;
 }
 void Guile::flippedMoveLeft(float f)
 {

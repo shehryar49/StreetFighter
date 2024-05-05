@@ -76,7 +76,6 @@ private:
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
     float limit;
-    bool* game_is_over;
 public:
     Zangief();
     void update(float);
@@ -102,7 +101,7 @@ public:
     //hits taken
     void bodyHit();
     void knockout(int);
-    void knockout(bool*);
+    void knockout();
     void victory();
     void victory(int);
     //AI

@@ -38,7 +38,7 @@ public:
     virtual bool isIdle();
     virtual bool isSuffering(); // Are ya suffering son?
     virtual bool isAttacking(); //I wish, I was the monster you think I am.
-    virtual void knockout(bool*);
+    virtual void knockout();
     virtual void victory();
     virtual ~Player();
 public:

@@ -62,7 +62,6 @@ private:
     int incr_to_next_frame = 1;
     int count = 0; //for repetitive moves
     float limit = 0;
-    bool* game_is_over;
     
 public:
     Chun_Li();
@@ -96,7 +95,7 @@ public:
     //hits taken
     void bodyHit();
     void knockout(int);
-    void knockout(bool*);
+    void knockout();
     //AI
     bool isIdle();
     bool isSuffering();

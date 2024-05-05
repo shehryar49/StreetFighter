@@ -380,9 +380,8 @@ bool Ryu::isAttacking()
     state == AnimationState::SHORYUKEN
   );
 }
-void Ryu::knockout(bool* b)
+void Ryu::knockout()
 {
-  ptr = b;
   state = AnimationState::KNOCKED_OUT;
   player.setPosition(player.getPosition().x,BOTTOMY - knockout_frames[0].height*PLAYER_SPRITE_Y_SCALE + 1 );
   currFrame = 0;

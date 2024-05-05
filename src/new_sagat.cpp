@@ -1,7 +1,6 @@
 //Written by Shahryar Ahmad
 #include "new_sagat.h"
 #include "constants.h"
-#include "player.h"
 #include <SFML/Graphics/Rect.hpp>
 
 #define IS_IDLE (state == AnimationState::IDLE || state == AnimationState::FASTIDLE)
@@ -280,11 +279,10 @@ void Sagat::bodyHit()
   currFrame = 0;
   }
 }
-void Sagat::knockout(bool* b)
+void Sagat::knockout()
 {
   currFrame = 0;
   state = AnimationState::KNOCKED_OUT;
-  ptr = b;
 }
 void Sagat::flippedMoveLeft(float f)
 {

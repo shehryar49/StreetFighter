@@ -202,7 +202,7 @@ void Game::update(float dt)
       	if(enemy->damage == 100.0f)
       	{
 			player->victory();
-          	enemy->knockout(&dummy);
+          	enemy->knockout();
             smg.play(enemy_voice_lines[6]);
           	await_game_over = true;
 			curr_time = time;
@@ -224,7 +224,7 @@ void Game::update(float dt)
       	{
 			player->victory();
           	smg.play(player_voice_lines[10]);
-        	enemy->knockout(&dummy);
+        	enemy->knockout();
           	smg.play(enemy_voice_lines[7]);
         	await_game_over = true;
 			curr_time = time;
@@ -247,7 +247,7 @@ void Game::update(float dt)
       	if(player->damage == 100.0f)
       	{
 			enemy->victory();
-        	player->knockout(&dummy);
+        	player->knockout();
         	smg.play(player_voice_lines[7]);
         	await_game_over = true;
 			curr_time = time;

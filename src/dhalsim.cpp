@@ -769,10 +769,9 @@ bool Dhalsim::isAttacking()
         state == AnimationState::CROUCHED_PUNCH2
         );
 }
-void Dhalsim::knockout(bool* game_over)
+void Dhalsim::knockout()
 {
-    game_is_over = game_over;
-    knockout();
+    knockout(1);
 }
 Dhalsim::~Dhalsim()
 {

@@ -92,7 +92,6 @@ private:
     int currFrame = 0;
     int frameIncrement = 1;
     float limit;
-    bool* game_is_over;
 public:
     Dhalsim();
     void update(float);
@@ -125,7 +124,7 @@ public:
     bool isIdle();
     bool isSuffering();//taking hits or not
     bool isAttacking();
-    void knockout(bool*);
+    void knockout();
     ~Dhalsim();
 };
 #endif

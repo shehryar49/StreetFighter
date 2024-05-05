@@ -362,8 +362,7 @@ void Balrog::victory(int type) {
     }
     return;// false;
 }
-void Balrog::knockout(bool* game_over){
-    game_is_over = game_over;
+void Balrog::knockout(){
     knockout(2);
 }
 void Balrog::knockout(int type) {
@@ -905,7 +904,6 @@ void Balrog::update(float time) {
     }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::defeat_player) {
         if (curr_frame == 8) {
-            *game_is_over = true;
             curr_state = AnimationState::still;
         }
         else {
@@ -928,7 +926,6 @@ void Balrog::update(float time) {
     }
     else if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::defeat_enemy) {
         if (curr_frame == 8) {
-            *game_is_over = true;
             curr_state = AnimationState::still;
         }
         else {

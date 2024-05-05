@@ -76,7 +76,6 @@ private:
     float limit;
     float JMPY = -30;
     float delay_time = 0;
-    bool* ptr;
 public:
     Ryu();
     void update(float);
@@ -106,7 +105,7 @@ public:
     void bodyHit();
     bool isSuffering();
     bool isAttacking();
-    void knockout(bool*);
+    void knockout();
     void victory();
     ~Ryu();
 };

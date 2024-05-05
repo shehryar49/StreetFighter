@@ -322,8 +322,7 @@ void Chun_Li::bodyHit(){
     curr_frame = 0;
     curr_state = AnimationState::hit_taken_body1;
 }
-void Chun_Li::knockout(bool* game_over){
-    this->game_is_over = game_over;
+void Chun_Li::knockout(){
     knockout(2);
 }
 void Chun_Li::knockout(int type) {
@@ -663,7 +662,6 @@ void Chun_Li::update(float time){
     if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::defeat_player) {
         if (curr_frame == 9) {
             curr_state = AnimationState::still;
-            *game_is_over = true;
         }
         else {
             player.setTextureRect(knockout_frames[curr_frame++]);
@@ -687,7 +685,6 @@ void Chun_Li::update(float time){
     if (time_elapsed >= MOVE_TIME && curr_state == AnimationState::defeat_enemy) {
         if (curr_frame == 9) {
             curr_state = AnimationState::still;
-            *game_is_over = true;
         }
         else {
             player.setTextureRect(knockout_frames[curr_frame++]);

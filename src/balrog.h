@@ -79,7 +79,6 @@ private:
     float limit;
     sf::Sprite shirt_left;
     sf::Sprite shirt_right;
-    bool* game_is_over;
     
 public:
     Balrog();
@@ -105,7 +104,7 @@ public:
     //void hit_taken_blanka_electricity();
     void bodyHit();
     void knockout(int);
-    void knockout(bool*);
+    void knockout();
     void victory(int);
     //AI
     bool isIdle();
