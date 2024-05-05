@@ -84,10 +84,6 @@ public:
     Balrog();
     void update(float);
     void render(sf::RenderWindow&);
-    void setPosition(float, float);
-    sf::FloatRect getGlobalBounds();
-    bool processEvent(sf::Event&);
-    void flipX();
     //movements
     void moveLeft(float);
     void moveRight(float);

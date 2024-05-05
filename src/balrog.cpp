@@ -344,12 +344,6 @@ bool Balrog::specialMove2() {
     }
     return false;
 }
-////hits taken
-//bool Balrog::hit_taken_blanka_electricity() {
-//    curr_frame = 0;
-//    count = 0;
-//    curr_state = AnimationState::hit_taken_blanka_electricity;
-//}
 void Balrog::victory(int type) {
     curr_frame = 0;
     switch (type) {
@@ -947,17 +941,9 @@ void Balrog::update(float time) {
         return;
     }
 }
-void Balrog::setPosition(float x, float y)
-{
-    player.setPosition(x, y);
-}
 void Balrog::bodyHit(){
     curr_frame = 0;
     curr_state = AnimationState::medium_hit_taken_body;
-}
-void Balrog::flipX()
-{
-    player.setScale(-PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE);
 }
 void Balrog::render(sf::RenderWindow& window) {
     window.draw(player);
@@ -974,8 +960,4 @@ bool Balrog::isSuffering(){
     return (curr_state==AnimationState::medium_hit_taken_body);
 }
 Balrog::~Balrog() {
-}
-sf::FloatRect Balrog::getGlobalBounds()
-{
-    return player.getGlobalBounds();
 }
