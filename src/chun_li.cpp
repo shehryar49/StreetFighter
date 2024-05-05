@@ -732,9 +732,6 @@ void Chun_Li::update(float time){
 void Chun_Li::render(sf::RenderWindow &window){
     window.draw(player);
 }
-void Chun_Li::setPosition(float x, float y) {
-    player.setPosition(x, y);
-}
 bool Chun_Li::isAttacking(){
     return (curr_state==AnimationState::kick1 || curr_state==AnimationState::kick2 || curr_state==AnimationState::kick4||
     curr_state==AnimationState::punch1 || curr_state==AnimationState::punch3 || curr_state==AnimationState::punch5 ||
@@ -742,17 +739,5 @@ bool Chun_Li::isAttacking(){
 }
 bool Chun_Li::isSuffering(){
     return (curr_state==AnimationState::hit_taken_body1);
-}
-sf::FloatRect Chun_Li::getLocalBounds(){
-    return player.getLocalBounds();
-}
-sf::FloatRect Chun_Li::getGlobalBounds(){
-    return player.getGlobalBounds();
-}
-sf::Vector2f Chun_Li::getPosition() {
-    return player.getPosition();
-}
-void Chun_Li::flipX() {
-    player.setScale(-PLAYER_SPRITE_X_SCALE,PLAYER_SPRITE_Y_SCALE);
 }
 Chun_Li::~Chun_Li(){}

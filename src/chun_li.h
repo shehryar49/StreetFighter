@@ -67,12 +67,6 @@ public:
     Chun_Li();
     void update(float);
     void render(sf::RenderWindow&);
-    void setPosition(float, float);
-    sf::FloatRect getLocalBounds();
-    sf::FloatRect getGlobalBounds();
-    sf::Vector2f getPosition();
-    bool processEvent(sf::Event&);
-    void flipX();
     //movements
     void moveLeft(float);
     void moveRight(float);
