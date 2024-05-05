@@ -704,7 +704,7 @@ std::string Game::execCommand(const std::string& command)
       	if(parts[1] == "volume")
       	{
         	int vol = atoi(parts[2].c_str());
-          	if(vol < 0 || vol >= 100)
+          	if(vol < 0 || vol > 100)
             	return "Volume must be in range [0,100]";
           	smg.setVolume(vol);
           	return "Volume set to "+parts[2];
@@ -831,7 +831,9 @@ void Game::showTerminal()
 }
 void Game::showCredits() 
 {
+    sf::Texture backgroundTexture;
     backgroundTexture.loadFromFile("SF2.jpeg");
+    sf::Sprite background;
     background.setTexture(backgroundTexture);
     background.setScale(1.5, 1.1);
     Credits credits(window, font_crunchchips, background);
