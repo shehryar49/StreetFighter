@@ -95,12 +95,7 @@ private:
 public:
     Dhalsim();
     void update(float);
-    bool processEvent(sf::Event&);
     void render(sf::RenderWindow&);
-    void setPosition(float, float);
-    sf::FloatRect getGlobalBounds();
-    sf::FloatRect getLocalBounds();
-    void flipX();
     void moveLeft(float);
     void moveRight(float);
     void flippedMoveLeft(float);

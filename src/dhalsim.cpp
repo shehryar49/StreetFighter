@@ -723,25 +723,9 @@ void Dhalsim::update(float dt)
         }
     }
 }
-void Dhalsim::setPosition(float x, float y)
-{
-    player.setPosition(x, y);
-}
 void Dhalsim::render(sf::RenderWindow& win)
 {
     win.draw(player);
-}
-void Dhalsim::flipX()
-{
-    player.setScale(-PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE);
-}
-sf::FloatRect Dhalsim::getGlobalBounds()
-{
-    return player.getGlobalBounds();
-}
-sf::FloatRect Dhalsim::getLocalBounds()
-{
-    return player.getLocalBounds();
 }
 bool Dhalsim::isIdle() {
     return state == AnimationState::IDLE;
