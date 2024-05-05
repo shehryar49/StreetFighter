@@ -1,4 +1,4 @@
-//Written by U
+//Written by Us
 #include "new_sagat.h"
 #include "constants.h"
 #include <SFML/Graphics/Rect.hpp>
