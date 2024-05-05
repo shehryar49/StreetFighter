@@ -73,8 +73,6 @@ public:
     Guile();
     void update(float);
     void render(sf::RenderWindow &);
-    void setPosition(float,float);
-    void flipX();
     bool punch1();
     bool punch2();
     bool punch3();
@@ -95,8 +93,6 @@ public:
     void bodyHit();
     void knockout();
     void victory();
-    sf::FloatRect getGlobalBounds();
-    sf::FloatRect getLocalBounds();
     ~Guile();
 };
 #endif

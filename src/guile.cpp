@@ -652,27 +652,11 @@ void Guile::update(float dt)
     }
 
 }
-void Guile::setPosition(float x,float y)
-{
-    player.setPosition(x,y);
-}
-void Guile::flipX()
-{
-  player.setScale(-2.1,2.1);
-}
 void Guile::render(sf::RenderWindow &win)
 {
     win.draw(player);
     if(projectile_active)
       win.draw(projectile);
-}
-sf::FloatRect Guile::getGlobalBounds()
-{
-    return player.getGlobalBounds();
-}
-sf::FloatRect Guile::getLocalBounds()
-{
-    return player.getLocalBounds();
 }
 Guile::~Guile()
 {
