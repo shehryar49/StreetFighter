@@ -890,12 +890,6 @@ void Zangief::update(float time){
         return;
     }
 }
-void Zangief::setPosition(float x,float y){
-    player.setPosition(x,y);
-}
-void Zangief::flipX(){
-    player.setScale(-PLAYER_SPRITE_X_SCALE,PLAYER_SPRITE_Y_SCALE);
-}
 bool Zangief::isIdle() {
     return IS_IDLE;
 }
@@ -908,12 +902,6 @@ bool Zangief::isAttacking(){
 }
 void Zangief::render(sf::RenderWindow &window){
     window.draw(player);
-}
-sf::FloatRect Zangief::getGlobalBounds(){
-    return player.getGlobalBounds();
-}
-sf::Vector2f Zangief::getPosition(){
-    return player.getPosition();
 }
 Zangief::~Zangief(){
 }
