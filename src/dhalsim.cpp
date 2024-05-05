@@ -792,7 +792,8 @@ void Dhalsim::update(float dt)
     else if ((elapsed >= (MOVE_TIME)) && state == AnimationState::KNOCKOUT_1 || state == AnimationState::KNOCKOUT_2)
     {
         if (currFrame == 0)
-        {
+        {   
+            *game_is_over = true;
             frameIncrement = 0;
         }
         else if (currFrame == 4)
