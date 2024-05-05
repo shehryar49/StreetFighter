@@ -13,24 +13,26 @@ void Player::render(sf::RenderWindow &win)
 {
   win.draw(player);
 }
-void Player::setPosition(float x,float y)
+void Player::setPosition(float x, float y) 
 {
-
-}
-sf::FloatRect Player::getGlobalBounds()
-{
-  return sf::FloatRect(); // just to avoid the goddamn  warning
+    player.setPosition(x, y);
 }
 sf::FloatRect Player::getLocalBounds()
 {
-  return sf::FloatRect(); // just to avoid the goddamn  warning
+    return player.getLocalBounds();
 }
-sf::Vector2f Player::getPosition()
+sf::FloatRect Player::getGlobalBounds()
 {
-    return sf::Vector2f();
+    return player.getGlobalBounds();
 }
-
-void Player::flipX(){}
+sf::Vector2f Player::getPosition() 
+{
+    return player.getPosition();
+}
+void Player::flipX()
+{
+  player.setScale(-PLAYER_SPRITE_X_SCALE,PLAYER_SPRITE_Y_SCALE);
+}
 void Player::moveLeft(float){}
 void Player::moveRight(float){}
 void Player::flippedMoveLeft(float){}
