@@ -374,17 +374,15 @@ void Dhalsim::victory() //to be set for winning condition
     currFrame = -1;
     frameIncrement = 1;
 }
-void Dhalsim::knockout(int type = 1) //to be set when bar becomes empty
+void Dhalsim::knockout(int type) //to be set when bar becomes empty
 {
-    if (state == AnimationState::IDLE)
-    {
+
         currFrame = 4;
         frameIncrement = 1;
         if(player.getScale().x < 0)
             state = AnimationState::KNOCKOUT_2;
         else
             state = AnimationState::KNOCKOUT_1;
-    }
 }
 void Dhalsim::hit_taken_face() //to be set for hit face condition
 {
