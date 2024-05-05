@@ -165,63 +165,6 @@ Dhalsim::Dhalsim()
     state = AnimationState::IDLE;
     frameIncrement = 1;
 }
-bool Dhalsim::processEvent(sf::Event& event)
-{
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::BackSpace) {
-            currFrame = 0;
-            frameIncrement = 1;
-            player.setPosition(player.getPosition().x, 365);
-            player.setTextureRect(IDLE_frames[0]);
-            state = AnimationState::IDLE;
-        }
-        if (state == AnimationState::IDLE) {
-            //if (event.key.code == sf::Keyboard::Num1) {
-            //    hit_taken_blanka_electricity();
-            //    return true;
-            //}
-            if (event.key.code == sf::Keyboard::Num2) {
-                hit_taken_face();
-                return true;
-            }
-            //else if (event.key.code == sf::Keyboard::Num3) {
-            //    hit_taken_body();
-            //    return true;
-            //}
-            //else if (event.key.code == sf::Keyboard::Num4) {
-            //    heavy_hit_taken_body();
-            //    return true;
-            //}
-            //else if (event.key.code == sf::Keyboard::Num6) {
-            //    face_body_combo_taken();
-            //    return true;
-            //}
-            else if (event.key.code == sf::Keyboard::Num7) {
-                knockout(1);
-                return true;
-            }
-            else if (event.key.code == sf::Keyboard::Num8) {
-                victory(1);
-                return true;
-            }
-            //else if (event.key.code == sf::Keyboard::Num9) {
-            //    victory(2);
-            //    return true;
-            //}
-            //else if (event.key.code == sf::Keyboard::Enter) {
-            //    knockout(2);
-            //    return true;
-            //}
-        }
-        //else if (state == AnimationState::CROUCHING) {
-        //    if (event.key.code == sf::Keyboard::Num5) {
-        //        crouch_face_hit_taken();
-        //        return true;
-        //    }
-        //}
-    }
-    return false;
-}
 bool Dhalsim::jump()
 {
     if (IS_IDLE)
@@ -425,14 +368,11 @@ bool Dhalsim::specialMove1()
     }
     return false;
 }
-void Dhalsim::victory(int type=1) //to be set for winning condition
+void Dhalsim::victory() //to be set for winning condition
 {
-    if (state == AnimationState::IDLE)
-    {
-        state = AnimationState::VICTORY_1;
-        currFrame = -1;
-        frameIncrement = 1;
-    }
+    state = AnimationState::VICTORY_1;
+    currFrame = -1;
+    frameIncrement = 1;
 }
 void Dhalsim::knockout(int type = 1) //to be set when bar becomes empty
 {
@@ -679,24 +619,6 @@ void Dhalsim::update(float dt)
             state = AnimationState::BLOCKED;
 
     }
-    //else if (elapsed >= MOVE_TIME && state == AnimationState::BLOCKED) //UNCROUCH_TIMER define then use
-    //{
-    //    state = AnimationState::UNBLOCKING;
-    //    currFrame = 0;
-    //    frameIncrement = 1;
-    //    elapsed = 0;
-    //}
-    //else if (elapsed >= MOVE_TIME && state == AnimationState::UNBLOCKING)
-    //{
-    //    player.setTextureRect(block_frames[currFrame--]);
-    //    elapsed = 0;
-    //    if (currFrame == -1)
-    //    {
-    //        state = AnimationState::FASTIDLE;
-    //        frameIncrement = 1;
-    //        currFrame = 0;
-    //    }
-    //}
     else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHING)
     {
         player.setTextureRect(crouching_frames[currFrame++]);
@@ -705,24 +627,6 @@ void Dhalsim::update(float dt)
             state = AnimationState::CROUCHED;
 
     }
-    //else if (elapsed >= MOVE_TIME && state == AnimationState::CROUCHED) //UNCROUCH_TIMER
-    //{
-    //    state = AnimationState::UNCROUCHING;
-    //    currFrame = 0;
-    //    frameIncrement = 1;
-    //    elapsed = 0;
-    //}
-    //else if (elapsed >= MOVE_TIME && state == AnimationState::UNCROUCHING)
-    //{
-    //    player.setTextureRect(crouching_frames[currFrame--]);
-    //    elapsed = 0;
-    //    if (currFrame == -1)
-    //    {
-    //        state = AnimationState::FASTIDLE;
-    //        frameIncrement = 1;
-    //        currFrame = 0;
-    //    }
-    //}
     else if(elapsed >= MOVE_TIME && state == AnimationState::FAST_CROUCHED)
     {
         elapsed = 0;
@@ -792,7 +696,7 @@ void Dhalsim::update(float dt)
     else if ((elapsed >= (MOVE_TIME)) && state == AnimationState::KNOCKOUT_1 || state == AnimationState::KNOCKOUT_2)
     {
         if (currFrame == 0)
-        {
+        {   
             frameIncrement = 0;
         }
         else if (currFrame == 4)
