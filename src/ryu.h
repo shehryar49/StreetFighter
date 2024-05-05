@@ -80,11 +80,6 @@ public:
     Ryu();
     void update(float);
     void render(sf::RenderWindow &);
-    void setPosition(float,float);
-    sf::FloatRect getGlobalBounds();
-    sf::FloatRect getLocalBounds();
-    sf::Vector2f getPosition();
-    void flipX();
     void moveLeft(float);
     void moveRight(float);
     void flippedMoveLeft(float);
