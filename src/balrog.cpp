@@ -785,8 +785,8 @@ void Balrog::update(float time) {
         else {
             player.setTextureRect(special_move1[curr_frame++]);
             player.setPosition(player.getPosition().x, BOTTOMY - player.getGlobalBounds().height);
-            if (curr_frame == 4)
-                player.setPosition(player.getPosition().x + 80, BOTTOMY - player.getGlobalBounds().height);
+            //if (curr_frame == 4)
+           //     player.setPosition(player.getPosition().x + 80, BOTTOMY - player.getGlobalBounds().height);
         }
         time_elapsed = 0;
         return;
