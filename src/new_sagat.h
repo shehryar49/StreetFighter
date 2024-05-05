@@ -1,4 +1,4 @@
-//Written by Shahryar Ahmad
+//Written by 
 #ifndef SAGAT_H_
 #define SAGAT_H_
 #include "player.h"
