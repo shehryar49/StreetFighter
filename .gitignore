@@ -5,3 +5,4 @@ Makefile
 CMakeFiles/
 SF
 src/.vscode/settings.json
+script.py
