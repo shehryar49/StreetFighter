@@ -670,25 +670,9 @@ void Ken::update(float dt)
         }
     }
 }
-void Ken::setPosition(float x,float y)
-{
-    player.setPosition(x,y);
-}
-void Ken::flipX()
-{
-  player.setScale(-2.1,2.1);
-}
 void Ken::render(sf::RenderWindow &win)
 {
     win.draw(player);
-}
-sf::FloatRect Ken::getGlobalBounds()
-{
-    return player.getGlobalBounds();
-}
-sf::FloatRect Ken::getLocalBounds()
-{
-    return player.getLocalBounds();
 }
 Ken::~Ken()
 {
