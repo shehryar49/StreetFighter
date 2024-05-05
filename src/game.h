@@ -65,15 +65,19 @@ private:
     // Fonts
     sf::Font font_crunchchips;
     sf::Font font_hack;
+    // Other states
     bool game_over = false;
     bool await_game_over = false; 
     bool ai_bot = true;
+
     sf::Text timer;
-    float timer_elapsed = 120;
+    float time_remaining = 120; 
+
 public:
     Game();
     void run();
     void testRun(); //for testing
     ~Game();
 };
+
 #endif

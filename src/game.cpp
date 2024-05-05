@@ -155,7 +155,7 @@ void Game::update(float dt)
     elapsed3 += dt;
 	
 	//set time
-	int time = timer_elapsed;
+	int time = time_remaining;
 	if(time <= 0) // time up
 	{
 		if(player->damage < enemy->damage) // player won
@@ -904,7 +904,7 @@ void Game::run()
 		while (!game_over && window.isOpen())
 		{
 		float dt = clock.restart().asSeconds();
-		timer_elapsed -= dt;
+		time_remaining -= dt;
 		pollEvents();
 		update(dt);
 		window.clear(sf::Color::Black);
@@ -930,7 +930,7 @@ void Game::run()
 			await_game_over = false;
 			playerDamage.setSize(sf::Vector2f(0,25));
 			enemyDamage.setSize(sf::Vector2f(0,25));
-			timer_elapsed = 120;
+			time_remaining = 120;
 		}
 		smg.stop(fight_bgm);
   		delete[] character;
