@@ -199,7 +199,7 @@ void Game::update(float dt)
 		if(enemy->damage <= 100.0f - DAMAGE_PER_HIT)
 			enemy->damage += DAMAGE_PER_HIT;
 		enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
-      	if(enemy->damage == 100.0f)
+      	if(enemy->damage >= 100.0f)
       	{
 			player->victory();
           	enemy->knockout();
@@ -220,7 +220,7 @@ void Game::update(float dt)
         if(enemy->damage <= 100.0f - DAMAGE_PER_HIT)
           enemy->damage += DAMAGE_PER_HIT;
         enemyDamage.setSize(sf::Vector2f(enemy->damage*3,25)); 
-      	if(enemy->damage == 100.0f)
+      	if(enemy->damage >= 100.0f)
       	{
 			player->victory();
           	smg.play(player_voice_lines[10]);
@@ -684,7 +684,6 @@ int* Game::selectScreen()
     smg.stop(player_selectionbgm_music);
     return choices;
 }
-
 std::string Game::execCommand(const std::string& command)
 {
   	if (command == "exit" || command == "quit" || command == "yawr" )
