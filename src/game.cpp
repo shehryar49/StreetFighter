@@ -385,6 +385,7 @@ void Game::gameOver()
 int* Game::selectScreen()
 {
     int* choices = new int[2];
+    
     smg.play(player_selectionbgm_music,true);
     sf::Image img;
     if (!img.loadFromFile("assets/Stage Select.png")) 
