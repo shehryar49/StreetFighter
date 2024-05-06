@@ -160,10 +160,11 @@ Dhalsim::Dhalsim()
     hit_taken_body_frames[1] = sf::IntRect(15 + 115 + 90 + 90 + 90 + 90 + 90 + 90, 2565, 90, 110);
 
     player.setTextureRect(IDLE_frames[0]);
+    
     player.setScale(sf::Vector2f(PLAYER_SPRITE_X_SCALE, PLAYER_SPRITE_Y_SCALE));
-    player.setPosition(0, 0);
     state = AnimationState::IDLE;
     frameIncrement = 1;
+
 }
 bool Dhalsim::jump()
 {
@@ -723,10 +724,7 @@ void Dhalsim::update(float dt)
         }
     }
 }
-void Dhalsim::setPosition(float x, float y)
-{
-    player.setPosition(x, y);
-}
+
 void Dhalsim::render(sf::RenderWindow& win)
 {
     win.draw(player);

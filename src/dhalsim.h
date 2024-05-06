@@ -8,7 +8,6 @@ class Dhalsim : public Player
 {
 private:
     sf::Texture texture;
-    sf::Sprite player;
     sf::Image img;
     sf::Vector2f pos; // to save before jumping
     float elapsed = 0;
@@ -97,7 +96,6 @@ public:
     void update(float);
     bool processEvent(sf::Event&);
     void render(sf::RenderWindow&);
-    void setPosition(float, float);
     sf::FloatRect getGlobalBounds();
     sf::FloatRect getLocalBounds();
     void flipX();

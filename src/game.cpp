@@ -1005,6 +1005,7 @@ void Game::setStage(int* c)
         case 10:
             player = new Dhalsim();
             setVoiceLines(-2, "assets/PlayerVoiceLines/Dhalsim/");
+            
             break;
         case 11:
             player = new Sagat();
@@ -1015,6 +1016,7 @@ void Game::setStage(int* c)
             setVoiceLines(-2, "assets/PlayerVoiceLines/Ryu/");
             break;
     }	
+
     switch (c[1]) 
     {
         case 1:
@@ -1118,6 +1120,7 @@ void Game::setStage(int* c)
     //was common in all
 	background.setPosition(0, 0);
     enemy->flipX();
+
     player->setPosition(120, BOTTOMY - (player->getGlobalBounds().height) + 1);
     enemy->setPosition(650, BOTTOMY - (enemy->getGlobalBounds().height) + 1);
     
