@@ -866,9 +866,9 @@ int Game::showMenu()
 void Game::run()
 {
   	playIntro();
-	window.setFramerateLimit(fps);
   	while(window.isOpen())
   	{
+        window.setFramerateLimit(fps);
 		//Show main menu
 		while(true)
 		{
