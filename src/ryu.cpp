@@ -81,7 +81,12 @@ sf::IntRect Ryu::crouched_punch1_frames[2];
 sf::IntRect Ryu::crouched_punch2_frames[3];
 sf::IntRect Ryu::crouched_kick1_frames[3];
 sf::IntRect Ryu::crouched_kick2_frames[5];
-sf::IntRect Ryu::hadoken_frames[4];
+sf::IntRect Ryu::hadoken_frames[4] = {
+    sf::IntRect(30,1535,80,100),
+    sf::IntRect(130,1535,90,100),
+    sf::IntRect(240,1535,90,100),
+    sf::IntRect(350,1535,120,100)
+};
 sf::IntRect Ryu::hadoken_ball;
 sf::IntRect Ryu::body_hit_frames[2];
 sf::IntRect Ryu::knockout_frames[5];
@@ -132,10 +137,7 @@ Ryu::Ryu()
     body_hit_frames[0] = sf::IntRect(395,2080,70,100);
     body_hit_frames[1] = sf::IntRect(480,2080,70,100);
 
-    hadoken_frames[0] = sf::IntRect(30,1535,80,100);
-    hadoken_frames[1] = sf::IntRect(130,1535,90,100);
-    hadoken_frames[2] = sf::IntRect(240,1535,90,100);
-    hadoken_frames[3] = sf::IntRect(350,1535,120,100); 
+
     projectile.setTexture(texture);
     projectile.setTextureRect(sf::IntRect(550,1550,60,50));
     projectile.setScale(1.2,1.2);
