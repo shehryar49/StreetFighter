@@ -10,12 +10,13 @@ public:
     Player();
     virtual void update(float);
     virtual void render(sf::RenderWindow &);
-    virtual void setPosition(float,float);
-    virtual sf::FloatRect getGlobalBounds();
-    virtual sf::FloatRect getLocalBounds();
-    virtual sf::Vector2f getPosition();
     
-    virtual void flipX();
+    void setPosition(float,float);
+    sf::FloatRect getGlobalBounds();
+    sf::FloatRect getLocalBounds();
+    sf::Vector2f getPosition();
+    void flipX();
+
     virtual void moveLeft(float);
     virtual void moveRight(float);
     virtual void flippedMoveLeft(float);
