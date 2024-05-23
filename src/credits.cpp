@@ -4,7 +4,7 @@ using namespace std;
 
 Credits::Credits(sf::RenderWindow& window, sf::Font& font, sf::Sprite& background): window(window), font(font), background(background) {
     credits.setFont(font);
-    credits.setString("Street Fighter: Our Version\n\n\t\t\t\tCredits\n\t\tShahryar Ahmad\n\t\t\t  21L-7727\n\t\t\tIsbah Malik\n\t\t\t  21L-1843\n\t\t  Maryam Saqib\n\t\t\t  21L-5164\n\t\t\t Usman Ali\n\t\t\t  21L-5405\n\nAll work done for Software\nEngineering Project for 6th\n\t  Semester in Class 6E\n\n\n\n");
+    credits.setString("Street Fighter: Our Version\n\n\t\t\t\tCredits\n\t\tShahryar Ahmad\n\t\t\t\n\t\t\tIsbah Malik\n\t\t\t\n\t\t  Maryam Saqib\n\t\t\t\n\t\t\t\n\n");
     credits.setCharacterSize(30);
     credits.setFillColor(sf::Color::White);
     rectangle.setSize(sf::Vector2f(window.getSize().x - 40, window.getSize().y - 40));
